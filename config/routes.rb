@@ -3,4 +3,5 @@ Rails.application.routes.draw do
 
   resource :user
   resource :judge, only: :show
+  resources :tournaments
 end
