@@ -1,16 +1,15 @@
 <div class="container">
   <div class="row">
     <div class="col-sm-6 col-sm-offset-3">
-      <h2><%= t('.sign_up', default: "Sign up as Player") %></h2>
-      <%= simple_form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
-        <%= f.error_notification %>
+      <h2><%= t('.sign_up', default: "Sign up as Judge") %></h2>
+      <p>Tu es un juge ? Inscris-toi et rajoute tes tournois.</p>
 
+      <%= simple_form_for(@user, url: user_registration_path) do |f| %>
         <%= f.input :email, required: true, autofocus: true %>
         <%= f.input :password, required: true %>
+        <%= f.input :judge, as: :hidden %>
         <%= f.button :submit, t('.sign_up', default: "Sign up"), class: "btn btn-primary" %>
       <% end %>
-
-      <%= render "devise/shared/links" %>
     </div>
   </div>
 </div>
