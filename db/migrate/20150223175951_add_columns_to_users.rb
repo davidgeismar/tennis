@@ -1,8 +1,0 @@
-class AddColumnsToUsers < ActiveRecord::Migration
-  def change
-    add_column :users, :name, :string
-
-
-    add
-  end
-end
