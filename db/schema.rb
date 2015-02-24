@@ -70,7 +70,7 @@ ActiveRecord::Schema.define(version: 20150224125312) do
     t.string   "ranking"
     t.boolean  "judge"
     t.string   "genre"
-    t.string   "date_of_birth"
+    t.date     "date_of_birth"
     t.string   "licence_number"
   end
 
