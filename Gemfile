@@ -2,6 +2,7 @@ source "https://rubygems.org"
 
 ruby "2.2.0"
 
+gem 'enumerize'
 gem "rails", "4.2.0"
 gem "pg"
 gem "figaro"
