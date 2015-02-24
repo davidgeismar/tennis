@@ -17,6 +17,7 @@
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav navbar-right">
         <% if user_signed_in? %>
+          <li><%= current_user.email %></li>
           <li>
             <%= link_to "#" do %>
               <i class="fa fa-envelope-o"></i> <%= t(".messages", default: "Messages") %>
@@ -49,7 +50,9 @@
           </li>
         <% end %>
         <li>
-          <%= link_to t(".top_call_to_action", default: "Rent your flat"), "#", class: "btn" %>
+          <% if policy(Tournament).create? %>
+            <%= link_to t(".top_call_to_action", default: "Add a tournament"), new_tournament_path, class: "btn" %>
+          <% end %>
         </li>
       </ul>
     </div><!-- /.navbar-collapse -->

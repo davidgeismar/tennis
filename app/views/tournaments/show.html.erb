@@ -1,0 +1,5 @@
+<%= if @tournament.accepted?
+  render 'tournaments/show/details'
+else
+  render 'tournaments/show/not_accepted_yet'
+end %>
