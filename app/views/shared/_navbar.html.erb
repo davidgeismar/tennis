@@ -51,7 +51,7 @@
         <% end %>
         <li>
           <% if policy(Tournament).create? %>
-            <%= link_to t(".top_call_to_action", default: "Add a tournament"), new_tournament_path, class: "btn" %>
+            <%= link_to t(".top_call_to_action", default: "Add a tournament"),  new_user_tournament_path, class: "btn" %>
           <% end %>
         </li>
       </ul>
