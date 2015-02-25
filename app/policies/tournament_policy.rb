@@ -1,7 +1,7 @@
 class TournamentPolicy < ApplicationPolicy
   class Scope < Scope
     def resolve
-      scope.all
+      scope.all.where(accepted: true)
     end
   end
 
