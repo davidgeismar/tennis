@@ -1,0 +1,34 @@
+<div class="content text-center">
+  <div role="tabpanel">
+
+    <!-- Nav tabs -->
+    <ul class="nav nav-tabs" role="tablist">
+      <li id="profile-nav-tab" role="presentation" class="active"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">profile</a></li>
+      <li id="tournois-nav-tab" role="presentation"><a href="#tournois" aria-controls="flats" role="tab" data-toggle="tab">Mes Tournois</a></li>
+    </ul>
+
+     <!-- Tab panes -->
+    <div class="tab-content">
+      <div role="tabpanel" class="tab-pane fade in active" id="profile">
+        <div class="card">
+              <h2 class= "text-left"> Prénom : <%= @user.first_name %></h2>
+              <h2 class= "text-left"> Nom :<%= @user.last_name %></h2>
+              <h2 class= "text-left"> email : <%= @user.email %></h2>
+              <h2 class= "text-left">Classement : <%= @user.ranking %></h2>
+              <h2 class= "text-left"> Sexe : <%= @user.genre %></h2>
+              <h2 class= "text-left">Date de naissance : <%= @user.date_of_birth %></h2>
+              <h2 class= "text-left">Numéro de licence : <%= @user.licence_number %></h2>
+
+
+              <%= link_to "Modifier mon profil", edit_user_path  %>
+
+      <div role="tabpanel" class="tab-pane fade" id="Tournois">
+        <div class ="card">
+
+        </div>
+      </div>
+    </div>
+    </div>
+  </div>
+</div>
+

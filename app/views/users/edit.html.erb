@@ -1,13 +1,5 @@
-<%= simple_form_for(@user) do |f| %>
-  <%= f.input :first_name %>
-  <%= f.input :last_name %>
-  <%= f.input :email %>
-  <%= f.input :ranking %>
-  <%= f.input :genre %>
-  <%= f.input :date_of_birth %>
-  <%= f.input :licence_number %>
-
-
-
-  <%= f.submit %>
-<% end %>
+<% if @user.judge?%>
+    <%=render 'users/edit/judge_edit'%>
+<%else%>
+  <%=render 'users/edit/player_edit'%>
+<%end %>
