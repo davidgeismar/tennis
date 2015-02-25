@@ -3,7 +3,7 @@ Rails.application.routes.draw do
 
 
   resource :judge, only: :show
-  resources :tournaments, only: [:index, :show] do
+  resources :tournaments, only: [:index, :show, :new, :create] do
     resources :subscriptions, only: [:show, :create]
   end
 
