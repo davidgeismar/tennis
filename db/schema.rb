@@ -13,7 +13,6 @@
 
 ActiveRecord::Schema.define(version: 20150225095630) do
 
-
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -75,7 +74,7 @@ ActiveRecord::Schema.define(version: 20150225095630) do
     t.string   "ranking"
     t.boolean  "judge",                  default: false
     t.string   "genre"
-    t.string   "date_of_birth"
+    t.date     "date_of_birth"
     t.string   "licence_number"
     t.integer  "judge_number"
   end

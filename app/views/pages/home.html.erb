@@ -6,16 +6,24 @@
   <%# TODO %>
 <% end %>
 
+<%= content_for(:stylesheets) do %>
+  <%= stylesheet_link_tag :home, media: "all" %>
+<% end %>
+
 <%= if current_user == @user
   render 'pages/home/connected'
   else
 end %>
 
-<form>
-  <div class="form-group">
-    <label for="exampleInputEmail1">Tournoi</label>
-    <input type="tournoi" class="form-control" id="exampleInputEmail1" placeholder="Entrez un tournoi">
+<div class="container">
+  <div class="row">
+    <form>
+      <div class="form-group">
+        <label for="exampleInputEmail1">Tournoi</label>
+        <input type="tournoi" class="form-control" id="exampleInputEmail1" placeholder="Entrez un tournoi">
+      </div>
+      <button type="submit" class="btn btn-default">Submit</button>
+    </form>
   </div>
-  <button type="submit" class="btn btn-default">Submit</button>
-</form>
+</div>
 
