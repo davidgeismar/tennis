@@ -1,0 +1,13 @@
+<div class = "container">
+<% @tournaments.each do |tournament| %>
+    <div class= "row">
+      <div class= "col-xs-12 col-sm-6">
+
+        <h2><%= link_to tournament.name, tournament_path(tournament)%></h2>
+        <h2><%= tournament.city%></h2>
+        <h2><%= tournament.starts_on%></h2>
+        <h2><%= tournament.ends_on%></h2>
+          <%end%>
+      </div>
+    </div>
+</div>
