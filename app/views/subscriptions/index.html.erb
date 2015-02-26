@@ -5,13 +5,16 @@
           <th>Prénom</th>
           <th>Nom</th>
           <th>Numéro de licence</th>
-          <th>status de l'inscription</th>
+          <th>Status de l'inscription</th>
+          <th>Convoquer ?</th>
+          <th>Statut de la convocation en cours</th>
       </tr>
       <% @subscriptions.each do |subscription|%>
       <tr>
         <td><%= subscription.user.first_name%></td>
         <td><%= subscription.user.last_name%></td>
         <td><%= subscription.user.licence_number%></td>
+
         <td>
           <%= form_for [@tournament, subscription] do |f| %>
             <%= f.select :status, Subscription::STATUSES, class: "form-control" %>
@@ -19,7 +22,14 @@
           <% end %>
          </td>
         <td><button type="button" class="btn btn-primary"><%=link_to "convoquer ce joueur", new_subscription_convocation_path(subscription) %></button></td>
+
+        <td>
+          <% if subscription.convocations.last %>
+            <%= subscription.convocations.last.status %>
+          <% end %>
+          </td>
       </tr>
+
       <%end%>
     </table>
 

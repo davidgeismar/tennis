@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150226144507) do
+ActiveRecord::Schema.define(version: 20150226161944) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -20,9 +20,9 @@ ActiveRecord::Schema.define(version: 20150226144507) do
     t.date     "date"
     t.time     "hour"
     t.integer  "subscription_id"
-    t.string   "status"
-    t.datetime "created_at",      null: false
-    t.datetime "updated_at",      null: false
+    t.string   "status",          default: "pending"
+    t.datetime "created_at",                          null: false
+    t.datetime "updated_at",                          null: false
   end
 
   add_index "convocations", ["subscription_id"], name: "index_convocations_on_subscription_id", using: :btree
@@ -74,7 +74,7 @@ ActiveRecord::Schema.define(version: 20150226144507) do
     t.string   "ranking"
     t.boolean  "judge",                  default: false
     t.string   "genre"
-    t.date     "date_of_birth"
+    t.string   "date_of_birth"
     t.string   "licence_number"
     t.integer  "judge_number"
     t.string   "invitation_token"
