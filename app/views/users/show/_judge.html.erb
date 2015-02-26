@@ -28,7 +28,7 @@
             <% current_user.tournaments.each do |tournament| %>
               <div class ="card">
                 <% if tournament.accepted? %>
-                <h4><%= tournament.name %></h4>
+                <h4><%= link_to tournament.name, user_tournament_path(tournament) %></h4>
                 <h6><%= tournament.starts_on %>
                 </h6>
                 <% else %>

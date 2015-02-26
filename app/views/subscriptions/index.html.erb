@@ -18,7 +18,7 @@
             <%= f.submit "Enregistrer", class: "btn btn-success" %>
           <% end %>
          </td>
-        <td><button type="button" class="btn btn-primary"><%=link_to "Convoquer joueur", subscription_profil_path(@tournament)%></button></td>
+        <td><button type="button" class="btn btn-primary"><%=link_to "convoquer ce joueur", new_subscription_convocation_path(subscription) %></button></td>
       </tr>
       <%end%>
     </table>
