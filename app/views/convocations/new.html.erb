@@ -1,0 +1,16 @@
+<div class='container text-center padded'>
+  <div class="row">
+    <div class="col-xs-12">
+      <h3>Convocation</h3>
+    </div>
+  </div>
+    <div class="row">
+      <div class="col-xs-12">
+        <%= simple_form_for [@subscription, @convocation] do |f| %>
+          <%= f.input :date, label: 'date de la convocation' %>
+          <%= f.input :hour, label: 'heure de la convocation' %>
+          <%= f.button :submit %>
+        <% end %>
+      </div>
+    </div>
+</div>
