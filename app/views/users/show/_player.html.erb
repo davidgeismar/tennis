@@ -24,12 +24,27 @@
         </div>
       </div>
       <div role="tabpanel" class="tab-pane" id="tournois">
-        <% current_user.subscriptions.each do |subscription| %>
-          <div class ="card">
-            <%=subscription.tournament.name%>
-            <%= subscription.status %>
-          </div>
-          <% end %>
+        <table class="table table-hover">
+          <tr>
+              <th>Compétition</th>
+              <th>Statut de votre inscription</th>
+              <th>date de votre convocation</th>
+              <th>Répondre à cette convocation</th>
+          </tr>
+            <% current_user.subscriptions.each do |subscription| %>
+              <div class ="card">
+                <tr>
+                 <td><%=subscription.tournament.name %></td>
+                 <td><%= subscription.status %> </td>
+                 <td><% unless subscription.convocations.size == 0 %>
+                        <%= subscription.convocations.last.date.strftime("Le %d/%m/%Y") %>
+                        <%= subscription.convocations.last.hour.strftime(" à %Hh%M") %></td>
+                  <td><button type="button" class="btn btn-primary"><%=link_to "Répondre !", edit_convocation_path(subscription.convocations.last)%></button> </td>
+                        <% end %>
+              </tr>
+              </div>
+              <% end %>
+        </table>
     </div>
   </div>
 </div>
