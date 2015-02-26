@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150225095630) do
+ActiveRecord::Schema.define(version: 20150225163342) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -30,9 +30,9 @@ ActiveRecord::Schema.define(version: 20150225095630) do
   create_table "subscriptions", force: :cascade do |t|
     t.integer  "user_id"
     t.integer  "tournament_id"
-    t.string   "status"
-    t.datetime "created_at",    null: false
-    t.datetime "updated_at",    null: false
+    t.string   "status",        default: "pending"
+    t.datetime "created_at",                        null: false
+    t.datetime "updated_at",                        null: false
   end
 
   add_index "subscriptions", ["tournament_id"], name: "index_subscriptions_on_tournament_id", using: :btree
@@ -74,7 +74,7 @@ ActiveRecord::Schema.define(version: 20150225095630) do
     t.string   "ranking"
     t.boolean  "judge",                  default: false
     t.string   "genre"
-    t.date     "date_of_birth"
+    t.string   "date_of_birth"
     t.string   "licence_number"
     t.integer  "judge_number"
   end

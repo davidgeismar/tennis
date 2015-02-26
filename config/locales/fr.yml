@@ -1,0 +1,12 @@
+fr:
+  enumerize:
+    subscription:
+      status:
+        pending: En attente
+        confirmed: Confirmé
+        refused: Refusé
+        cancelled: Annulé
+    tournament:
+      genre:
+        male: Homme
+        female: Femme

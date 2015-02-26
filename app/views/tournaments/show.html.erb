@@ -1,7 +1,7 @@
 <% if @tournament.accepted? && current_user.judge?%>
     <%=render 'tournaments/show/details'%>
   <%elsif @tournament.accepted? && current_user.judge == false%>
-  <%= render 'tournaments/show/subscribe'%>
+    <%= render 'tournaments/show/subscribe'%>
   <%else%>
-  <%=render 'tournaments/show/not_accepted_yet'%>
+    <%=render 'tournaments/show/not_accepted_yet'%>
 <%end %>
