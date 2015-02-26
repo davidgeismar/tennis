@@ -9,7 +9,6 @@ gem "figaro"
 gem "simple_form"
 gem "country_select"
 gem "high_voltage"
-gem "devise"
 gem "pundit"
 gem "paperclip"
 gem "aws-sdk"
@@ -23,6 +22,8 @@ gem "font-awesome-sass"
 gem "rails-i18n"
 gem "devise-i18n"
 gem "devise-i18n-views"
+gem 'devise','>= 2.0.0'
+gem 'devise_invitable','~> 1.3.4'
 
 group :development, :test do
   gem "spring"
