@@ -1,6 +1,5 @@
 Rails.application.routes.draw do
-  devise_for :users, controllers: { registrations: 'users/registrations' }
-
+  devise_for :users, controllers: { registrations: 'users/registrations', invitations: 'users/invitations' }
 
   resource :judge, only: :show
   resources :tournaments, only: [:index, :show, :new, :create] do
@@ -9,7 +8,8 @@ Rails.application.routes.draw do
   end
 
   # get "tournaments", to: "tournaments#index"
-
+  get "tournaments/:id/invite_player", to: "tournaments#invite_player", as: "invite_player"
+  post "tournaments/:id/invite_player", to: "tournaments#invite_player_to_tournament"
   resource :user do
     resources :tournaments, only: [:show, :new, :create, :edit, :update]
   end
