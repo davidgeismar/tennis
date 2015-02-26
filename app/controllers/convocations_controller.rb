@@ -1,5 +1,6 @@
 class ConvocationsController < ApplicationController
-  before_action :find_subscription
+  before_action :find_subscription, except: [:multiple_new, :multiple_create]
+  skip_after_action :verify_authorized, only: [:multiple_new, :multiple_create]
 
   def new
     @convocation = @subscription.convocations.build
@@ -22,6 +23,26 @@ class ConvocationsController < ApplicationController
     authorize @convocation
     @convocation.update(convocation_params)
     redirect_to user_path
+  end
+
+  def multiple_new
+    @tournament = Tournament.find(params[:tournament_id])
+    @subscription_ids_string = params[:subscription_ids]
+    @subscription_ids = params[:subscription_ids].split(', ')
+    @player_names = []
+    @subscription_ids.each do |subscription_id|
+      @player_names << Subscription.find(subscription_id).user.name
+    end
+  end
+
+  def multiple_create
+    @tournament = Tournament.find(params[:tournament_id])
+    @subscription_ids = params[:subscription_ids].split(', ')
+    @hour = Time.new(params[:hour])
+    @subscription_ids.each do |subscription_id|
+      Subscription.find(subscription_id).convocations.build(date: params[:date], hour: @hour)
+    end
+    redirect_to tournament_subscriptions_path(@tournament)
   end
 
   # def update

@@ -12,6 +12,8 @@ class User < ActiveRecord::Base
   validates :first_name, presence: true, on: :update
   validates :last_name, presence: true, on: :update
 
-
+  def name
+    "#{first_name.capitalize} #{last_name.capitalize}"
+  end
 
 end

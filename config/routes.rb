@@ -5,6 +5,8 @@ Rails.application.routes.draw do
   resources :tournaments, only: [:index, :show, :new, :create] do
     resources :subscriptions, only: [:show, :create, :index, :update]
   end
+  post 'tournaments/:tournament_id/convocations/multiple_new', to: "convocations#multiple_new", as: "multiple_new"
+  post 'tournaments/:tournament_id/convocation/multiple_create', to: "convocations#multiple_create", as: "multiple_create"
 
   resources :subscriptions, only: [] do
     resources :convocations, only: [:new, :create]
