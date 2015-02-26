@@ -11,16 +11,16 @@
     <div class="tab-content">
       <div role="tabpanel" class="tab-pane active" id="profile">
         <div class="card">
-              <h2 class= "text-left"> Prénom : <%= @user.first_name %></h2>
-              <h2 class= "text-left"> Nom :<%= @user.last_name %></h2>
-              <h2 class= "text-left"> email : <%= @user.email %></h2>
-              <h2 class= "text-left">Classement : <%= @user.ranking %></h2>
-              <h2 class= "text-left"> Sexe : <%= @user.genre %></h2>
-              <h2 class= "text-left">Date de naissance : <%= @user.date_of_birth %></h2>
-              <h2 class= "text-left">Numéro de licence : <%= @user.licence_number %></h2>
+              <h5 class= "text-left"> Prénom : <%= @user.first_name %></h5>
+              <h5 class= "text-left"> Nom :<%= @user.last_name %></h5>
+              <h5 class= "text-left"> email : <%= @user.email %></h5>
+              <h5 class= "text-left">Classement : <%= @user.ranking %></h5>
+              <h5 class= "text-left"> Sexe : <%= @user.genre %></h5>
+              <h5 class= "text-left">Date de naissance : <%= @user.date_of_birth %></h5>
+              <h5 class= "text-left">Numéro de licence : <%= @user.licence_number %></h5>
 
 
-              <%= link_to "Modifier mon profil", edit_user_path  %>
+              <h5 class= "text-left"><%= link_to "Modifier mon profil", edit_user_path, class:"btn btn-primary"  %></h5>
         </div>
       </div>
       <div role="tabpanel" class="tab-pane" id="tournois">

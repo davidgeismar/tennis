@@ -1,12 +1,11 @@
-<div class = "container">
+<div class = "container text-center">
 <% @tournaments.each do |tournament| %>
     <div class= "row">
-      <div class= "col-xs-12 col-sm-6">
+      <div class= "col-xs-12">
 
         <h2><%= link_to tournament.name, tournament_path(tournament)%></h2>
-        <h2><%= tournament.city%></h2>
-        <h2><%= tournament.starts_on%></h2>
-        <h2><%= tournament.ends_on%></h2>
+        <h5><%= tournament.city%></h5>
+        <h5><%= tournament.starts_on%> - <%= tournament.ends_on%></h5>
           <%end%>
       </div>
     </div>
