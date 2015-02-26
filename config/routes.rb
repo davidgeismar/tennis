@@ -5,11 +5,13 @@ Rails.application.routes.draw do
   resource :judge, only: :show
   resources :tournaments, only: [:index, :show, :new, :create] do
     resources :subscriptions, only: [:show, :create, :index, :update]
+  end
 
+  resources :subscriptions, only: [] do
+    resources :convocations, only: [:new, :create]
   end
 
   # get "tournaments", to: "tournaments#index"
-
   resource :user do
     resources :tournaments, only: [:show, :new, :create, :edit, :update]
   end
