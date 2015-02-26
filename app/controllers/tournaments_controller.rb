@@ -32,6 +32,7 @@ class TournamentsController < ApplicationController
     @tournament.update(tournament_params)
   end
 
+
   private
 
   def tournament_params
