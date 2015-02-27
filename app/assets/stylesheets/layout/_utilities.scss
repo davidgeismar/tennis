@@ -4,8 +4,11 @@
  * Feel free to change them and create your own
  * ------------------------------------- */
 .padded {
-  padding-top: 8em;
+  padding-top: 3em;
   padding-bottom: 8em;
+}
+.padding-left {
+  padding-left: 30px;
 }
 .bg-red {
   background: $red;
@@ -30,4 +33,11 @@
 .bg-purple {
   background: $purple;
   color: white;
+}
+.bg-black {
+  background: black;
+  color: white;
+}
+.mini-height {
+  height: 470px;
 }
