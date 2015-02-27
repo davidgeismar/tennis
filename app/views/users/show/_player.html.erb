@@ -11,6 +11,7 @@
     <div class="tab-content">
       <div role="tabpanel" class="tab-pane active" id="profile">
         <div class="card">
+
               <h4 class= "text-left"> Prénom : <%= @user.first_name %></h4>
               <h4 class= "text-left"> Nom :<%= @user.last_name %></h4>
               <h4 class= "text-left"> email : <%= @user.email %></h4>
@@ -21,7 +22,8 @@
               <h4 class= "text-left">Numéro de téléphone : <%= @user.telephone %></h4>
               <h4 class= "text-left"><%= image_tag @user.picture.url(:medium) %></h4>
 
-              <%= link_to "Modifier mon profil", edit_user_path  %>
+
+              <h5 class= "text-left"><%= link_to "Modifier mon profil", edit_user_path, class:"btn btn-primary"  %></h5>
         </div>
       </div>
       <div role="tabpanel" class="tab-pane" id="tournois">
