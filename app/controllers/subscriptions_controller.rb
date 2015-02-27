@@ -25,9 +25,12 @@ class SubscriptionsController < ApplicationController
 
     @subscription.tournament = tournament
     @subscription.user = current_user
-    @subscription.save
-
-    redirect_to tournament_subscription_path(tournament, @subscription)
+    if @subscription.save
+      redirect_to tournament_subscription_path(tournament, @subscription)
+    else
+      flash[:notice] = "Vous etes déja inscrit"
+      redirect_to tournament_path(tournament)
+    end
   end
 
   private
