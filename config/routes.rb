@@ -23,6 +23,8 @@ Rails.application.routes.draw do
 
   resources :convocations, only: [:edit, :update]
 
+  resources :user, only: :show, as: "show_user"
+
 
 
   #get 'tournaments/:tournament_id/subscriptions/profile', to: 'subscriptions#profile', as: 'subscription_profil'
