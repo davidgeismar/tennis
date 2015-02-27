@@ -1,14 +1,15 @@
 <div class="mini-height">
-  <div class="content text-center">
-    <div role="tabpanel">
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-8 col-sm-offset-2">
+        <div class="content text-center">
+          <div role="tabpanel">
 
-      <!-- Nav tabs -->
-      <ul class="nav nav-tabs" role="tablist">
+        <ul class="nav nav-tabs" role="tablist">
         <li role="presentation" class="active"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">Profile</a></li>
-      <li role="presentation"><a href="#tournois" aria-controls="tournois" role="tab" data-toggle="tab">Mes Tournois</a></li>
-      </ul>
+        <li role="presentation"><a href="#tournois" aria-controls="tournois" role="tab" data-toggle="tab">Mes Tournois</a></li>
+        </ul>
 
-       <!-- Tab panes -->
       <div class="tab-content">
         <div role="tabpanel" class="tab-pane active" id="profile">
           <div class="card">
@@ -39,17 +40,18 @@
                    <td><%=subscription.tournament.name %></td>
                    <td><%= subscription.status %> </td>
                    <td><% unless subscription.convocations.size == 0 %>
-                          <%= subscription.convocations.last.date.strftime("Le %d/%m/%Y") %>
-                          <%= subscription.convocations.last.hour.strftime(" à %Hh%M") %></td>
+                      <%= subscription.convocations.last.date.strftime("Le %d/%m/%Y") %>
+                      <%= subscription.convocations.last.hour.strftime(" à %Hh%M") %></td>
                     <td><button type="button" class="btn btn-primary"><%=link_to "Répondre !", edit_convocation_path(subscription.convocations.last)%></button> </td>
                           <% end %>
-                </tr>
-                </div>
+                  </tr>
+                  </div>
                 <% end %>
           </table>
       </div>
     </div>
   </div>
-
-
+  </div>
+  </div>
+</div>
 </div>
