@@ -1,9 +1,10 @@
-body {
+#banner {
   background-image: image-url('background.jpg');
   background-size: cover;
+  height: 500px;
+  margin-top: -25px;
 }
 
-#image {
-  margin-left: 34px;
-  height: 54px;
+.search {
+  padding: 100px 20px;
 }
