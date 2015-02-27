@@ -1,27 +1,26 @@
 class UsersController < ApplicationController
+  before_action :set_user
+
   def show
-    @user = current_user
-    authorize @user
   end
 
   def edit
-    @user = current_user
-    authorize @user
   end
 
   def update
-    @user = current_user
     @user.update(user_params)
-    authorize @user
-    redirect_to user_path
+    redirect_to user_path(current_user)
   end
-
-
 
   private
 
   def user_params
     params.require(:user).permit(:first_name, :last_name, :name, :licence_number, :date_of_birth, :genre, :email, :ranking, :judge_number, :telephone, :picture)
+  end
+
+  def set_user
+    @user = User.find(params[:id])
+    authorize @user
   end
 
 end

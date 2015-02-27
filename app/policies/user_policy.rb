@@ -6,8 +6,9 @@ class UserPolicy < ApplicationPolicy
   end
 
   def show
-    true #a revoir
+    user == record || record.tournaments.any? { |t| t.user == user }
   end
+
   def update?
     user == record
   end

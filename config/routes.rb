@@ -17,13 +17,13 @@ Rails.application.routes.draw do
   get "tournaments/:id/invite_player", to: "tournaments#invite_player", as: "invite_player"
   post "tournaments/:id/invite_player", to: "tournaments#invite_player_to_tournament"
 
-  resource :user do
+  resources :users do
     resources :tournaments, only: [:show, :new, :create, :edit, :update]
   end
 
   resources :convocations, only: [:edit, :update]
 
-  resources :user, only: :show, as: "show_user"
+  # resources :user, only: :show, as: "show_user"
 
 
 

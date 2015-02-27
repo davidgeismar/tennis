@@ -13,7 +13,7 @@
             <p>Addresse des installations: <%= @tournament.address %></p>
             <p>Frais d'inscription: <%= @tournament.amount %> €</p>
 
-              <%= link_to "Edit", edit_user_tournament_path(@tournament), class:'btn btn-warning' %>
+              <%= link_to "Edit", edit_user_tournament_path(current_user, @tournament), class:'btn btn-warning' %>
                <%= link_to "Gérer ce tournoi", tournament_subscriptions_path(@tournament), class:'btn btn-success' %>
           </div>
         </div>
