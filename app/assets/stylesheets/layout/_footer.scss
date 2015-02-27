@@ -1,9 +1,11 @@
 // Your footer style
 #footer {
-  min-height: 80px;
+  min-height: 160px;
   padding: 20px;
+  padding-top: 60px;
   bottom: 0;
   width: 100%;
   position: relative;
   transition: background 0.4s ease;
+  background-color: $yellow;
 }

@@ -7,10 +7,6 @@
   <%# TODO %>
 <% end %>
 
-<%= content_for(:stylesheets) do %>
-  <%= stylesheet_link_tag :home, media: "all" %>
-<% end %>
-
 <% if current_user == @user %>
   <%= render 'pages/home/connected' %>
 <% else %>
