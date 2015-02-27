@@ -8,6 +8,11 @@ class User < ActiveRecord::Base
          :recoverable, :rememberable, :trackable, :validatable
   has_many :subscriptions, dependent: :destroy
   has_many :tournaments, dependent: :destroy
+  has_attached_file :picture,
+    styles: { medium: "300x300>", thumb: "100x100>" }
+
+  validates_attachment_content_type :picture,
+    content_type: /\Aimage\/.*\z/
 
   validates :first_name, presence: true, on: :update
   validates :last_name, presence: true, on: :update

@@ -11,15 +11,15 @@
     <div class="tab-content">
       <div role="tabpanel" class="tab-pane active" id="profile">
         <div class="card">
-              <h2 class= "text-left"> Prénom : <%= @user.first_name %></h2>
-              <h2 class= "text-left"> Nom :<%= @user.last_name %></h2>
-              <h2 class= "text-left"> email : <%= @user.email %></h2>
-              <h2 class= "text-left">Classement : <%= @user.ranking %></h2>
-              <h2 class= "text-left"> Sexe : <%= @user.genre %></h2>
-              <h2 class= "text-left">Date de naissance : <%= @user.date_of_birth %></h2>
-              <h2 class= "text-left">Numéro de licence : <%= @user.licence_number %></h2>
-              <h2 class= "text-left">Numéro de téléphone : <%= @user.telephone %></h2>
-
+              <h4 class= "text-left"> Prénom : <%= @user.first_name %></h4>
+              <h4 class= "text-left"> Nom :<%= @user.last_name %></h4>
+              <h4 class= "text-left"> email : <%= @user.email %></h4>
+              <h4 class= "text-left">Classement : <%= @user.ranking %></h4>
+              <h4 class= "text-left"> Sexe : <%= @user.genre %></h4>
+              <h4 class= "text-left">Date de naissance : <%= @user.date_of_birth %></h4>
+              <h4 class= "text-left">Numéro de licence : <%= @user.licence_number %></h4>
+              <h4 class= "text-left">Numéro de téléphone : <%= @user.telephone %></h4>
+              <h4 class= "text-left"><%= image_tag @user.picture.url(:medium) %></h4>
 
               <%= link_to "Modifier mon profil", edit_user_path  %>
         </div>
