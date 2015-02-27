@@ -10,17 +10,21 @@
         <li role="presentation"><a href="#tournois" aria-controls="tournois" role="tab" data-toggle="tab">Mes Tournois</a></li>
         </ul>
 
-      <div class="tab-content">
-        <div role="tabpanel" class="tab-pane active" id="profile">
-          <div class="card">
-                <h4 class= "text-left"> Prénom : <%= @user.first_name %></h4>
-                <h4 class= "text-left"> Nom :<%= @user.last_name %></h4>
-                <h4 class= "text-left"> email : <%= @user.email %></h4>
-                <h4 class= "text-left">Classement : <%= @user.ranking %></h4>
-                <h4 class= "text-left"> Sexe : <%= @user.genre %></h4>
-                <h4 class= "text-left">Date de naissance : <%= @user.date_of_birth %></h4>
-                <h4 class= "text-left">Numéro de licence : <%= @user.licence_number %></h4>
-                 <h4 class= "text-left"><%= image_tag @user.picture.url(:medium) %></h4>
+<<<<<<< HEAD
+     <!-- Tab panes -->
+    <div class="tab-content">
+      <div role="tabpanel" class="tab-pane active" id="profile">
+        <div class="card">
+
+              <h4 class= "text-left"> Prénom : <%= @user.first_name %></h4>
+              <h4 class= "text-left"> Nom :<%= @user.last_name %></h4>
+              <h4 class= "text-left"> email : <%= @user.email %></h4>
+               <h4 class= "text-left">Numéro de téléphone : <%= @user.telephone %></h4>
+              <h4 class= "text-left">Classement : <%= @user.ranking %></h4>
+              <h4 class= "text-left"> Sexe : <%= @user.genre %></h4>
+              <h4 class= "text-left">Date de naissance : <%= @user.date_of_birth %></h4>
+              <h4 class= "text-left">Numéro de licence : <%= @user.licence_number %></h4>
+              <h4 class= "text-left"><%= image_tag @user.picture.url(:medium) %></h4>
 
 
                 <h4 class= "text-left"><%= link_to "Modifier mon profil", edit_user_path, class:"btn btn-primary"  %></h4>

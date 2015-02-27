@@ -5,7 +5,7 @@
     </div>
   </div>
     <div class="row">
-      <div class="col-xs-12">
+      <div class="col-xs-12 col-md-6 col-md-offset-3">
         <%= simple_form_for @tournament do |t| %>
           <%= t.input :name, label: 'Nom de la Compétition' %>
           <%= t.input :city, label: 'Ville' %>
@@ -16,7 +16,7 @@
           <%= t.input :ends_on, label: 'Date de fin' %>
           <%= t.input :amount, label: "Frais d'inscription" %>
           <%= t.input :club_organisateur, label: "Club Organisateur" %>
-          <%= t.button :submit %>
+          <%= t.button :submit, class: "btn-primary" %>
         <% end %>
       </div>
     </div>

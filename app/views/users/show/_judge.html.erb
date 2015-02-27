@@ -11,6 +11,7 @@
             <li role="presentation"><a href="#tournois" aria-controls="tournois" role="tab" data-toggle="tab">Mes Tournois</a></li>
             </ul>
 
+
              <!-- Tab panes -->
             <div class="tab-content">
               <div role="tabpanel" class="tab-pane active" id="profile">
@@ -30,21 +31,27 @@
               </div>
 
 
-                <div role="tabpanel" class="tab-pane" id="tournois">
-                  <% current_user.tournaments.each do |tournament| %>
-                    <div class ="card text-left">
-                      <% if tournament.accepted? %>
-                      <h4><%= link_to tournament.name, user_tournament_path(tournament) %></h4>
-                      <h6><%= tournament.starts_on %>
-                      </h6>
-                      <% else %>
-                      <h4><%= tournament.name %></h4>
-                      <h5><%= tournament.starts_on %></h5>
-                      <h5><%= "En attente de validation" %></h5>
-                      <% end %>
-                    </div>
-                  <% end %>
-                </div>
+              <h4 class= "text-left"><%= image_tag @user.picture.url(:medium) %></h4>
+
+
+              <%= link_to "Modifier mon profil", edit_user_path(current_user)  %>
+        </div>
+      </div>
+        <div role="tabpanel" class="tab-pane" id="tournois">
+          <div class="container">
+            <% current_user.tournaments.each do |tournament| %>
+              <div class ="card">
+                <% if tournament.accepted? %>
+                <h4><%= link_to tournament.name, user_tournament_path(current_user, tournament) %></h4>
+                <h5><%= tournament.starts_on %>
+                </h5>
+                <% else %>
+                <h4><%= tournament.name %></h4>
+                <h5><%= tournament.starts_on %></h5>
+                <h5><%= "En attente de validation" %></h5>
+                <% end %>
+              </div>
+            <% end %>
           </div>
         </div>
       </div>

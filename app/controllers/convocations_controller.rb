@@ -38,9 +38,9 @@ class ConvocationsController < ApplicationController
   def multiple_create
     @tournament = Tournament.find(params[:tournament_id])
     @subscription_ids = params[:subscription_ids].split(', ')
-    @hour = Time.new(params[:hour])
     @subscription_ids.each do |subscription_id|
-      Subscription.find(subscription_id).convocations.build(date: params[:date], hour: @hour)
+      @subscription = Subscription.find(subscription_id)
+      Convocation.create(date: params[:date], hour: params[:hour], subscription: @subscription)
     end
     redirect_to tournament_subscriptions_path(@tournament)
   end
