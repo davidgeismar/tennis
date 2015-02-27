@@ -1,17 +1,27 @@
 <div class = "container">
-    <%= @tournament.name %>
+    <h2><%= @tournament.name %></h2>
+    <%= form_tag multiple_new_path(@tournament) do %>
+      <%= hidden_field_tag :subscription_ids %>
+      <%= submit_tag "Convoquer les joueurs sélectionnés", class: "btn btn-primary" %>
+    <% end %>
+
     <table class="table table-hover">
       <tr>
+          <th>Select</th>
           <th>Prénom</th>
           <th>Nom</th>
           <th>Numéro de licence</th>
-          <th>status de l'inscription</th>
+          <th>Status de l'inscription</th>
+          <th>Convoquer ?</th>
+          <th>Statut de la convocation en cours</th>
       </tr>
       <% @subscriptions.each do |subscription|%>
-      <tr>
+      <tr class="subscription_item" id="<%= subscription.id %>">
+        <td class="checkbox"><input type="checkbox"></td>
         <td><%= subscription.user.first_name%></td>
         <td><%= subscription.user.last_name%></td>
         <td><%= subscription.user.licence_number%></td>
+
         <td>
           <%= form_for [@tournament, subscription] do |f| %>
             <%= f.select :status, Subscription::STATUSES, class: "form-control" %>
@@ -19,11 +29,35 @@
           <% end %>
          </td>
         <td><button type="button" class="btn btn-primary"><%=link_to "convoquer ce joueur", new_subscription_convocation_path(subscription) %></button></td>
+
+        <td>
+          <% if subscription.convocations.last %>
+            <%= subscription.convocations.last.status %>
+          <% end %>
+          </td>
       </tr>
+
       <%end%>
     </table>
 
     <%=link_to "Ajouter un joueur à la liste", invite_player_path(@tournament), class: "btn btn-primary" %>
+
+    <%= content_for :after_js do %>
+      <% javascript_tag do %>
+        $(document).ready(function() {
+        var string = "";
+          $('.checkbox').on('click', function() {
+            var subscription_id = $(this).parent().attr('id');
+            if(string == "") {
+              string = subscription_id;
+            } else {
+              string = string + ", " + subscription_id;
+            }
+            $('#subscription_ids').val(string);
+          })
+        })
+      <% end %>
+    <% end %>
 
 
 
