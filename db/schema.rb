@@ -74,7 +74,7 @@ ActiveRecord::Schema.define(version: 20150227084130) do
     t.string   "ranking"
     t.boolean  "judge",                  default: false
     t.string   "genre"
-    t.string   "date_of_birth"
+    t.date     "date_of_birth"
     t.string   "licence_number"
     t.integer  "judge_number"
     t.string   "invitation_token"
