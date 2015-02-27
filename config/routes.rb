@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  devise_for :users, controllers: { registrations: 'users/registrations', invitations: 'users/invitations' }
+  devise_for :users, controllers: { registrations: 'users/registrations', invitations: 'users/invitations', omniauth_callbacks: "users/omniauth_callbacks" }
 
   resource :judge, only: :show
   resources :tournaments, only: [:index, :show, :new, :create] do
