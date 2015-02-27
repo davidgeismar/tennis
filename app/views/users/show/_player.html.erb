@@ -1,12 +1,16 @@
-<div class="content text-center">
-  <div role="tabpanel">
+<div class="mini-height">
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-8 col-sm-offset-2">
+        <div class="content text-center">
+          <div role="tabpanel">
 
-    <!-- Nav tabs -->
-    <ul class="nav nav-tabs" role="tablist">
-      <li role="presentation" class="active"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">Profile</a></li>
-    <li role="presentation"><a href="#tournois" aria-controls="tournois" role="tab" data-toggle="tab">Mes Tournois</a></li>
-    </ul>
+        <ul class="nav nav-tabs" role="tablist">
+        <li role="presentation" class="active"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">Profile</a></li>
+        <li role="presentation"><a href="#tournois" aria-controls="tournois" role="tab" data-toggle="tab">Mes Tournois</a></li>
+        </ul>
 
+<<<<<<< HEAD
      <!-- Tab panes -->
     <div class="tab-content">
       <div role="tabpanel" class="tab-pane active" id="profile">
@@ -15,40 +19,43 @@
               <h4 class= "text-left"> Prénom : <%= @user.first_name %></h4>
               <h4 class= "text-left"> Nom :<%= @user.last_name %></h4>
               <h4 class= "text-left"> email : <%= @user.email %></h4>
+               <h4 class= "text-left">Numéro de téléphone : <%= @user.telephone %></h4>
               <h4 class= "text-left">Classement : <%= @user.ranking %></h4>
               <h4 class= "text-left"> Sexe : <%= @user.genre %></h4>
               <h4 class= "text-left">Date de naissance : <%= @user.date_of_birth %></h4>
               <h4 class= "text-left">Numéro de licence : <%= @user.licence_number %></h4>
-              <h4 class= "text-left">Numéro de téléphone : <%= @user.telephone %></h4>
               <h4 class= "text-left"><%= image_tag @user.picture.url(:medium) %></h4>
 
 
-              <h5 class= "text-left"><%= link_to "Modifier mon profil", edit_user_path, class:"btn btn-primary"  %></h5>
+                <h4 class= "text-left"><%= link_to "Modifier mon profil", edit_user_path, class:"btn btn-primary"  %></h4>
+          </div>
         </div>
+        <div role="tabpanel" class="tab-pane" id="tournois">
+          <table class="table table-hover">
+            <tr>
+                <th>Compétition</th>
+                <th>Statut de votre inscription</th>
+                <th>date de votre convocation</th>
+                <th>Répondre à cette convocation</th>
+            </tr>
+              <% current_user.subscriptions.each do |subscription| %>
+                <div class ="card">
+                  <tr>
+                   <td><%=subscription.tournament.name %></td>
+                   <td><%= subscription.status %> </td>
+                   <td><% unless subscription.convocations.size == 0 %>
+                      <%= subscription.convocations.last.date.strftime("Le %d/%m/%Y") %>
+                      <%= subscription.convocations.last.hour.strftime(" à %Hh%M") %></td>
+                    <td><button type="button" class="btn btn-primary"><%=link_to "Répondre !", edit_convocation_path(subscription.convocations.last)%></button> </td>
+                          <% end %>
+                  </tr>
+                  </div>
+                <% end %>
+          </table>
       </div>
-      <div role="tabpanel" class="tab-pane" id="tournois">
-        <table class="table table-hover">
-          <tr>
-              <th>Compétition</th>
-              <th>Statut de votre inscription</th>
-              <th>date de votre convocation</th>
-              <th>Répondre à cette convocation</th>
-          </tr>
-            <% current_user.subscriptions.each do |subscription| %>
-              <div class ="card">
-                <tr>
-                 <td><%=subscription.tournament.name %></td>
-                 <td><%= subscription.status %> </td>
-                 <td><% unless subscription.convocations.size == 0 %>
-                        <%= subscription.convocations.last.date.strftime("Le %d/%m/%Y") %>
-                        <%= subscription.convocations.last.hour.strftime(" à %Hh%M") %></td>
-                  <td><button type="button" class="btn btn-primary"><%=link_to "Répondre !", edit_convocation_path(subscription.convocations.last)%></button> </td>
-                        <% end %>
-              </tr>
-              </div>
-              <% end %>
-        </table>
     </div>
   </div>
+  </div>
+  </div>
 </div>
-
+</div>

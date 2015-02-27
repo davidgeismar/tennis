@@ -1,15 +1,15 @@
 /* -------------------------------------
  * Colors & Fonts
  * ------------------------------------- */
-$navbar-color: $gray-light;
-$navbar-hover-color: $yellow;
+$navbar-color: black;
+$navbar-hover-color: white;
 $navbar-font-family: $navbar-font;
 $navbar-font-size: 14px;
 $navbar-text-transform: capitalize;
 $navbar-font-weight: 300;
 $navbar-letter-spacing: 1.5px;
 $navbar-font-family: $navbar-font;
-$navbar-bg: white;
+$navbar-bg: $yellow;
 
 /* -------------------------------------
  * Box model
@@ -17,7 +17,7 @@ $navbar-bg: white;
 $navbar-height: 50px;
 $navbar-vertical-padding: 10px;
 $navbar-horizontal-padding: 20px;
-$navbar-border-bottom-width: 1px;
+$navbar-border-bottom-width: 0px;
 $navbar-border-bottom-color: $gray-lighter;
 
 /* -------------------------------------
@@ -34,7 +34,7 @@ $navbar-btn-radius: 2px;
  * ------------------------------------- */
 $navbar-profile-radius: 50%;
 $navbar-profile-border-color: white;
-$navbar-profile-border-width: 2px;
+$navbar-profile-border-width: 1px;
 
 /* -------------------------------------
  * SCSS code
@@ -74,7 +74,7 @@ $navbar-profile-border-width: 2px;
   .navbar-brand,
   .navbar-brand:hover {
     outline: none;
-    color: $navbar-color;
+    color: $yellow;
     padding-top: $navbar-vertical-padding;
     padding-bottom: $navbar-vertical-padding;
   }
@@ -82,7 +82,7 @@ $navbar-profile-border-width: 2px;
   .navbar-nav > li > a.btn {
     line-height: $navbar-btn-height;
     padding: 0 $navbar-btn-horizontal-padding;
-    color: $navbar-btn-color;
+    color: $yellow;
     border-radius: $navbar-btn-radius;
     margin-top: ($navbar-height + 2 * $navbar-vertical-padding - $navbar-btn-height) / 2;
     font-weight: bold;

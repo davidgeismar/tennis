@@ -1,25 +1,38 @@
-<div class="content text-center">
-  <div role="tabpanel">
+<div class="mini-height">
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-8 col-sm-offset-2">
+          <div class="content text-center">
+          <div role="tabpanel">
 
-    <!-- Nav tabs -->
-    <ul class="nav nav-tabs" role="tablist">
-      <li role="presentation" class="active"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">Profile</a></li>
-    <li role="presentation"><a href="#tournois" aria-controls="tournois" role="tab" data-toggle="tab">Mes Tournois</a></li>
-    </ul>
+            <!-- Nav tabs -->
+            <ul class="nav nav-tabs" role="tablist">
+              <li role="presentation" class="active"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">Profile</a></li>
+            <li role="presentation"><a href="#tournois" aria-controls="tournois" role="tab" data-toggle="tab">Mes Tournois</a></li>
+            </ul>
 
-     <!-- Tab panes -->
-    <div class="tab-content">
-      <div role="tabpanel" class="tab-pane active" id="profile">
-        <div class="card">
-              <h4 class= "text-left"> Prénom : <%= @user.first_name %></h4>
-              <h4 class= "text-left"> Nom :<%= @user.last_name %></h4>
-              <h4 class= "text-left"> email : <%= @user.email %></h4>
-              <h4 class= "text-left"> numéro de juge-arbitre : <%= @user.judge_number %></h4>
-              <h4 class= "text-left"> Sexe : <%= @user.genre %></h4>
-              <h4 class= "text-left">Date de naissance : <%= @user.date_of_birth %></h4>
-              <h4 class= "text-left">Numéro de téléphone : <%= @user.telephone %></h4>
+
+             <!-- Tab panes -->
+            <div class="tab-content">
+              <div role="tabpanel" class="tab-pane active" id="profile">
+                <div class="card text-left padding-left">
+                  <h4> Prénom : <%= @user.first_name %></h4>
+                  <h4> Nom :<%= @user.last_name %></h4>
+                  <h4> email : <%= @user.email %></h4>
+                  <h4> numéro de juge-arbitre : <%= @user.judge_number %></h4>
+                  <h4> Sexe : <%= @user.genre %></h4>
+                  <h4>Date de naissance : <%= @user.date_of_birth %></h4>
+                  <h4>Numéro de licence : <%= @user.licence_number %></h4>
+                  <h4><%= image_tag @user.picture.url(:medium) %></h4>
+                  </div>
+              </div>
+              <div class="text-left padding-left">
+                <%= link_to "Modifier mon profil", edit_user_path, class:"btn btn-primary"  %>
+              </div>
+
 
               <h4 class= "text-left"><%= image_tag @user.picture.url(:medium) %></h4>
+
 
               <%= link_to "Modifier mon profil", edit_user_path(current_user)  %>
         </div>
@@ -41,8 +54,7 @@
             <% end %>
           </div>
         </div>
+      </div>
+    </div>
   </div>
 </div>
-
-
-

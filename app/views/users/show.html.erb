@@ -1,5 +1,9 @@
-<% if @user.judge?%>
-  <%=render 'users/show/judge'%>
-<%else%>
-  <%=render 'users/show/player'%>
-<%end %>
+
+<div class="mini-height">
+  <% if @user.judge?%>
+    <%=render 'users/show/judge'%>
+  <%else%>
+    <%=render 'users/show/player'%>
+  <%end %>
+</div>
+
