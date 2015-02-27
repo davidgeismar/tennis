@@ -13,6 +13,7 @@ gem "pundit"
 gem "paperclip"
 gem "aws-sdk", '< 2.0'
 gem 'omniauth-facebook'
+gem "letter_opener", group: :development
 
 gem "jquery-rails"
 gem "sass-rails", "~> 5.0"
@@ -42,3 +43,4 @@ group :production do
   gem "puma"
   gem "rack-timeout"
 end
+
