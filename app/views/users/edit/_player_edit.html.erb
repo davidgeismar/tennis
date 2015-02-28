@@ -1,22 +1,23 @@
-
-<div class="container">
-  <div class="row">
-    <div class="col-xs-6 col-xs-offset-3">
-      <%= simple_form_for(@user) do |f| %>
-      <%= f.input :first_name %>
-      <%= f.input :last_name %>
-      <%= f.input :email %>
-      <%= f.input :ranking %>
-      <%= f.input :genre %>
-      <%= f.input :date_of_birth %>
-      <%= f.input :licence_number %>
-      <%= f.input :telephone %>
-      <p>
-        <%= f.label :picture %>
-        <%= f.file_field :picture %>
-      </p>
-      <%= f.submit %>
-      <% end %>
+<div class="user-banner">
+  <div class="container">
+    <div class="row">
+      <div class="col-xs-6 col-xs-offset-3">
+        <%= simple_form_for(@user) do |f| %>
+        <%= f.input :first_name %>
+        <%= f.input :last_name %>
+        <%= f.input :email %>
+        <%= f.input :ranking %>
+        <%= f.input :genre %>
+        <%= f.input :date_of_birth %>
+        <%= f.input :licence_number %>
+        <%= f.input :telephone %>
+        <p>
+          <%= f.label :picture %>
+          <%= f.file_field :picture %>
+        </p>
+        <%= f.submit %>
+        <% end %>
+      </div>
     </div>
   </div>
 </div>
