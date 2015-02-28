@@ -1,5 +1,5 @@
 class SubscriptionsController < ApplicationController
-
+skip_after_action :verify_authorized, only: [:create]
   def index
     @tournament     = Tournament.find(params[:tournament_id])
     @subscriptions  = @tournament.subscriptions
@@ -20,18 +20,22 @@ class SubscriptionsController < ApplicationController
 
   def create
     tournament    = Tournament.find(params[:tournament_id])
-    @subscription = Subscription.new
-    authorize @subscription
-
-    @subscription.tournament = tournament
-    @subscription.user = current_user
-    if @subscription.save
-      redirect_to tournament_subscription_path(tournament, @subscription)
-    else
-      flash[:alert] = "Vous etes déjà inscrit à ce tournoi"
+    if current_user.first_name == "" || current_user.last_name == "" || current_user.licence_number == "" || current_user.telephone == ""
+      flash[:alert] = "Vous devez remplir votre profil pour pouvoir vous inscrire à ce tournoi"
       redirect_to tournament_path(tournament)
-    end
+    else
+      @subscription = Subscription.new
+      authorize @subscription
 
+      @subscription.tournament = tournament
+      @subscription.user = current_user
+      if @subscription.save
+        redirect_to tournament_subscription_path(tournament, @subscription)
+      else
+        flash[:alert] = "Vous etes déjà inscrit à ce tournoi"
+        redirect_to tournament_path(tournament)
+      end
+    end
   end
 
   private

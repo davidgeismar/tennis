@@ -22,7 +22,7 @@ class ConvocationsController < ApplicationController
 
     authorize @convocation
     @convocation.update(convocation_params)
-    redirect_to user_path
+    redirect_to user_path(current_user)
   end
 
   def multiple_new

@@ -1,4 +1,8 @@
-<%= simple_form_for @convocation do |f| %>
-  <%= f.select :status, Convocation::STATUSES, class: "form-control" %>
-  <%= f.submit "Enregistrer", class: "btn btn-success" %>
-<% end %>
+
+<div class="text-center">
+  <%= simple_form_for @convocation do |f| %>
+      <%= f.select :status, Convocation::STATUSES, class: "form-control" %>
+      <%= f.submit "Enregistrer", class: "btn btn-success" %>
+  <% end %>
+
+ </div>
