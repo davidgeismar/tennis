@@ -1,15 +1,12 @@
 // Your footer style
  #footer {
-      height: 240px;
-//   padding: 20px;
+      height: 100px;
+  padding: 20px;
 //   padding-top: 60px;
 //   bottom: 0;
 //   width: 100%;
 //   position: relative;
 //   transition: background 0.4s ease;
-     background-color: black;
+     background-color: $black;
 }
 
-#à_propos {
-  padding-top: 100px;
-}
