@@ -1,7 +1,7 @@
 source "https://rubygems.org"
 
 ruby "2.2.0"
-
+gem 'activeadmin', github: 'activeadmin'
 gem 'enumerize'
 gem "rails", "4.2.0"
 gem "pg"
