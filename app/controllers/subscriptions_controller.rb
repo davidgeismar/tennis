@@ -11,6 +11,7 @@ skip_after_action :verify_authorized, only: [:create]
     authorize @subscription
     @subscription.update(subscription_params)
     redirect_to tournament_subscriptions_path(@subscription.tournament)
+
   end
 
   def show

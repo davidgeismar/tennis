@@ -24,8 +24,7 @@
 
         <td>
           <%= form_for [@tournament, subscription] do |f| %>
-            <%= f.select :status, Subscription::STATUSES, class: "form-control" %>
-            <%= f.submit "Enregistrer", class: "btn btn-success" %>
+            <%= f.select :status, Subscription::STATUSES, remote: true, class: "form-control subscription-status" %>
           <% end %>
          </td>
         <td><button type="button" class="btn btn-primary"><%=link_to "Profil du joueur", user_path(subscription.user) %></button></td>
@@ -57,6 +56,17 @@
           })
         })
       <% end %>
+    <% end %>
+
+    <%= content_for :after_js do %>
+      <% javascript_tag do %>
+        $(document).ready(function() {
+          $("#subscription-status").change(function(){
+            $$.ajax({url: "/tournaments/:tournament_id/subscriptions/:id", type: "POST"};
+            });
+          });
+        });
+       <% end %>
     <% end %>
 
 

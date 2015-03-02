@@ -1,0 +1,39 @@
+<div class="user-banner">
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-8 col-sm-offset-2">
+        <div class="content text-center">
+          <div role="tabpanel">
+            <ul class="nav nav-tabs" role="tablist">
+              <li role="presentation" class="active"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">Profile</a></li>
+            </ul>
+             <!-- Tab panes -->
+            <div class="tab-content">
+              <div role="tabpanel" class="tab-pane active" id="profile">
+                <div class="card">
+                  <div class="container">
+                    <div class="row">
+                      <div class="col-xs-4 col-offset-3">
+                        <h4 class= "text-left"> Prénom : <%= @user.first_name %></h4>
+                        <h4 class= "text-left"> Nom :<%= @user.last_name %></h4>
+                        <h4 class= "text-left"> email : <%= @user.email %></h4>
+                        <h4 class= "text-left">Numéro de téléphone : <%= @user.telephone %></h4>
+                        <h4 class= "text-left">Classement : <%= @user.ranking %></h4>
+                        <h4 class= "text-left"> Sexe : <%= @user.genre %></h4>
+                        <h4 class= "text-left">Date de naissance : <%= @user.date_of_birth %></h4>
+                        <h4 class= "text-left">Numéro de licence : <%= @user.licence_number %></h4>
+                      </div>
+                      <div class="col-xs-6">
+                        <h4 ><%= image_tag @user.picture.url(:medium) %></h4>
+                      </div>
+                   </div>
+                 </div>
+               </div>
+             </div>
+           </div>
+         </div>
+       </div>
+     </div>
+   </div>
+ </div>
+</div>

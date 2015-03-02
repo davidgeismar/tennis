@@ -28,10 +28,17 @@ class ConvocationsController < ApplicationController
   def multiple_new
     @tournament = Tournament.find(params[:tournament_id])
     @subscription_ids_string = params[:subscription_ids]
-    @subscription_ids = params[:subscription_ids].split(', ')
-    @player_names = []
-    @subscription_ids.each do |subscription_id|
-      @player_names << Subscription.find(subscription_id).user.name
+    if @subscription_ids_string == ''
+      flash[:alert] = "Vous n'avez sélectionné aucun joueur"
+      redirect_to tournament_subscriptions_path(@tournament)
+    # @tournament = Tournament.find(params[:tournament_id])
+    # @subscription_ids_string = params[:subscription_ids]
+    else
+      @subscription_ids = params[:subscription_ids].split(', ')
+      @player_names = []
+      @subscription_ids.each do |subscription_id|
+        @player_names << Subscription.find(subscription_id).user.name
+      end
     end
   end
 
