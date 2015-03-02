@@ -11,7 +11,7 @@ gem "country_select"
 gem "high_voltage"
 gem "pundit"
 gem "paperclip"
-
+gem "algoliasearch-rails"
 gem "aws-sdk", '< 2.0'
 gem 'omniauth-facebook'
 

@@ -19,7 +19,6 @@ class ConvocationsController < ApplicationController
   end
 
   def update
-
     authorize @convocation
     @convocation.update(convocation_params)
     redirect_to user_path(current_user)
@@ -59,12 +58,14 @@ class ConvocationsController < ApplicationController
   #   redirect_to tournament_subscriptions_path(@subscription.tournament)
   # end
 
-
-
   private
 
   def convocation_params
-    params.require(:convocation).permit(:hour, :date, :status)
+    if current_user.judge?
+      params.require(:convocation).permit(:hour, :date)
+    else
+      params.require(:convocation).permit(:status)
+    end
   end
 
   def find_subscription
@@ -75,5 +76,4 @@ class ConvocationsController < ApplicationController
     end
 
   end
-
 end
