@@ -6,8 +6,8 @@ class ApplicationController < ActionController::Base
   before_action :authenticate_user!, unless: :pages_controller?
   before_action :configure_permitted_parameters, if: :devise_controller?
 
-  after_action :verify_authorized, except: :index, unless: :devise_or_pages_controller?
-  after_action :verify_policy_scoped, only: :index, unless: :devise_or_pages_controller?
+  after_action :verify_authorized, except: :index, unless: :devise_or_pages_or_active_admin_controller?
+  after_action :verify_policy_scoped, only: :index, unless: :devise_or_pages_or_active_admin_controller?
 
 #  rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
 
@@ -24,8 +24,8 @@ class ApplicationController < ActionController::Base
     redirect_to(root_path)
   end
 
-  def devise_or_pages_controller?
-    devise_controller? || pages_controller?
+  def devise_or_pages_or_active_admin_controller?
+    devise_controller? || pages_controller? || params[:controller] =~ /^admin/
   end
 
   def pages_controller?
