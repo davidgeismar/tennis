@@ -1,16 +1,23 @@
-<div class="container">
-  <div class="row">
-    <div class="col-sm-6 col-sm-offset-3">
-      <h2><%= t('.sign_up', default: "Sign up as Player") %></h2>
-      <%= simple_form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
-        <%= f.error_notification %>
+<div class="banner padded">
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-4 col-sm-offset-4">
+        <h2><%= t('.sign_up', default: "Sign up as Player") %></h2>
+        <%= simple_form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
+          <%= f.error_notification %>
 
-        <%= f.input :email, required: true, autofocus: true %>
-        <%= f.input :password, required: true %>
-        <%= f.button :submit, t('.sign_up', default: "Sign up"), class: "btn-subscribe" %>
-      <% end %>
+          <%= f.input :email, required: true, autofocus: true, placeholder: "e-mail", label: false %>
+          <%= f.input :password, required: true, placeholder: "mot de passe", label: false %>
+          <%= f.button :submit, t('.sign_up', default: "Sign up"), class: "btn-subscribe" %>
+        <% end %>
+        <p class="or">or</p>
 
-      <%= render "devise/shared/links" %>
+        <%- if devise_mapping.omniauthable? %>
+        <%- resource_class.omniauth_providers.each do |provider| %>
+        <%= link_to t('.sign_in_with_provider', :provider => provider.to_s.titleize, :default => "Sign in with #{provider.to_s.titleize}"), omniauth_authorize_path(resource_name, provider), class: "btn-subscribe-#{provider}1 btn-subscribe" %><br />
+        <% end -%>
+        <% end -%>
+      </div>
     </div>
   </div>
 </div>
