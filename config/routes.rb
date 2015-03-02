@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+
+  ActiveAdmin.routes(self)
   devise_for :users, controllers: { registrations: 'users/registrations', invitations: 'users/invitations', omniauth_callbacks: "users/omniauth_callbacks" }
 
   resource :judge, only: :show
@@ -16,7 +18,7 @@ Rails.application.routes.draw do
 
   get "tournaments/:id/invite_player", to: "tournaments#invite_player", as: "invite_player"
   post "tournaments/:id/invite_player", to: "tournaments#invite_player_to_tournament"
-
+  post 'tournaments/results', to: "tournaments#results", as: "tournaments_results"
   resources :users do
     resources :tournaments, only: [:show, :new, :create, :edit, :update]
   end

@@ -1,7 +1,7 @@
 source "https://rubygems.org"
 
 ruby "2.2.0"
-
+gem 'activeadmin', github: 'activeadmin'
 gem 'enumerize'
 gem "rails", "4.2.0"
 gem "pg"
@@ -11,7 +11,7 @@ gem "country_select"
 gem "high_voltage"
 gem "pundit"
 gem "paperclip"
-
+gem "algoliasearch-rails"
 gem "aws-sdk", '< 2.0'
 gem 'omniauth-facebook'
 
