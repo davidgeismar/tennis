@@ -1,3 +1,39 @@
 /* -------------------------------------
  * You killer button SASS module
  * ------------------------------------- */
+
+
+.btn-subscribe {
+  width: 100%;
+  margin: 0;
+  font-size: 14px;
+  line-height: 18px;
+  display: block;
+  padding: 11px;
+
+  &-facebook {
+    background-color: #3b5998;
+    color: #f2f2f2;
+    padding: 13px;
+    text-align: center;
+  }
+
+  &-facebook1 {
+    background-color: #3b5998;
+    color: #f2f2f2;
+    padding: 13px;
+    text-align: center;
+    margin-top: 20px;
+  }
+}
+.forgot_password {
+float: right;
+position: absolute;
+top: 128px;
+padding: 4px;
+color: #bababa;
+font-size: 12px;
+right: 15px;
+// padding: 108px;
+padding-right: 0px;
+}

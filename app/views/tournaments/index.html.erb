@@ -1,13 +1,16 @@
-<div class = "container text-center" id="image">
-<% @tournaments.each do |tournament| %>
-    <div class= "row">
-      <div class= "col-xs-12">
-
-        <h2><%= link_to tournament.name, tournament_path(tournament)%></h2>
-        <h5><%= tournament.city%></h5>
-        <h5><%= tournament.starts_on%> - <%= tournament.ends_on%></h5>
-          <%end%>
+<div class="mini-height">
+  <div class="banner">
+    <div class = "container text-center" id="image">
+      <% @tournaments.each do |tournament| %>
+        <div class= "row">
+          <div class= "col-xs-12">
+            <h2><%= link_to tournament.name, tournament_path(tournament)%></h2>
+            <h5><%= tournament.city%></h5>
+            <h5><%= tournament.starts_on%> - <%= tournament.ends_on%></h5>
+            <%end%>
+        </div>
       </div>
     </div>
+  </div>
 </div>
 

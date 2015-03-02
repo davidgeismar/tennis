@@ -1,15 +1,16 @@
 <div class="banner">
   <div class="container">
     <div class="row">
-      <div class="col-xs-12 col-sm-6 col-sm-offset-3">
+      <div class="col-sm-4 col-sm-offset-4">
         <h2><%= t(".sign_in", default: "Sign in") %></h2>
 
         <%= simple_form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
-            <%= f.input :email, required: false, autofocus: true %>
-            <%= f.input :password, required: false %>
+            <%= f.input :email, required: false, autofocus: true, placeholder: "email", label:false %>
+            <%= f.input :password, required: false, placeholder: "mot de passe", label:false %>
             <%= f.input :remember_me, as: :boolean if devise_mapping.rememberable? %>
-            <%= f.button :submit, t(".sign_in", default: "Sign in"), class: "btn btn-primary" %>
+            <%= f.button :submit, t(".sign_in", default: "Sign in"), class: "btn-subscribe" %>
         <% end %>
+        <p class="or">or</p>
 
         <%= render "devise/shared/links" %>
       </div>

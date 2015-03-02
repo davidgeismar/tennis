@@ -9,10 +9,11 @@
 
 <div class="banner">
   <% if current_user == @user %>
-    <%= render 'pages/home/connected' %>
+    <%= render 'pages/home/not_connected' %>
   <% else %>
   <% end %>
 </div>
+
 <div class="algolia-test">
 <input name="Tournament" placeholder="Cherchez un tournoi par nom, ville, addresse, dates..." id="tournament" />
 </div>
@@ -34,3 +35,4 @@
   });
 </script>
 <%end%>
+

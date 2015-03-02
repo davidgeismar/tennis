@@ -18,6 +18,11 @@
       <ul class="nav navbar-nav navbar-right">
         <% if user_signed_in? %>
           <li><% current_user.email %></li>
+           <li>
+          <a href="#">
+            <i class="fa fa-envelope-o icon-large"></i> Notifications
+          </a>
+        </li>
 
           <li class="dropdown">
             <%= link_to "#", {class: "dropdown-toggle", "data-toggle" => "dropdown", "role" => "button", "aria-expanded" => "false"} do %>
@@ -31,7 +36,9 @@
                 <% end %>
               </li>
               <li>
-                <%= link_to "Connect with Facebook", user_omniauth_authorize_path(:facebook) %>
+                <%= link_to user_omniauth_authorize_path(:facebook) do %>
+                  <i class="fa fa-facebook"></i> <%= t ".facebook", default: "Facebook" %>
+                <% end %>
               </li>
               <li>
                 <%= link_to destroy_user_session_path, method: :delete do %>
@@ -41,12 +48,16 @@
             </ul>
           </li>
         <% else %>
-          <li>
-            <%= link_to t(".sign_up", default: "Sign up"), new_user_registration_path %>
-          </li>
-          <li>
-            <%= link_to t(".sign_in", default: "Sign in"), new_user_session_path %>
-          </li>
+              <li>
+              <%= link_to "Juge Arbitre ?", judge_path %>
+              </li>
+              <li>
+                <%= link_to t(".sign_up", default: "Inscription"), new_user_registration_path, id:"nav", class: "btn btn-default" %>
+              </li>
+              <li>
+                <%= link_to t(".sign_in", default: "Connexion"), new_user_session_path, id:"nav", class: "btn btn-default"  %>
+              </li>
+
         <% end %>
         <li>
           <% if policy(Tournament).create? %>
