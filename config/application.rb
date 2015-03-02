@@ -16,6 +16,7 @@ Bundler.require(*Rails.groups)
 
 module TennisMatch
   class Application < Rails::Application
+    config.embed_authenticity_token_in_remote_forms = true
     config.i18n.enforce_available_locales = true
 
     config.generators do |generate|
