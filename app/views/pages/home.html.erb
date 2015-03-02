@@ -13,9 +13,9 @@
   <% else %>
   <% end %>
 </div>
-
+<div class="algolia-test">
 <input name="Tournament" placeholder="Cherchez un tournoi par nom, ville, addresse, dates..." id="tournament" />
-
+</div>
 <% content_for(:after_js) do %>
 <script type="text/javascript">
   $(document).ready(function() {
@@ -23,10 +23,11 @@
     // var template = Hogan.compile('{{{_highlightResult.email.value}}} ({{{_highlightResult.first_name.value}}} {{{_highlightResult.last_name.value}}})');
     $('#tournament').typeahead(null, {
       source: client.initIndex('<%= Tournament.index_name %>').ttAdapter(),
-      displayKey: 'address',
+      displayKey: 'name',
       templates: {
         suggestion: function(hit) {
-          return "<div>" + hit._highlightResult.address.value + "<small>" + hit._highlightResult.address.value + "<small></div>";
+          console.log(hit);
+          return '<div><a href="/tournaments/' + hit.objectID + '">' + hit._highlightResult.name.value + '</a></div>';
         }
       }
     });
