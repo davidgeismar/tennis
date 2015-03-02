@@ -2,7 +2,7 @@
   <div class="row">
     <div class="col-sm-6 col-sm-offset-3">
       <h2><%= t('.sign_up', default: "Sign up as Judge") %></h2>
-      <p>Tu es un juge ? Inscris-toi et rajoute tes tournois.</p>
+      <p>Juge-arbitre ? Référence tes tournois pour convoquer tes joueurs en 1 clic.</p>
 
       <%= simple_form_for(@user, url: user_registration_path) do |f| %>
         <%= f.input :email, required: true, autofocus: true %>

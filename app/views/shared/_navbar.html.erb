@@ -41,12 +41,27 @@
             </ul>
           </li>
         <% else %>
-          <li>
-            <%= link_to t(".sign_up", default: "Sign up"), new_user_registration_path %>
-          </li>
-          <li>
-            <%= link_to t(".sign_in", default: "Sign in"), new_user_session_path %>
-          </li>
+        <div class="container">
+          <div class="row">
+            <div class="col-xs-3 text-right">
+              <li>
+              <%= link_to "Juge Arbitre ?", judge_path %>
+              </li>
+            </div>
+            <div class="col-xs-3 text-right">
+              <li>
+                <%= link_to t(".sign_up", default: "Sign up"), new_user_registration_path %>
+              </li>
+            </div>
+            <div class="col-xs-3 text-right">
+              <li>
+                <%= link_to t(".sign_in", default: "Sign in"), new_user_session_path %>
+              </li>
+            </div>
+          </div>
+        </div>
+
+
         <% end %>
         <li>
           <% if policy(Tournament).create? %>
