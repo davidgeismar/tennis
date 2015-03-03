@@ -106,7 +106,7 @@ ActiveRecord::Schema.define(version: 20150302184432) do
     t.string   "ranking"
     t.boolean  "judge",                  default: false
     t.string   "genre"
-    t.string   "date_of_birth"
+    t.date     "date_of_birth"
     t.string   "licence_number"
     t.integer  "judge_number"
     t.string   "invitation_token"
@@ -120,16 +120,16 @@ ActiveRecord::Schema.define(version: 20150302184432) do
     t.datetime "confirmed_at"
     t.datetime "confirmation_sent_at"
     t.string   "name"
-    t.string   "telephone"
-    t.string   "picture_file_name"
-    t.string   "picture_content_type"
-    t.integer  "picture_file_size"
-    t.datetime "picture_updated_at"
     t.string   "provider"
     t.string   "uid"
     t.string   "picture"
     t.string   "token"
     t.datetime "token_expiry"
+    t.string   "telephone"
+    t.string   "picture_file_name"
+    t.string   "picture_content_type"
+    t.integer  "picture_file_size"
+    t.datetime "picture_updated_at"
     t.boolean  "admin",                  default: false, null: false
   end
 
