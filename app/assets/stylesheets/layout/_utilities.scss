@@ -41,3 +41,34 @@
 .mini-height {
   height: 470px;
 }
+
+.max-height {
+  height: 800px;
+}
+
+.or {
+  display: block;
+  text-align: center;
+  position: relative;
+  font-size: 16px;
+  padding: 10px 0;
+  margin: 0;
+  margin-top: 21px;
+  color: white;
+
+  &:after, &:before {
+    content: "";
+    position: absolute;
+    display: block;
+    width: 40%;
+    top: 20px;
+    border-bottom: solid 2px;
+  }
+
+  &:after {
+    right: 0
+  }
+}
+#nav {
+  margin-left: 22px;
+}

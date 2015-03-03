@@ -9,9 +9,10 @@
 
 <div class="banner">
   <% if current_user == @user %>
-    <%= render 'pages/home/connected' %>
+    <%= render 'pages/home/not_connected' %>
   <% else %>
   <% end %>
+
   <div class="container">
     <div class="row">
       <div class="col-xs-12 col-md-5 col-offset-md-4">
@@ -24,6 +25,7 @@
       </div>
     </div>
   </div>
+
 </div>
 <% content_for(:after_js) do %>
 <script type="text/javascript">
@@ -43,3 +45,4 @@
   });
 </script>
 <%end%>
+

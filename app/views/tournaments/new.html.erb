@@ -1,23 +1,25 @@
-<div class='container text-center padded'>
-  <div class="row">
-    <div class="col-xs-12">
-      <h3>Formulaire de création d'un tournoi</h3>
-    </div>
-  </div>
+<div class="banner">
+  <div class='container text-center padded'>
     <div class="row">
-      <div class="col-xs-12 col-md-6 col-md-offset-3">
-        <%= simple_form_for @tournament do |t| %>
-          <%= t.input :name, label: 'Nom de la Compétition' %>
-          <%= t.input :city, label: 'Ville' %>
-          <%= t.input :genre, label:'Masculin ou féminin' %>
-          <%= t.input :category, label: 'Catégorie' %>
-          <%= t.input :address, label: 'Addresse des installations' %>
-          <%= t.input :starts_on, label: 'Date de début' %>
-          <%= t.input :ends_on, label: 'Date de fin' %>
-          <%= t.input :amount, label: "Frais d'inscription" %>
-          <%= t.input :club_organisateur, label: "Club Organisateur" %>
-          <%= t.button :submit, class: "btn-primary" %>
-        <% end %>
+      <div class="col-xs-12">
+        <h3>Formulaire de création d'un tournoi</h3>
       </div>
     </div>
+      <div class="row">
+        <div class="col-xs-12 col-md-6 col-md-offset-3">
+          <%= simple_form_for @tournament do |t| %>
+            <%= t.input :name, label: 'Nom de la Compétition' %>
+            <%= t.input :city, label: 'Ville' %>
+            <%= t.input :genre, label:'Masculin ou féminin' %>
+            <%= t.input :category, label: 'Catégorie' %>
+            <%= t.input :address, label: 'Addresse des installations' %>
+            <%= t.input :starts_on, label: 'Date de début' %>
+            <%= t.input :ends_on, label: 'Date de fin' %>
+            <%= t.input :amount, label: "Frais d'inscription" %>
+            <%= t.input :club_organisateur, label: "Club Organisateur" %>
+            <%= t.button :submit, class: "btn-primary" %>
+          <% end %>
+        </div>
+      </div>
+  </div>
 </div>
