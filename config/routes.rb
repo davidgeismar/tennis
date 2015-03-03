@@ -24,6 +24,7 @@ Rails.application.routes.draw do
   end
 
   resources :convocations, only: [:edit, :update]
+  resources :notifications, only: :index
 
   # resources :user, only: :show, as: "show_user"
 
