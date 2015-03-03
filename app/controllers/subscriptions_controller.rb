@@ -9,6 +9,7 @@ skip_after_action :verify_authorized, only: [:create]
   def update
     @subscription = Subscription.find(params[:id])
     authorize @subscription
+    raise
     @subscription.update(subscription_params)
     @subscription.create_activity(:update, owner: current_user, recipient: @subscription.user)
 

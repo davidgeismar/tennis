@@ -44,6 +44,7 @@ class ConvocationsController < ApplicationController
         @player_names << Subscription.find(subscription_id).user.name
       end
     end
+
   end
 
   def multiple_create
@@ -55,6 +56,7 @@ class ConvocationsController < ApplicationController
     end
     redirect_to tournament_subscriptions_path(@tournament)
   end
+
 
   # def update
   #   @subscription = Subscription.find(params[:id])

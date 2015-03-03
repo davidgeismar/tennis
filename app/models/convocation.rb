@@ -1,6 +1,6 @@
 class Convocation < ActiveRecord::Base
   include PublicActivity::Common
-  tracked
+  # tracked
 
   extend Enumerize
   enumerize :status, in: [:pending, :confirmed, :refused, :cancelled]

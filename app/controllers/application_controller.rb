@@ -34,7 +34,7 @@ class ApplicationController < ActionController::Base
     controller_name == "pages"  # Brought by the `high_voltage` gem
   end
 
-  def set_activities
+  def load_activities
     @activities = PublicActivity::Activity.where(recipient: current_user)
   end
 end
