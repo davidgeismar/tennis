@@ -27,7 +27,7 @@ class UsersController < ApplicationController
   end
 
   def load_activities
-  @activities = PublicActivity::Activity.order('created_at DESC').limit(20)
+  @activities = PublicActivity::Activity.order('created_at DESC').limit(5)
   end
 
 end
