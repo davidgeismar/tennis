@@ -1,5 +1,9 @@
 <li class="list-group-item notification">
-  <span class="glyphicon glyphicon-plus"></span>
-   <small class="text-muted">
-  Vous etes convoqué à <%= link_to a.trackable.subscription.tournament.name, user_path(@current_user)  %>
+  <i class="fa fa-plus"></i>
+    <small class="text-muted"/>
+    <% if a.recipient.judge %>
+      Vous avez mis à jour la convocation de <%= a.trackable.subscription.user.full_name %> au tournoi <%= link_to a.trackable.subscription.tournament.name, user_path(@current_user) %>
+    <% else %>
+      Vous etes convoqué au tournoi <%= link_to a.trackable.subscription.tournament.name, user_path(@current_user) %>
+    <% end %>
 </li>
