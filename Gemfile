@@ -14,6 +14,7 @@ gem "paperclip"
 gem "algoliasearch-rails"
 gem "aws-sdk", '< 2.0'
 gem 'omniauth-facebook'
+gem 'public_activity'
 
 
 gem "jquery-rails"

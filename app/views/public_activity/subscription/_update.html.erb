@@ -1,0 +1,9 @@
+<li class="list-group-item notification">
+  <span class="glyphicon glyphicon-plus"></span>
+   <small class="text-muted">
+    <% if a.trackable %>
+      Votre inscription à <%= link_to a.trackable.tournament.name, user_path(@current_user) %> a été <%=a.trackable.status%>
+    <%else%>
+      fuck you
+    <% end %>
+</li>

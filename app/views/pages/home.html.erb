@@ -12,10 +12,20 @@
     <%= render 'pages/home/not_connected' %>
   <% else %>
   <% end %>
-</div>
 
-<div class="algolia-test">
-<input name="Tournament" placeholder="Cherchez un tournoi par nom, ville, addresse, dates..." id="tournament" />
+  <div class="container">
+    <div class="row">
+      <div class="col-xs-12 col-md-5 col-offset-md-4">
+        <h1 id="searching-tournament"> Vous cherchez un tournoi ?</h1>
+        <form class="form-horizontal" id="algolia-bar">
+          <div class="form-group">
+            <input name="Tournament" placeholder="Cherchez un tournoi par nom, ville, addresse, dates..." id="tournament"/>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
 </div>
 <% content_for(:after_js) do %>
 <script type="text/javascript">

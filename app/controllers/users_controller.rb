@@ -1,7 +1,9 @@
 class UsersController < ApplicationController
   before_action :set_user
+  before_action :load_activities, only: [:show]
 
   def show
+
   end
 
   def edit
@@ -22,6 +24,10 @@ class UsersController < ApplicationController
     @user = User.find(params[:id])
     authorize @user
 
+  end
+
+  def load_activities
+  @activities = PublicActivity::Activity.order('created_at DESC').limit(20)
   end
 
 end
