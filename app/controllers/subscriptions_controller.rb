@@ -10,6 +10,8 @@ skip_after_action :verify_authorized, only: [:create]
     @subscription = Subscription.find(params[:id])
     authorize @subscription
     @subscription.update(subscription_params)
+    @subscription.create_activity(:update, owner: current_user, recipient: @subscription.user)
+
     redirect_to tournament_subscriptions_path(@subscription.tournament)
 
   end
@@ -20,7 +22,8 @@ skip_after_action :verify_authorized, only: [:create]
   end
 
   def create
-    tournament    = Tournament.find(params[:tournament_id])
+    tournament = Tournament.find(params[:tournament_id])
+
     if current_user.first_name == "" || current_user.last_name == "" || current_user.licence_number == "" || current_user.telephone == ""
       flash[:alert] = "Vous devez remplir votre profil pour pouvoir vous inscrire à ce tournoi"
       redirect_to tournament_path(tournament)
@@ -30,7 +33,9 @@ skip_after_action :verify_authorized, only: [:create]
 
       @subscription.tournament = tournament
       @subscription.user = current_user
+
       if @subscription.save
+        @subscription.create_activity(:create, owner: current_user, recipient: tournament.user)
         redirect_to tournament_subscription_path(tournament, @subscription)
       else
         flash[:alert] = "Vous etes déjà inscrit à ce tournoi"
