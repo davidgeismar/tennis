@@ -11,6 +11,8 @@ class ConvocationsController < ApplicationController
     @convocation = @subscription.convocations.build(convocation_params)
     authorize @convocation
     @convocation.save
+    @convocation.create_activity(:create, owner: current_user, recipient: @subscription.user)
+
     redirect_to tournament_subscriptions_path(@subscription.tournament)
   end
 
@@ -21,6 +23,9 @@ class ConvocationsController < ApplicationController
   def update
     authorize @convocation
     @convocation.update(convocation_params)
+    recipient = current_user.judge? ? @convocation.subscription.user : @convocation.subscription.tournament.user
+    @convocation.create_activity(:update, owner: current_user, recipient: recipient)
+
     redirect_to user_path(current_user)
   end
 

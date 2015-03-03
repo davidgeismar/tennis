@@ -25,7 +25,7 @@
 
         <td>
           <%= form_for [@tournament, subscription] do |f| %>
-            <%= f.select :status, Subscription::STATUSES, remote: true, class: "form-control subscription-status" %>
+            <%= f.select :status, Subscription.status.options, remote: true, class: "form-control subscription-status" %>
           <% end %>
          </td>
         <td><button type="button" class="btn btn-primary"><%=link_to "Profil du joueur", user_path(subscription.user) %></button></td>
