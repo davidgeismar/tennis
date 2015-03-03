@@ -5,6 +5,7 @@ class ApplicationController < ActionController::Base
 
   before_action :authenticate_user!, unless: :pages_controller?
   before_action :configure_permitted_parameters, if: :devise_controller?
+  before_action :load_activities, if: :user_signed_in?
 
   after_action :verify_authorized, except: :index, unless: :devise_or_pages_or_active_admin_controller?
   after_action :verify_policy_scoped, only: :index, unless: :devise_or_pages_or_active_admin_controller?
@@ -30,5 +31,9 @@ class ApplicationController < ActionController::Base
 
   def pages_controller?
     controller_name == "pages"  # Brought by the `high_voltage` gem
+  end
+
+  def load_activities
+    @activities = PublicActivity::Activity.order('created_at DESC').limit(20)
   end
 end
