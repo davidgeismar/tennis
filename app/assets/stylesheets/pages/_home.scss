@@ -5,6 +5,16 @@
   margin-top: -25px;
 }
 
+
+
+.banner-tournament {
+  background-image: image-url('background.jpg');
+  background-size: cover;
+  height: 1000px;
+  margin-top: -25px;
+
+
+}
 #alert {
   z-index: 3;
   position: absolute;
@@ -22,20 +32,63 @@
 }
 
 #searching-tournament {
-  margin-top: 150px;
+  margin-top: 215px;
+  color: white;
   margin-bottom: 40px;
+  font-size: 66px;
+  text-shadow: 0px 2px 3px rgb(161, 161, 161);
 }
 
 #tournament {
   width: 500px;
+  padding-top: 30px;
   height: 50px;
+
+}
+
+#tournament {
+  background: none;
+  border: none;
+  border-bottom: 2px solid white;
+  font-size: 20px;
+  background: white;
+  padding: 5px;
+
+  &:focus {
+    outline: none;
+  }
+
+
+
+  &::-webkit-input-placeholder {
+     color: rgb(200, 200, 200);
+  }
+  &:-moz-placeholder {
+    color: rgb(200, 200, 200);
+
+  }
+
+  &::-moz-placeholder {
+    color: rgb(200, 200, 200);
+
+
+
+  }
+  &:-ms-input-placeholder {
+    color: rgb(200, 200, 200);
+
+  }
+
+
 
 }
 
 .tt-hint
 {
   width:500px;
+
   height: 50px;
+
 }
 
 

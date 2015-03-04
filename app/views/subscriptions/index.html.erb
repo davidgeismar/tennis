@@ -1,12 +1,18 @@
-<div class="mini-height">
+<div class="banner">
   <div class = "container">
-    <h2><%= @tournament.name %></h2>
+    <div class="row">
+      <div class="col-xs-6">
+    <h1 id="tournament-name"><%= @tournament.name %></h1>
+      </div>
+    <div class="col-xs-6">
     <%= form_tag multiple_new_path(@tournament) do %>
       <%= hidden_field_tag :subscription_ids %>
-      <%= submit_tag "Convoquer les joueurs sélectionnés", class: "btn btn-primary" %>
+      <%= submit_tag "Convoquer les joueurs sélectionnés", class: "btn btn-success", id: "convocation-submit" %>
     <% end %>
+    </div>
+    </div>
 
-    <table class="table table-hover">
+    <table class="table table-hover card">
       <tr>
           <th>Select</th>
           <th>Prénom</th>
@@ -18,7 +24,7 @@
       </tr>
       <% @subscriptions.each do |subscription|%>
       <tr class="subscription_item" id="<%= subscription.id %>">
-        <td class="checkbox"><input type="checkbox"></td>
+        <td class="checkbox"><input id="checkbox-player" type="checkbox"></td>
         <td><%= subscription.user.first_name%></td>
         <td><%= subscription.user.last_name%></td>
         <td><%= subscription.user.licence_number%></td>
@@ -40,7 +46,9 @@
       <%end%>
     </table>
 
-    <%=link_to "Ajouter un joueur à la liste", invite_player_path(@tournament), class: "btn btn-primary" %>
+    <%=link_to "Ajouter un joueur à la liste", invite_player_path(@tournament), class: "btn btn-success" %>
+  </div>
+</div>
 
     <%= content_for :after_js do %>
       <% javascript_tag do %>
@@ -69,7 +77,8 @@
         });
        <% end %>
     <% end %>
-  </div>
+
+
 
 
 

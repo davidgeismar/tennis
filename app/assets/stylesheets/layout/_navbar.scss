@@ -1,7 +1,7 @@
 /* -------------------------------------
  * Colors & Fonts
  * ------------------------------------- */
-$navbar-color: black;
+$navbar-color: rgba(255, 255, 255, .85);
 $navbar-hover-color: white;
 $navbar-font-family: $navbar-font;
 $navbar-font-size: 14px;
@@ -40,6 +40,7 @@ $navbar-profile-border-width: 1px;
  * SCSS code
  * ------------------------------------- */
 .navbar-wagon {
+  height: 70px;
   background: $navbar-bg;
   font-family: $navbar-font-family;
   border: none;
@@ -49,10 +50,14 @@ $navbar-profile-border-width: 1px;
   letter-spacing: $navbar-letter-spacing;
   padding-left: $navbar-horizontal-padding;
   padding-right: $navbar-horizontal-padding;
-  border-bottom: $navbar-border-bottom-width solid $navbar-border-bottom-color;
+  border-bottom: 1px solid #8BA388;
   min-height: 0;
   transition: background 0.4s ease;
   margin-bottom: 0px;
+
+  .dropdown-menu > li > a {
+
+  }
 
   .navbar-nav > li > a,
   .navbar-nav > .open > a,
@@ -97,14 +102,20 @@ $navbar-profile-border-width: 1px;
   .navbar-brand img, .navbar-brand svg {
     height: $navbar-height;
     padding: 0px;
+    opacity: .85;
+
+    &:hover {
+      opacity: 1;
+    }
   }
 
   .img-avatar{
-    border: $navbar-profile-border-width solid $navbar-profile-border-color;
-    box-shadow: 0 0 2px rgb(200, 200, 200);
-    height: $navbar-height - (2 * $navbar-profile-border-width);
-    margin-right: 10px;
-    border-radius: $navbar-profile-radius;
+    height: 45px;
+    width: 45px;
+    background-size: cover;
+    border-radius: 50%;
+    display: inline-block;
+    background-position: center center;
   }
 
   .navbar-toggle {
@@ -115,22 +126,22 @@ $navbar-profile-border-width: 1px;
 
   .navbar-nav > li > .dropdown-menu{
     border-radius: 0;
-    margin-top: 10px;
+    background: #C7B9AB;
   }
 
   .navbar-nav > li > .dropdown-menu:before{
     position: absolute;
-    background: white;
+    background: rgb(199, 185, 174);
     height: 10px;
     width: 10px;
     content: "\00a0";
     display: block;
-    left: 50%;
+    left: 88%;
     margin-left: -5px;
     top: -5px;
     transform: rotate(45deg);
-    border-top: 1px solid #e6e6e6;
-    border-left: 1px solid #e6e6e6;
+    border-top: 1px solid #A89C93;
+    border-left: 1px solid #A89C93;
     z-index: -1;
   }
 }

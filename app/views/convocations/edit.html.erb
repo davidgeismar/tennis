@@ -1,17 +1,76 @@
+<div class="banner">
 
-<p> Le statut de votre convocation est actuellement <%=@convocation.status%></p>
-<div class="text-center">
-  <%= simple_form_for @convocation do |f| %>
-    <%= hidden_field_tag 'convocation[status]', :confirmed %>
-    <%= f.button :submit, "Accepter" %>
-  <% end %>
-  <%= simple_form_for @convocation do |f| %>
-    <%= hidden_field_tag 'convocation[status]', :refused %>
-    <%= f.button :submit, "Refuser" %>
-  <% end %>
-  <%= simple_form_for @convocation do |f| %>
-    <%= hidden_field_tag 'convocation[status]', :cancelled %>
-    <%= f.button :submit, "W.O" %>
-  <% end %>
+    <p> Le statut de votre convocation est actuellement <%=@convocation.status%></p>
+
+  <div class="container">
+    <div class="row text-center" id="convocation-answer">
+      <div class="col-xs-12">
+        <a href="#" data-target="#accepted" data-toggle="modal" class="btn btn-success convocation-answer">Accepter la convocation</a>
+      </div>
+      <div class="col-xs-12">
+        <a href="#" data-target="#refused" data-toggle="modal" class="btn btn-warning convocation-answer">Refuser la convocation</a>
+      </div>
+      <div class="col-xs-12">
+        <a href="#" data-target="#cancelled" data-toggle="modal" class="btn btn-danger convocation-answer">W.O</a>
+      </div>
+    </div>
+  </div>
+
  </div>
 
+  <div class="modal fade" id="accepted">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <%= simple_form_for @convocation do |f| %>
+          <%= hidden_field_tag 'convocation[status]', :confirmed %>
+          <%= f.button :submit, "Accepter", class: " btn btn-success convocation-answer" %>
+           <% end %>
+          <h4 class="modal-title">Confirmer cette convocation</h4>
+        </div>
+        <div class="modal-body">
+          <p>Vous vous engagez à être présent le <%= @convocation.date %> à <%= @convocation.hour %> au <%= @convocation.subscription.tournament.address %></p>
+        </div>
+        <div class="modal-footer">
+        </div>
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+  </div>
+
+  <div class="modal fade" id="refused">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+           <%= simple_form_for @convocation do |f| %>
+           <%= hidden_field_tag 'convocation[status]', :refused %>
+           <%= f.button :submit, "Refuser", class: "btn-warning convocation-answer" %>
+           <% end %>
+          <h4 class="modal-title">Refuser cette convocation</h4>
+        </div>
+        <div class="modal-body">
+          <p>En refusant la convocation vous indiquez au juge arbitre que la date ou/et l'heure de la convocation ne vous convienne pas. N'hésitez pas à appeler le JA  au XXX pour qu'il vous propose un nouveau jour/horaire </p>
+        </div>
+        <div class="modal-footer">
+        </div>
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+  </div>
+
+<div class="modal fade" id="cancelled">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <%= simple_form_for @convocation do |f| %>
+          <%= hidden_field_tag 'convocation[status]', :cancelled %>
+          <%= f.button :submit, "W.O", class: "btn-danger convocation-answer" %>
+           <% end %>
+          <h4 class="modal-title">W.O</h4>
+        </div>
+        <div class="modal-body">
+          <p>En cliquant sur W.O, vous indiquez au juge arbitre que vous souhaitez abandonner la compétition. </p>
+        </div>
+        <div class="modal-footer">
+        </div>
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+  </div>
