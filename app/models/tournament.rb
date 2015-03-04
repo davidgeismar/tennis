@@ -1,4 +1,15 @@
 class Tournament < ActiveRecord::Base
+  geocoded_by :address_tour
+  after_validation :geocode, if: :address_tour_changed?
+
+  def address_tour
+    "#{address} #{city}"
+  end
+
+  def address_tour_changed?
+    address_changed? || city_changed?
+  end
+
   include AlgoliaSearch
   algoliasearch index_name: "tournament#{ENV['ALGOLIA_SUFFIX']}" do
     attribute :genre, :category, :starts_on, :ends_on, :address, :city, :name, :club_organisateur

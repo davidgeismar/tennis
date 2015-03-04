@@ -6,6 +6,10 @@ class TournamentsController < ApplicationController
 
   def show
     @tournament = Tournament.find(params[:id])
+    @markers = Gmaps4rails.build_markers(@tournament) do |tournament, marker|
+      marker.lat tournament.latitude
+      marker.lng tournament.longitude
+    end
     authorize @tournament
   end
 
