@@ -1,0 +1,19 @@
+#card {
+  position: relative;
+  overflow: hidden;
+  padding: 36px;
+  background-color: white;
+}
+
+  .profile-picture {
+    height: 125px;
+    width: 125px;
+    margin: 20px auto ;
+    border-radius: 50%;
+    background-position: center center;
+    background-size: cover;
+    float: right;
+  }
+#li {
+  background: grey;
+}
