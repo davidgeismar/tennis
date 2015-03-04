@@ -1,19 +1,18 @@
 <div class="banner">
-  <div class="container">
+  <div class="container padded">
     <div class="row">
-      <div class="col-sm-8 col-sm-offset-2">
+      <div class="col-sm-8 col-sm-offset-2" id="card">
         <div class="content text-center">
           <div role="tabpanel">
             <ul class="nav nav-tabs" role="tablist">
               <li role="presentation" class="active"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">Profile</a></li>
-              <li role="presentation"><a href="#tournois" aria-controls="tournois" role="tab" data-toggle="tab">Mes Tournois</a></li>
+              <li role="presentation"><a href="#tournois" aria-controls="tournois" role="tab" data-toggle="tab" id="li">Mes Tournois</a></li>
             </ul>
 
             <div class="tab-content">
               <div role="tabpanel" class="tab-pane active" id="profile">
                 <div class="card">
-                  <div class="container">
-                    <div class="row">
+                   <%= image_tag @user.picture.url(:medium), class:"profile-picture" %>
                       <div class="col-xs-6">
 
                         <h4 class= "text-left"> Prénom : <%= @user.first_name %></h4>
@@ -26,12 +25,9 @@
                         <h4 class= "text-left">Numéro de licence : <%= @user.licence_number %></h4>
                       </div>
                       <div class="col-xs-6">
-                        <h4 ><%= image_tag @user.picture.url(:medium) %></h4>
                         <h4><%= link_to "Modifier mon profil", edit_user_path, class:"btn btn-primary"  %>
                         </h4>
                       </div>
-                    </div>
-                  </div>
                </div>
               </div>
               <div role="tabpanel" class="tab-pane" id="tournois">
