@@ -26,8 +26,10 @@
 
           <li class="dropdown">
             <%= link_to "#", {class: "dropdown-toggle", "data-toggle" => "dropdown", "role" => "button", "aria-expanded" => "false"} do %>
-              <%= image_tag current_user.picture, class: "img-avatar" %>
-              Profile <span class="caret"></span>
+              <div class="img-avatar" style='background-image:url(<%= image_path current_user.picture, class: "img-avatar" %>)'>
+
+              </div>
+            <span class="caret"></span>
             <% end %>
             <ul class="dropdown-menu" role="menu">
               <li>
@@ -35,11 +37,7 @@
                   <i class="fa fa-user"></i> <%= t ".profile", default: "Profile" %>
                 <% end %>
               </li>
-              <li>
-                <%= link_to user_omniauth_authorize_path(:facebook) do %>
-                  <i class="fa fa-facebook"></i> <%= t ".facebook", default: "Facebook" %>
-                <% end %>
-              </li>
+
               <li>
                 <%= link_to destroy_user_session_path, method: :delete do %>
                   <i class="fa fa-sign-out"></i>  <%= t ".sign_out", default: "Sign out" %>
@@ -52,10 +50,10 @@
               <%= link_to "Juge Arbitre ?", judge_path %>
               </li>
               <li>
-                <%= link_to t(".sign_up", default: "Inscription"), new_user_registration_path, id:"nav", class: "btn btn-default" %>
+                <%= link_to t(".sign_up", default: "Inscription"), new_user_registration_path, id:"nav", class: "btn btn-success" %>
               </li>
               <li>
-                <%= link_to t(".sign_in", default: "Connexion"), new_user_session_path, id:"nav", class: "btn btn-default"  %>
+                <%= link_to t(".sign_in", default: "Connexion"), new_user_session_path, id:"nav", class: "btn btn-success"  %>
               </li>
 
         <% end %>

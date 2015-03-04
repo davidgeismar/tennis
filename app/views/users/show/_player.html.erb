@@ -5,8 +5,8 @@
         <div class="content text-center">
           <div role="tabpanel">
             <ul class="nav nav-tabs" role="tablist">
-              <li role="presentation" class="active"><h4><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">Profile</a></h4></li>
-              <li role="presentation"><h4><a href="#tournois" aria-controls="tournois" role="tab" data-toggle="tab" id="li">Mes Tournois</a></li>
+              <li role="presentation" class="active"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">Profil</a></li>
+              <li role="presentation"><a href="#tournois" aria-controls="tournois" role="tab" data-toggle="tab" id="li">Mes Tournois</a></li>
             </ul>
 
             <div class="tab-content">
@@ -20,7 +20,7 @@
                   <h4>Sexe : </h4>
                   <h4>Date de naissance : </h4>
                   <h4>Numéro de licence : </h4>
-                  <p><%= link_to "Modifier mon profil", edit_user_path, class:"btn btn-warning modifier-profil"  %></p>
+                  <p><%= link_to "Modifier mon profil", edit_user_path, class:"btn btn-warning"  %></p>
                 </div>
                 <div class="col-xs-5 text-left">
                   <h4><%= @user.first_name %></h4>
@@ -33,7 +33,8 @@
                   <h4><%= @user.licence_number %></h4>
                 </div>
                 <div class="col-xs-2">
-                  <%= image_tag @user.picture.url(:medium), class:"profile-picture" %>
+                  <div class="user-picture" style='background-image:url(<%= image_path @user.picture.url(:medium), class:"profile-picture" %>)'>
+                  </div>
                 </div>
               </div>
               <div role="tabpanel" class="tab-pane card" id="tournois">
