@@ -26,7 +26,17 @@
       templates: {
         suggestion: function(hit) {
           console.log(hit);
-          return '<div><a href="/tournaments/' + hit.objectID + '">' + hit._highlightResult.name.value + '</a></div>';
+          return '<div class="result-item col-xs-12"><a href="/tournaments/' + hit.objectID + '">' +
+              '<div class="col-xs-8">' +
+                '<h5>' + hit._highlightResult.name.value + '</h5>' +
+                '<p>' + hit._highlightResult.category.value + '</p>' +
+              '</div>' +
+              '<div class="col-xs-4">' +
+                '<h5>' + hit._highlightResult.starts_on.value + ' - ' +hit._highlightResult.ends_on.value +
+                '</h5>' +
+              '</div>' +
+           '</a>' +
+          '</div>';
         }
       }
     });

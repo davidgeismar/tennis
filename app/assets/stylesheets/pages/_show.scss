@@ -5,15 +5,39 @@
   background-color: white;
 }
 
-  .profile-picture {
-    height: 125px;
-    width: 125px;
-    margin: 20px auto ;
-    border-radius: 50%;
-    background-position: center center;
-    background-size: cover;
-    float: right;
-  }
+.profile-picture {
+  height: 125px;
+  width: 125px;
+  margin: 20px auto ;
+  border-radius: 50%;
+  background-position: center center;
+  background-size: cover;
+  float: right;
+}
+
 #li {
   background: grey;
 }
+
+.result-item {
+  background-color: rgb(159, 183, 156);
+  min-height: 60px;
+  width: 500px;
+  padding: 10px;
+  border-bottom: 1px solid #ededed;
+}
+
+.result-item:hover {
+  background-color: white;
+}
+
+.result-item > div > h5,
+.result-item > div > p {
+  color: black !important;
+}
+
+.tournoi {
+ margin-left: 360px;
+}
+
+

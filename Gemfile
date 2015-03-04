@@ -15,6 +15,7 @@ gem "algoliasearch-rails"
 gem "aws-sdk", '< 2.0'
 gem 'omniauth-facebook'
 gem 'public_activity'
+gem "geocoder"
 
 
 gem "jquery-rails"
@@ -45,6 +46,11 @@ group :production do
   gem "puma"
   gem "rack-timeout"
 end
+
+source 'https://rails-assets.org'
+
+gem "gmaps4rails"
+gem "rails-assets-underscore"
 
 
 
