@@ -23,15 +23,13 @@
                           <h4> Sexe : <%= @user.genre %></h4>
                           <h4>Date de naissance : <%= @user.date_of_birth %></h4>
                           <h4>Numéro de licence : <%= @user.licence_number %></h4>
+                          <h4><%= link_to "Modifier mon profil", edit_user_path, class:"btn btn-warning modifier-profil"  %></h4>
                         </div>
                         <div class="col-xs-6">
                           <h4><%= image_tag @user.picture.url(:medium) %></h4>
                          </div>
                       </div>
                     </div>
-                  </div>
-                  <div class="text-left padding-left">
-                    <%= link_to "Modifier mon profil", edit_user_path, class:"btn btn-primary"  %>
                   </div>
                 </div>
                 <div role="tabpanel" class="tab-pane" id="tournois">

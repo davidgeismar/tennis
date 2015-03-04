@@ -5,6 +5,12 @@
   margin-top: -25px;
 }
 
+#alert {
+  z-index: 3;
+  position: absolute;
+  margin-left:315px;
+}
+
 
 .search {
   padding: 100px 20px;
@@ -32,10 +38,6 @@
   height: 50px;
 }
 
-#alert {
-  position: absolute;
-  margin-left: -40px;
-}
 
 .user_profile {
   margin-top: 150px;
