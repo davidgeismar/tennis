@@ -52,7 +52,9 @@ class ConvocationsController < ApplicationController
     @subscription_ids = params[:subscription_ids].split(', ')
     @subscription_ids.each do |subscription_id|
       @subscription = Subscription.find(subscription_id)
-      Convocation.create(date: params[:date], hour: params[:hour], subscription: @subscription)
+      convocation = Convocation.create(date: params[:date], hour: params[:hour], subscription: @subscription)
+      recipient = @subscription.user
+      convocation.create_activity(:update, owner: current_user, recipient: recipient)
     end
     redirect_to tournament_subscriptions_path(@tournament)
   end
