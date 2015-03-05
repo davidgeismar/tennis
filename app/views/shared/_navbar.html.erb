@@ -20,15 +20,11 @@
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav navbar-right">
         <% if user_signed_in? %>
-          <li class="dropdown">
-            <%= link_to "#", {class: "dropdown-toggle", "data-toggle" => "dropdown", "role" => "button", "aria-expanded" => "false"} do %>
-             Notifications
-              <span class="caret"></span>
+          <li><% current_user.email %></li>
+          <li>
+            <%= link_to notifications_path do %>
+              <i class="fa fa-flag"></i> <%= t ".notification", default: "Notifications" %>
             <% end %>
-            <span class="badge"><%= @activities.size %></span>
-            <ul class="dropdown-menu" role="menu">
-              <%= render_activities(@activities) %>
-            </ul>
           </li>
 
           <li class="dropdown">
@@ -36,7 +32,7 @@
               <div class="img-avatar" style='background-image:url(<%= image_path current_user.picture, class: "img-avatar" %>)'>
 
               </div>
-              <span class="caret"></span>
+            <span class="caret"></span>
             <% end %>
             <ul class="dropdown-menu" role="menu">
               <li>
@@ -44,6 +40,7 @@
                   <i class="fa fa-user"></i> <%= t ".profile", default: "Profile" %>
                 <% end %>
               </li>
+
               <li>
                 <%= link_to destroy_user_session_path, method: :delete do %>
                   <i class="fa fa-sign-out"></i>  <%= t ".sign_out", default: "Sign out" %>
@@ -52,15 +49,16 @@
             </ul>
           </li>
         <% else %>
-          <li>
-          <%= link_to "Juge Arbitre ?", judge_path %>
-          </li>
-          <li>
-            <%= link_to t(".sign_up", default: "Inscription"), new_user_registration_path, id:"nav", class: "btn btn-success" %>
-          </li>
-          <li>
-            <%= link_to t(".sign_in", default: "Connexion"), new_user_session_path, id:"nav", class: "btn btn-success"  %>
-          </li>
+              <li>
+              <%= link_to "Juge Arbitre ?", judge_path %>
+              </li>
+              <li>
+                <%= link_to t(".sign_up", default: "Inscription"), new_user_registration_path, id:"nav", class: "btn btn-success" %>
+              </li>
+              <li>
+                <%= link_to t(".sign_in", default: "Connexion"), new_user_session_path, id:"nav", class: "btn btn-success"  %>
+              </li>
+
         <% end %>
         <li>
           <% if policy(Tournament).create? %>

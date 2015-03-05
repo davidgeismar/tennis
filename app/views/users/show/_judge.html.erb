@@ -2,11 +2,11 @@
     <div class="container">
       <div class="row user_profile">
         <div class="col-sm-8 col-sm-offset-2">
-          <div class="content">
+          <div class="content text-center">
             <div role="tabpanel">
               <ul class="nav nav-tabs" role="tablist">
-                <li role="presentation" class="active tab-title"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">Profile</a></li>
-                <li role="presentation" class="tab-title"><a href="#tournois" aria-controls="tournois" role="tab" data-toggle="tab">Mes Tournois</a></li>
+                <li role="presentation" class="active"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">Profile</a></li>
+                <li role="presentation"><a href="#tournois" aria-controls="tournois" role="tab" data-toggle="tab">Mes Tournois</a></li>
               </ul>
 
               <div class="tab-content">
@@ -44,13 +44,13 @@
                       <%current_user.tournaments.each do |tournament|%>
                           <%if tournament.accepted?%>
                             <tr>
-                             <td><h4><%= link_to tournament.name, user_tournament_path(current_user, tournament), class: "link-neutral" %></h4></td>
-                             <td><h5><%= tournament.starts_on.strftime("%d/%m/%Y") %></h5></td>
+                             <td><h4><%= link_to tournament.name, user_tournament_path(current_user, tournament) %></h4></td>
+                             <td><h5><%= tournament.starts_on %></h5></td>
                             </tr>
                           <%else%>
                             <tr>
                              <td><h4><%= tournament.name %></h4></td>
-                             <td><h5><%= tournament.starts_on.strftime("%d/%m/%Y") %></h5></td>
+                             <td><h5><%= tournament.starts_on %></h5></td>
                              <td><h5><%= "En attente de validation" %></h5></td>
                             </tr>
                           <% end %>
