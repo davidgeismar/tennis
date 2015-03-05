@@ -40,7 +40,13 @@ $navbar-profile-border-width: 1px;
  * SCSS code
  * ------------------------------------- */
 
-
+.badge {
+  position: relative;
+  bottom: 60px;
+  background-color: white;
+  color: black;
+  border-radius: 50%
+}
 .navbar-wagon {
   height: 70px;
   background: $navbar-bg;

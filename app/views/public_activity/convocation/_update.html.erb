@@ -3,6 +3,7 @@
   <small class="text-muted">
     <% if a.recipient.judge %>
       Vous avez mis à jour la convocation de <%= a.trackable.subscription.user.full_name %> au tournoi <%= link_to a.trackable.subscription.tournament.name, user_path(@current_user) %>
+     <% elsif a.recipient %>
     <% else %>
       Vous etes convoqué au tournoi <%= link_to a.trackable.subscription.tournament.name, user_path(@current_user) %>
     <% end %>

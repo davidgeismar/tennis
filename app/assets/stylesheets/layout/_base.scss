@@ -11,8 +11,14 @@
 
 
 .notification {
-  background-color: rgb(159, 183, 156);
+
   width: 400px;
+  a {
+    color: black;
+  }
+  a:hover {
+    color: blue;
+  }
 }
 
 html, body {
