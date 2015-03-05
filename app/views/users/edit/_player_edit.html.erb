@@ -1,18 +1,18 @@
-<div class="max-height">
-  <div class="">
-  <div class="container text-center padded">
+
+<div class="banner-tournament">
+  <div class="container padded">
     <div class="row">
       <div class="col-xs-6 col-xs-offset-3">
-        <h3>Modifier mon profil</h3>
+        <h3 class="text-center">Modifier mon profil</h3>
         <%= simple_form_for(@user) do |f| %>
-        <%= f.input :first_name, placeholder: "first_name", label:false %>
-        <%= f.input :last_name, placeholder: "last_name", label:false %>
-        <%= f.input :email, placeholder: "email", label:false %>
-        <%= f.input :ranking, placeholder: "classement", label:false %>
-        <%= f.input :genre %>
-        <%= f.input :date_of_birth %>
-        <%= f.input :licence_number, placeholder: "numéro de licence", label:false %>
-        <%= f.input :telephone, placeholder: "telephone", label:false %>
+        <%= f.input :first_name, label: "Prénom" %>
+        <%= f.input :last_name, label: "Nom" %>
+        <%= f.input :email, label:"email" %>
+        <%= f.input :ranking, label:"Classement" %>
+        <%= f.input :genre, label: "Sexe" %>
+        <%= f.input :date_of_birth, label: "date de naissance" %>
+        <%= f.input :licence_number, label: "numéro de licence"%>
+        <%= f.input :telephone, label: "telephone" %>
         <p>
           <%= f.label :picture %>
           <%= f.file_field :picture %>
@@ -23,5 +23,6 @@
     </div>
   </div>
 </div>
-</div>
+
+
 
