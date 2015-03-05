@@ -1,9 +1,10 @@
 <li class="list-group-item notification">
   <i class="fa fa-plus"></i>
-   <small class="text-muted">
+    <small class="text-muted">
     <% if a.trackable %>
       Votre inscription à <%= link_to a.trackable.tournament.name, user_path(@current_user) %> a été <%=a.trackable.status%>
     <% else %>
 
     <% end %>
+    </small>
 </li>
