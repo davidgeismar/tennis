@@ -1,20 +1,20 @@
-<div class="maxi-height">
+<div class="banner padded">
   <div class="container">
     <div class="row">
       <div class="col-xs-6 col-xs-offset-3">
         <%= simple_form_for(@user) do |f| %>
-          <%= f.input :first_name %>
-          <%= f.input :last_name %>
+          <%= f.input :first_name, label: "Prénom" %>
+          <%= f.input :last_name, label: "Nom" %>
           <%= f.input :email %>
-          <%= f.input :judge_number %>
-          <%= f.input :genre %>
-          <%= f.input :date_of_birth %>
+          <%= f.input :judge_number, label: "Numéro de juge" %>
+          <%= f.input :genre, label: "Sexe" %>
+          <%= f.input :date_of_birth, label: "Date de naissance" %>
           <%= f.input :telephone %>
            <p>
-            <%= f.label :picture %>
+            <%= f.label :picture, label: "Photo" %>
             <%= f.file_field :picture %>
           </p>
-          <%= f.submit %>
+          <%= f.button :submit, "Valider", class: "btn-success" %>
         <% end %>
       </div>
     </div>
