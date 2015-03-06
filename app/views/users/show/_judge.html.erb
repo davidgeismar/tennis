@@ -26,7 +26,7 @@
                     <h4><%= @user.email %></h4>
                     <h4><%= @user.telephone %></h4>
                     <h4><%= @user.judge_number %></h4>
-                    <h4><%= @user.genre %></h4>
+                    <h4><%= @user.genre_text %></h4>
                     <h4><%= @user.date_of_birth %></h4>
                   </div>
                   <div class="col-xs-2">
@@ -47,6 +47,7 @@
                             <tr>
                              <td><h4><%= link_to tournament.name, user_tournament_path(current_user, tournament), class: "link-neutral" %></h4></td>
                              <td><h5><%= tournament.starts_on.strftime("%d/%m/%Y") %></h5></td>
+                             <td><h5>Tournoi Validé</h5></td>
                             </tr>
                           <%else%>
                             <tr>
