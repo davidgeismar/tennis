@@ -1,20 +1,19 @@
 <div class="tournoi">
+
+  <%= link_to "AJOUTER VOTRE TOURNOI !", new_user_tournament_path(current_user), class: "btn btn-success add-tournament" %>
   <div class="container">
     <div class="row">
-      <div class="col-xs-9">
-        <%= link_to t(".top_call_to_action", default: "Ajouter un tournois"),  new_user_tournament_path(current_user), class: "btn btn-success" %>
-      </div>
-      <div class="col-xs-9">
-        <h1 id="searching-tournament"> Vous cherchez un tournoi ?</h1>
+      <div class="col-xs-12">
+       <h1 id="searching-tournament"> Vous cherchez un tournoi ?</h1>
         <form class="form-horizontal" id="algolia-bar">
           <div class="form-group">
             <input name="Tournament" placeholder="Cherchez un tournoi par nom, ville, addresse, dates..." id="tournament"/>
           </div>
         </form>
       </div>
-    </div>
   </div>
 </div>
+
 
 
 

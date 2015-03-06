@@ -73,11 +73,11 @@ $navbar-profile-border-width: 1px;
   .navbar-nav > li > a:focus,
   .navbar-nav > .open > a:focus {
     outline: none;
-    // color: $navbar-color;
+     color: $navbar-color;
     line-height: $navbar-height;
     padding-top: $navbar-vertical-padding;
     padding-bottom: $navbar-vertical-padding;
-    // background-color: transparent;
+     background-color: transparent;
   }
 
   .navbar-nav > li > a:hover,
@@ -114,7 +114,7 @@ $navbar-profile-border-width: 1px;
     opacity: .85;
 
     &:hover {
-     //    opacity: 1;
+         opacity: 1;
     }
   }
 

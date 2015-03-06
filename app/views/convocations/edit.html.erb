@@ -1,9 +1,7 @@
 <div class="banner">
-
-    <p> Le statut de votre convocation est actuellement <%=@convocation.status%></p>
-
   <div class="container">
-    <div class="row text-center" id="convocation-answer">
+    <h1 class="text-center not-accepted"> Le statut de votre convocation est actuellement <%=@convocation.status%></h1>
+    <div class="row text-center">
       <div class="col-xs-12">
         <a href="#" data-target="#accepted" data-toggle="modal" class="btn btn-success convocation-answer">Accepter la convocation</a>
       </div>
@@ -20,7 +18,7 @@
 
   <div class="modal fade" id="accepted">
     <div class="modal-dialog">
-      <div class="modal-content">
+      <div class="modal-content text-center">
         <div class="modal-header">
           <%= simple_form_for @convocation do |f| %>
           <%= hidden_field_tag 'convocation[status]', :confirmed %>
@@ -39,7 +37,7 @@
 
   <div class="modal fade" id="refused">
     <div class="modal-dialog">
-      <div class="modal-content">
+      <div class="modal-content text-center">
         <div class="modal-header">
            <%= simple_form_for @convocation do |f| %>
            <%= hidden_field_tag 'convocation[status]', :refused %>
@@ -48,7 +46,7 @@
           <h4 class="modal-title">Refuser cette convocation</h4>
         </div>
         <div class="modal-body">
-          <p>En refusant la convocation vous indiquez au juge arbitre que la date ou/et l'heure de la convocation ne vous convienne pas. N'hésitez pas à appeler le JA  au XXX pour qu'il vous propose un nouveau jour/horaire </p>
+          <p>En refusant la convocation vous indiquez au juge arbitre que la date ou/et l'heure de la convocation ne vous convienne pas. N'hésitez pas à appeler le JA  au pour qu'il vous propose un nouveau jour/horaire </p>
         </div>
         <div class="modal-footer">
         </div>
@@ -58,7 +56,7 @@
 
 <div class="modal fade" id="cancelled">
     <div class="modal-dialog">
-      <div class="modal-content">
+      <div class="modal-content text-center">
         <div class="modal-header">
           <%= simple_form_for @convocation do |f| %>
           <%= hidden_field_tag 'convocation[status]', :cancelled %>
