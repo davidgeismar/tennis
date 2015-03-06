@@ -5,10 +5,7 @@
         <h1 id="tournament-name"><%= @tournament.name %></h1>
       </div>
       <div class="col-xs-5">
-        <%= form_tag multiple_new_path(@tournament) do %>
-        <%= hidden_field_tag :subscription_ids %>
-        <%= submit_tag "Convoquer les joueurs sélectionnés", class: "btn btn-success", id: "convocation-submit" %>
-        <% end %>
+        <%=link_to "Ajouter un joueur à la liste", invite_player_path(@tournament), class: "btn btn-success", id: "convocation-submit" %>
       </div>
     </div>
 
@@ -47,7 +44,10 @@
       <%end%>
     </table>
 
-    <%=link_to "Ajouter un joueur à la liste", invite_player_path(@tournament), class: "btn btn-success" %>
+    <%= form_tag multiple_new_path(@tournament) do %>
+        <%= hidden_field_tag :subscription_ids %>
+        <%= submit_tag "Convoquer les joueurs sélectionnés", class: "btn btn-success" %>
+        <% end %>
   </div>
 </div>
 

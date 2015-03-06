@@ -36,7 +36,15 @@ class User < ActiveRecord::Base
  end
 
   def full_name
-    "#{first_name.capitalize} #{last_name.capitalize}"
+    if last_name != nil && first_name.nil?
+      "#{last_name.capitalize}"
+    elsif first_name != nil && last_name.nil?
+      "#{first_name.capitalize}"
+    elsif last_name.nil? && first_name.nil?
+      ""
+    else
+      "#{first_name.capitalize} #{last_name.capitalize}"
+    end
   end
 
   private
