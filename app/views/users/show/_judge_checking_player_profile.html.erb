@@ -1,6 +1,6 @@
 <div class="banner">
   <div class="container">
-    <div class="row">
+    <div class="row user_profile">
       <div class="col-sm-8 col-sm-offset-2">
         <div class="content text-center">
           <div role="tabpanel">
@@ -9,31 +9,36 @@
             </ul>
              <!-- Tab panes -->
             <div class="tab-content">
-              <div role="tabpanel" class="tab-pane active" id="profile">
-                <div class="card">
-                  <div class="container">
-                    <div class="row">
-                      <div class="col-xs-4 col-offset-3">
-                        <h4 class= "text-left"> Prénom : <%= @user.first_name %></h4>
-                        <h4 class= "text-left"> Nom :<%= @user.last_name %></h4>
-                        <h4 class= "text-left"> email : <%= @user.email %></h4>
-                        <h4 class= "text-left">Numéro de téléphone : <%= @user.telephone %></h4>
-                        <h4 class= "text-left">Classement : <%= @user.ranking %></h4>
-                        <h4 class= "text-left"> Sexe : <%= @user.genre %></h4>
-                        <h4 class= "text-left">Date de naissance : <%= @user.date_of_birth %></h4>
-                        <h4 class= "text-left">Numéro de licence : <%= @user.licence_number %></h4>
-                      </div>
-                      <div class="col-xs-6">
-                        <h4 ><%= image_tag @user.picture.url(:medium) %></h4>
-                      </div>
-                   </div>
-                 </div>
-               </div>
-             </div>
-           </div>
-         </div>
-       </div>
-     </div>
-   </div>
- </div>
+              <div role="tabpanel" class="tab-pane active card" id="profile">
+                <div class="col-xs-5 text-left">
+                  <h4>Prénom</h4>
+                  <h4>Nom</h4>
+                  <h4>email</h4>
+                  <h4>Numéro de téléphone</h4>
+                  <h4>Classement</h4>
+                  <h4>Sexe</h4>
+                  <h4>Date de naissance</h4>
+                  <h4>Numéro de licence</h4>
+                </div>
+                <div class="col-xs-5 text-left">
+                  <h4><%= @user.first_name %></h4>
+                  <h4><%= @user.last_name %></h4>
+                  <h4><%= @user.email %></h4>
+                  <h4><%= @user.telephone %></h4>
+                  <h4><%= @user.ranking %></h4>
+                  <h4><%= @user.genre %></h4>
+                  <h4><%= @user.date_of_birth %></h4>
+                  <h4><%= @user.licence_number %></h4>
+                  </div>
+                <div class="col-xs-2">
+                  <div class="user-picture" style='background-image:url(<%= image_path @user.picture.url(:medium), class:"profile-picture" %>)'>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>

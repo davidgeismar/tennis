@@ -18,12 +18,13 @@
                     <h4> numéro de juge-arbitre</h4>
                     <h4> Sexe </h4>
                     <h4>Date de naissance</h4>
-                    <h4><%= link_to "Modifier mon profil", edit_user_path, class:"btn btn-warning modifier-profil"  %></h4>
+                    <h4><%= link_to "Modifier mon profil", edit_user_path, class:"btn btn-warning modifier-profil", id: "modif-prof"  %></h4>
                   </div>
                   <div class="col-xs-5 text-left">
                     <h4><%= @user.first_name %></h4>
                     <h4><%= @user.last_name %></h4>
                     <h4><%= @user.email %></h4>
+                    <h4><%= @user.telephone %></h4>
                     <h4><%= @user.judge_number %></h4>
                     <h4><%= @user.genre %></h4>
                     <h4><%= @user.date_of_birth %></h4>

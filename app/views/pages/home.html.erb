@@ -10,6 +10,8 @@
   <div class="banner">
     <%if current_user.nil? %>
       <%=render 'pages/home/not_connected'%>
+    <% elsif current_user.judge? %>
+      <%=render 'pages/home/judge_connected'%>
     <%else%>
       <%=render 'pages/home/connected'%>
     <%end%>
