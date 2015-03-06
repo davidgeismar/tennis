@@ -1,5 +1,11 @@
 fr:
   enumerize:
+    convocation:
+      status:
+        pending: En attente
+        confirmed: Confirmé
+        refused: Refusé
+        cancelled: W.O
     subscription:
       status:
         pending: En attente
