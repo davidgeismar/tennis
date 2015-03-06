@@ -2,6 +2,7 @@ class User < ActiveRecord::Base
   after_create :send_welcome_email
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
+
   extend Enumerize
     enumerize :genre, in: [:male, :female]
 
