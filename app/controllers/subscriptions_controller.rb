@@ -1,5 +1,10 @@
 class SubscriptionsController < ApplicationController
-skip_after_action :verify_authorized, only: [:create]
+skip_after_action :verify_authorized, only: [:create, :mytournaments]
+
+  def mytournaments
+    @subscriptions = Subscription.where(user_id: current_user)
+  end
+
   def index
     @tournament     = Tournament.find(params[:tournament_id])
     @subscriptions  = @tournament.subscriptions

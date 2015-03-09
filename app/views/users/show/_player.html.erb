@@ -1,79 +1,58 @@
 <div class="banner">
   <div class="container">
     <div class="row user_profile">
-      <div class="col-sm-8 col-sm-offset-2">
-        <div class="content text-center">
-          <div role="tabpanel">
-            <ul class="nav nav-tabs" role="tablist">
-              <li role="presentation" class="active"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">Profil</a></li>
-              <li role="presentation"><a href="#tournois" aria-controls="tournois" role="tab" data-toggle="tab">Mes Tournois</a></li>
-            </ul>
-
-            <div class="tab-content">
-              <div role="tabpanel" class="tab-pane active card" id="profile">
-                <div class="col-xs-5 text-left">
-                  <h4>Prénom</h4>
-                  <h4>Nom</h4>
-                  <h4>Email</h4>
-                  <h4>Téléphone</h4>
-                  <h4>Classement</h4>
-                  <h4>Sexe</h4>
-                  <h4>Date de naissance</h4>
-                  <h4>Numéro de licence</h4>
-                  <p><%= link_to "Modifier mon profil", edit_user_path, class:"btn btn-warning"  %></p>
-                </div>
-                <div class="col-xs-5 text-left">
-                  <h4><%= @user.first_name %></h4>
-                  <h4><%= @user.last_name %></h4>
-                  <h4><%= @user.email %></h4>
-                  <h4><%= @user.telephone %></h4>
-                  <h4><%= @user.ranking %></h4>
-                  <h4><%= @user.genre_text %></h4>
-                  <h4><%= @user.date_of_birth %></h4>
-                  <h4><%= @user.licence_number %></h4>
-                </div>
-                <div class="col-xs-2">
-                  <div class="user-picture" style='background-image:url(<%= image_path @user.picture.url(:medium), class:"profile-picture" %>)'>
-                  </div>
-                </div>
-              </div>
-              <div role="tabpanel" class="tab-pane card" id="tournois">
-                <table class="table table-hover">
-                  <tr>
-                    <th>Compétition</th>
-                    <th>Statut de votre inscription</th>
-                    <th>date de votre convocation</th>
-                    <th>Statut de votre convocation</th>
-                    <th>Répondre à cette convocation</th>
-                  </tr>
-                  <% current_user.subscriptions.each do |subscription| %>
-
-                      <tr>
-                        <td><strong><%= subscription.tournament.name %></strong></td>
-                        <td><%= subscription.status %> </td>
-                        <td>
-                          <%unless subscription.convocations.size == 0%>
-                            <%= subscription.convocations.last.date.strftime("Le %d/%m/%Y") %>
-                            <%= subscription.convocations.last.hour.strftime(" à %Hh%M") %></td>
-                            <td><%= subscription.convocations.last.status_text%></td>
-                        <td>
-                           <%if subscription.convocations.last.status == "pending"%>
-                               <%= render 'users/show/button_repondre', subscription: subscription %>
-                            <%else%>
-                              <%=  render 'users/show/button_modifier', subscription: subscription %>
-                            <%end%>
-                           </td>
-                          <%end%>
-                  <%end%>
-                      </tr>
-
-                </table>
-              </div>
+      <div role="tabpanel">
+        <ul class="nav nav-tabs" role="tablist">
+          <li role="presentation" class="active"><a href="#profil" aria-controls="profil" role="tab" data-toggle="tab">Profil</a></li>
+          <li role="presentation"><a href="#licence" aria-controls="licence" role="tab" data-toggle="tab">Licence</a></li>
+          <li role="presentation"><a href="#certif" aria-controls="certif" role="tab" data-toggle="tab">Certif</a></li>
+        </ul>
+        <div class="tab-content">
+          <div role="tabpanel" class="tab-pane active" id="profil">
+            <div class="col-xs-5 text-left">
+            <h4> Prénom </h4>
+            <h4> Nom </h4>
+            <h4> email </h4>
+            <h4>Telephone</h4>
+            <h4> numéro de licence</h4>
+            <h4> Sexe </h4>
+            <h4>Date de naissance</h4>
+            <h4><%= link_to "Modifier mon profil", edit_user_path, class:"btn btn-warning modifier-profil", id: "modif-prof"  %></h4>
+          </div>
+          <div class="col-xs-5 text-left">
+            <h4><%= @user.first_name %></h4>
+            <h4><%= @user.last_name %></h4>
+            <h4><%= @user.email %></h4>
+            <h4><%= @user.telephone %></h4>
+            <h4><%= @user.licence_number %></h4>
+            <h4><%= @user.genre_text %></h4>
+            <h4><%= @user.date_of_birth %></h4>
+          </div>
+          <div class="col-xs-2">
+            <div class="user-picture" style='background-image:url(<%= image_path @user.picture.url(:medium), class:"profile-picture" %>)'>
             </div>
+          </div>
+          </div>
+          <div role="tabpanel" class="tab-pane" id="licence">
+            <% if @user.licencepicture_content_type == nil %>
+              <%= render "users/edit/player_upload_licence_btn"%>
+            <% else %>
+              <div id="licence_picture">
+                <%= render "users/edit/licence_picture" %>
+              </div>
+            <% end %>
+          </div>
+          <div role="tabpanel" class="tab-pane" id="certif">
+            <% if @user.licencepicture_content_type == nil %>
+              <%= render "users/edit/player_upload_certif_btn"%>
+            <% else %>
+              <div id="licence_picture">
+                <%= render "users/edit/certif_picture" %>
+              </div>
+            <% end %>
           </div>
         </div>
       </div>
     </div>
-  </div>
+ </div>
 </div>
-

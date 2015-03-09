@@ -17,7 +17,7 @@
  </div>
 
   <div class="modal fade" id="accepted">
-    <div class="modal-dialog">
+    <div class="modal-dialog mymodal">
       <div class="modal-content text-center">
         <div class="modal-header">
           <%= simple_form_for @convocation do |f| %>
@@ -27,7 +27,7 @@
           <h4 class="modal-title">Confirmer cette convocation</h4>
         </div>
         <div class="modal-body">
-          <p>Vous vous engagez à être présent le <%= @convocation.date %> à <%= @convocation.hour %> au <%= @convocation.subscription.tournament.address %></p>
+          <p>Vous vous engagez à être présent le <%= @convocation.date.strftime("%d/%m/%Y") %> à <%= @convocation.hour.strftime(" à %Hh%M") %> au <%= @convocation.subscription.tournament.address %></p>
         </div>
         <div class="modal-footer">
         </div>
@@ -36,7 +36,7 @@
   </div>
 
   <div class="modal fade" id="refused">
-    <div class="modal-dialog">
+    <div class="modal-dialog mymodal">
       <div class="modal-content text-center">
         <div class="modal-header">
            <%= simple_form_for @convocation do |f| %>
@@ -46,7 +46,7 @@
           <h4 class="modal-title">Refuser cette convocation</h4>
         </div>
         <div class="modal-body">
-          <p>En refusant la convocation vous indiquez au juge arbitre que la date ou/et l'heure de la convocation ne vous convienne pas. N'hésitez pas à appeler le JA  au pour qu'il vous propose un nouveau jour/horaire </p>
+          <p>En refusant la convocation vous indiquez au juge arbitre que la date ou/et l'heure de la convocation ne vous convienne pas. N'hésitez pas à appeler le JA  au <%= @convocation.subscription.tournament.user.telephone %> pour qu'il vous propose un nouveau jour/horaire </p>
         </div>
         <div class="modal-footer">
         </div>
@@ -55,7 +55,7 @@
   </div>
 
 <div class="modal fade" id="cancelled">
-    <div class="modal-dialog">
+    <div class="modal-dialog mymodal">
       <div class="modal-content text-center">
         <div class="modal-header">
           <%= simple_form_for @convocation do |f| %>
