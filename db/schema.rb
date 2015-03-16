@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150304140612) do
+ActiveRecord::Schema.define(version: 20150312175437) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -48,6 +48,16 @@ ActiveRecord::Schema.define(version: 20150304140612) do
   add_index "activities", ["recipient_id", "recipient_type"], name: "index_activities_on_recipient_id_and_recipient_type", using: :btree
   add_index "activities", ["trackable_id", "trackable_type"], name: "index_activities_on_trackable_id_and_trackable_type", using: :btree
 
+  create_table "conversations", force: :cascade do |t|
+    t.integer  "user1_id"
+    t.integer  "user2_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "conversations", ["user1_id"], name: "index_conversations_on_user1_id", using: :btree
+  add_index "conversations", ["user2_id"], name: "index_conversations_on_user2_id", using: :btree
+
   create_table "convocations", force: :cascade do |t|
     t.date     "date"
     t.time     "hour"
@@ -58,6 +68,71 @@ ActiveRecord::Schema.define(version: 20150304140612) do
   end
 
   add_index "convocations", ["subscription_id"], name: "index_convocations_on_subscription_id", using: :btree
+
+  create_table "mailboxer_conversation_opt_outs", force: :cascade do |t|
+    t.integer "unsubscriber_id"
+    t.string  "unsubscriber_type"
+    t.integer "conversation_id"
+  end
+
+  add_index "mailboxer_conversation_opt_outs", ["conversation_id"], name: "index_mailboxer_conversation_opt_outs_on_conversation_id", using: :btree
+  add_index "mailboxer_conversation_opt_outs", ["unsubscriber_id", "unsubscriber_type"], name: "index_mailboxer_conversation_opt_outs_on_unsubscriber_id_type", using: :btree
+
+  create_table "mailboxer_conversations", force: :cascade do |t|
+    t.string   "subject",    default: ""
+    t.datetime "created_at",              null: false
+    t.datetime "updated_at",              null: false
+  end
+
+  create_table "mailboxer_notifications", force: :cascade do |t|
+    t.string   "type"
+    t.text     "body"
+    t.string   "subject",              default: ""
+    t.integer  "sender_id"
+    t.string   "sender_type"
+    t.integer  "conversation_id"
+    t.boolean  "draft",                default: false
+    t.string   "notification_code"
+    t.integer  "notified_object_id"
+    t.string   "notified_object_type"
+    t.string   "attachment"
+    t.datetime "updated_at",                           null: false
+    t.datetime "created_at",                           null: false
+    t.boolean  "global",               default: false
+    t.datetime "expires"
+  end
+
+  add_index "mailboxer_notifications", ["conversation_id"], name: "index_mailboxer_notifications_on_conversation_id", using: :btree
+  add_index "mailboxer_notifications", ["notified_object_id", "notified_object_type"], name: "index_mailboxer_notifications_on_notified_object_id_and_type", using: :btree
+  add_index "mailboxer_notifications", ["sender_id", "sender_type"], name: "index_mailboxer_notifications_on_sender_id_and_sender_type", using: :btree
+  add_index "mailboxer_notifications", ["type"], name: "index_mailboxer_notifications_on_type", using: :btree
+
+  create_table "mailboxer_receipts", force: :cascade do |t|
+    t.integer  "receiver_id"
+    t.string   "receiver_type"
+    t.integer  "notification_id",                            null: false
+    t.boolean  "is_read",                    default: false
+    t.boolean  "trashed",                    default: false
+    t.boolean  "deleted",                    default: false
+    t.string   "mailbox_type",    limit: 25
+    t.datetime "created_at",                                 null: false
+    t.datetime "updated_at",                                 null: false
+  end
+
+  add_index "mailboxer_receipts", ["notification_id"], name: "index_mailboxer_receipts_on_notification_id", using: :btree
+  add_index "mailboxer_receipts", ["receiver_id", "receiver_type"], name: "index_mailboxer_receipts_on_receiver_id_and_receiver_type", using: :btree
+
+  create_table "messages", force: :cascade do |t|
+    t.integer  "conversation_id"
+    t.integer  "user_id"
+    t.datetime "read_at"
+    t.text     "content"
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
+  end
+
+  add_index "messages", ["conversation_id"], name: "index_messages_on_conversation_id", using: :btree
+  add_index "messages", ["user_id"], name: "index_messages_on_user_id", using: :btree
 
   create_table "subscriptions", force: :cascade do |t|
     t.integer  "user_id"
@@ -91,12 +166,12 @@ ActiveRecord::Schema.define(version: 20150304140612) do
   add_index "tournaments", ["user_id"], name: "index_tournaments_on_user_id", using: :btree
 
   create_table "users", force: :cascade do |t|
-    t.string   "email",                  default: "",    null: false
-    t.string   "encrypted_password",     default: ""
+    t.string   "email",                               default: "",    null: false
+    t.string   "encrypted_password",                  default: ""
     t.string   "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
-    t.integer  "sign_in_count",          default: 0,     null: false
+    t.integer  "sign_in_count",                       default: 0,     null: false
     t.datetime "current_sign_in_at"
     t.datetime "last_sign_in_at"
     t.inet     "current_sign_in_ip"
@@ -106,7 +181,7 @@ ActiveRecord::Schema.define(version: 20150304140612) do
     t.string   "first_name"
     t.string   "last_name"
     t.string   "ranking"
-    t.boolean  "judge",                  default: false
+    t.boolean  "judge",                               default: false
     t.string   "genre"
     t.string   "date_of_birth"
     t.string   "licence_number"
@@ -118,7 +193,7 @@ ActiveRecord::Schema.define(version: 20150304140612) do
     t.integer  "invitation_limit"
     t.integer  "invited_by_id"
     t.string   "invited_by_type"
-    t.integer  "invitations_count",      default: 0
+    t.integer  "invitations_count",                   default: 0
     t.datetime "confirmed_at"
     t.datetime "confirmation_sent_at"
     t.string   "name"
@@ -132,7 +207,19 @@ ActiveRecord::Schema.define(version: 20150304140612) do
     t.string   "picture"
     t.string   "token"
     t.datetime "token_expiry"
-    t.boolean  "admin",                  default: false, null: false
+    t.boolean  "admin",                               default: false, null: false
+    t.string   "licencepicture_file_name"
+    t.string   "licencepicture_content_type"
+    t.integer  "licencepicture_file_size"
+    t.datetime "licencepicture_updated_at"
+    t.string   "certifmedpicture_file_name"
+    t.string   "certifmedpicture_content_type"
+    t.integer  "certifmedpicture_file_size"
+    t.datetime "certifmedpicture_updated_at"
+    t.string   "attestationformationja_file_name"
+    t.string   "attestationformationja_content_type"
+    t.integer  "attestationformationja_file_size"
+    t.datetime "attestationformationja_updated_at"
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
@@ -142,6 +229,9 @@ ActiveRecord::Schema.define(version: 20150304140612) do
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
 
   add_foreign_key "convocations", "subscriptions"
+  add_foreign_key "mailboxer_conversation_opt_outs", "mailboxer_conversations", column: "conversation_id", name: "mb_opt_outs_on_conversations_id"
+  add_foreign_key "mailboxer_notifications", "mailboxer_conversations", column: "conversation_id", name: "notifications_on_conversation_id"
+  add_foreign_key "mailboxer_receipts", "mailboxer_notifications", column: "notification_id", name: "receipts_on_notification_id"
   add_foreign_key "subscriptions", "tournaments"
   add_foreign_key "subscriptions", "users"
   add_foreign_key "tournaments", "users"

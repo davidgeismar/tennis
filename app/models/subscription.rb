@@ -1,5 +1,5 @@
 class Subscription < ActiveRecord::Base
-  include PublicActivity::Common
+
   #tracked
 
   extend Enumerize
