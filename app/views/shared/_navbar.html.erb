@@ -20,21 +20,18 @@
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav navbar-right">
         <% if user_signed_in? %>
-          <li class="dropdown">
-            <%= link_to "#", {class: "dropdown-toggle", "data-toggle" => "dropdown", "role" => "button", "aria-expanded" => "false", id: "notif"} do %>
-             Notifications
-              <span class="caret"></span>
-            <% end %>
+          <li>
+             <%= link_to "Mes Tournois", mes_tournois_path, class: "btn btn-success mes-tournois"  %>
 
-            <ul class="dropdown-menu" role="menu">
-
-            </ul>
           </li>
-
           <li class="dropdown">
             <%= link_to "#", {class: "dropdown-toggle", "data-toggle" => "dropdown", "role" => "button", "aria-expanded" => "false"} do %>
+              <% if current_user.picture_file_size == nil %>
+                 <%= image_tag 'default_user_image.png', class: "img-avatar" %>
+              <% else %>
               <div class="img-avatar" style='background-image:url(<%= image_path current_user.picture, class: "img-avatar" %>)'>
               </div>
+              <% end %>
             <% end %>
             <ul class="dropdown-menu" role="menu">
               <li>

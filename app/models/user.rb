@@ -17,6 +17,18 @@ class User < ActiveRecord::Base
   validates_attachment_content_type :picture,
     content_type: /\Aimage\/.*\z/
 
+  has_attached_file :licencepicture,
+    styles: { medium: "300x300>", thumb: "100x100>" }
+
+  validates_attachment_content_type :licencepicture,
+    content_type: /\Aimage\/.*\z/
+
+  has_attached_file :certifmedpicture,
+    styles: { medium: "300x300>", thumb: "100x100>" }
+
+  validates_attachment_content_type :certifmedpicture,
+    content_type: /\Aimage\/.*\z/
+
   validates :first_name, presence: true, on: :update
   validates :last_name, presence: true, on: :update
 

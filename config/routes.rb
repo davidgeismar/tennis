@@ -15,7 +15,9 @@ Rails.application.routes.draw do
   end
 
   # get "tournaments", to: "tournaments#index"
+
   get "messages", to: "tournaments#index", as: "messages"
+  get "mestournois", to: "subscriptions#mytournaments", as: "mes_tournois"
   get "tournaments/:id/invite_player", to: "tournaments#invite_player", as: "invite_player"
   post "tournaments/:id/invite_player", to: "tournaments#invite_player_to_tournament"
   post 'tournaments/results', to: "tournaments#results", as: "tournaments_results"

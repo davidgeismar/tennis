@@ -53,8 +53,11 @@ class ConvocationsController < ApplicationController
     @subscription_ids.each do |subscription_id|
       @subscription = Subscription.find(subscription_id)
       convocation = Convocation.create(date: params[:date], hour: params[:hour], subscription: @subscription)
-      recipient = @subscription.user
-      convocation.create_activity(:update, owner: current_user, recipient: recipient)
+      if convocation.save
+        flash[:alert] = "Votre convocation a bien été envoyé"
+      else
+        flash[:warning] = "Un problème est survenu veuillez réessayer d'envoyer votre convocation"
+      end
     end
     redirect_to tournament_subscriptions_path(@tournament)
   end

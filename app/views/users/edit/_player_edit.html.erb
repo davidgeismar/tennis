@@ -14,8 +14,16 @@
         <%= f.input :licence_number, label: "numéro de licence"%>
         <%= f.input :telephone, label: "telephone" %>
         <p>
-          <%= f.label :picture %>
+          <%= f.label :Photo%>
           <%= f.file_field :picture %>
+        </p>
+        <p>
+        <%= f.label :licence %>
+        <%= f.file_field :licencepicture %>
+        </p>
+        <p>
+        <%= f.label :certificat %>
+        <%= f.file_field :certifmedpicture %>
         </p>
         <%= f.submit %>
         <% end %>
