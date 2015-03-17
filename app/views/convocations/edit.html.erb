@@ -48,7 +48,9 @@
         <div class="modal-body">
           <p>En refusant la convocation vous indiquez au juge arbitre que la date ou/et l'heure de la convocation ne vous convienne pas. N'hésitez pas à appeler le JA  au <%= @convocation.subscription.tournament.user.telephone %> pour qu'il vous propose un nouveau jour/horaire </p>
         </div>
-        <div class="modal-footer">
+        <div class="modal-footer text-center">
+          <p> Envoyez un message au juge arbitre pour lui donner vos dispos</p>
+          <%= link_to "envoyer un message",new_convocation_message_path(@convocation), class: "btn btn-primary" %>
         </div>
       </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->

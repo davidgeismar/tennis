@@ -15,6 +15,8 @@ Rails.application.routes.draw do
   end
 
   # get "tournaments", to: "tournaments#index"
+
+  get "messages", to: "tournaments#index", as: "messages"
   get "mestournois", to: "subscriptions#mytournaments", as: "mes_tournois"
   get "tournaments/:id/invite_player", to: "tournaments#invite_player", as: "invite_player"
   post "tournaments/:id/invite_player", to: "tournaments#invite_player_to_tournament"
@@ -23,9 +25,9 @@ Rails.application.routes.draw do
     resources :tournaments, only: [:show, :new, :create, :edit, :update]
   end
 
-  resources :convocations, only: [:edit, :update]
-  resources :notifications, only: :index
-
+  resources :convocations, only: [:edit, :update] do
+    resources :messages, only: [:new, :create]
+  end
   # resources :user, only: :show, as: "show_user"
 
 

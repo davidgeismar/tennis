@@ -1,5 +1,5 @@
 class Convocation < ActiveRecord::Base
-  include PublicActivity::Common
+
   # tracked
 
   extend Enumerize

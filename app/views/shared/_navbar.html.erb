@@ -20,16 +20,6 @@
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav navbar-right">
         <% if user_signed_in? %>
-          <li class="dropdown">
-            <%= link_to "#", {class: "dropdown-toggle", "data-toggle" => "dropdown", "role" => "button", "aria-expanded" => "false", id: "notif"} do %>
-             Notifications
-              <span class="caret"></span>
-            <% end %>
-              <!-- <span class="badge"><%= @activities.size %></span> -->
-            <ul class="dropdown-menu" role="menu">
-
-            </ul>
-          </li>
           <li>
              <%= link_to "Mes Tournois", mes_tournois_path, class: "btn btn-success mes-tournois"  %>
 
