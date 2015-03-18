@@ -52,6 +52,11 @@
 
 a.link-neutral {
   color: rgb(51, 51, 51);
+
+}
+
+a.link-neutral:hover {
+  color:  rgb(32, 48, 219);
 }
 
 .tab-title.active {
