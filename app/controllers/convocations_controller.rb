@@ -55,6 +55,16 @@ class ConvocationsController < ApplicationController
       convocation = Convocation.create(date: params[:date], hour: params[:hour], subscription: @subscription)
       if convocation.save
         flash[:alert] = "Votre convocation a bien été envoyé"
+
+
+        client = Twilio::REST::Client.new(TWILIO_CONFIG['sid'], TWILIO_CONFIG['token'])
+
+      # Create and send an SMS message
+        client.account.sms.messages.create(
+        from: TWILIO_CONFIG['from'],
+        to: convocation.subscription.user.telephone,
+        body: "Vous etes convoque  #{convocation.date.strftime("le %d/%m/%Y")} #{convocation.hour.strftime(" à %Hh%M")} pour le tournoi #{convocation.subscription.tournament.name} "
+      )
       else
         flash[:warning] = "Un problème est survenu veuillez réessayer d'envoyer votre convocation"
       end
@@ -89,3 +99,5 @@ class ConvocationsController < ApplicationController
 
   end
 end
+
+
