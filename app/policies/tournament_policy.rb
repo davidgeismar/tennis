@@ -18,6 +18,6 @@ class TournamentPolicy < ApplicationPolicy
   end
 
   def update?
-    user && user.judge?
+    user && record.user == user
   end
 end

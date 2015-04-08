@@ -32,6 +32,9 @@ class User < ActiveRecord::Base
   validates :first_name, presence: true, on: :update
   validates :last_name, presence: true, on: :update
 
+
+  has_many :messages
+
   def self.find_for_facebook_oauth(auth)
 
    where(provider: auth.provider, uid: auth.uid).first_or_create do |user|

@@ -1,0 +1,35 @@
+<div class="banner">
+  <div class="container">
+    <div class="row text-center">
+      <div class="col-xs-12">
+        <h2 class="marge"><%= @convocation.subscription.user.first_name%> <%= @convocation.subscription.user.last_name%> a refusé la convocation que vous lui avez proposé le <%= @convocation.date %> à <%= @convocation.hour %></h2>
+
+        <p class="marge-bas">Ci dessous vous trouverez les disponibilités du joueur <%= @convocation.subscription.user.first_name%> <%= @convocation.subscription.user.last_name%></p>
+        </div>
+    </div>
+  </div>
+    <div class="container">
+    <div class="row text-center">
+      <div class="col-xs-7 col-xs-offset-3">
+        <div class="panel panel-default">
+
+          <div class="panel-heading">
+            <div class="user-picture" style='background-image:url(<%= image_path @convocation.subscription.user.picture.url(:medium) %>)'>
+            </div>
+            Message de <%= @convocation.subscription.user.first_name%> <%= @convocation.subscription.user.last_name%>
+          </div>
+          <div class="panel-body">
+            <% @messages.each do |message| %>
+              <%= message.content%>
+            <% end %>
+          </div>
+        </div>
+        <p class="marge-bas"> <strong> Ci-dessous pour changer la convocation de ce joueur sinon appeler le au <%= @convocation.subscription.user.telephone %> pour lui expliquer la situation. </strong></p>
+        <%=link_to "Changer la convocation de ce joueur", new_subscription_convocation_path(@convocation.subscription) , class: "btn btn-success marge-bas" %>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+

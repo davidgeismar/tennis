@@ -1,3 +1,4 @@
+
 <%if @user.judge?%>
   <%=render 'users/show/judge'%>
 <%elsif current_user.judge? && @user != current_user%>
@@ -5,3 +6,4 @@
 <%else%>
   <%=render 'users/show/player'%>
 <%end %>
+

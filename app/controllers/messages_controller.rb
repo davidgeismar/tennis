@@ -1,30 +1,32 @@
 class MessagesController < ApplicationController
   before_action :set_conversation, only: [:show, :reply, :reply_server]
-  after_action :verify_policy_scoped, :only => :index
-  after_action :verify_authorized, except:  [:new, :create]
+  skip_after_action :verify_policy_scoped
+  after_action :verify_authorized, except:  [:new, :create, :index]
   respond_to :js, only: :reply
 
 
   def new
+    @convocation = Convocation.find(params[:convocation_id])
     @message = Message.new
-    raise
   end
 
   def create
-    @conversation = Conversation.new
-    @conversation.user1 = current_user
-    @conversation.user2 = Convocation.find(params[:convocation_id]).subscription.tournament.user
+    @convocation= Convocation.find(params[:convocation_id])
     @message = Message.new(message_params)
+    @message.convocation = @convocation
     @message.user = current_user
-    @message.conversation = @conversation
     if @message.save
-      redirect_to user_path
+      redirect_to user_path(current_user)
+      flash[:alert] = "Votre message a bien été envoyé, vous recevrez une nouvelle convocation ou un appel du JA d'ici peu."
     else
       render :new
+      flash[:warning] = "Un problème est survenu veuillez réessayer d'envoyer votre message"
     end
   end
 
   def index
+    @convocation= Convocation.find(params[:convocation_id])
+    @messages = @convocation.messages.all
   end
 
   private

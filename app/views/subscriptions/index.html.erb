@@ -19,34 +19,38 @@
           <th>Status de l'inscription</th>
           <th>Convoquer ?</th>
           <th>Statut de la convocation en cours</th>
+          <th>Messages<th>
       </tr>
       <% @subscriptions.each do |subscription|%>
-      <tr class="subscription_item" id="<%= subscription.id %>">
-        <td class="checkbox"><input id="checkbox-player" type="checkbox"></td>
-        <td><%= subscription.user.first_name%></td>
-        <td><%= subscription.user.last_name%></td>
-        <td><%= subscription.user.licence_number%></td>
+        <tr class="subscription_item" id="<%= subscription.id %>">
+          <td class="checkbox"><input id="checkbox-player" type="checkbox"></td>
+          <td><%= subscription.user.first_name%></td>
+          <td><%= subscription.user.last_name%></td>
+          <td><%= subscription.user.licence_number%></td>
+          <td>
+            <%= form_for [@tournament, subscription] do |f| %>
+              <%= f.select :status, Subscription.status.options, remote: true, class: "form-control subscription-status" %>
+            <% end %>
+           </td>
+          <td><button type="button" class="btn btn-primary "><%=link_to "Profil du joueur", user_path(subscription.user) %></button></td>
 
-        <td>
-          <%= form_for [@tournament, subscription] do |f| %>
-            <%= f.select :status, Subscription.status.options, remote: true, class: "form-control subscription-status" %>
-          <% end %>
-         </td>
-        <td><button type="button" class="btn btn-primary"><%=link_to "Profil du joueur", user_path(subscription.user) %></button></td>
-
-        <td>
-          <% if subscription.convocations.last %>
-            <%= subscription.convocations.last.status_text %>
-          <% end %>
+          <td>
+            <% if subscription.convocations.last %>
+              <%= subscription.convocations.last.status_text %>
+            <% end %>
           </td>
-      </tr>
 
-      <%end%>
+          <td>
+            <% if subscription.convocations.last && subscription.convocations.last.messages != [] %>
+              <%=link_to "+1", convocation_messages_path(subscription.convocations.last), class: "btn btn-success" %></td>
+            <% end %>
+        </tr>
+     <%end%>
     </table>
 
     <%= form_tag multiple_new_path(@tournament) do %>
         <%= hidden_field_tag :subscription_ids %>
-        <%= submit_tag "Convoquer les joueurs sélectionnés", class: "btn btn-success" %>
+        <%= submit_tag "Convoquer les joueurs sélectionnés", class: "btn btn-success margin" %>
         <% end %>
   </div>
 </div>

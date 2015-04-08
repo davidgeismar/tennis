@@ -6,18 +6,18 @@ class SubscriptionPolicy < ApplicationPolicy
   end
 
   def show?
-    true # TRUCS A REVOIR
+    record.user == user || record.tournament.user == user
   end
 
   def create?
-    true # TRUCS A REVOIR
+    user
   end
 
   def index?
-    true
+    record.tournament.user == user
   end
 
   def update?
-    true
+    record.tournament.user == user
   end
 end
