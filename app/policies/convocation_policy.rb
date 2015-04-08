@@ -6,18 +6,19 @@ class ConvocationPolicy < ApplicationPolicy
   end
 
   def new?
-    true
+   user && user.judge?
   end
 
   def create?
-    true
+   user && user.judge?
+
   end
 
   def edit?
-    true
+    user && record.subscription.user == user
   end
 
   def update?
-    true
+    user && record.subscription.user == user
   end
 end

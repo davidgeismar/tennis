@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150312175437) do
+ActiveRecord::Schema.define(version: 20150401184335) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -48,15 +48,10 @@ ActiveRecord::Schema.define(version: 20150312175437) do
   add_index "activities", ["recipient_id", "recipient_type"], name: "index_activities_on_recipient_id_and_recipient_type", using: :btree
   add_index "activities", ["trackable_id", "trackable_type"], name: "index_activities_on_trackable_id_and_trackable_type", using: :btree
 
-  create_table "conversations", force: :cascade do |t|
-    t.integer  "user1_id"
-    t.integer  "user2_id"
+  create_table "clients", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
-
-  add_index "conversations", ["user1_id"], name: "index_conversations_on_user1_id", using: :btree
-  add_index "conversations", ["user2_id"], name: "index_conversations_on_user2_id", using: :btree
 
   create_table "convocations", force: :cascade do |t|
     t.date     "date"
@@ -123,15 +118,14 @@ ActiveRecord::Schema.define(version: 20150312175437) do
   add_index "mailboxer_receipts", ["receiver_id", "receiver_type"], name: "index_mailboxer_receipts_on_receiver_id_and_receiver_type", using: :btree
 
   create_table "messages", force: :cascade do |t|
-    t.integer  "conversation_id"
     t.integer  "user_id"
     t.datetime "read_at"
     t.text     "content"
-    t.datetime "created_at",      null: false
-    t.datetime "updated_at",      null: false
+    t.datetime "created_at",     null: false
+    t.datetime "updated_at",     null: false
+    t.integer  "convocation_id"
   end
 
-  add_index "messages", ["conversation_id"], name: "index_messages_on_conversation_id", using: :btree
   add_index "messages", ["user_id"], name: "index_messages_on_user_id", using: :btree
 
   create_table "subscriptions", force: :cascade do |t|
@@ -220,6 +214,11 @@ ActiveRecord::Schema.define(version: 20150312175437) do
     t.string   "attestationformationja_content_type"
     t.integer  "attestationformationja_file_size"
     t.datetime "attestationformationja_updated_at"
+    t.integer  "client_id"
+    t.integer  "mangopay_natural_user_id"
+    t.integer  "wallet_id"
+    t.integer  "kyc_document_id"
+    t.integer  "card_id"
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree

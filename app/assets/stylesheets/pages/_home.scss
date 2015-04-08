@@ -1,10 +1,15 @@
 .banner {
   background-image: image-url('background.jpg');
   background-size: cover;
-  height: 700px;
-  // margin-top: -25px;
-}
+  min-height: 700px;
 
+}
+.selima {
+  background-color: rgba(0, 0, 0, 0.3);
+}
+.marge-bas {
+  margin-bottom: 50px;
+}
 .margin {
   margin: 50px;
 }
@@ -113,4 +118,8 @@
 
 .user_profile {
   margin-top: 150px;
+}
+
+.marge {
+  margin: 100px 100px 70px 100px;
 }

@@ -6,18 +6,18 @@ class MessagePolicy < ApplicationPolicy
   end
 
   def new?
-    true
+    user == record.convocation.subscription.user
   end
 
   def create?
-    true
+    user == record.convocation.subscription.user
   end
 
   def edit?
-    true
+    false
   end
 
   def update?
-    true
+    false
   end
 end

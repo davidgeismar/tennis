@@ -175,6 +175,8 @@ GEM
       nokogiri (>= 1.5.9)
     mail (2.6.3)
       mime-types (>= 1.16, < 3)
+    mangopay (3.0.14)
+      multi_json (>= 1.7.7)
     method_source (0.8.2)
     mime-types (2.4.3)
     mini_portile (0.6.2)
@@ -330,6 +332,7 @@ DEPENDENCIES
   high_voltage
   jquery-rails
   letter_opener
+  mangopay
   omniauth-facebook
   paperclip
   pg

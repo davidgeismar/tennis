@@ -1,0 +1,136 @@
+
+<div class="banner">
+<div class="container">
+  <div class="row">
+    <div class="col-xs-12 col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3">
+      <div class="row">
+        <div class="col-xs-12">
+          <span class="fa fa-lock fa-lg"></span>PAIEMENT
+        </div>
+        <div class="col-xs-12">
+          <p>Paiement de l'inscription pour un montant de <strong><%= @subscription.tournament.amount %> € </p></strong>
+        </div>
+        <div class="col-xs-12">
+          <div class="cards">
+            <span></span><span class="card-image"></span><span></span>
+          </div>
+        </div>
+        <div class="col-xs-12">
+          <div >
+            <i class="fa fa-credit-card"></i>
+            <input id="card_number" class="form-control empty text-input card-input" id="iconified" placeholder="Numéro de carte" style="font-family:Arial, FontAwesome">
+          </div>
+        </div>
+        <div class="col-xs-6">
+          <i class="fa fa-calendar"></i>
+          <input id="card_expiration_date" class="form-control empty text-input date-input" id="iconified" placeholder="MMAA" style="font-family:Arial, FontAwesome"/>
+        </div>
+        <div class="col-xs-6">
+          <i class="fa fa-lock "></i>
+          <input id="card_cvx" class="form-control empty text-input" id="iconified" placeholder="Code CSV" style="font-family:Arial, FontAwesome"/>
+        </div>
+         <%= hidden_field_tag :card_type, "CB_VISA_MASTERCARD" %>
+        <div class="col-xs-12">
+          <p>En cliquant sur payer, je valide mon inscription à <%= @subscription.tournament.name %> du <%= @subscription.tournament.starts_on %> au <%= @subscription.tournament.ends_on%> </p>
+        </div>
+        <div class="col-xs-12">
+          <button id="process" onclick="javascript:registerCardDemo();">Payer <%=@subscription.tournament.amount%> € </button>
+        </div>
+        <div class="col-xs-12">
+          <div class="row-spacer">
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+
+<br>
+<div class="col-xs-10 col-xs-offset-2 col-sm-6 col-sm-offset-4 col-md-offset-3 col-md-6 text-center msg-mango">
+  <p>
+      <div id="result"></div>
+  </p>
+</div>
+
+<br>
+<br>
+<div class="vertical-spacer">
+
+</div>
+</div>
+
+<br>
+<div class="vertical-spacer">
+
+
+
+
+
+
+
+<script type="text/javascript">
+
+function registerCardDemo() {
+
+    var resultDiv = document.getElementById("result");
+    resultDiv.innerHTML = "Vérification...";
+    resultDiv.style.color = "black";
+
+      // Card register data prepared on the server
+    var cardRegisterData = {
+        cardRegistrationURL: "<%= params[:card_registration_url] %>",
+        preregistrationData: "<%= params[:preregistration_data] %>",
+        accessKey: "<%= params[:access_key] %>",
+        Id: "<%= params[:card_registration_id] %>"
+    };
+
+     // Card data collected from the user
+    var cardData = {
+         cardNumber: document.getElementById("card_number").value,
+         cardExpirationDate: document.getElementById("card_expiration_date").value.replace('/',''),
+         cardCvx: document.getElementById("card_cvx").value,
+         cardType: document.getElementById("card_type").value
+    };
+
+// Set MangoPay API base URL and Client ID
+
+    mangoPay.cardRegistration.baseURL = "<%= ENV['MANGOPAY_PRODUCTION'] == 'true' ? 'https://api.mangopay.com' : 'https://api.sandbox.mangopay.com' %>";
+    mangoPay.cardRegistration.clientId = "<%= ENV['MANGOPAY_PRODUCTION'] == 'true' ? 'tennismatch' : 'davidgeismar' %>";
+
+ // Initialize the CardRegistration Kit
+    mangoPay.cardRegistration.init(cardRegisterData);
+
+    // Register card
+    mangoPay.cardRegistration.registerCard(cardData,
+        function(res) {
+            var message = 'Votre carte a été vérifiée ' + res.CardId + '.<br />';
+            message += 'Le paiement est en cours';
+            resultDiv.innerHTML = message;
+            resultDiv.style.color = "green";
+            $.ajax({
+              type:"patch",
+              dataType: "script",
+              url: "<%=j user_path(current_user)%>",
+              data:{user:{card_id: res.CardId}},
+              success: function(data) {
+                $.ajax({
+                  type:"post",
+                  dataType: "script",
+                  url: "<%= user_path(current_user)%>"
+                })
+              }
+            })
+        },
+        function(res) {
+            var message = "Votre carte n'a pas été débitée.<br />";
+            message += res.ResultMessage + '<br />' +' Code : ' + res.ResultCode ;
+            resultDiv.innerHTML = message;
+            resultDiv.style.color = "grey";
+        }
+    );
+}
+
+</script>

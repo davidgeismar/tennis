@@ -1,6 +1,77 @@
 class SubscriptionsController < ApplicationController
 skip_after_action :verify_authorized, only: [:create, :mytournaments]
 
+
+ def create_mangopay_natural_user_and_wallet
+    natural_user = MangoPay::NaturalUser.create(mangopay_user_attributes)
+
+
+    wallet = MangoPay::Wallet.create({
+      Owners: [natural_user["Id"]],
+      Description: "My first wallet",
+      Currency: "EUR",
+      })
+
+    kyc_document = MangoPay::KycDocument.create(natural_user["Id"],{Type: "IDENTITY_PROOF", Tag: "Driving Licence"})
+
+    self.mangopay_natural_user_id = natural_user["Id"]
+    self.wallet_id = wallet["Id"]
+    self.kyc_document_id = kyc_document["Id"]
+    self.save
+  end
+
+  def create_mangopay_bank_account
+    bank_account = MangoPay::BankAccount.create(mangopay_user_id, mangopay_user_bank_attributes)
+    self.bank_account_id = bank_account["Id"]
+    self.save
+  end
+
+  def mangopay_user_bank_attributes
+    {
+      'OwnerName' => current_user.name,
+      'Type' => "IBAN",
+      'OwnerAddress' => current_user.address,
+      'IBAN' => current_user.iban,
+      'BIC' => current_user.bic,
+      'Tag' => 'Bank Account for Payouts'
+    }
+  end
+
+ def mangopay_user_attributes
+    {
+      'Email' => current_user.email,
+      'FirstName' => current_user.first_name,
+      'LastName' => current_user.last_name,  # TODO: Change this! Add 2 columns on users table.
+      'Birthday' => current_user.birthday.to_i,  # TODO: Change this! Add 1 column on users table
+      'Nationality' => 'FR',  # TODO: change this!
+      'CountryOfResidence' => 'FR' # TODO: change this!
+    }
+  end
+
+  def mangopay_payin
+
+    MangoPay::PayIn::Card::Direct.create({
+        "Tag" => "Payment Carte Bancaire",
+        "CardType" => "CB_VISA_MASTERCARD",
+        "AuthorId" => current_user.mangopay_user_id,
+        "CreditedUderId" => current_user.mangopay_user_id,
+        "DebitedFunds" => {
+          "Currency" => "EUR",
+          "Amount" => amount.to_i*100
+        },
+        "Fees" => {
+          "Currency" => "EUR",
+          "Amount" => new_price.to_i*30
+        },
+        "CreditedWalletID" => current_user.mangopay_wallet_id,
+        "SecureModeReturnURL" => mangopay_return_transfers_url(booking_id: params[:booking_id]),
+        "CardId" => current_user.card_id,
+        "CardType" => "CB_VISA_MASTERCARD",
+        "Culture" => "FR",
+        "SecureMode" => "DEFAULT"
+      })
+  end
+
   def mytournaments
     @subscriptions = Subscription.where(user_id: current_user)
   end
@@ -15,10 +86,14 @@ skip_after_action :verify_authorized, only: [:create, :mytournaments]
     @subscription = Subscription.find(params[:id])
     authorize @subscription
     @subscription.update(subscription_params)
-    @subscription.create_activity(:update, owner: current_user, recipient: @subscription.user)
 
     redirect_to tournament_subscriptions_path(@subscription.tournament)
 
+  end
+
+  def new
+    @subscription = Subscription.new(tournament_id: params[:tournament_id])
+    authorize @subscription
   end
 
   def show
@@ -39,8 +114,9 @@ skip_after_action :verify_authorized, only: [:create, :mytournaments]
       @subscription.tournament = tournament
       @subscription.user = current_user
 
+
       if @subscription.save
-        @subscription.create_activity(:create, owner: current_user, recipient: tournament.user)
+        create_mangopay_bank_account
         redirect_to tournament_subscription_path(tournament, @subscription)
       else
         flash[:alert] = "Vous etes déjà inscrit à ce tournoi"

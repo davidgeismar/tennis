@@ -5,12 +5,12 @@ Rails.application.routes.draw do
 
   resource :judge, only: :show
   resources :tournaments, only: [:index, :show, :new, :create] do
-    resources :subscriptions, only: [:show, :create, :index, :update]
+    resources :subscriptions, only: [:new, :show, :create, :index, :update]
   end
   post 'tournaments/:tournament_id/convocations/multiple_new', to: "convocations#multiple_new", as: "multiple_new"
   post 'tournaments/:tournament_id/convocation/multiple_create', to: "convocations#multiple_create", as: "multiple_create"
 
-  resources :subscriptions, only: [] do
+  resources :subscriptions do
     resources :convocations, only: [:new, :create]
   end
 
@@ -26,7 +26,7 @@ Rails.application.routes.draw do
   end
 
   resources :convocations, only: [:edit, :update] do
-    resources :messages, only: [:new, :create]
+    resources :messages
   end
   # resources :user, only: :show, as: "show_user"
 
