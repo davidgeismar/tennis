@@ -12,7 +12,7 @@
         <%= f.input :genre, label: "Sexe" %>
         <%= f.input :date_of_birth, label: "date de naissance" %>
         <%= f.input :licence_number, label: "numéro de licence"%>
-        <%= f.input :telephone, label: "telephone" %>
+        <%= f.input :telephone, label: "telephone"%>
         <p>
           <%= f.label :Photo%>
           <%= f.file_field :picture %>
@@ -25,12 +25,13 @@
         <%= f.label :certificat %>
         <%= f.file_field :certifmedpicture %>
         </p>
-        <%= f.submit %>
+        <div id="validation"><%= f.submit %></div>
         <% end %>
       </div>
     </div>
   </div>
 </div>
+
 
 
 

@@ -71,7 +71,7 @@
 
 
 
-<script type="text/javascript">
+<script type="text/javascript" >
 
 function registerCardDemo() {
 
@@ -110,19 +110,6 @@ function registerCardDemo() {
             message += 'Le paiement est en cours';
             resultDiv.innerHTML = message;
             resultDiv.style.color = "green";
-            $.ajax({
-              type:"patch",
-              dataType: "script",
-              url: "<%=j user_path(current_user)%>",
-              data:{user:{card_id: res.CardId}},
-              success: function(data) {
-                $.ajax({
-                  type:"post",
-                  dataType: "script",
-                  url: "<%= user_path(current_user)%>"
-                })
-              }
-            })
         },
         function(res) {
             var message = "Votre carte n'a pas été débitée.<br />";

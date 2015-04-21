@@ -56,6 +56,10 @@ class TournamentsController < ApplicationController
     end
   end
 
+  def find
+    @tournament = Tournament.new
+    authorize @tournament
+  end
 
   private
 

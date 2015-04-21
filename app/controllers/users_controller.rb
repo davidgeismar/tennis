@@ -10,7 +10,6 @@ class UsersController < ApplicationController
 
   def update
     @user.update(user_params)
-    create_mangopay_natural_user_and_wallet
     redirect_to user_path(current_user)
   end
 
