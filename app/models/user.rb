@@ -29,9 +29,12 @@ class User < ActiveRecord::Base
   validates_attachment_content_type :certifmedpicture,
     content_type: /\Aimage\/.*\z/
 
-  validates :first_name, presence: true, on: :update
-  validates :last_name, presence: true, on: :update
-
+  validates :first_name, presence: { strict: true }, on: :update
+  validates :last_name, presence: { strict: true }, on: :update
+  validates :telephone, format:{
+        with: /\A(\+33)[1-9]([-. ]?[0-9]{2}){4}\z/,
+        message: 'must be a URL for GIF, JPG or PNG image.'
+    }
 
   has_many :messages
 

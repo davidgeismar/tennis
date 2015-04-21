@@ -20,4 +20,8 @@ class TournamentPolicy < ApplicationPolicy
   def update?
     user && record.user == user
   end
+
+  def find?
+    true
+  end
 end

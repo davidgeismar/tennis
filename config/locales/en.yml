@@ -20,4 +20,14 @@
 # available at http://guides.rubyonrails.org/i18n.html.
 
 en:
-  hello: "Hello world"
+  activerecord:
+    attributes:
+      user:
+        telephone: "Numéro de téléphone"
+    errors:
+      models:
+        user:
+          attributes:
+            telephone:
+              blank: "is required"
+

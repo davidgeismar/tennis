@@ -12,3 +12,4 @@
 
 //= require algolia/algoliasearch.min
 //= require algolia/typeahead.jquery
+//= require mangopay-kit.js

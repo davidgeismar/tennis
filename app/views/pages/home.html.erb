@@ -9,11 +9,11 @@
 <div class="max-height">
   <div class="banner">
     <%if current_user.nil? %>
-      <%=render 'pages/home/not_connected'%>
+      <%=render 'pages/partials/not_connected'%>
     <% elsif current_user.judge? %>
-      <%=render 'pages/home/judge_connected'%>
+      <%=render 'pages/partials/judge_connected'%>
     <%else%>
-      <%=render 'pages/home/connected'%>
+      <%=render 'pages/partials/connected'%>
     <%end%>
   </div>
 </div>
@@ -23,6 +23,12 @@
 
   $(document).ready(function() {
     var client = new AlgoliaSearch("<%=ENV["ALGOLIA_APPLICATION_ID"]%>", "<%=ENV["ALGOLIA_SEARCH_ONLY_API_KEY"]%>");
+    var $facets = $('#facets');
+    // var $facetTemplate = Hogan.compile($('#facet-template').text());
+    // var $sliderTemplate = Hogan.compile($('#slider-template').text());
+
+    // Helper initialization
+
     // var template = Hogan.compile('{{{_highlightResult.email.value}}} ({{{_highlightResult.first_name.value}}} {{{_highlightResult.last_name.value}}})');
     $('#tournament').typeahead(null, {
       source: client.initIndex('<%= Tournament.index_name %>').ttAdapter(),
@@ -34,9 +40,14 @@
               '<div class="col-xs-8">' +
                 '<h5>' + hit._highlightResult.name.value + '</h5>' +
                 '<p>' + hit._highlightResult.category.value + '</p>' +
+                '<p>' + hit._highlightResult.genre.value + '</p>' +
               '</div>' +
               '<div class="col-xs-4">' +
-                '<h5>' + hit._highlightResult.starts_on.value + ' - ' +hit._highlightResult.ends_on.value +
+                '<h5>' + 'du '+ hit._highlightResult.starts_on.value + ' au ' +hit._highlightResult.ends_on.value +
+                '</h5>' +
+              '</div>' +
+              '<div class="col-xs-4">' +
+                '<h5>' + hit._highlightResult.address.value + ' à ' +hit._highlightResult.city.value +
                 '</h5>' +
               '</div>' +
            '</a>' +
@@ -47,6 +58,18 @@
   });
 
 </script>
+
+
+<script type="text/javascript" id="facet-template">
+'<div class="facet">
+  <ul class="list-group">
+    <li class="list-group-item text-center list-group-item-info"><b>' + 'Ville' + '</b></li>' +
+
+'</div>'
+
+  </script>
+
+
 <%end%>
 
 

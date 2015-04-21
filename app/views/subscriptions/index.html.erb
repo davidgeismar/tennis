@@ -3,6 +3,11 @@
     <div class="row">
       <div class="col-xs-5">
         <h1 id="tournament-name"><%= @tournament.name %></h1>
+        <form class="form-horizontal" id="algolia-bar">
+          <div class="form-group">
+            <input name="Tournament" placeholder="Cherchez un joueur par nom ou classement" id="tournament"/>
+          </div>
+        </form>
       </div>
       <div class="col-xs-5">
         <%=link_to "Ajouter un joueur à la liste", invite_player_path(@tournament), class: "btn btn-success", id: "convocation-submit" %>
@@ -82,6 +87,47 @@
         });
        <% end %>
     <% end %>
+
+    <script type="text/javascript">
+
+
+  $(document).ready(function() {
+    var client = new AlgoliaSearch("<%=ENV["ALGOLIA_APPLICATION_ID"]%>", "<%=ENV["ALGOLIA_SEARCH_ONLY_API_KEY"]%>");
+    var $facets = $('#facets');
+    // var $facetTemplate = Hogan.compile($('#facet-template').text());
+    // var $sliderTemplate = Hogan.compile($('#slider-template').text());
+
+    // Helper initialization
+
+    // var template = Hogan.compile('{{{_highlightResult.email.value}}} ({{{_highlightResult.first_name.value}}} {{{_highlightResult.last_name.value}}})');
+    $('#tournament').typeahead(null, {
+      source: client.initIndex('<%= Tournament.index_name %>').ttAdapter(),
+      displayKey: 'name',
+      templates: {
+        suggestion: function(hit) {
+          console.log(hit);
+          return '<div class="result-item col-xs-12"><a href="/tournaments/' + hit.objectID + '">' +
+              '<div class="col-xs-8">' +
+                '<h5>' + hit._highlightResult.name.value + '</h5>' +
+                '<p>' + hit._highlightResult.category.value + '</p>' +
+                '<p>' + hit._highlightResult.genre.value + '</p>' +
+              '</div>' +
+              '<div class="col-xs-4">' +
+                '<h5>' + 'du '+ hit._highlightResult.starts_on.value + ' au ' +hit._highlightResult.ends_on.value +
+                '</h5>' +
+              '</div>' +
+              '<div class="col-xs-4">' +
+                '<h5>' + hit._highlightResult.address.value + ' à ' +hit._highlightResult.city.value +
+                '</h5>' +
+              '</div>' +
+           '</a>' +
+          '</div>';
+        }
+      }
+    });
+  });
+
+</script>
 
 
 
