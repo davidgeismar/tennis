@@ -1,4 +1,5 @@
 class UsersController < ApplicationController
+  skip_after_action :verify_authorized, only: [:set_user, :update_card, :update, :show, :edit]
   before_action :set_user
 
   def show
@@ -9,20 +10,36 @@ class UsersController < ApplicationController
   end
 
   def update
-    @user.update(user_params)
+    # @user.update(user_params)
+    create_mangopay_natural_user_and_wallet
+    raise
     redirect_to user_path(current_user)
   end
 
+  def update_card
+    @user.update(card_params)
+    # puts card_params.to_s
+    # puts @user.id.to_s
+    render nothing: true
+    # redirect_to user_path(current_user)
+    # redirect_to :controller => "users", :action =>"show", :id => current_user.id, :method =>:get
+  end
   private
 
   def user_params
-    params.require(:user).permit(:first_name, :last_name, :name, :licence_number, :date_of_birth, :genre, :email, :ranking, :judge_number, :telephone, :picture, :licencepicture, :certifmedpicture)
+    params.require(:user).permit(:first_name, :last_name, :name, :licence_number, :date_of_birth, :genre, :email, :ranking, :judge_number, :telephone, :picture, :licencepicture, :certifmedpicture, :card_id)
+  end
+
+  def card_params
+    params.require(:user).permit(:card_id)
   end
 
   def set_user
     @user = User.find(params[:id])
-    authorize @user
+    # authorize @user
   end
+
+
 
    def create_mangopay_natural_user_and_wallet
     natural_user = MangoPay::NaturalUser.create(mangopay_user_attributes)

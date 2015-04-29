@@ -5,7 +5,7 @@
         <h1 id="tournament-name"><%= @tournament.name %></h1>
         <form class="form-horizontal" id="algolia-bar">
           <div class="form-group">
-            <input name="Tournament" placeholder="Cherchez un joueur par nom ou classement" id="tournament"/>
+            <input name="User" placeholder="Cherchez un joueur par nom ou classement" id="movie"/>
           </div>
         </form>
       </div>
@@ -100,8 +100,8 @@
     // Helper initialization
 
     // var template = Hogan.compile('{{{_highlightResult.email.value}}} ({{{_highlightResult.first_name.value}}} {{{_highlightResult.last_name.value}}})');
-    $('#tournament').typeahead(null, {
-      source: client.initIndex('<%= Tournament.index_name %>').ttAdapter(),
+    $('#user').typeahead(null, {
+      source: client.initIndex('<%= User.index_name %>').ttAdapter(),
       displayKey: 'name',
       templates: {
         suggestion: function(hit) {

@@ -1,7 +1,14 @@
 class User < ActiveRecord::Base
+
+
   after_create :send_welcome_email
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
+  include AlgoliaSearch
+  algoliasearch index_name: "user#{ENV['ALGOLIA_SUFFIX']}" do
+    attribute :email, :licence_number, :ranking, :first_name, :last_name
+    attributesToIndex ['email', 'licence_number', 'ranking','first_name', 'last_name']
+  end
 
   extend Enumerize
     enumerize :genre, in: [:male, :female]

@@ -6,17 +6,27 @@ Rails.application.routes.draw do
   # root to: "home#home"
   resource :judge, only: :show
   resources :tournaments, only: [:index, :show, :new, :create] do
+    post :registrate_card, on: :member
     resources :subscriptions, only: [:new, :show, :create, :index, :update]
   end
   post 'tournaments/:tournament_id/convocations/multiple_new', to: "convocations#multiple_new", as: "multiple_new"
   post 'tournaments/:tournament_id/convocation/multiple_create', to: "convocations#multiple_create", as: "multiple_create"
   # post '/tournaments/:tournament_id/subscriptions/new', to: "subscriptions#new", as: "pipi"
+  post 'transfers/:tournament_id', to: "transfers#create", as: "transfers"
 
   resources :subscriptions do
     resources :convocations, only: [:new, :create]
   end
 
   # get "tournaments", to: "tournaments#index"
+  # resources :users, only: [:edit, :show, :update] do
+  #   get :card, on: :member
+  #   # get :rdstr_card_registration, on: :member
+  #   post :registrate_card, on: :member
+  #   # post :registrate_rdstr_card, on: :member
+
+  # end
+
 
   get "messages", to: "tournaments#index", as: "messages"
   get "mestournois", to: "subscriptions#mytournaments", as: "mes_tournois"
@@ -32,6 +42,7 @@ Rails.application.routes.draw do
   end
   # resources :user, only: :show, as: "show_user"
 
+  patch 'registercard/:id', to:"users#update_card", as: "register"
 
 
   #get 'tournaments/:tournament_id/subscriptions/profile', to: 'subscriptions#profile', as: 'subscription_profil'

@@ -1,4 +1,5 @@
 class Tournament < ActiveRecord::Base
+  has_many :transfers
   geocoded_by :address_tour
   after_validation :geocode, if: :address_tour_changed?
 

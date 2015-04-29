@@ -1,5 +1,5 @@
 class TournamentsController < ApplicationController
-  skip_after_action :verify_authorized, only: [:invite_player, :invite_player_to_tournament]
+  skip_after_action :verify_authorized, only: [:invite_player, :invite_player_to_tournament, :registrate_card]
   def index
     @tournaments = policy_scope(Tournament)
   end
@@ -54,6 +54,17 @@ class TournamentsController < ApplicationController
     else
       render :invite_player
     end
+  end
+
+  def registrate_card
+    card = MangoPay::CardRegistration.create({UserId: current_user.mangopay_natural_user_id, Currency:"EUR"})
+
+    redirect_to new_tournament_subscription_path(
+      access_key: card["AccessKey"],
+      preregistration_data: card["PreregistrationData"],
+      card_registration_url: card["CardRegistrationURL"],
+      card_registration_id: card["Id"],
+      tournament_id: params[:tournament_id])
   end
 
   def find

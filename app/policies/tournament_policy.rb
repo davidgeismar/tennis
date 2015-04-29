@@ -24,4 +24,8 @@ class TournamentPolicy < ApplicationPolicy
   def find?
     true
   end
+
+  def registrate_card?
+    true
+  end
 end
