@@ -5,11 +5,24 @@ class UserPolicy < ApplicationPolicy
     end
   end
 
+  def edit
+    true
+  end
+
   def show
-    user == record || record.tournaments.any? { |t| t.user == user }
+    # user == record || record.tournaments.any? { |t| t.user == user }
+    true
   end
 
   def update?
-    user == record
+    # user == record
+    true
+  end
+
+  def update_card?
+    true
+  end
+  def set_user?
+  true
   end
 end

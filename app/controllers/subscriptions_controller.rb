@@ -53,17 +53,17 @@ skip_after_action :verify_authorized, only: [:create, :mytournaments]
     MangoPay::PayIn::Card::Direct.create({
         "Tag" => "Payment Carte Bancaire",
         "CardType" => "CB_VISA_MASTERCARD",
-        "AuthorId" => current_user.mangopay_user_id,
-        "CreditedUderId" => current_user.mangopay_user_id,
+        "AuthorId" => current_user.mangopay_natural_user_id,
+        "CreditedUderId" => current_user.mangopay_natural_user_id,
         "DebitedFunds" => {
           "Currency" => "EUR",
           "Amount" => amount.to_i*100
         },
         "Fees" => {
           "Currency" => "EUR",
-          "Amount" => new_price.to_i*30
+          "Amount" => 0
         },
-        "CreditedWalletID" => current_user.mangopay_wallet_id,
+        "CreditedWalletID" => current_user.wallet_id,
         "SecureModeReturnURL" => mangopay_return_transfers_url(booking_id: params[:booking_id]),
         "CardId" => current_user.card_id,
         "CardType" => "CB_VISA_MASTERCARD",
@@ -75,6 +75,10 @@ skip_after_action :verify_authorized, only: [:create, :mytournaments]
   def mytournaments
     @subscriptions = Subscription.where(user_id: current_user)
   end
+
+  # def accepted_payment
+  #   @subscription = Subscription.new(tournament_id)
+  # end
 
   def index
     @tournament     = Tournament.find(params[:tournament_id])
@@ -116,7 +120,6 @@ skip_after_action :verify_authorized, only: [:create, :mytournaments]
 
 
       if @subscription.save
-        create_mangopay_bank_account
         redirect_to tournament_subscription_path(tournament, @subscription)
       else
         flash[:alert] = "Vous etes déjà inscrit à ce tournoi"

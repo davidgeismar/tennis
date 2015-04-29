@@ -110,7 +110,30 @@ function registerCardDemo() {
             message += 'Le paiement est en cours';
             resultDiv.innerHTML = message;
             resultDiv.style.color = "green";
-        },
+            $.ajax({
+              type:"patch",
+              dataType: "script",
+              url: "<%=j register_path(current_user)%>",
+              data: {
+                user: {
+                  card_id: res.CardId
+                }
+              },
+              success: function() {$.ajax({
+                  type:"post",
+                  dataType: "script",
+                  url: "<%=j transfers_path(tournament_id: params[:tournament_id])%>",
+
+                  success: function() {$.ajax({
+                    type:"post",
+                    dataType: "script",
+                    url: "<%=j subscriptions_path(tournament_id: params[:tournament_id])%>%>"
+                    });
+                  }
+                });
+              }
+            });
+          },
         function(res) {
             var message = "Votre carte n'a pas été débitée.<br />";
             message += res.ResultMessage + '<br />' +' Code : ' + res.ResultCode ;

@@ -29,7 +29,6 @@ gem "devise-i18n"
 gem "devise-i18n-views"
 gem 'devise','>= 2.0.0'
 gem 'devise_invitable','~> 1.3.4'
-gem "searchkick"
 
 group :development, :test do
   gem 'twilio-ruby', '~> 3.12'

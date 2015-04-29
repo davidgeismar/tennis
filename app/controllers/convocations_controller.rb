@@ -23,7 +23,11 @@ class ConvocationsController < ApplicationController
   def update
     authorize @convocation
     @convocation.update(convocation_params)
-    redirect_to new_convocation_message_path(@convocation)
+    if @convocation.status == "refused"
+      redirect_to new_convocation_message_path(@convocation)
+    else
+      redirect_to mes_tournois_path
+    end
   end
 
   def multiple_new

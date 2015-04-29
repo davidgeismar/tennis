@@ -15,7 +15,7 @@
           <p>Addresse des installations: <%= @tournament.address %></p>
           <p>Frais d'inscription: <%= @tournament.amount %> €</p>
 
-          <%= link_to "S'inscrire", new_tournament_subscription_path(@tournament), class: 'btn btn-warning' %>
+          <%= link_to "S'inscrire", registrate_card_tournament_path(tournament_id: @tournament), class: 'btn btn-warning', method: :post %>
         </div>
       </div>
     </div>
