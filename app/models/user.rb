@@ -1,7 +1,7 @@
 class User < ActiveRecord::Base
-
-
   after_create :send_welcome_email
+
+
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
   include AlgoliaSearch
@@ -12,6 +12,8 @@ class User < ActiveRecord::Base
 
   extend Enumerize
     enumerize :genre, in: [:male, :female]
+    enumerize :ranking, in: ['NC', '30/5', '30/4', '30/3', '30/2', '30/1', '30', '15/5', '15/4', '15/3', '15/2', '15/1', '15', '5/6', '4/6', '3/6', '2/6', '1/6', '0', '-2/6', '-4/6', '-15', '-30']
+   23
 
   devise :invitable, :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable,
@@ -38,10 +40,11 @@ class User < ActiveRecord::Base
 
   validates :first_name, presence: { strict: true }, on: :update
   validates :last_name, presence: { strict: true }, on: :update
+
   validates :telephone, format:{
         with: /\A(\+33)[1-9]([-. ]?[0-9]{2}){4}\z/,
         message: 'must be a URL for GIF, JPG or PNG image.'
-    }
+    }, on: :update
 
   has_many :messages
 
@@ -60,6 +63,12 @@ class User < ActiveRecord::Base
    end
  end
 
+  # def initialize
+  #   @errors = ActiveModel::Errors.new(self)
+  # end
+
+
+
   def full_name
     if last_name != nil && first_name.nil?
       "#{last_name.capitalize}"
@@ -72,7 +81,40 @@ class User < ActiveRecord::Base
     end
   end
 
+  def create_mangopay_natural_user_and_wallet
+    natural_user = MangoPay::NaturalUser.create(self.mangopay_user_attributes)
+
+
+    wallet = MangoPay::Wallet.create({
+      Owners: [natural_user["Id"]],
+      Description: "My first wallet",
+      Currency: "EUR",
+      })
+
+    kyc_document = MangoPay::KycDocument.create(natural_user["Id"],{Type: "IDENTITY_PROOF", Tag: "Driving Licence"})
+
+    self.mangopay_natural_user_id= natural_user["Id"]
+    self.wallet_id = wallet["Id"]
+    self.kyc_document_id = kyc_document["Id"]
+    self.save
+  end
+
+   def mangopay_user_attributes
+    {
+      'Email' => self.email,
+      'FirstName' => self.first_name,
+      'LastName' => self.last_name,  # TODO: Change this! Add 2 columns on users table.
+      'Birthday' => self.date_of_birth.to_i,  # TODO: Change this! Add 1 column on users table
+      'Nationality' => 'FR',  # TODO: change this!
+      'CountryOfResidence' => 'FR' # TODO: change this!
+    }
+  end
+
   private
+
+
+
+
 
   def send_welcome_email
     UserMailer.welcome(self).deliver

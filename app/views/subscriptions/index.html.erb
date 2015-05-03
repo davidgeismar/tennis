@@ -3,19 +3,14 @@
     <div class="row">
       <div class="col-xs-5">
         <h1 id="tournament-name"><%= @tournament.name %></h1>
-        <form class="form-horizontal" id="algolia-bar">
-          <div class="form-group">
-            <input name="User" placeholder="Cherchez un joueur par nom ou classement" id="movie"/>
-          </div>
-        </form>
       </div>
       <div class="col-xs-5">
         <%=link_to "Ajouter un joueur à la liste", invite_player_path(@tournament), class: "btn btn-success", id: "convocation-submit" %>
       </div>
     </div>
 
-
-    <table class="table table-hover card">
+    <table id="example" class="table table-hover card display dataTable margin_mes_tournois">
+      <thead>
       <tr>
           <th>Select</th>
           <th>Prénom</th>
@@ -26,10 +21,13 @@
           <th>Statut de la convocation en cours</th>
           <th>Messages<th>
       </tr>
+       </thead>
+       <tbody>
+
       <% @subscriptions.each do |subscription|%>
-        <tr class="subscription_item" id="<%= subscription.id %>">
+               <tr class="subscription_item" id="<%= subscription.id %>">
           <td class="checkbox"><input id="checkbox-player" type="checkbox"></td>
-          <td><%= subscription.user.first_name%></td>
+          <td class="first-name"><%= subscription.user.first_name%></td>
           <td><%= subscription.user.last_name%></td>
           <td><%= subscription.user.licence_number%></td>
           <td>
@@ -51,7 +49,9 @@
             <% end %>
         </tr>
      <%end%>
+     </tbody>
     </table>
+
 
     <%= form_tag multiple_new_path(@tournament) do %>
         <%= hidden_field_tag :subscription_ids %>
@@ -81,53 +81,25 @@
       <% javascript_tag do %>
         $(document).ready(function() {
           $("#subscription-status").change(function(){
-            $$.ajax({url: "/tournaments/:tournament_id/subscriptions/:id", type: "POST"};
+            $.ajax({url: "/tournaments/:tournament_id/subscriptions/:id", type: "POST"
             });
           });
         });
        <% end %>
     <% end %>
 
-    <script type="text/javascript">
+   <%= content_for :after_js do %>
+   <% javascript_tag do %>
+$(document).ready( function () {
+    $('#example').DataTable({
+    paging: false
+});
+} );
 
 
-  $(document).ready(function() {
-    var client = new AlgoliaSearch("<%=ENV["ALGOLIA_APPLICATION_ID"]%>", "<%=ENV["ALGOLIA_SEARCH_ONLY_API_KEY"]%>");
-    var $facets = $('#facets');
-    // var $facetTemplate = Hogan.compile($('#facet-template').text());
-    // var $sliderTemplate = Hogan.compile($('#slider-template').text());
+<% end %>
+    <% end %>
 
-    // Helper initialization
-
-    // var template = Hogan.compile('{{{_highlightResult.email.value}}} ({{{_highlightResult.first_name.value}}} {{{_highlightResult.last_name.value}}})');
-    $('#user').typeahead(null, {
-      source: client.initIndex('<%= User.index_name %>').ttAdapter(),
-      displayKey: 'name',
-      templates: {
-        suggestion: function(hit) {
-          console.log(hit);
-          return '<div class="result-item col-xs-12"><a href="/tournaments/' + hit.objectID + '">' +
-              '<div class="col-xs-8">' +
-                '<h5>' + hit._highlightResult.name.value + '</h5>' +
-                '<p>' + hit._highlightResult.category.value + '</p>' +
-                '<p>' + hit._highlightResult.genre.value + '</p>' +
-              '</div>' +
-              '<div class="col-xs-4">' +
-                '<h5>' + 'du '+ hit._highlightResult.starts_on.value + ' au ' +hit._highlightResult.ends_on.value +
-                '</h5>' +
-              '</div>' +
-              '<div class="col-xs-4">' +
-                '<h5>' + hit._highlightResult.address.value + ' à ' +hit._highlightResult.city.value +
-                '</h5>' +
-              '</div>' +
-           '</a>' +
-          '</div>';
-        }
-      }
-    });
-  });
-
-</script>
 
 
 

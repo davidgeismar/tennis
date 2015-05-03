@@ -5,10 +5,9 @@
         <%= simple_form_for(@user) do |f| %>
           <%= f.input :first_name, label: "Prénom" %>
           <%= f.input :last_name, label: "Nom" %>
-          <%= f.input :email %>
+          <%= f.input :email, label: "email" %>
           <%= f.input :judge_number, label: "Numéro de juge" %>
-          <%= f.input :genre, label: "Sexe" %>
-          <%= f.input :date_of_birth, label: "Date de naissance" %>
+          <%= f.input :birthdate, label: "Date de naissance" %>
           <%= f.input :telephone %>
            <p>
             <%= f.label :picture, label: "Photo" %>

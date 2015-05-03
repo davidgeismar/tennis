@@ -5,9 +5,9 @@
         <h2 class="connexion"><%= t('.sign_up', default: "Sign up as Player") %></h2>
         <%= simple_form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
           <%= f.error_notification %>
-
           <%= f.input :email, required: true, autofocus: true, placeholder: "e-mail", label: false %>
           <%= f.input :password, required: true, placeholder: "mot de passe", label: false %>
+
           <%= f.button :submit, t('.sign_up', default: "Sign up"), class: "btn-subscribe" %>
         <% end %>
         <p class="or">or</p>

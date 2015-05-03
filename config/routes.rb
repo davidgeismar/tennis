@@ -18,7 +18,10 @@ Rails.application.routes.draw do
     resources :convocations, only: [:new, :create]
   end
 
-  # get "tournaments", to: "tournaments#index"
+  resources :transfers, only: :create do
+    get :mangopay_return, on: :collection
+  end
+   get "tournaments/:tournament_id:/success", to: "tournaments#success_payment", as: "success"
   # resources :users, only: [:edit, :show, :update] do
   #   get :card, on: :member
   #   # get :rdstr_card_registration, on: :member
@@ -33,7 +36,7 @@ Rails.application.routes.draw do
   get "tournaments/:id/invite_player", to: "tournaments#invite_player", as: "invite_player"
   post "tournaments/:id/invite_player", to: "tournaments#invite_player_to_tournament"
   post 'tournaments/results', to: "tournaments#results", as: "tournaments_results"
-  resources :users do
+  resources :users, only: [:update, :show, :edit] do
     resources :tournaments, only: [:show, :new, :create, :edit, :update]
   end
 
