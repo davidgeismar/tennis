@@ -123,13 +123,6 @@ function registerCardDemo() {
                   type:"post",
                   dataType: "script",
                   url: "<%=j transfers_path(tournament_id: params[:tournament_id])%>",
-
-                  success: function() {$.ajax({
-                    type:"post",
-                    dataType: "script",
-                    url: "<%=j subscriptions_path(tournament_id: params[:tournament_id])%>%>"
-                    });
-                  }
                 });
               }
             });

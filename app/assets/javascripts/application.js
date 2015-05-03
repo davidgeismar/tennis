@@ -3,6 +3,11 @@
 //= require bootstrap-sprockets
 //= require underscore
 //= require gmaps/google
+//= require algolia/algoliasearch.min
+//= require algolia/typeahead.jquery
+//= require mangopay-kit.js
+//= require jquery.dataTables
+
 
 //= require_tree ./app
 
@@ -10,6 +15,3 @@
 // Please do not put any code in here. Create a new .js file in
 // app/assets/javascripts/app instead, and put your code there
 
-//= require algolia/algoliasearch.min
-//= require algolia/typeahead.jquery
-//= require mangopay-kit.js

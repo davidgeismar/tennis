@@ -9,7 +9,9 @@
             <%= f.input :password, required: false, placeholder: "mot de passe", label:false %>
             <%= f.input :remember_me, as: :boolean if devise_mapping.rememberable? %>
             <%= f.button :submit, t(".sign_in", default: "Sign in"), class: "btn-subscribe" %>
+
         <% end %>
+
         <p class="or">or</p>
 
         <%= render "devise/shared/links" %>

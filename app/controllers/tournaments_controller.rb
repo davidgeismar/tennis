@@ -1,5 +1,5 @@
 class TournamentsController < ApplicationController
-  skip_after_action :verify_authorized, only: [:invite_player, :invite_player_to_tournament, :registrate_card]
+  skip_after_action :verify_authorized, only: [:invite_player, :invite_player_to_tournament, :registrate_card, :success_payment]
   def index
     @tournaments = policy_scope(Tournament)
   end
@@ -56,15 +56,28 @@ class TournamentsController < ApplicationController
     end
   end
 
+  def success_payment
+    @tournament = Tournament.find(params[:tournament_id])
+  end
   def registrate_card
-    card = MangoPay::CardRegistration.create({UserId: current_user.mangopay_natural_user_id, Currency:"EUR"})
+    tournament = Tournament.find(params[:tournament_id])
+    if current_user.first_name == "" || current_user.last_name == "" || current_user.licence_number == "" || current_user.telephone == ""
+      flash[:alert] = "Vous devez remplir votre profil pour pouvoir vous inscrire à ce tournoi"
+      redirect_to tournament_path(tournament)
 
-    redirect_to new_tournament_subscription_path(
-      access_key: card["AccessKey"],
-      preregistration_data: card["PreregistrationData"],
-      card_registration_url: card["CardRegistrationURL"],
-      card_registration_id: card["Id"],
-      tournament_id: params[:tournament_id])
+    # elsif current_user.subscriptions(tournament_id: tournament.id)
+    #   flash[:alert] = "Vous etes déjà inscrit à ce tournoi"
+    #   redirect_to tournament_path(tournament)
+    else
+      card = MangoPay::CardRegistration.create({UserId: current_user.mangopay_natural_user_id, Currency:"EUR"})
+
+      redirect_to new_tournament_subscription_path(
+        access_key: card["AccessKey"],
+        preregistration_data: card["PreregistrationData"],
+        card_registration_url: card["CardRegistrationURL"],
+        card_registration_id: card["Id"],
+        tournament_id: params[:tournament_id])
+    end
   end
 
   def find

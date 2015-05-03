@@ -5,14 +5,19 @@
       <div class="col-xs-6 col-xs-offset-3">
         <h3 class="text-center">Modifier mon profil</h3>
         <%= simple_form_for(@user) do |f| %>
+
+         <%= f.error_notification %>
+
         <%= f.input :first_name, label: "Prénom" %>
         <%= f.input :last_name, label: "Nom" %>
         <%= f.input :email, label:"email" %>
-        <%= f.input :ranking, label:"Classement" %>
-        <%= f.input :genre, label: "Sexe" %>
-        <%= f.input :date_of_birth, label: "date de naissance" %>
-        <%= f.input :licence_number, label: "numéro de licence"%>
         <%= f.input :telephone, label: "telephone"%>
+
+        <p><%= f.label :birthdate, 'Date de naissance' %></p>
+        <%= f.date_select :birthdate, {:include_blank => true, :default => nil, :use_month_names => ['Janv.','Fevr.', 'Mars', 'Avr.', 'Mai', 'Juin', 'Juil.', 'Août','Sept.', 'Oct.', 'Nov.', 'Déc.'], :order => [:day, :month, :year], :start_year => 1910, :end_year => 1995} %>
+         <%= f.input :genre, label: "Sexe" %>
+        <%= f.input :ranking, label:"Classement" %>
+        <%= f.input :licence_number, label: "numéro de licence"%>
         <p>
           <%= f.label :Photo%>
           <%= f.file_field :picture %>
