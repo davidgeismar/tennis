@@ -3,12 +3,14 @@
     <div class="row">
       <div class="col-xs-6 col-xs-offset-3">
         <%= simple_form_for(@user) do |f| %>
+          <%= f.error_notification %>
           <%= f.input :first_name, label: "Prénom" %>
           <%= f.input :last_name, label: "Nom" %>
           <%= f.input :email, label: "email" %>
-          <%= f.input :judge_number, label: "Numéro de juge" %>
-          <%= f.input :birthdate, label: "Date de naissance" %>
           <%= f.input :telephone %>
+          <%= f.input :judge_number, label: "Numéro de juge" %>
+          <p><%= f.label :birthdate, 'Date de naissance' %></p>
+        <%= f.date_select :birthdate, {:include_blank => true, :default => nil, :use_month_names => ['Janv.','Fevr.', 'Mars', 'Avr.', 'Mai', 'Juin', 'Juil.', 'Août','Sept.', 'Oct.', 'Nov.', 'Déc.'], :order => [:day, :month, :year], :start_year => 1910, :end_year => 1995} %>
            <p>
             <%= f.label :picture, label: "Photo" %>
             <%= f.file_field :picture %>

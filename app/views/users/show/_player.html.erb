@@ -22,14 +22,57 @@
             <h4><%= link_to "Modifier mon profil", edit_user_path, class:"btn btn-warning modifier-profil", id: "modif-prof"  %></h4>
           </div>
           <div class="col-xs-5 text-left">
-            <h4><%= @user.first_name %></h4>
-            <h4><%= @user.last_name %></h4>
-            <h4><%= @user.email %></h4>
-            <h4><%= @user.telephone %></h4>
-            <h4><%= @user.ranking%></h4>
-            <h4><%= @user.licence_number %></h4>
-            <h4><%= @user.genre_text %></h4>
-            <h4><%= @user.birthdate %></h4>
+            <h4>
+             <%if @user.first_name.nil? || @user.first_name.blank?%>
+                <br>
+             <%else%>
+                <%= @user.first_name %>
+              <% end -%>
+          </h4>
+          <h4><%if @user.last_name.nil? || @user.last_name.blank?%>
+                <br>
+             <%else%>
+                <%= @user.last_name %>
+              <% end -%>
+          </h4>
+          <h4><%if @user.email.nil? || @user.email.blank?%>
+                <br>
+             <%else%>
+                <%= @user.email %>
+              <% end -%>
+          </h4>
+          <h4><%if @user.telephone.nil? || @user.telephone.blank?%>
+                <br>
+             <%else%>
+                <%= @user.telephone %>
+              <% end -%>
+          </h4>
+          <h4><%if @user.ranking.nil? || @user.ranking.blank?%>
+                <br>
+             <%else%>
+                <%= @user.ranking %>
+              <% end -%>
+          </h4>
+          <h4>
+            <% if @user.licence_number.nil? || @user.licence_number.blank? %>
+                <br>
+            <%else%>
+              <%= @user.licence_number%>
+             <% end -%>
+          </h4>
+          <h4><%if @user.genre_text.nil? || @user.genre_text.blank?%>
+                <br>
+             <%else%>
+                <%= @user.genre_text %>
+              <% end -%>
+          </h4>
+          <h4>
+            <%if @user.birthdate.nil? || @user.birthdate.blank?%>
+                <br>
+             <%else%>
+                <%= @user.birthdate.strftime("%d/%m/%Y") %>
+              <% end -%>
+          </h4>
           </div>
           <div class="col-xs-2">
             <div class="user-picture" style='background-image:url(<%= image_path @user.picture.url(:medium), class:"profile-picture" %>)'>

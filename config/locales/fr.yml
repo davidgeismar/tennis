@@ -1,4 +1,7 @@
 fr:
+  active_admin:
+    previous: "Previous"
+    next: "Next"
   enumerize:
     convocation:
       status:
@@ -16,3 +19,4 @@ fr:
       genre:
         male: Homme
         female: Femme
+
