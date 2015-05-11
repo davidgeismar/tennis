@@ -42,7 +42,7 @@ class ConvocationsController < ApplicationController
       @subscription_ids = params[:subscription_ids].split(', ')
       @player_names = []
       @subscription_ids.each do |subscription_id|
-        @player_names << Subscription.find(subscription_id).user.name
+        @player_names << Subscription.find(subscription_id).user.full_name
       end
     end
 

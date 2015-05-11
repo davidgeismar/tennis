@@ -26,10 +26,23 @@ class Tournament < ActiveRecord::Base
 
   has_many :subscriptions, dependent: :destroy
 
-  validates :genre, presence: true
-  validates :category, presence: true
-  validates :starts_on, presence: true
-  validates :ends_on, presence: true
+  validates :genre, presence:  { message: "Merci d'indiquer le genre" }
+  validates :category, presence: { message: "Merci d'indiquer la catégorie" }
+  validates :starts_on, presence: { message: "Merci d'indiquer la date de début" }
+  validates :ends_on, presence: { message: "Merci d'indiquer la date de fin" }
+  validates :amount, presence: { message: "Merci d'indiquer le montant des frais d'inscription" }
+  validates :city, presence: { message: "Merci d'indiquer la ville où a lieu le tournoi" }
+  validates :address, presence: { message: "Merci d'indiquer l'addresse des installations" }
+  validates :name, presence: { message: "Merci d'indiquer le nom de la compétition" }
+  validates :club_organisateur, presence: { message: "Merci d'indiquer le club organisateur" }
+  # validate :start_must_be_before_end_time
+
+  # private
+
+  # def start_must_be_before_end_time
+  #   errors.add(:starts_on, "must be before end time") unless
+  #       starts_on < ends_on
+  # end
 end
 
 

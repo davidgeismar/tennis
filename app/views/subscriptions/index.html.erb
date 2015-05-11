@@ -8,7 +8,6 @@
         <%=link_to "Ajouter un joueur à la liste", invite_player_path(@tournament), class: "btn btn-success", id: "convocation-submit" %>
       </div>
     </div>
-
     <table id="example" class="table table-hover card display dataTable margin_mes_tournois">
       <thead>
       <tr>
@@ -26,13 +25,25 @@
 
       <% @subscriptions.each do |subscription|%>
                <tr class="subscription_item" id="<%= subscription.id %>">
-          <td class="checkbox"><input id="checkbox-player" type="checkbox"></td>
+               <% if subscription.status == "confirmed" %>
+                <td class="checkbox"><input id="checkbox-player" type="checkbox"></td>
+               <% else %>
+                <td></td>
+                <%end%>
           <td class="first-name"><%= subscription.user.first_name%></td>
           <td><%= subscription.user.last_name%></td>
           <td><%= subscription.user.licence_number%></td>
           <td>
+
             <%= form_for [@tournament, subscription] do |f| %>
-              <%= f.select :status, Subscription.status.options, remote: true, class: "form-control subscription-status" %>
+              <%if subscription.status == "pending" %>
+                <%= f.select :status, Subscription.status.options, :confirm => 'Your confirm message', remote: true, class: "form-control subscription-status" %>
+              <%elsif subscription.status == "confirmed"%>
+                confirmé
+              <%else%>
+                Refusé
+              <%end%>
+
             <% end %>
            </td>
           <td><button type="button" class="btn btn-primary "><%=link_to "Profil du joueur", user_path(subscription.user) %></button></td>
@@ -61,7 +72,7 @@
 </div>
 
     <%= content_for :after_js do %>
-      <% javascript_tag do %>
+      <script>
         $(document).ready(function() {
         var string = "";
           $('.checkbox').on('click', function() {
@@ -74,30 +85,25 @@
             $('#subscription_ids').val(string);
           })
         })
-      <% end %>
-    <% end %>
 
-    <%= content_for :after_js do %>
-      <% javascript_tag do %>
-        $(document).ready(function() {
-          $("#subscription-status").change(function(){
-            $.ajax({url: "/tournaments/:tournament_id/subscriptions/:id", type: "POST"
-            });
-          });
-        });
-       <% end %>
-    <% end %>
 
-   <%= content_for :after_js do %>
-   <% javascript_tag do %>
+function confirm() {
+  confirm("Press a button!");
+}
+
+
 $(document).ready( function () {
+  $.fn.dataTableExt.oStdClasses["sFilter"] = "my-style-class";
     $('#example').DataTable({
-    paging: false
+    "paging": false,
+    "ordering": false,
+    "info":     false,
+
 });
 } );
 
 
-<% end %>
+</script>
     <% end %>
 
 

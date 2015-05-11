@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  skip_after_action :verify_authorized, only: [:set_user, :update_card, :update, :show, :edit]
+  skip_after_action :verify_authorized, only: [:set_user, :update_card, :update, :edit, :show]
   before_action :set_user
 
   def show
@@ -10,9 +10,12 @@ class UsersController < ApplicationController
   end
 
   def update
-    @user.update(user_params)
-    @user.create_mangopay_natural_user_and_wallet
-    redirect_to user_path(current_user)
+    if @user.update(user_params)
+      # @user.create_mangopay_natural_user_and_wallet
+      redirect_to user_path(current_user)
+    else
+      render 'edit'
+    end
   end
 
   def update_card

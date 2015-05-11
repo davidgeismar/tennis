@@ -1,4 +1,5 @@
 class Convocation < ActiveRecord::Base
+   after_create :send_convocation_email
 
   # tracked
 
@@ -11,4 +12,10 @@ class Convocation < ActiveRecord::Base
   validates :subscription_id, presence: true
   validates :date, presence: true
   validates :hour, presence: true
+
+  private
+
+  def send_convocation_email
+    ConvocationMailer.send_convocation(self).deliver
+  end
 end
