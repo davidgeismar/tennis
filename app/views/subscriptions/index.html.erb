@@ -93,8 +93,12 @@ function confirm() {
 
 
 $(document).ready( function () {
+  $.fn.dataTableExt.oStdClasses["sFilter"] = "my-style-class";
     $('#example').DataTable({
-    paging: false
+    "paging": false,
+    "ordering": false,
+    "info":     false,
+
 });
 } );
 

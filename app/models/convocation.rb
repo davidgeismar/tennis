@@ -1,5 +1,5 @@
 class Convocation < ActiveRecord::Base
-  # after_create :send_email
+   after_create :send_convocation_email
 
   # tracked
 
@@ -15,7 +15,7 @@ class Convocation < ActiveRecord::Base
 
   private
 
-  def send_email
-    ConvocationMailer.welcome(self).deliver
+  def send_convocation_email
+    ConvocationMailer.send_convocation(self).deliver
   end
 end

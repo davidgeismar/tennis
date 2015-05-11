@@ -34,6 +34,8 @@ skip_after_action :verify_authorized
         "SecureMode" => "DEFAULT"
       })
 
+
+
       transfer.archive = @payin
       transfer.save
         respond_to do |format|

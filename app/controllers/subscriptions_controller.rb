@@ -53,7 +53,7 @@ skip_after_action :verify_authorized, only: [:create, :mytournaments]
       mangopay_refund
       redirect_to tournament_subscriptions_path(@subscription.tournament)
     else
-      mangopay_payout
+      # mangopay_payout
       redirect_to tournament_subscriptions_path(@subscription.tournament)
     end
   end
@@ -161,8 +161,7 @@ skip_after_action :verify_authorized, only: [:create, :mytournaments]
     end
 
     def mangopay_refund
-      ActiveSupport::JSON.decode(your_json_string)
-      @transfer = @subscription.tournament.transfers.where(archive: {"AuthorId" => @subscription.user.mangopay_natural_user_id})
+      @transfer = @subscription.tournament.transfers.where("archive ->> 'AuthorId' = ?", "#{@subscription.user.mangopay_natural_user_id}").first()
       MangoPay::PayIn.refund(@transfer.mangopay_transaction_id,{
           "AuthorId" => @subscription.user.mangopay_natural_user_id,
         })
