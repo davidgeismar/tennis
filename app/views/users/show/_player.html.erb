@@ -15,6 +15,7 @@
             <h4> Nom </h4>
             <h4> email </h4>
             <h4> Telephone</h4>
+             <h4> Club</h4>
             <h4> Classement</h4>
             <h4> numéro de licence</h4>
             <h4> Sexe </h4>
@@ -45,6 +46,12 @@
                 <br>
              <%else%>
                 <%= @user.telephone %>
+              <% end -%>
+          </h4>
+          <h4><%if @user.club.nil? || @user.club.blank?%>
+                <br>
+             <%else%>
+                <%= @user.club %>
               <% end -%>
           </h4>
           <h4><%if @user.ranking.nil? || @user.ranking.blank?%>

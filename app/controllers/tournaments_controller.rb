@@ -16,7 +16,7 @@ class TournamentsController < ApplicationController
   def new
     if current_user.first_name.blank? || current_user.last_name.blank? || current_user.judge_number.blank? || current_user.telephone.blank? || current_user.birthdate.blank?
       flash[:alert] = "Vous devez d'abord remplir votre profil pour pouvoir ajouter votre tournoi"
-      redirect_to 'home'
+      redirect_to 'judge_connected'
     else
       create_mangopay_natural_user_and_wallet
       @tournament = Tournament.new
@@ -79,7 +79,7 @@ class TournamentsController < ApplicationController
     arrayinf11 = ['9 ans', '9-10ans', '10 ans']
     tournament = Tournament.find(params[:tournament_id])
 
-    if current_user.first_name.blank? || current_user.last_name.blank? || current_user.licence_number.blank? || current_user.telephone.blank? || current_user.birthdate.blank?
+    if current_user.first_name.blank? || current_user.last_name.blank? || current_user.licence_number.blank? || current_user.telephone.blank? || current_user.birthdate.blank? || current_user.club.blank?
       flash[:alert] = "Vous devez d'abord remplir votre profil pour pouvoir vous inscrire à ce tournoi"
       redirect_to tournament_path(tournament)
 

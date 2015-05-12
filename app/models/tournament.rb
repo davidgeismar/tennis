@@ -37,7 +37,7 @@ class Tournament < ActiveRecord::Base
   validates :club_organisateur, presence: { message: "Merci d'indiquer le club organisateur" }
   # validate :start_must_be_before_end_time
 
-  # private
+  private
 
   # def start_must_be_before_end_time
   #   errors.add(:starts_on, "must be before end time") unless

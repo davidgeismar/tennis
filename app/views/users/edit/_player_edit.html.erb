@@ -15,6 +15,7 @@
 
         <p><%= f.label :birthdate, 'Date de naissance' %></p>
         <%= f.date_select :birthdate, {:include_blank => true, :default => nil, :use_month_names => ['Janv.','Fevr.', 'Mars', 'Avr.', 'Mai', 'Juin', 'Juil.', 'Août','Sept.', 'Oct.', 'Nov.', 'Déc.'], :order => [:day, :month, :year], :start_year => 1910, :end_year => 1995} %>
+        <%= f.input :club, label: "Votre club" %>
          <%= f.input :genre, label: "Sexe" %>
         <%= f.input :ranking, label:"Classement" %>
         <%= f.input :licence_number, label: "numéro de licence"%>
