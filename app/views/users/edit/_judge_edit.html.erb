@@ -15,6 +15,9 @@
             <%= f.label :picture, label: "Photo" %>
             <%= f.file_field :picture %>
           </p>
+          <%= f.input :iban, label: "Votre Iban", placeholder: "FR70 3000 2005 5000 0015 7845 Z02" %>
+          <%= f.input :bic, label: "Votre bic", placeholder: "AXABFRPP"%>
+          <%= f.input :address, label: "Votre addresse" %>
           <%= f.button :submit, "Valider", class: "btn-success" %>
         <% end %>
       </div>

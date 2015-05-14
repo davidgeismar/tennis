@@ -35,14 +35,16 @@ class Tournament < ActiveRecord::Base
   validates :address, presence: { message: "Merci d'indiquer l'addresse des installations" }
   validates :name, presence: { message: "Merci d'indiquer le nom de la compétition" }
   validates :club_organisateur, presence: { message: "Merci d'indiquer le club organisateur" }
-  # validate :start_must_be_before_end_time
+  validate :start_date_before_end_date
+
 
   private
 
-  # def start_must_be_before_end_time
-  #   errors.add(:starts_on, "must be before end time") unless
-  #       starts_on < ends_on
-  # end
+  def start_date_before_end_date
+    if starts_on > ends_on
+      errors.add(:starts_on, "Start date should be before end date")
+    end
+  end
 end
 
 

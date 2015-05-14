@@ -3,33 +3,9 @@ skip_after_action :verify_authorized, only: [:create, :mytournaments]
 
 
 
-  def create_mangopay_bank_account
-    bank_account = MangoPay::BankAccount.create(mangopay_user_id, mangopay_user_bank_attributes)
-    self.bank_account_id = bank_account["Id"]
-    self.save
-  end
 
-  def mangopay_user_bank_attributes
-    {
-      'OwnerName' => current_user.name,
-      'Type' => "IBAN",
-      'OwnerAddress' => current_user.address,
-      'IBAN' => current_user.iban,
-      'BIC' => current_user.bic,
-      'Tag' => 'Bank Account for Payouts'
-    }
-  end
 
- def mangopay_user_attributes
-    {
-      'Email' => current_user.email,
-      'FirstName' => current_user.first_name,
-      'LastName' => current_user.last_name,  # TODO: Change this! Add 2 columns on users table.
-      'Birthday' => current_user.birthday.to_i,  # TODO: Change this! Add 1 column on users table
-      'Nationality' => 'FR',  # TODO: change this!
-      'CountryOfResidence' => 'FR' # TODO: change this!
-    }
-  end
+
 
   def mytournaments
     @subscriptions = Subscription.where(user_id: current_user)
@@ -52,8 +28,11 @@ skip_after_action :verify_authorized, only: [:create, :mytournaments]
     if @subscription.status == "refused"
       mangopay_refund
       redirect_to tournament_subscriptions_path(@subscription.tournament)
+    elsif @subscription.status == "canceled"
+      mangopay_refund
+      redirect_to tournament_subscriptions_path(@subscription.tournament)
     else
-      # mangopay_payout
+      mangopay_payout
       redirect_to tournament_subscriptions_path(@subscription.tournament)
     end
   end
@@ -77,6 +56,18 @@ skip_after_action :verify_authorized, only: [:create, :mytournaments]
 
   private
 
+
+
+     def mangopay_user_attributes
+      {
+        'Email' => current_user.email,
+        'FirstName' => current_user.first_name,
+        'LastName' => current_user.last_name,  # TODO: Change this! Add 2 columns on users table.
+        'Birthday' => current_user.birthday.to_i,  # TODO: Change this! Add 1 column on users table
+        'Nationality' => 'FR',  # TODO: change this!
+        'CountryOfResidence' => 'FR' # TODO: change this!
+      }
+    end
     def create_mangopay_natural_user_and_wallet
       natural_user = MangoPay::NaturalUser.create(mangopay_user_attributes)
 
@@ -121,26 +112,17 @@ skip_after_action :verify_authorized, only: [:create, :mytournaments]
 
 
     def mangopay_payout
-      judge = @subscription.tournament.user
-      if judge.iban.blank?
-        # UserMailer.new_iban_request(owner).deliver
-        self.status = 'iban'
-      else
-        if judge.bank_account_id.blank?
-          self.create_bank_account
-        end
-        unless car.user.bank_account_id.blank?
-          payout = MangoPay::PayOut::BankWire.create(payout_attributes)
-          transfer = self.transfers.create(:status => payout["Status"], :category => "payout", :mangopay_transaction_id => payout["Id"].to_i, :archive => payout)
-          if payout["Status"] == 'CREATED'
-            self.status = "payout"
-          elsif payout["Status"] == 'SUCCEEDED'
-            self.status = 'succeeded'
-          end
-        end
+      payout = MangoPay::PayOut::BankWire.create(payout_attributes)
+      transfer = Transfer.create(:status => payout["Status"], :category => "payout", :mangopay_transaction_id => payout["Id"].to_i, :archive => payout, :tournament_id => @subscription.tournament)
+      if payout["Status"] == 'CREATED'
+        transfer.status = "payout"
+        transfer.save
+      elsif payout["Status"] == 'SUCCEEDED'
+        transfer.status = 'succeeded'
+        transfer.save
       end
-      self.save
     end
+
 
     def payout_attributes
       {
@@ -148,15 +130,15 @@ skip_after_action :verify_authorized, only: [:create, :mytournaments]
         'AuthorId' => @subscription.user.mangopay_natural_user_id,
         'DebitedFunds' => {
           Currency: "EUR",
-          Amount: self.price.to_i*100*0.7
+          Amount: @subscription.tournament.amount*100*0.7
         },
         'Fees' => {
           Currency: "EUR",
           Amount: "0"
         },
         'DebitedWalletId' => @subscription.user.wallet_id,
-        'BankAccountId' => current_user.bank_account_id,
-        'BankWireRef' => "Virement Roadstr"
+        'BankAccountId' => @subscription.tournament.user.bank_account_id,
+        'BankWireRef' => "Virement TennisMatch"
       }
     end
 

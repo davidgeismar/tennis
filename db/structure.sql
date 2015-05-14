@@ -542,7 +542,12 @@ CREATE TABLE users (
     wallet_id integer,
     kyc_document_id integer,
     card_id integer,
-    birthdate timestamp without time zone
+    birthdate timestamp without time zone,
+    club character varying,
+    iban character varying,
+    bic character varying,
+    address character varying,
+    bank_account_id integer
 );
 
 
@@ -1086,4 +1091,12 @@ INSERT INTO schema_migrations (version) VALUES ('20150427201753');
 INSERT INTO schema_migrations (version) VALUES ('20150501141614');
 
 INSERT INTO schema_migrations (version) VALUES ('20150510193419');
+
+INSERT INTO schema_migrations (version) VALUES ('20150512093035');
+
+INSERT INTO schema_migrations (version) VALUES ('20150512113410');
+
+INSERT INTO schema_migrations (version) VALUES ('20150512114847');
+
+INSERT INTO schema_migrations (version) VALUES ('20150512115536');
 

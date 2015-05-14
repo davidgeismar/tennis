@@ -11,7 +11,6 @@ class UsersController < ApplicationController
 
   def update
     if @user.update(user_params)
-      # @user.create_mangopay_natural_user_and_wallet
       redirect_to user_path(current_user)
     else
       render 'edit'
@@ -29,7 +28,7 @@ class UsersController < ApplicationController
   private
 
   def user_params
-    params.require(:user).permit(:first_name, :last_name, :name, :licence_number, :genre, :email, :ranking, :judge_number, :telephone, :picture, :licencepicture, :certifmedpicture, :card_id, :birthdate, :club)
+    params.require(:user).permit(:first_name, :last_name, :name, :licence_number, :genre, :email, :ranking, :judge_number, :telephone, :picture, :licencepicture, :certifmedpicture, :card_id, :birthdate, :club, :iban, :bic, :address)
   end
 
   def card_params

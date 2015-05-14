@@ -14,11 +14,13 @@ class TournamentsController < ApplicationController
   end
 
   def new
-    if current_user.first_name.blank? || current_user.last_name.blank? || current_user.judge_number.blank? || current_user.telephone.blank? || current_user.birthdate.blank?
+    if current_user.first_name.blank? || current_user.last_name.blank? || current_user.judge_number.blank? || current_user.telephone.blank? || current_user.birthdate.blank? || current_user.iban.blank? || current_user.bic.blank? || current_user.address.blank?
       flash[:alert] = "Vous devez d'abord remplir votre profil pour pouvoir ajouter votre tournoi"
       redirect_to 'judge_connected'
     else
       create_mangopay_natural_user_and_wallet
+      create_mangopay_bank_account
+
       @tournament = Tournament.new
       authorize @tournament
     end
@@ -79,9 +81,14 @@ class TournamentsController < ApplicationController
     arrayinf11 = ['9 ans', '9-10ans', '10 ans']
     tournament = Tournament.find(params[:tournament_id])
 
-    if current_user.first_name.blank? || current_user.last_name.blank? || current_user.licence_number.blank? || current_user.telephone.blank? || current_user.birthdate.blank? || current_user.club.blank?
+    if current_user.first_name.blank? || current_user.last_name.blank? || current_user.licence_number.blank? || current_user.telephone.blank? || current_user.birthdate.blank? || current_user.club.blank? || current_user.genre.blank?
       flash[:alert] = "Vous devez d'abord remplir votre profil pour pouvoir vous inscrire à ce tournoi"
       redirect_to tournament_path(tournament)
+
+    elsif current_user.genre != tournament.genre
+      flash[:alert] = "Ce tournoi n'est pas mixte. Vous ne pouvez pas vous inscrire."
+      redirect_to tournament_path(tournament)
+
 
     elsif current_user.subscriptions(tournament_id: tournament).blank?
       flash[:alert] = "Vous etes déjà inscrit à ce tournoi"
@@ -169,7 +176,22 @@ class TournamentsController < ApplicationController
 
   private
 
+  def create_mangopay_bank_account
+    bank_account = MangoPay::BankAccount.create(current_user.mangopay_natural_user_id, mangopay_user_bank_attributes)
+    current_user.bank_account_id = bank_account["Id"]
+    current_user.save
+  end
 
+  def mangopay_user_bank_attributes
+      {
+        'OwnerName' => current_user.full_name,
+        'Type' => "IBAN",
+        'OwnerAddress' => current_user.address,
+        'IBAN' => current_user.iban,
+        'BIC' => current_user.bic,
+        'Tag' => 'Bank Account for Payouts'
+      }
+    end
 
   def tournament_params
     params.require(:tournament).permit(:genre, :category, :amount, :starts_on, :ends_on, :address, :club_organisateur, :name, :city, :lat, :long)

@@ -17,6 +17,9 @@
                     <h4>Telephone</h4>
                     <h4> numéro de juge-arbitre</h4>
                     <h4>Date de naissance</h4>
+                    <h4>Iban</h4>
+                    <h4>bic</h4>
+                    <h4>addresse</h4>
                     <h4><%= link_to "Modifier mon profil", edit_user_path, class:"btn btn-warning modifier-profil", id: "modif-prof"  %></h4>
                   </div>
                   <div class="col-xs-5 text-left">
@@ -57,6 +60,27 @@
                           <br>
                        <%else%>
                           <%= @user.birthdate.strftime("%d/%m/%Y") %>
+                        <% end -%>
+                    </h4>
+                     <h4>
+                      <%if @user.iban.blank?%>
+                          <br>
+                       <%else%>
+                          <%= @user.iban %>
+                        <% end -%>
+                    </h4>
+                    <h4>
+                      <%if @user.bic.blank?%>
+                          <br>
+                       <%else%>
+                          <%= @user.bic %>
+                        <% end -%>
+                    </h4>
+                    <h4>
+                      <%if @user.address.blank?%>
+                          <br>
+                       <%else%>
+                          <%= @user.address %>
                         <% end -%>
                     </h4>
                   </div>
