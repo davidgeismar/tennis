@@ -10,6 +10,7 @@ class UsersController < ApplicationController
   end
 
   def update
+    raise
     if @user.update(user_params)
       redirect_to user_path(current_user)
     else

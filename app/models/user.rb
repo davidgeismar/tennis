@@ -38,8 +38,8 @@ class User < ActiveRecord::Base
   validates_attachment_content_type :certifmedpicture,
     content_type: /\Aimage\/.*\z/
 
-  validates :first_name, presence: { message: 'Veuillez remplir votre prénom' }, on: :update
-  validates :last_name, presence: { message: 'Veuillez remplir votre nom' }, on: :update
+ validates :first_name, presence: { message: 'Veuillez remplir votre prénom' }, on: :update
+ validates :last_name, presence: { message: 'Veuillez remplir votre nom' }, on: :update
   # validates :iban, format: {
   #       # with: /[a-zA-Z]{2}[0-9]{2}[a-zA-Z0-9]{4}[0-9]{7}([a-zA-Z0-9]?){0,16}/,
   #       message: 'Le format de votre IBAN doit être du type FR70 3000 2005 5000 0015 7845 Z02'
@@ -47,12 +47,12 @@ class User < ActiveRecord::Base
   validates :bic, format: {
         with: /([a-zA-Z]{4}[a-zA-Z]{2}[a-zA-Z0-9]{2}([a-zA-Z0-9]{3})?)/,
         message: 'Le format de votre BIC doit être du type AXABFRPP  '
-    }, on: :update
+    }, :allow_blank => true, on: :update
 
   validates :telephone, format:{
         with: /\A(\+33)[1-9]([-. ]?[0-9]{2}){4}\z/,
         message: 'Le format de votre numéro doit être du type +33602385414'
-    }, on: :update
+    }, :allow_blank => true, on: :update
 
   has_many :messages
 

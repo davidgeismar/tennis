@@ -1,6 +1,7 @@
 class ApplicationController < ActionController::Base
   include Pundit
 
+
   protect_from_forgery with: :exception
 
   before_action :authenticate_user!, unless: :pages_controller?
@@ -17,6 +18,10 @@ class ApplicationController < ActionController::Base
 
   def configure_permitted_parameters
     devise_parameter_sanitizer.for(:sign_up) << :judge
+    devise_parameter_sanitizer.for(:accept_invitation) do |u|
+    u.permit(:first_name, :last_name, :phone, :password, :password_confirmation,
+             :invitation_token)
+    end
   end
 
   private
