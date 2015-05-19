@@ -16,6 +16,12 @@ class ApplicationController < ActionController::Base
 
   protected
 
+   def after_sign_in_path_for(user)
+    if user.judge == false
+      request.env['omniauth.origin'] || stored_location_for(user) || tournaments_path
+    end
+  end
+
   def configure_permitted_parameters
     devise_parameter_sanitizer.for(:sign_up) << :judge
     devise_parameter_sanitizer.for(:accept_invitation) do |u|

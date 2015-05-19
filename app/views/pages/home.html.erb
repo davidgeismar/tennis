@@ -7,12 +7,14 @@
   <%# TODO %>
 <%end%>
 <div class="max-height">
-  <div class="banner">
+
     <%if current_user.nil? %>
       <%=render 'pages/partials/not_connected'%>
     <% elsif current_user.judge? %>
+      <div class="banner">
       <%=render 'pages/partials/judge_connected'%>
     <%else%>
+      <div class="banner">
       <%=render 'pages/partials/connected'%>
     <%end%>
   </div>

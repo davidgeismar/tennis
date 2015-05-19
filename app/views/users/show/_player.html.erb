@@ -6,7 +6,7 @@
         <ul class="nav nav-tabs" role="tablist">
           <li role="presentation" class="active"><a href="#profil" aria-controls="profil" role="tab" data-toggle="tab">Profil</a></li>
           <li role="presentation"><a href="#licence" aria-controls="licence" role="tab" data-toggle="tab">Licence</a></li>
-          <li role="presentation"><a href="#certif" aria-controls="certif" role="tab" data-toggle="tab">Certif</a></li>
+          <li role="presentation"><a href="#certif" aria-controls="certif" role="tab" data-toggle="tab">Certificat Médical</a></li>
         </ul>
         <div class="tab-content">
           <div role="tabpanel" class="tab-pane active" id="profil">
@@ -96,7 +96,7 @@
             <% end %>
           </div>
           <div role="tabpanel" class="tab-pane" id="certif">
-            <% if @user.licencepicture_content_type == nil %>
+            <% if @user.certifmedpicture_content_type == nil %>
               <%= render "users/edit/player_upload_certif_btn"%>
             <% else %>
               <div id="licence_picture">

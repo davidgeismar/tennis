@@ -30,7 +30,7 @@ Rails.application.routes.draw do
 
   # end
 
-
+  get "contact", to: "messages#contact", as: "contact"
   get "messages", to: "tournaments#index", as: "messages"
   get "mestournois", to: "subscriptions#mytournaments", as: "mes_tournois"
   get "tournaments/:id/invite_player", to: "tournaments#invite_player", as: "invite_player"

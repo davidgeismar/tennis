@@ -1,5 +1,5 @@
 class UserMailer < ActionMailer::Base
-  default from: 'your-email@example.com'
+  default from: 'contact@tennis-match.com'
 
   def welcome(user)
     @user = user  # Instance variable => available in view

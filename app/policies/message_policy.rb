@@ -6,7 +6,7 @@ class MessagePolicy < ApplicationPolicy
   end
 
   def new?
-    user == record.convocation.subscription.user
+  true
   end
 
   def create?

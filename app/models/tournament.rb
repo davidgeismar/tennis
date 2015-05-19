@@ -41,8 +41,8 @@ class Tournament < ActiveRecord::Base
   private
 
   def start_date_before_end_date
-    if starts_on > ends_on
-      errors.add(:starts_on, "Start date should be before end date")
+    if starts_on && ends_on && starts_on > ends_on
+      errors.add(:starts_on, "Veuillez choisir une date de début avant la date de fin du tournoi")
     end
   end
 end

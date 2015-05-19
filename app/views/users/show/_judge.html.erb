@@ -66,7 +66,8 @@
                       <%if @user.iban.blank?%>
                           <br>
                        <%else%>
-                          <%= @user.iban %>
+                          <% i = @user.iban %>
+                          <%= i[0..2] + "************" %>
                         <% end -%>
                     </h4>
                     <h4>

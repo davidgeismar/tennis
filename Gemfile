@@ -16,6 +16,7 @@ gem "aws-sdk", '< 2.0'
 gem 'omniauth-facebook'
 gem "geocoder"
 gem 'mangopay'
+gem 'unicode_utils'
 
 
 

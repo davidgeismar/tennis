@@ -307,6 +307,7 @@ GEM
     uglifier (2.7.0)
       execjs (>= 0.3.0)
       json (>= 1.8.0)
+    unicode_utils (1.4.0)
     warden (1.2.3)
       rack (>= 1.0)
 
@@ -354,3 +355,4 @@ DEPENDENCIES
   spring
   twilio-ruby (~> 3.12)
   uglifier
+  unicode_utils

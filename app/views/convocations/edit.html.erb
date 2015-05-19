@@ -1,6 +1,6 @@
 <div class="banner">
   <div class="container">
-    <h1 class="text-center not-accepted"> Le statut de votre convocation est actuellement <%=@convocation.status_text%></h1>
+    <h1 class="text-center not-accepted"> Le statut de votre convocation est actuellement: <br> <%=@convocation.status_text.upcase%></h1>
     <div class="row text-center">
       <div class="col-xs-12">
         <a href="#" data-target="#accepted" data-toggle="modal" class="btn btn-success convocation-answer">Accepter la convocation</a>
@@ -21,13 +21,14 @@
       <div class="modal-content text-center">
         <div class="modal-header">
           <h4 class="modal-title">Confirmer cette convocation</h4>
+           <p>Vous vous engagez à être présent le <%= @convocation.date.strftime("%d/%m/%Y") %> à <%= @convocation.hour.strftime("%Hh%M") %> au <%= @convocation.subscription.tournament.address %></p>
+        </div>
+        <div class="modal-body">
           <%= simple_form_for @convocation do |f| %>
           <%= hidden_field_tag 'convocation[status]', :confirmed %>
           <%= f.button :submit, "Accepter", class: " btn btn-success convocation-answer" %>
            <% end %>
-        </div>
-        <div class="modal-body">
-          <p>Vous vous engagez à être présent le <%= @convocation.date.strftime("%d/%m/%Y") %> à <%= @convocation.hour.strftime(" à %Hh%M") %> au <%= @convocation.subscription.tournament.address %></p>
+
         </div>
         <div class="modal-footer">
         </div>
@@ -40,13 +41,13 @@
       <div class="modal-content text-center">
         <div class="modal-header">
           <h4 class="modal-title">Refuser cette convocation</h4>
-           <%= simple_form_for @convocation do |f| %>
+          <p>En refusant la convocation vous indiquez au juge arbitre que la date et/ou l'heure de la convocation ne vous convienne pas. Vous pouvez appeler le juge arbitre  au <%= @convocation.subscription.tournament.user.telephone %> pour qu'il vous propose un nouveau jour/horaire </p>
+        </div>
+        <div class="modal-body">
+          <%= simple_form_for @convocation do |f| %>
            <%= hidden_field_tag 'convocation[status]', :refused %>
            <%= f.button :submit, "Refuser", class: "btn-warning convocation-answer" %>
            <% end %>
-        </div>
-        <div class="modal-body">
-          <p>En refusant la convocation vous indiquez au juge arbitre que la date ou/et l'heure de la convocation ne vous convienne pas. N'hésitez pas à appeler le JA  au <%= @convocation.subscription.tournament.user.telephone %> pour qu'il vous propose un nouveau jour/horaire </p>
         </div>
       </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
@@ -57,14 +58,13 @@
       <div class="modal-content text-center">
         <div class="modal-header">
           <h4 class="modal-title">W.O</h4>
+             <p>En cliquant sur W.O, vous indiquez au juge arbitre que vous souhaitez abandonner la compétition. </p>
+        </div>
+        <div class="modal-body">
           <%= simple_form_for @convocation do |f| %>
           <%= hidden_field_tag 'convocation[status]', :cancelled %>
           <%= f.button :submit, "W.O", class: "btn-danger convocation-answer" %>
            <% end %>
-
-        </div>
-        <div class="modal-body">
-          <p>En cliquant sur W.O, vous indiquez au juge arbitre que vous souhaitez abandonner la compétition. </p>
         </div>
         <div class="modal-footer">
         </div>
