@@ -13,7 +13,7 @@
           <%= hidden_field_tag :subscription_ids, nil, value: @subscription_ids_string %>
           <div class="form-group">
             <%= label_tag :date, "Date" %>
-            <%= date_field_tag :date, nil, class: "form-control" %>
+            <%= date_field_tag :date, nil, class: "form-control " %>
           </div>
           <div class="form-group">
             <%= label_tag :hour, "Heure de la convocation" %>
@@ -25,3 +25,17 @@
     </div>
   </div>
 </div>
+
+
+<% content_for(:after_js) do %>
+<script type="text/javascript">
+  $(document).ready(function(){
+    $('.datepicker').datepicker({
+       format: 'dd/mm/yyyy',
+       language: 'fr',
+       startDate: '-3d'
+      });
+  });
+</script>
+
+<% end -%>

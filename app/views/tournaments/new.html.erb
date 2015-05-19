@@ -24,7 +24,11 @@
 <% content_for(:after_js) do %>
 <script type="text/javascript">
   $(document).ready(function(){
-    $('.datepicker').datepicker();
+    $('.datepicker').datepicker({
+       format: 'dd/mm/yyyy',
+       language: 'fr',
+       startDate: '-3d'
+      });
   });
 </script>
 

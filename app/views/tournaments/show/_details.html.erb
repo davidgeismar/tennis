@@ -6,7 +6,7 @@
             <h1><%= @tournament.name %></h1>
           </div>
           <div class="panel-body">
-            <h4>Du <%=  @tournament.starts_on %> au <%=  @tournament.ends_on %></h4>
+            <h4>Du <%=  @tournament.starts_on.strftime("%d/%m/%Y") %> au <%=  @tournament.ends_on.strftime("%d/%m/%Y") %></h4>
             <p>Club Organisateur: <%=  @tournament.club_organisateur %></p>
             <p>Ville: <%=  @tournament.city %></p>
             <p>Sexe: <%=  @tournament.genre %></p>

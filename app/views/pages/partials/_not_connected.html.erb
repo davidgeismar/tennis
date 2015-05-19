@@ -1,6 +1,67 @@
-<div class="container text-center">
-    <h1 id="punchline">Inscrivez-vous à vos tournois de tennis en un clic</h1>
-    <p>S'inscrire aux tournois n'a jamais été aussi facile avec tennis match</p>
-    <%= link_to "S'INSCRIRE", new_user_registration_path, class:"btn btn-success", id: "bouton-inscription" %>
+<header class="background-cover">
+    <div class="header-content">
+        <div class="header-content-inner">
+            <h1>Vos inscriptions et vos convocations aux tournois de tennis en un Clic</h1>
+            <hr>
+            <p>Avec TennisMatch le calvaire des inscriptions et des gestions de convocation est terminé. Vous pouvez vous concentrer sur la seule chose importante : donnez le maximum sur le court.</p>
+            <%= link_to t(".sign_up", default: "S'inscrire"), new_user_registration_path, class: "btn btn-success page-scroll pad", id: "inscr"%>
+        </div>
+    </div>
+</header>
 
-</div>
+
+    <section class="bg-green" id="about">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 text-center">
+                    <h2 class="section-heading">Une plate-forme de gestion pour les juges arbitre</h2>
+                    <hr class="light">
+                    <p class="text-faded">Juge Arbitre ? TennisMatch est là pour vous aider ! Référencer votre tournoi puis Gérer vos inscriptions et convocations grace à la plate-forme</p>
+                    <%= link_to "Juge Arbitre ?", judge_path, class: "btn btn-default btn-xl margetop" %>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="services">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <h2 class="section-heading">Un service optimum pour les juges arbitres</h2>
+                    <hr class="primary">
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3 col-md-6 text-center">
+                    <div class="service-box">
+                        <i class="fa fa-4x fa-diamond wow bounceIn text-primary"></i>
+                        <h3>Référencer son tournoi</h3>
+                        <p class="text-muted">Vous êtes juge arbitre et vous organisez un tournoi ? Il vous suffit de le référencer sur le site pour bénéficier de tous les avantages de TennisMatch</p>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 text-center">
+                    <div class="service-box">
+                        <i class="fa fa-4x fa-paper-plane wow bounceIn text-primary" data-wow-delay=".1s"></i>
+                        <h3>Gérer les inscriptions</h3>
+                        <p class="text-muted">TennisMatch vous permet de gérer toutes les inscriptions au tournoi. Fini la petite boite en métal et la clé autour du coup. Tous les paiements se font en ligne et les joueurs ne sont pas prélevés en cas de refus d'inscription.</p>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 text-center">
+                    <div class="service-box">
+                        <i class="fa fa-4x fa-newspaper-o wow bounceIn text-primary" data-wow-delay=".2s"></i>
+                        <h3>Convocations</h3>
+                        <p class="text-muted">Finit les coups de téléphone, les emails non lus ou messages jamais écoutés par les joeurs. Tennis Match vous permet d'envoyer plusieurs convocations en même temps. Pour chaque convocation envoyée, le joueur concerné est prévenu par email, sms et notification. Plus d'excuse !</p>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 text-center">
+                    <div class="service-box">
+                        <i class="fa fa-4x fa-heart wow bounceIn text-primary" data-wow-delay=".3s"></i>
+                        <h3>Plus que du plaisir</h3>
+                        <p class="text-muted">Avec TennisMatch vous n'avez plus qu'à vous asseoir et profiter du spectacle ! Jeu set et match !</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>

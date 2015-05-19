@@ -3,17 +3,17 @@
     <div class="col-md-5 col-md-offset-1">
       <div class="panel panel-default">
         <div class="panel-heading">
-          <h1><%= @tournament.name %></h1>
+          <h1><%= @tournament.name.upcase %></h1>
         </div>
         <div class="panel-body">
-          <h4>Du <%=  @tournament.starts_on %> au <%=  @tournament.ends_on %>
+          <h4>Du <%=  @tournament.starts_on.strftime("%d/%m/%Y") %> au <%=  @tournament.ends_on.strftime("%d/%m/%Y") %>
           </h4>
-          <p>Club Organisateur: <%=  @tournament.club_organisateur %></p>
-          <p>Ville: <%=  @tournament.city %></p>
-          <p>Sexe: <%=  @tournament.genre %></p>
-          <p>Catégorie: <%= @tournament.category %></p>
-          <p>Addresse des installations: <%= @tournament.address %></p>
-          <p>Frais d'inscription: <%= @tournament.amount %> €</p>
+          <p>Club Organisateur: <strong><%=  @tournament.club_organisateur.upcase %></strong></p>
+          <p>Ville: <strong> <%=  @tournament.city.upcase %></strong></p>
+          <p>Sexe: <strong><%=  @tournament.genre.upcase %></strong></p>
+          <p>Catégorie: <strong><%= @tournament.category %></strong></p>
+          <p>Addresse des installations: <strong><%= @tournament.address %></strong></p>
+          <p>Frais d'inscription: <strong><%= @tournament.amount %> €</strong></p>
 
           <%= link_to "S'inscrire", registrate_card_tournament_path(tournament_id: @tournament), class: 'btn btn-warning', method: :post %>
         </div>

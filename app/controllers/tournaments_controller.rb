@@ -14,7 +14,7 @@ class TournamentsController < ApplicationController
   end
 
   def new
-    if current_user.first_name.blank? || current_user.last_name.blank? || current_user.judge_number.blank? || current_user.telephone.blank? || current_user.birthdate.blank? || current_user.iban.blank? || current_user.bic.blank? || current_user.address.blank?
+    if current_user.first_name.blank? || current_user.last_name.blank? || current_user.judge_number.blank? || current_user.telephone.blank? || current_user.birthdate.blank? || current_user.iban.blank? || current_user.bic.blank? || current_user.address.blank? || current_user.iban.blank? || current_user.bic.blank?
       flash[:alert] = "Vous devez d'abord remplir votre profil pour pouvoir ajouter votre tournoi"
       redirect_to 'judge_connected'
     else
