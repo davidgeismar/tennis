@@ -18,8 +18,6 @@ gem "geocoder"
 gem 'mangopay'
 gem 'unicode_utils'
 
-
-
 gem "jquery-rails"
 gem "sass-rails", "~> 5.0"
 gem "uglifier"

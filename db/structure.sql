@@ -358,6 +358,39 @@ ALTER SEQUENCE messages_id_seq OWNED BY messages.id;
 
 
 --
+-- Name: notifications; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE notifications (
+    id integer NOT NULL,
+    user_id integer,
+    content character varying,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
+    read boolean
+);
+
+
+--
+-- Name: notifications_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE notifications_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: notifications_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE notifications_id_seq OWNED BY notifications.id;
+
+
+--
 -- Name: schema_migrations; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -547,7 +580,8 @@ CREATE TABLE users (
     iban character varying,
     bic character varying,
     address character varying,
-    bank_account_id integer
+    bank_account_id integer,
+    tokenforinvitation character varying
 );
 
 
@@ -631,6 +665,13 @@ ALTER TABLE ONLY mailboxer_receipts ALTER COLUMN id SET DEFAULT nextval('mailbox
 --
 
 ALTER TABLE ONLY messages ALTER COLUMN id SET DEFAULT nextval('messages_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY notifications ALTER COLUMN id SET DEFAULT nextval('notifications_id_seq'::regclass);
 
 
 --
@@ -731,6 +772,14 @@ ALTER TABLE ONLY mailboxer_receipts
 
 ALTER TABLE ONLY messages
     ADD CONSTRAINT messages_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: notifications_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY notifications
+    ADD CONSTRAINT notifications_pkey PRIMARY KEY (id);
 
 
 --
@@ -878,6 +927,13 @@ CREATE INDEX index_messages_on_user_id ON messages USING btree (user_id);
 
 
 --
+-- Name: index_notifications_on_user_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_notifications_on_user_id ON notifications USING btree (user_id);
+
+
+--
 -- Name: index_subscriptions_on_tournament_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -954,6 +1010,14 @@ ALTER TABLE ONLY tournaments
 
 ALTER TABLE ONLY subscriptions
     ADD CONSTRAINT fk_rails_53165af305 FOREIGN KEY (tournament_id) REFERENCES tournaments(id);
+
+
+--
+-- Name: fk_rails_693475dae5; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY subscriptions
+    ADD CONSTRAINT fk_rails_693475dae5 FOREIGN KEY (user_id) REFERENCES users(id);
 
 
 --
@@ -1099,4 +1163,10 @@ INSERT INTO schema_migrations (version) VALUES ('20150512113410');
 INSERT INTO schema_migrations (version) VALUES ('20150512114847');
 
 INSERT INTO schema_migrations (version) VALUES ('20150512115536');
+
+INSERT INTO schema_migrations (version) VALUES ('20150514161609');
+
+INSERT INTO schema_migrations (version) VALUES ('20150519174330');
+
+INSERT INTO schema_migrations (version) VALUES ('20150520041025');
 

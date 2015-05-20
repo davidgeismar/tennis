@@ -2,6 +2,9 @@
  <div class="container">
     <div class="row">
       <div class="col-xs-12">
+        <% current_user.notifications.each do |notification| %>
+          <%= notification.content %>
+          <% end -%>
         <h1 id="searching-tournament"> Vous cherchez un tournoi ?</h1>
         <form class="form-horizontal" id="algolia-bar">
           <div class="form-group">

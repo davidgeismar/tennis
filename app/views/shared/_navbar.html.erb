@@ -22,6 +22,22 @@
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav navbar-right">
         <% if user_signed_in? %>
+            <div class="col-xs-offset-8">
+              <div class="dropdown">
+                    <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true">
+                     Notifications
+                      <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+                      <% current_user.notifications.each do |notification| %>
+                        <%if notification.read == false %>
+                          <li role="presentation"><%= notification.content %></li>
+                        <%else%>
+                        <% end -%>
+                      <% end -%>
+                    </ul>
+                  </div>
+            </div>
           <li>
              <%= link_to "Mes Tournois", mes_tournois_path, class: "btn btn-success mes-tournois"  %>
 
@@ -63,3 +79,21 @@
       </div><!-- /.navbar-collapse -->
     </div><!-- /.container-fluid -->
   </nav>
+
+<%= content_for :after_js do %>
+ <script>
+
+ $(document).ready(function() {
+    $("#dropdownMenu1").on('click', function(event){
+      $.ajax({url: "<%=update_notification_path%>",
+          dataType: "json",
+          type: "POST",
+      });
+    });
+ });
+
+
+
+  </script>
+
+  <% end -%>

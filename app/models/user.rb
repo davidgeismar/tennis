@@ -55,6 +55,7 @@ class User < ActiveRecord::Base
     }, :allow_blank => true, on: :update
 
   has_many :messages
+  has_many :notifications
 
   def self.find_for_facebook_oauth(auth)
 
