@@ -29,7 +29,7 @@ Rails.application.routes.draw do
   #   # post :registrate_rdstr_card, on: :member
 
   # end
-
+  post "updatenotif", to: "notifications#update_notif", as: "update_notification"
   get "contact", to: "messages#contact", as: "contact"
   get "messages", to: "tournaments#index", as: "messages"
   get "mestournois", to: "subscriptions#mytournaments", as: "mes_tournois"

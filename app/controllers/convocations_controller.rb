@@ -11,8 +11,10 @@ class ConvocationsController < ApplicationController
     @convocation = @subscription.convocations.build(convocation_params)
     authorize @convocation
     @convocation.save
-
-
+    @notification = Notification.new
+    @notification.user = @subscription.user
+    @notification.content = "Vous êtes convoqué à #{@convocation.subscription.tournament.name} le #{@convocation.date} à #{@convocation.hour}"
+    @notification.save
     redirect_to tournament_subscriptions_path(@subscription.tournament)
   end
 
@@ -24,7 +26,18 @@ class ConvocationsController < ApplicationController
     authorize @convocation
     @convocation.update(convocation_params)
     if @convocation.status == "refused"
+      @notification = Notification.new
+      @notification.user = @convocation.subscription.tournament.user
+      @notification.content = "#{@convocation.subscription.user.name} n'est pas disponible à la date de votre convoncation"
+      @notification.save
       redirect_to new_convocation_message_path(@convocation)
+
+    elsif @convocation.status == "confirmed"
+      @notification = Notification.new
+      @notification.user = @convocation.subscription.tournament.user
+      @notification.content = "#{@convocation.subscription.user.name} confirme sa participation le #{@convocation.date} à #{@convocation.hour}"
+      @notification.save
+      redirect_to mes_tournois_path
     else
       redirect_to mes_tournois_path
     end
@@ -55,6 +68,11 @@ class ConvocationsController < ApplicationController
       @subscription = Subscription.find(subscription_id)
       convocation = Convocation.create(date: params[:date], hour: params[:hour], subscription: @subscription)
       if convocation.save && convocation.subscription.user.telephone
+        @notification = Notification.new
+        @notification.user = @subscription.user
+        @notification.content = "Vous êtes convoqué à #{convocation.subscription.tournament.name} le #{convocation.date} à #{convocation.hour}"
+        @notification.save
+
         client = Twilio::REST::Client.new(ENV['sid'], ENV['token'])
 
       # Create and send an SMS message
@@ -66,6 +84,10 @@ class ConvocationsController < ApplicationController
 
         flash[:alert] = "Votre convocation a bien été envoyé"
       elsif convocation.save
+         @notification = Notification.new
+         @notification.user = @subscription.user
+         @notification.content = "Vous êtes convoqué à #{@convocation.subscription.tournament.name} le #{@convocation.date.strftime("%d/%m/%Y")} à #{@convocation.hour.strftime(" à %Hh%M")}"
+         @notification.save
          flash[:alert] = "Votre convocation a bien été envoyé"
       else
         flash[:warning] = "Un problème est survenu veuillez réessayer d'envoyer votre convocation"

@@ -1,12 +1,13 @@
 <div class="banner">
   <div class="container">
     <div class="row">
-      <div class="col-xs-12 padded">
+      <div class="col-xs-12 padded bigmarge">
         <h1> Vous venez de refuser la convocation proposée par <%=@convocation.subscription.tournament.user.first_name%> <%=@convocation.subscription.tournament.user.last_name%>, juge arbitre du tournoi <%=@convocation.subscription.tournament.name%> !</h1>
-        <p> Envoyer lui un message avec vos disponibilités :</p>
+
         <div class="col-xs-12 text-center">
-      <%= simple_form_for([@convocation, @message], :url => convocation_messages_path(@convocation)) do |f| %>
-        <%= f.text_area :content, class:  "message-box", placeholder: "ex: le jeudi de 17h à 22h" %>
+          <p> Envoyer lui un message avec vos disponibilités :</p>
+          <%= simple_form_for([@convocation, @message], :url => convocation_messages_path(@convocation)) do |f| %>
+            <%= f.text_area :content, class:  "message-box", placeholder: "ex: le jeudi de 17h à 22h" %>
         </div>
         <div class="col-xs-12 text-center">
         <%= f.button :submit, "Envoyer", class: "btn btn-success" %>

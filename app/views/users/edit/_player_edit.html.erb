@@ -21,23 +21,45 @@
         <%= f.input :licence_number, label: "numéro de licence"%>
         <p>
           <%= f.label :Photo%>
+          <div class="upload-file-container">
           <%= f.file_field :picture %>
+        </div>
         </p>
         <p>
         <%= f.label :licence %>
+        <div class="upload-file-container">
         <%= f.file_field :licencepicture %>
+        <div id="fileName"></div>
+        </div>
         </p>
         <p>
         <%= f.label :certificat %>
+        <div class="upload-file-container">
         <%= f.file_field :certifmedpicture %>
+        </div>
         </p>
-        <div id="validation"><%= f.submit %></div>
+        <div id="validation"><%= f.submit "valider", class: "btn btn-success" %></div>
         <% end %>
       </div>
     </div>
   </div>
 </div>
 
+<% content_for(:after_js) do %>
+<script>
+
+$(document).ready(function(){
+  $("input:file").addEventListener("change", function(){
+    var fullPath = $(this).value;
+    var fileName = fullPath.split(/(\\|\/)/g).pop();
+    $("input:file").innerHTML = fileName;
+  });
+});
 
 
+
+
+</script>
+
+<% end -%>
 

@@ -1,8 +1,8 @@
 <div class="banner">
   <div class = "container">
-    <div class="row">
+    <div class="row bigmarge">
       <div class="col-xs-5">
-        <h1 id="tournament-name"><%= @tournament.name %></h1>
+        <h1 id="tournament-name"><%= @tournament.name.upcase %></h1>
       </div>
       <div class="col-xs-5">
         <%=link_to "Ajouter un joueur à la liste", invite_player_path(@tournament), class: "btn btn-success", id: "convocation-submit" %>

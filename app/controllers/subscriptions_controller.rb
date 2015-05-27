@@ -27,12 +27,20 @@ skip_after_action :verify_authorized, only: [:create, :mytournaments]
     @subscription.update(subscription_params)
     if @subscription.status == "refused"
       mangopay_refund
+      @notification = Notification.new
+      @notification.user = @subscription.user
+      @notification.content = "Votre inscription à #{@subscription.tournament.name} a été refusé"
+      @notification.save
       redirect_to tournament_subscriptions_path(@subscription.tournament)
     elsif @subscription.status == "canceled"
       mangopay_refund
       redirect_to tournament_subscriptions_path(@subscription.tournament)
     else
       mangopay_payout
+      @notification = Notification.new
+      @notification.save
+      @notification.user = @subscription.user
+      @notification.content = "Votre inscription à #{@subscription.tournament.name} a été confirmé"
       redirect_to tournament_subscriptions_path(@subscription.tournament)
     end
   end
@@ -50,6 +58,7 @@ skip_after_action :verify_authorized, only: [:create, :mytournaments]
   def create
     tournament = Tournament.find(params[:tournament_id])
     @subscription.save
+    @notification = Notification.new
     redirect_to tournament_subscription_path(tournament, @subscription)
   end
 

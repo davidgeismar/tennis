@@ -17,6 +17,13 @@ class UsersController < ApplicationController
     end
   end
 
+  def update_notifications
+    current_user.notifications.each do |notification|
+      notification.read == true
+      notification.save
+    end
+    render nothing: true
+  end
   def update_card
     @user.update(card_params)
     # puts card_params.to_s
