@@ -2,3 +2,13 @@
  margin-top: 50px;
  margin-left: 200px;
 }
+
+.upload-file-container {
+   background: image-url('img-upload.jpg') no-repeat;
+  height: 40px;
+}
+
+.upload-file-container input {
+   filter: alpha(opacity=0);
+   opacity: 0;
+}

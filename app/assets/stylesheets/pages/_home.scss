@@ -6,6 +6,10 @@
   margin-left: auto;
   margin-right: auto;
 }
+
+.bigmarge {
+  margin-top:100px;
+}
 .bg-white {
   background-color: white;
 }
@@ -71,8 +75,7 @@
 #alert {
   z-index: 3;
   position: absolute;
-  margin-left:575px;
-  margin-top: 50px;
+  margin-top: 80px;
 }
 
 

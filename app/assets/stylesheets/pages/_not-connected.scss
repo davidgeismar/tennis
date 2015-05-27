@@ -1,3 +1,7 @@
+// #mainpage {
+//   margin-top: 200px
+// }
+
 .margetop{
   margin-top: 30px;
 }
@@ -29,6 +33,7 @@ body {
 
 .bg-green {
   background-color: rgb(159, 183, 156);
+  opacity: 0.8;
 }
 hr {
     border-width: 3px;
@@ -66,6 +71,7 @@ header {
         padding: 100px 15px 100px;
         width: 100%;
         .header-content-inner {
+          margin-top: 100px;
             h1 {
                 font-weight: 700;
                 text-transform: uppercase;

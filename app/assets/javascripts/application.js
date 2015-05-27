@@ -8,7 +8,6 @@
 //= require mangopay-kit.js
 //= require jquery.dataTables
 //= require bootstrap-datepicker
-//= require toastr
 //= require_tree ./app
 
 

@@ -39,7 +39,65 @@ $navbar-profile-border-width: 1px;
 /* -------------------------------------
  * SCSS code
  * ------------------------------------- */
+  // .adjustbtnnavbar {
+  //   margin-top: -1px;
+  // }
 
+  .adjust {
+    margin-top: -15px
+  }
+ .notif {
+  position: relative;
+  top: 14px;
+ }
+ .notifstyling{
+  border-bottom: solid 1px;
+  margin-left: 0px !important;
+  background-color: rgb(246, 247, 248);
+ }
+
+ #notimenu {
+  margin-top: 17px;
+  min-width: 400px
+ }
+ .noti_bubble {
+    z-index: 1;
+    position:absolute;    /* This breaks the div from the normal HTML document. */
+    padding:1px 2px 1px 2px;
+    background-color:red; /* you could use a background image if you'd like as well */
+    color:white;
+    font-weight:bold;
+    font-size:1.3em;
+
+    margin-left: 130px;
+
+    /* The following is CSS3, but isn't crucial for this technique to work. */
+    /* Keep in mind that if a browser doesn't support CSS3, it's fine! They just won't have rounded borders and won't have a box shadow effect. */
+    /* You can always use a background image to produce the same effect if you want to, and you can use both together so browsers without CSS3 still have the rounded/shadow look. */
+    border-radius:30px;
+    box-shadow:1px 1px 1px gray;
+}
+
+
+ .userpic {
+  margin-top: -10px;
+
+
+ }
+
+ .navbar-collapse {
+  margin:auto;
+  padding-top: 1em;
+  // background-color: rgb(159, 183, 156);
+  // z-index: 300;
+ }
+
+ .navbar li {
+  margin-left: 45px;
+ }
+.navbar-right {
+  width:500px;
+}
 .badge {
   position: relative;
   bottom: 60px;
@@ -92,7 +150,6 @@ $navbar-profile-border-width: 1px;
     line-height: $navbar-btn-height;
     padding: 0 $navbar-btn-horizontal-padding;
     border-radius: $navbar-btn-radius;
-    margin-top: ($navbar-height + 2 * $navbar-vertical-padding - $navbar-btn-height) / 2;
     font-weight: bold;
     font-size: 12px;
     &:hover{

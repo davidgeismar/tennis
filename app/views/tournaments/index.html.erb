@@ -1,19 +1,20 @@
 <div class="mini-height bg-white">
   <div class="banner">
     <div class = "container text-center" id="image">
-      <% @tournaments.each do |tournament| %>
-        <div class= "row tournamentcard">
-          <div class= "col-xs-12">
-            <h2><%= link_to tournament.name, tournament_path(tournament)%></h2>
-            <h5><%= tournament.city%></h5>
-            <h5><%= tournament.address%></h5>
-            <h5><%= tournament.genre%></h5>
-            <h5><%= tournament.category%></h5>
-            <h5><%= tournament.starts_on.strftime("%d/%m/%Y")%> - <%= tournament.ends_on.strftime("%d/%m/%Y")%></h5>
-        </div>
-      </div>
-      <%end%>
+      <div class = "bigmarge">
+        <% @tournaments.each do |tournament| %>
+          <div class= "row tournamentcard">
+            <div class= "col-xs-12">
+              <h2><%= link_to tournament.name, tournament_path(tournament)%></h2>
+              <h5><%= tournament.city%></h5>
+              <h5><%= tournament.address%></h5>
+              <h5><%= tournament.genre%></h5>
+              <h5><%= tournament.category%></h5>
+              <h5><%= tournament.starts_on.strftime("%d/%m/%Y")%> - <%= tournament.ends_on.strftime("%d/%m/%Y")%></h5>
+            </div>
+          </div>
+        <%end%>
+      <div>
     </div>
   </div>
 </div>
-

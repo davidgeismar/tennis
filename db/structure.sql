@@ -367,7 +367,7 @@ CREATE TABLE notifications (
     content character varying,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
-    read boolean
+    read boolean DEFAULT false
 );
 
 
@@ -1169,4 +1169,6 @@ INSERT INTO schema_migrations (version) VALUES ('20150514161609');
 INSERT INTO schema_migrations (version) VALUES ('20150519174330');
 
 INSERT INTO schema_migrations (version) VALUES ('20150520041025');
+
+INSERT INTO schema_migrations (version) VALUES ('20150520124645');
 

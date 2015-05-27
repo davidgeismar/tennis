@@ -28,9 +28,16 @@ class ConvocationsController < ApplicationController
     if @convocation.status == "refused"
       @notification = Notification.new
       @notification.user = @convocation.subscription.tournament.user
-      @notification.content = "#{@convocation.subscription.user} n'est pas disponible à la date de votre convoncation"
+      @notification.content = "#{@convocation.subscription.user.name} n'est pas disponible à la date de votre convoncation"
       @notification.save
       redirect_to new_convocation_message_path(@convocation)
+
+    elsif @convocation.status == "confirmed"
+      @notification = Notification.new
+      @notification.user = @convocation.subscription.tournament.user
+      @notification.content = "#{@convocation.subscription.user.name} confirme sa participation le #{@convocation.date} à #{@convocation.hour}"
+      @notification.save
+      redirect_to mes_tournois_path
     else
       redirect_to mes_tournois_path
     end
@@ -65,11 +72,11 @@ class ConvocationsController < ApplicationController
         @notification.user = @subscription.user
         @notification.content = "Vous êtes convoqué à #{convocation.subscription.tournament.name} le #{convocation.date} à #{convocation.hour}"
         @notification.save
-        client = Twilio::REST::Client.new(TWILIO_CONFIG['sid'], TWILIO_CONFIG['token'])
+        client = Twilio::REST::Client.new(ENV['sid'], ENV['token'])
 
       # Create and send an SMS message
         client.account.sms.messages.create(
-        from: TWILIO_CONFIG['from'],
+        from: ENV['from'],
         to: convocation.subscription.user.telephone,
         body: "Vous etes convoque  #{convocation.date.strftime("le %d/%m/%Y")} #{convocation.hour.strftime(" à %Hh%M")} pour le tournoi #{convocation.subscription.tournament.name} "
       )
@@ -78,7 +85,7 @@ class ConvocationsController < ApplicationController
       elsif convocation.save
          @notification = Notification.new
          @notification.user = @subscription.user
-         @notification.content = "Vous êtes convoqué à #{@convocation.subscription.tournament.name} le #{@convocation.date} à #{@convocation.hour}"
+         @notification.content = "Vous êtes convoqué à #{@convocation.subscription.tournament.name} le #{@convocation.date.strftime("%d/%m/%Y")} à #{@convocation.hour.strftime(" à %Hh%M")}"
          @notification.save
          flash[:alert] = "Votre convocation a bien été envoyé"
       else
