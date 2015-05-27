@@ -72,6 +72,7 @@ class ConvocationsController < ApplicationController
         @notification.user = @subscription.user
         @notification.content = "Vous êtes convoqué à #{convocation.subscription.tournament.name} le #{convocation.date} à #{convocation.hour}"
         @notification.save
+
         client = Twilio::REST::Client.new(ENV['sid'], ENV['token'])
 
       # Create and send an SMS message
