@@ -36,7 +36,8 @@
               <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1" id="notimenu">
                 <% current_user.notifications.each do |notification| %>
                   <%if notification.read == false %>
-                    <li class="notifstyling"><strong><%= link_to notification.content,  tournament_subscriptions_path(@convocation.subscription.tournament) %></strong></li>
+                    <li class="notifstyling"><strong>
+                      <%= link_to notification.content,  tournament_subscriptions_path(@convocation.subscription.tournament) %></strong></li>
                   <%else%>
                   <% end -%>
                 <% end -%>
