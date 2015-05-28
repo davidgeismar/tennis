@@ -28,6 +28,7 @@ class ConvocationsController < ApplicationController
     if @convocation.status == "refused"
       @notification = Notification.new
       @notification.user = @convocation.subscription.tournament.user
+      @notification.convocation = @convocation
       @notification.content = "#{@convocation.subscription.user.name} n'est pas disponible à la date de votre convoncation"
       @notification.save
       redirect_to new_convocation_message_path(@convocation)
@@ -35,6 +36,7 @@ class ConvocationsController < ApplicationController
     elsif @convocation.status == "confirmed"
       @notification = Notification.new
       @notification.user = @convocation.subscription.tournament.user
+      @notification.convocation = @convocation
       @notification.content = "#{@convocation.subscription.user.name} confirme sa participation le #{@convocation.date} à #{@convocation.hour}"
       @notification.save
       redirect_to mes_tournois_path

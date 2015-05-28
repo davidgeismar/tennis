@@ -367,7 +367,8 @@ CREATE TABLE notifications (
     content character varying,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
-    read boolean DEFAULT false
+    read boolean DEFAULT false,
+    convocation_id integer
 );
 
 
@@ -487,7 +488,8 @@ CREATE TABLE transfers (
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
     tournament_id integer,
-    archive json
+    archive json,
+    cgv boolean DEFAULT false
 );
 
 
@@ -1171,4 +1173,10 @@ INSERT INTO schema_migrations (version) VALUES ('20150519174330');
 INSERT INTO schema_migrations (version) VALUES ('20150520041025');
 
 INSERT INTO schema_migrations (version) VALUES ('20150520124645');
+
+INSERT INTO schema_migrations (version) VALUES ('20150527195436');
+
+INSERT INTO schema_migrations (version) VALUES ('20150528085245');
+
+INSERT INTO schema_migrations (version) VALUES ('20150528091333');
 

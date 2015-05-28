@@ -81,17 +81,46 @@ $navbar-profile-border-width: 1px;
 
  .userpic {
   margin-top: -10px;
-
-
  }
 
+ #card_number {
+  margin-bottom: 10px;
+ }
+ #card_cvx {
+  margin-bottom: 10px;
+ }
  .navbar-collapse {
   margin:auto;
   padding-top: 1em;
-  // background-color: rgb(159, 183, 156);
+
   // z-index: 300;
  }
 
+@media (max-width: 750px) {
+  .navbar-collapse {
+    margin-top: -9px;
+    background-color: rgb(159, 183, 156);
+  }
+  .inscriptionTM{
+    margin-bottom: 5px;
+  }
+
+  .adjust {
+    text-align: center;
+  }
+  .dropdown {
+    text-align : center;
+  }
+
+  #dropdownMenu1 {
+    // text-align: center;
+    margin-bottom: 30px
+  }
+  #tournamentbtn {
+    text-align: center;
+    margin-bottom: 30px
+  }
+}
  .navbar li {
   margin-left: 45px;
  }
@@ -136,6 +165,13 @@ $navbar-profile-border-width: 1px;
     padding-bottom: $navbar-vertical-padding;
     color: white;
 
+  }
+
+  .notifcontent {
+    color: black;
+    &:hover {
+      color: blue;
+    }
   }
 
 

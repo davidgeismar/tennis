@@ -7,6 +7,28 @@
   margin-right: auto;
 }
 
+#CGV {
+  margin: 15px;
+}
+
+#error-cgv {
+  color: red;
+  margin-top: 10px;
+}
+#scrollable-content {
+  height: 180px;
+  overflow: auto;
+  background-color: white;
+  width: 550px;
+  padding: 10px;
+}
+#paiement {
+  margin-bottom: 10px;
+}
+.paymentcard {
+  background-color: rgba(0, 0, 0, 0.3);
+  padding: 10px;
+}
 .bigmarge {
   margin-top:100px;
 }

@@ -39,7 +39,7 @@
               <%if subscription.status == "pending" %>
                 <%= f.select :status, Subscription.status.options, :confirm => 'Your confirm message', remote: true, class: "form-control subscription-status" %>
               <%elsif subscription.status == "confirmed"%>
-                confirmé
+                Confirmé
               <%else%>
                 Refusé
               <%end%>

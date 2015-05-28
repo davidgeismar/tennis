@@ -3,7 +3,7 @@
         <div class="header-content-inner">
             <h1>Vos inscriptions et vos convocations aux tournois de tennis en un Clic</h1>
             <hr>
-            <p>Avec TennisMatch le calvaire des inscriptions et des gestions de convocation est terminé. Vous pouvez vous concentrer sur la seule chose importante : donnez le maximum sur le court.</p>
+            <p id="avectm"><strong>Avec TennisMatch le calvaire des inscriptions et des gestions de convocation est terminé. Vous pouvez vous concentrer sur la seule chose importante : donnez le maximum sur le court.</strong></p>
             <%= link_to t(".sign_up", default: "S'inscrire"), new_user_registration_path, class: "btn btn-success page-scroll pad", id: "inscr"%>
         </div>
     </div>
@@ -45,14 +45,14 @@
                     <div class="service-box">
                         <i class="fa fa-4x fa-paper-plane wow bounceIn text-primary" data-wow-delay=".1s"></i>
                         <h3>Gérer les inscriptions</h3>
-                        <p class="text-muted">TennisMatch vous permet de gérer toutes les inscriptions au tournoi. Fini la petite boite en métal et la clé autour du coup. Tous les paiements se font en ligne et les joueurs ne sont pas prélevés en cas de refus d'inscription.</p>
+                        <p class="text-muted">TennisMatch vous permet de gérer toutes les inscriptions au tournoi. Fini la petite boite en métal et la clé autour du coup. Tous les paiements se font en ligne et les joueurs ne sont pas débités si leur inscription n'est pas retenue.</p>
                     </div>
                 </div>
                 <div class="col-lg-3 col-md-6 text-center">
                     <div class="service-box">
                         <i class="fa fa-4x fa-newspaper-o wow bounceIn text-primary" data-wow-delay=".2s"></i>
                         <h3>Convocations</h3>
-                        <p class="text-muted">Finit les coups de téléphone, les emails non lus ou messages jamais écoutés par les joeurs. Tennis Match vous permet d'envoyer plusieurs convocations en même temps. Pour chaque convocation envoyée, le joueur concerné est prévenu par email, sms et notification. Plus d'excuse !</p>
+                        <p class="text-muted text-center">Finit les coups de téléphone, les emails non lus ou messages jamais écoutés par les joueurs. Tennis Match vous permet d'envoyer plusieurs convocations simultanément. Pour chaque convocation envoyée, le joueur concerné est prévenu par email, sms et notification. Plus d'excuse !</p>
                     </div>
                 </div>
                 <div class="col-lg-3 col-md-6 text-center">
@@ -65,3 +65,4 @@
             </div>
         </div>
     </section>
+

@@ -34,11 +34,20 @@
                 <span class="caret"></span>
               </button>
               <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1" id="notimenu">
-                <% current_user.notifications.each do |notification| %>
-                  <%if notification.read == false %>
-                    <li class="notifstyling"><strong>
-                      <%= link_to notification.content,  tournament_subscriptions_path(@convocation.subscription.tournament) %></strong></li>
-                  <%else%>
+                <% if current_user.notifications.where(read: false) == [] %>
+                  <li class="notifstyling"> Vous n'avez pas de nouvelles notifications</li>
+                <% else %>
+                  <% current_user.notifications.each do |notification| %>
+                    <%if notification.read == false %>
+                      <li class="notifstyling"><strong>
+                        <%if notification.convocation%>
+                          <%= link_to notification.content,  tournament_subscriptions_path(notification.convocation.subscription.tournament), class: "notifcontent" %>
+                        <% else %>
+                          <%=notification.content%>
+                        <% end -%>
+                      </strong></li>
+                    <%else%>
+                    <% end -%>
                   <% end -%>
                 <% end -%>
               </ul>
@@ -46,7 +55,7 @@
           <!-- </div> -->
           <!--   <div class="col-xs-offset-8 col-xs-2"> -->
               <li>
-               <%= link_to "Mes Tournois", mes_tournois_path, class: "btn btn-success"  %>
+               <%= link_to "Mes Tournois", mes_tournois_path, class: "btn btn-success", id: "tournamentbtn"  %>
               </li>
             <!-- </div> -->
             <!-- <div class="col-xs-offset-3 col-xs-2"> -->
@@ -79,7 +88,7 @@
               <%= link_to "Juge Arbitre ?", judge_path, class: 'adjust' %>
             </li>
             <li>
-              <%= link_to t(".sign_up", default: "Inscription"), new_user_registration_path, class: "btn btn-success" %>
+              <%= link_to t(".sign_up", default: "Inscription"), new_user_registration_path, class: "btn btn-success", id: "inscriptionTM" %>
             </li>
             <li>
               <%= link_to t(".sign_in", default: "Connexion"), new_user_session_path, class: "btn btn-success"  %>

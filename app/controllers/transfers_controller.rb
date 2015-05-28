@@ -11,7 +11,7 @@ skip_after_action :verify_authorized
 
       new_price = tournament.amount
 
-    transfer = Transfer.create(:status => "pending", :category => "payin", tournament_id: params[:tournament_id]) #récupérer id de booking
+    transfer = Transfer.create(:status => "pending", :cgv => true, :category => "payin", tournament_id: params[:tournament_id]) #récupérer id de booking
 
       @payin = MangoPay::PayIn::Card::Direct.create({
         "Tag" => "Payment Carte Bancaire",

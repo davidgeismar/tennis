@@ -67,10 +67,10 @@
               <%= @user.licence_number%>
              <% end -%>
           </h4>
-          <h4><%if @user.genre_text.nil? || @user.genre_text.blank?%>
+          <h4><%if @user.genre.nil? || @user.genre.blank?%>
                 <br>
              <%else%>
-                <%= @user.genre_text %>
+                <%= @user.genre.text %>
               <% end -%>
           </h4>
           <h4>

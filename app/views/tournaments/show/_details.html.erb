@@ -9,7 +9,7 @@
             <h4>Du <%=  @tournament.starts_on.strftime("%d/%m/%Y") %> au <%=  @tournament.ends_on.strftime("%d/%m/%Y") %></h4>
             <p>Club Organisateur: <%=  @tournament.club_organisateur %></p>
             <p>Ville: <%=  @tournament.city %></p>
-            <p>Sexe: <%=  @tournament.genre %></p>
+            <p>Sexe: <%=  @tournament.genre.text %></p>
             <p>Catégorie: <%= @tournament.category %></p>
             <p>Addresse des installations: <%= @tournament.address %></p>
             <p>Frais d'inscription: <%= @tournament.amount %> €</p>
