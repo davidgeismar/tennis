@@ -1,5 +1,5 @@
 class Subscription < ActiveRecord::Base
-
+  after_create :send_confirmation_email
   #tracked
 
   extend Enumerize
@@ -12,4 +12,10 @@ class Subscription < ActiveRecord::Base
 
   validates :user_id, presence: true, uniqueness: { scope: :tournament,
     message: "Vous etes déjà inscrit à ce tournoi" }
+
+  private
+
+  def send_confirmation_email
+    SubscriptionMailer.confirmation(self).deliver
+  end
 end

@@ -8,7 +8,27 @@
         <div class="col-xs-12">
           <p>Paiement de l'inscription pour un montant de <strong><%= @subscription.tournament.amount %> € </p></strong>
         </div>
-        <div id="scrollable-content">
+        <div class="col-xs-12">
+          <div class="cards">
+            <span></span><span class="card-image"></span><span></span>
+          </div>
+        </div>
+        <div class="col-xs-12">
+          <div >
+            <i class="fa fa-credit-card"></i>
+            <input id="card_number" class="form-control empty text-input card-input" id="iconified" placeholder="Numéro de carte" style="font-family:Arial, FontAwesome">
+          </div>
+        </div>
+        <div class="col-xs-6">
+          <i class="fa fa-calendar"></i>
+          <input id="card_expiration_date" class="form-control empty text-input date-input" id="iconified" placeholder="MMAA" style="font-family:Arial, FontAwesome"/>
+        </div>
+        <div class="col-xs-6">
+          <i class="fa fa-lock "></i>
+          <input id="card_cvx" class="form-control empty text-input" id="iconified" placeholder="Code CSV" style="font-family:Arial, FontAwesome"/>
+        </div>
+         <%= hidden_field_tag :card_type, "CB_VISA_MASTERCARD" %>
+         <div id="scrollable-content">
 
 
           Les présentes conditions de vente sont conclues d'une part par la société TennisMatch, SAS au capital de X euros dont le siège social est situé à (adresse), immatriculée au registre du commerce et des sociétés de (précisez la ville) sous le numéro (numéro d’immatriculation au RCS) ci-après dénommée « X » et d'autre part, par toute personne physique ou morale souhaitant procéder à un achat via le site Internet de « X » dénommée ci-après « le Client  ». <br>
@@ -83,33 +103,14 @@
         <input type="checkbox" name="CGV" id="CGV"> <strong>J'ai lu et j'accepte les CGV</strong>
         </form>
         <div class="col-xs-12">
-          <div class="cards">
-            <span></span><span class="card-image"></span><span></span>
-          </div>
-        </div>
-        <div class="col-xs-12">
-          <div >
-            <i class="fa fa-credit-card"></i>
-            <input id="card_number" class="form-control empty text-input card-input" id="iconified" placeholder="Numéro de carte" style="font-family:Arial, FontAwesome">
-          </div>
-        </div>
-        <div class="col-xs-6">
-          <i class="fa fa-calendar"></i>
-          <input id="card_expiration_date" class="form-control empty text-input date-input" id="iconified" placeholder="MMAA" style="font-family:Arial, FontAwesome"/>
-        </div>
-        <div class="col-xs-6">
-          <i class="fa fa-lock "></i>
-          <input id="card_cvx" class="form-control empty text-input" id="iconified" placeholder="Code CSV" style="font-family:Arial, FontAwesome"/>
-        </div>
-         <%= hidden_field_tag :card_type, "CB_VISA_MASTERCARD" %>
-        <div class="col-xs-12">
           <p><strong>En cliquant sur payer, je valide mon inscription à <%= @subscription.tournament.name %> du <%= @subscription.tournament.starts_on.strftime("%d/%m/%Y") %> au <%= @subscription.tournament.ends_on.strftime("%d/%m/%Y")%>. Je ne serai débité que si mon inscription au tournoi est validé par le Juge arbitre</strong> </p>
         </div>
         <div class="col-xs-12">
           <button class= "btn-primary" id="process" onclick="javascript:registerCardDemo();">Payer <%=@subscription.tournament.amount%> € </button>
         </div>
         <div class="col-xs-12">
-          <div id="error-cgv"></div>
+          <div id="error-cgv" class="text-center"></div>
+           <div id="result" class="text-center"></div>
         </div>
         <div class="col-xs-12">
           <div class="row-spacer">
@@ -118,9 +119,10 @@
       </div>
   </div>
 </div>
+<br>
+<br>
 
-
-
+<!--
 <br>
 <div class="col-xs-10 col-xs-offset-2 col-sm-6 col-sm-offset-4 col-md-offset-3 col-md-6 text-center msg-mango">
   <p>
@@ -134,9 +136,7 @@
 
 </div>
 </div>
-
-<br>
-<div class="vertical-spacer">
+<div class="vertical-spacer"> -->
 
 
 
@@ -206,7 +206,7 @@
                           var message = "Votre carte n'a pas été débitée.<br />";
                           message += res.ResultMessage + '<br />' +' Code : ' + res.ResultCode ;
                           resultDiv.innerHTML = message;
-                          resultDiv.style.color = "grey";
+                          resultDiv.style.color = "black";
                       }
                   );
               }

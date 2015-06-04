@@ -38,12 +38,12 @@ class User < ActiveRecord::Base
   validates_attachment_content_type :certifmedpicture,
     content_type: /\Aimage\/.*\z/
 
- validates :first_name, presence: { message: 'Veuillez remplir votre prénom' }, on: :update
- validates :last_name, presence: { message: 'Veuillez remplir votre nom' }, on: :update
-  # validates :iban, format: {
-  #       # with: /[a-zA-Z]{2}[0-9]{2}[a-zA-Z0-9]{4}[0-9]{7}([a-zA-Z0-9]?){0,16}/,
-  #       message: 'Le format de votre IBAN doit être du type FR70 3000 2005 5000 0015 7845 Z02'
-  #   }, on: :update
+  validates :first_name, presence: { message: 'Veuillez remplir votre prénom' }, on: :update
+  validates :last_name, presence: { message: 'Veuillez remplir votre nom' }, on: :update
+  validates :iban, format: {
+        with: /\A[a-zA-Z]{2}\d{2}\s*(\w{4}\s*){2,7}\w{1,4}\s*\z/,
+        message: 'Le format de votre IBAN doit être du type FR70 3000 2005 5000 0015 7845 Z02'
+    }, :allow_blank => true, on: :update
   validates :bic, format: {
         with: /([a-zA-Z]{4}[a-zA-Z]{2}[a-zA-Z0-9]{2}([a-zA-Z0-9]{3})?)/,
         message: 'Le format de votre BIC doit être du type AXABFRPP  '

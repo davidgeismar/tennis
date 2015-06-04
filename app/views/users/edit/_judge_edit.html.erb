@@ -1,10 +1,10 @@
 <div class="banner padded">
   <div class="container">
     <div class="row">
-      <div class="col-xs-6 col-xs-offset-3">
+      <div class="col-xs-6 col-xs-offset-3 bigmarge">
         <%= simple_form_for(@user) do |f| %>
           <%= f.error_notification %>
-           <p>
+          <p>
             <%= f.label :picture, label: "Photo" %>
             <%= f.file_field :picture %>
           </p>
@@ -20,6 +20,7 @@
           <%= f.input :bic, label: "Votre bic", placeholder: "AXABFRPP"%>
           <%= f.input :address, label: "Votre addresse" %>
           <%= f.button :submit, "Valider", class: "btn-success" %>
+
         <% end %>
       </div>
     </div>

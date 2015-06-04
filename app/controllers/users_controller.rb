@@ -13,6 +13,7 @@ class UsersController < ApplicationController
     if @user.update(user_params)
       redirect_to user_path(current_user)
     else
+
       render 'edit'
     end
   end

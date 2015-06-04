@@ -4,6 +4,7 @@ Rails.application.routes.draw do
   devise_for :users, controllers: { registrations: 'users/registrations', invitations: 'users/invitations', omniauth_callbacks: "users/omniauth_callbacks" }
 
   # root to: "home#home"
+  resources :contacts, only: [:new, :create]
   resource :judge, only: :show
   resources :tournaments, only: [:index, :show, :new, :create] do
     post :registrate_card, on: :member

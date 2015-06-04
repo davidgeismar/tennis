@@ -1,9 +1,8 @@
-<div class="mini-height bg-white">
+
   <div class="banner">
-    <div class = "container text-center" id="image">
-      <div class = "bigmarge">
+    <div class="container text-center">
         <% @tournaments.each do |tournament| %>
-          <div class= "row tournamentcard">
+          <div class= "row tournamentcard bigmarge">
             <div class= "col-xs-12">
               <h2><%= link_to tournament.name, tournament_path(tournament)%></h2>
               <h5><%= tournament.city%></h5>
@@ -14,7 +13,6 @@
             </div>
           </div>
         <%end%>
-      <div>
     </div>
   </div>
-</div>
+

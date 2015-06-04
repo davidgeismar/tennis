@@ -90,7 +90,7 @@ class TournamentsController < ApplicationController
       redirect_to tournament_path(tournament)
 
 
-    elsif current_user.subscriptions(tournament_id: tournament).blank?
+    elsif current_user.subscriptions(tournament_id: tournament) != []
       flash[:alert] = "Vous etes déjà inscrit à ce tournoi"
       redirect_to tournament_path(tournament)
 
@@ -177,10 +177,15 @@ class TournamentsController < ApplicationController
   private
 
   def create_mangopay_bank_account
-    bank_account = MangoPay::BankAccount.create(current_user.mangopay_natural_user_id, mangopay_user_bank_attributes)
-    current_user.bank_account_id = bank_account["Id"]
-    current_user.save
-  end
+
+      bank_account = MangoPay::BankAccount.create(current_user.mangopay_natural_user_id, mangopay_user_bank_attributes)
+      current_user.bank_account_id = bank_account["Id"]
+      current_user.save
+      rescue MangoPay::ResponseError => e
+        redirect_to root_path
+        flash[:alert] = "L'Iban ou le Bic que vous avez fourni n'est pas valide. Veuillez vérifier les informations fournies. Si le problème persiste n'hésitez pas à contacter l'équipe TennisMatch."
+
+   end
 
   def mangopay_user_bank_attributes
       {
@@ -191,7 +196,7 @@ class TournamentsController < ApplicationController
         'BIC' => current_user.bic,
         'Tag' => 'Bank Account for Payouts'
       }
-    end
+  end
 
   def tournament_params
     params.require(:tournament).permit(:genre, :category, :amount, :starts_on, :ends_on, :address, :club_organisateur, :name, :city, :lat, :long)

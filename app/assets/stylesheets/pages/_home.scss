@@ -11,8 +11,11 @@
   margin: 15px;
 }
 
+input[type="file"]::-webkit-file-upload-button {
+              cursor: pointer;
+            }
 #error-cgv {
-  color: red;
+  color: rgb(169, 68, 76);
   margin-top: 10px;
 }
 #scrollable-content {

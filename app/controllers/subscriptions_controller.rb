@@ -38,9 +38,9 @@ skip_after_action :verify_authorized, only: [:create, :mytournaments]
     else
       mangopay_payout
       @notification = Notification.new
-      @notification.save
       @notification.user = @subscription.user
       @notification.content = "Votre inscription à #{@subscription.tournament.name} a été confirmé"
+      @notification.save
       redirect_to tournament_subscriptions_path(@subscription.tournament)
     end
   end
@@ -59,6 +59,9 @@ skip_after_action :verify_authorized, only: [:create, :mytournaments]
     tournament = Tournament.find(params[:tournament_id])
     @subscription.save
     @notification = Notification.new
+    @notification.user = @subscription.tournament.user
+    @notification.content = "#{@subscription.user.name} a demandé à s'inscrire à #{@subscription.tournament.name}"
+    @notification.save
     redirect_to tournament_subscription_path(tournament, @subscription)
   end
 

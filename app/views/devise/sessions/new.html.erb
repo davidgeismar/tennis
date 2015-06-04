@@ -1,7 +1,7 @@
 <div class="banner padded text-center">
   <div class="container">
     <div class="row">
-      <div class="col-xs-12 col-sm-offset-3 col-sm-6 text-center">
+      <div class="col-xs-offset-3 col-xs-6 col-sm-offset-3 col-sm-6 text-center">
         <h2 class="connexion"><%= t(".sign_in", default: "Sign in") %></h2>
 
         <%= simple_form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
