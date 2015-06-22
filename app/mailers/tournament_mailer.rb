@@ -8,9 +8,9 @@ class TournamentMailer < ApplicationMailer
   #
   def accepted(tournament)
 
-    tournament = @tournament
+     @tournament = tournament
 
-    mail(to: @tournament.user, subject: 'Tournoi Accepté')
+    mail(to: tournament.user.email, subject: 'Tournoi Accepté')
 
   end
 end

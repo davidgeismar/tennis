@@ -26,12 +26,7 @@
   $(document).ready(function() {
     var client = new AlgoliaSearch("<%=ENV["ALGOLIA_APPLICATION_ID"]%>", "<%=ENV["ALGOLIA_SEARCH_ONLY_API_KEY"]%>");
     var $facets = $('#facets');
-    // var $facetTemplate = Hogan.compile($('#facet-template').text());
-    // var $sliderTemplate = Hogan.compile($('#slider-template').text());
 
-    // Helper initialization
-
-    // var template = Hogan.compile('{{{_highlightResult.email.value}}} ({{{_highlightResult.first_name.value}}} {{{_highlightResult.last_name.value}}})');
     $('#tournament').typeahead(null, {
       source: client.initIndex('<%= Tournament.index_name %>').ttAdapter(),
       displayKey: 'name',

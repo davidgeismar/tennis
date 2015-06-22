@@ -5,8 +5,28 @@ class TournamentPolicy < ApplicationPolicy
     end
   end
 
+  def new?
+    user && user.judge == true
+  end
+
   def index?
-   true
+   user
+  end
+
+  def invite_player?
+    user && user.judge == true
+  end
+
+  def registrate_card?
+    user
+  end
+
+  def invite_player_to_tournament?
+    user && user.judge == true
+  end
+
+  def AEIexport?
+    user && record.user == user
   end
 
   def show?

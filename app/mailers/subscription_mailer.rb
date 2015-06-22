@@ -9,6 +9,16 @@ class SubscriptionMailer < ApplicationMailer
   def confirmation(subscription)
     @subscription = subscription
 
-    mail to: @subscription.user, subject: "Inscription Envoyée"
+    mail to: @subscription.user.email, subject: "Inscription Envoyée"
+  end
+
+  def confirmed(subscription)
+    @subscription = subscription
+    mail to: @subscription.user.email, subject: "Inscription Confirmée"
+  end
+
+  def refused(subscription)
+    @subscription = subscription
+    mail to: @subscription.user.email, subject: "Inscription Refusée"
   end
 end

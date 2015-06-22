@@ -15,6 +15,7 @@
                     <th>Date de votre convocation</th>
                     <th>Statut de votre convocation</th>
                     <th>Répondre à cette convocation</th>
+                    <th>Disponibilités</th>
                   </tr>
                   <% @subscriptions.each do |subscription| %>
 
@@ -24,16 +25,31 @@
                       <td>
                         <%unless subscription.convocations.size == 0%>
                           <%= subscription.convocations.last.date.strftime("Le %d/%m/%Y") %>
-                          <%= subscription.convocations.last.hour.strftime(" à %Hh%M") %></td>
-                      <td><%= subscription.convocations.last.status_text%></td>
+                          <%= subscription.convocations.last.hour.strftime(" à %Hh%M") %>
+                        <%end%>
+                      </td>
+
+                      <td><%unless subscription.convocations.size == 0%>
+                        <%= subscription.convocations.last.status_text%>
+                        <% end -%>
+                      </td>
                       <td>
+                        <%unless subscription.convocations.size == 0%>
                          <%if subscription.convocations.last.status == "pending"%>
                              <%= render 'users/show/button_repondre', subscription: subscription %>
                           <%else%>
                             <%=  render 'users/show/button_modifier', subscription: subscription %>
                           <%end%>
-                         </td>
                         <%end%>
+                      </td>
+
+                      <td>
+                        <%if subscription.disponibility.blank?%>
+                          <%=link_to "Indiquer", new_subscription_disponibility_path(subscription, subscription.disponibility), class: "btn btn-success"%>
+                        <%else%>
+                          <%=link_to "Changer", edit_subscription_disponibility_path(subscription, subscription.disponibility), class: "btn btn-warning"%>
+                        <% end -%>
+                      </td>
                   <%end%>
                     </tr>
 

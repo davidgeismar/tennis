@@ -1,0 +1,10 @@
+<h1>Tennis Match : demande d'inscription confirmée</h1>
+
+<p>
+ Bonjour <%=@subscription.user.name%>, <br>
+ Votre demande d'inscription au tournoi <strong><%=@subscription.tournament.name%></strong> du <%=@subscription.tournament.starts_on.strftime("%d/%m/%Y") %> au <%=@subscription.tournament.ends_on.strftime("%d/%m/%Y") %> a été confirmée par le juge arbitre. <br>
+ Vous recevrez votre convocation dans les plus brefs délais ! <br>
+</p>
+
+<p> @ bientôt sur les courts !</p>
+<p>L'équipe TennisMatch</p>

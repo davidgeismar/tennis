@@ -1,24 +1,69 @@
 class SubscriptionsController < ApplicationController
-skip_after_action :verify_authorized, only: [:create, :mytournaments]
-
-
-
-
-
+  skip_after_action :verify_authorized, only: [:mytournaments]
 
 
   def mytournaments
     @subscriptions = Subscription.where(user_id: current_user)
+    #writte custom policy
   end
 
-  # def accepted_payment
-  #   @subscription = Subscription.new(tournament_id)
-  # end
 
   def index
+    @user = current_user
     @tournament     = Tournament.find(params[:tournament_id])
     @subscriptions  = @tournament.subscriptions
+    authorize @subscriptions
     policy_scope(@subscriptions)
+  end
+
+  def refus_without_remboursement
+     @subscription = Subscription.find(params[:subscription_id_refus_without_remboursement])
+     authorize @subscription
+     @subscription.status = "refused"
+     @subscription.save
+      redirect_to tournament_subscriptions_path(@subscription.tournament)
+      flash[:notice] = "Vous avez bien désinscrit #{@subscription.user.full_name}. Celui-ci ne participe plus au tournoi"
+  end
+
+# method must trigger mangopay_payout on each subscription as soon as the tournament is completed
+  def global_payout
+    if @tournament.payment_option = true
+      @tournament.subscriptions.where(status: confirmed).each do |subscription|
+        mangopay_payout_global
+      end
+    end
+  end
+
+  # pas possible de faire un refund car payout déjà éxécuté
+  # pas possible de créer un nouveau transfert ! il faudrait demander le numéro de carte du JA
+  # seul solution faire les payout 2 jours après la fin du tournoi
+  # et bien faire des mangopay_refund
+
+  def accept_player
+     @subscription = Subscription.find(params[:subscription_id_accept_player])
+     @subscription.status = "confirmed!"
+     @subscription.save
+     raise
+     authorize @subscription
+     redirect_to tournament_subscriptions_path(@subscription.tournament)
+  end
+
+  def refund
+    @subscription = Subscription.find(params[:subscription_id_refund])
+    if mangopay_refund
+      @subscription.status = "refused"
+      authorize @subscription
+      @subscription.save
+      @notification = Notification.new
+      @notification.user = @subscription.user
+      @notification.content = "Nous avons le regret de vous apprendre que le juge arbitre de #{@subscription.tournament.name} a finalement annulé votre inscription."
+      #insérer mailer
+      redirect_to tournament_subscriptions_path(@subscription.tournament)
+      flash[:notice] = "Vous avez bien procédé au remboursement de #{@subscription.user.full_name}. Celui-ci ne participe plus au tournoi"
+    else
+      redirect_to tournament_subscriptions_path(@subscription.tournament)
+      flash[:warning] = "Le remboursement n'a pas pu etre effectué. Merci de réessayer plus tard"
+    end
   end
 
   def update
@@ -36,7 +81,7 @@ skip_after_action :verify_authorized, only: [:create, :mytournaments]
       mangopay_refund
       redirect_to tournament_subscriptions_path(@subscription.tournament)
     else
-      mangopay_payout
+      # mangopay_payout pas de payout à la confirmation sinon pas possible de rembourser le joueur
       @notification = Notification.new
       @notification.user = @subscription.user
       @notification.content = "Votre inscription à #{@subscription.tournament.name} a été confirmé"
@@ -55,20 +100,7 @@ skip_after_action :verify_authorized, only: [:create, :mytournaments]
     authorize @subscription
   end
 
-  def create
-    tournament = Tournament.find(params[:tournament_id])
-    @subscription.save
-    @notification = Notification.new
-    @notification.user = @subscription.tournament.user
-    @notification.content = "#{@subscription.user.name} a demandé à s'inscrire à #{@subscription.tournament.name}"
-    @notification.save
-    redirect_to tournament_subscription_path(tournament, @subscription)
-  end
-
-
   private
-
-
 
      def mangopay_user_attributes
       {
@@ -137,6 +169,8 @@ skip_after_action :verify_authorized, only: [:create, :mytournaments]
 
 
     def payout_attributes
+
+      # subscription_id ???
       {
         'Tag' => "payout",
         'AuthorId' => @subscription.user.mangopay_natural_user_id,
@@ -165,7 +199,7 @@ skip_after_action :verify_authorized, only: [:create, :mytournaments]
       @subscription.find(params[:id])
     end
     def subscription_params
-      params.require(:subscription).permit(:status)
+      params.require(:subscription).permit(:status, :disponibilities)
     end
 
 end

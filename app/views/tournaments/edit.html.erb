@@ -6,6 +6,7 @@
   <div class="container">
       <div class= "col-xs-12 col-md-6 col-md-offset-3">
         <%= simple_form_for @tournament do |t| %>
+          <%= t.input :homologation_number, label: "Numéro d'homologation" %>
           <%= t.input :name, label: 'Nom de la Compétition' %>
           <%= t.input :city, label: 'Ville' %>
           <%= t.input :address, label: 'Addresse des installations' %>
@@ -15,6 +16,8 @@
            <%= t.date_select :ends_on, {:include_blank => true, :default => nil, :use_month_names => ['Janv.','Fevr.', 'Mars', 'Avr.', 'Mai', 'Juin', 'Juil.', 'Août','Sept.', 'Oct.', 'Nov.', 'Déc.'], :order => [:day, :month, :year], :start_year => 2015, :end_year => 2017} %>
           <%= t.input :genre, label:'Masculin ou féminin' %>
           <%= t.input :category, label: 'Catégorie' %>
+           <%= t.input :max_ranking, label: 'Classement minimum' %>
+          <%= t.input :max_ranking, label: 'Classement maximum' %>
           <%= t.input :amount, label: "Frais d'inscription" %>
           <%= t.input :club_organisateur, label: "Club Organisateur" %>
           <%= t.button :submit, value: "Soumettre ce tournoi à validation",  class: "btn-primary marge-bas" %>

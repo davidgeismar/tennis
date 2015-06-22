@@ -25,7 +25,8 @@ gem "uglifier"
 gem "bootstrap-sass"
 gem "font-awesome-sass"
 gem 'bootstrap-datepicker-rails'
-
+gem 'mechanize', '~> 2.7.3'
+gem 'ruby-trello'
 gem "rails-i18n"
 gem "devise-i18n"
 gem "devise-i18n-views"

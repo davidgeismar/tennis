@@ -11,9 +11,8 @@ class User < ActiveRecord::Base
   end
 
   extend Enumerize
-    enumerize :genre, in: [:male, :female]
-    enumerize :ranking, in: ['NC', '30/5', '30/4', '30/3', '30/2', '30/1', '30', '15/5', '15/4', '15/3', '15/2', '15/1', '15', '5/6', '4/6', '3/6', '2/6', '1/6', '0', '-2/6', '-4/6', '-15', '-30']
-   23
+  enumerize :genre, in: [:male, :female]
+  enumerize :ranking, in: ['NC', '40', '30/5', '30/4', '30/3', '30/2', '30/1', '30', '15/5', '15/4', '15/3', '15/2', '15/1', '15', '5/6', '4/6', '3/6', '2/6', '1/6', '0', '-2/6', '-4/6', '-15', '-30']
 
   devise :invitable, :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable,
@@ -40,6 +39,10 @@ class User < ActiveRecord::Base
 
   validates :first_name, presence: { message: 'Veuillez remplir votre prénom' }, on: :update
   validates :last_name, presence: { message: 'Veuillez remplir votre nom' }, on: :update
+  validates :licence_number, format:{
+        with: /\d{7}\D{1}/,
+        message: 'Le format de votre numéro de licence doit être du type 0930613K'
+    }, on: :update
   validates :iban, format: {
         with: /\A[a-zA-Z]{2}\d{2}\s*(\w{4}\s*){2,7}\w{1,4}\s*\z/,
         message: 'Le format de votre IBAN doit être du type FR70 3000 2005 5000 0015 7845 Z02'
@@ -93,6 +96,10 @@ class User < ActiveRecord::Base
     end
   end
 
+  def licence_number_custom
+   licence_without_white_space = licence_number.split.join
+   return licence_without_white_space[0...-1]
+  end
   def create_mangopay_natural_user_and_wallet
     natural_user = MangoPay::NaturalUser.create(self.mangopay_user_attributes)
 

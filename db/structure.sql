@@ -215,6 +215,76 @@ ALTER SEQUENCE convocations_id_seq OWNED BY convocations.id;
 
 
 --
+-- Name: disponibilities; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE disponibilities (
+    id integer NOT NULL,
+    subscription_id integer,
+    week character varying,
+    saturday character varying,
+    sunday character varying,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: disponibilities_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE disponibilities_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: disponibilities_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE disponibilities_id_seq OWNED BY disponibilities.id;
+
+
+--
+-- Name: licencieffts; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE licencieffts (
+    id integer NOT NULL,
+    date_of_birth date,
+    licence_number character varying,
+    genre character varying,
+    ranking character varying,
+    club character varying,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
+    full_name character varying
+);
+
+
+--
+-- Name: licencieffts_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE licencieffts_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: licencieffts_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE licencieffts_id_seq OWNED BY licencieffts.id;
+
+
+--
 -- Name: messages; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -259,7 +329,8 @@ CREATE TABLE notifications (
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
     read boolean DEFAULT false,
-    convocation_id integer
+    convocation_id integer,
+    tournament_id integer
 );
 
 
@@ -301,7 +372,8 @@ CREATE TABLE subscriptions (
     tournament_id integer,
     status character varying DEFAULT 'pending'::character varying,
     created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    updated_at timestamp without time zone NOT NULL,
+    exported boolean DEFAULT false
 );
 
 
@@ -344,7 +416,11 @@ CREATE TABLE tournaments (
     name character varying,
     club_organisateur character varying,
     latitude double precision,
-    longitude double precision
+    longitude double precision,
+    homologation_number character varying,
+    min_ranking character varying,
+    max_ranking character varying,
+    nature character varying DEFAULT 'single'::character varying
 );
 
 
@@ -426,7 +502,6 @@ CREATE TABLE users (
     ranking character varying,
     judge boolean DEFAULT false,
     genre character varying,
-    date_of_birth date,
     licence_number character varying,
     judge_number integer,
     invitation_token character varying,
@@ -469,7 +544,9 @@ CREATE TABLE users (
     bic character varying,
     address character varying,
     bank_account_id integer,
-    club character varying
+    club character varying,
+    login_aei character varying,
+    password_aei character varying
 );
 
 
@@ -525,6 +602,20 @@ ALTER TABLE ONLY contacts ALTER COLUMN id SET DEFAULT nextval('contacts_id_seq':
 --
 
 ALTER TABLE ONLY convocations ALTER COLUMN id SET DEFAULT nextval('convocations_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY disponibilities ALTER COLUMN id SET DEFAULT nextval('disponibilities_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY licencieffts ALTER COLUMN id SET DEFAULT nextval('licencieffts_id_seq'::regclass);
 
 
 --
@@ -607,6 +698,22 @@ ALTER TABLE ONLY contacts
 
 ALTER TABLE ONLY convocations
     ADD CONSTRAINT convocations_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: disponibilities_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY disponibilities
+    ADD CONSTRAINT disponibilities_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: licencieffts_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY licencieffts
+    ADD CONSTRAINT licencieffts_pkey PRIMARY KEY (id);
 
 
 --
@@ -707,6 +814,13 @@ CREATE INDEX index_convocations_on_subscription_id ON convocations USING btree (
 
 
 --
+-- Name: index_disponibilities_on_subscription_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_disponibilities_on_subscription_id ON disponibilities USING btree (subscription_id);
+
+
+--
 -- Name: index_messages_on_user_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -781,6 +895,14 @@ CREATE UNIQUE INDEX index_users_on_reset_password_token ON users USING btree (re
 --
 
 CREATE UNIQUE INDEX unique_schema_migrations ON schema_migrations USING btree (version);
+
+
+--
+-- Name: fk_rails_33fa939bf1; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY disponibilities
+    ADD CONSTRAINT fk_rails_33fa939bf1 FOREIGN KEY (subscription_id) REFERENCES subscriptions(id);
 
 
 --
@@ -930,4 +1052,30 @@ INSERT INTO schema_migrations (version) VALUES ('20150528091333');
 INSERT INTO schema_migrations (version) VALUES ('20150529092947');
 
 INSERT INTO schema_migrations (version) VALUES ('20150529153457');
+
+INSERT INTO schema_migrations (version) VALUES ('20150607184325');
+
+INSERT INTO schema_migrations (version) VALUES ('20150607184911');
+
+INSERT INTO schema_migrations (version) VALUES ('20150609163540');
+
+INSERT INTO schema_migrations (version) VALUES ('20150610172840');
+
+INSERT INTO schema_migrations (version) VALUES ('20150610190145');
+
+INSERT INTO schema_migrations (version) VALUES ('20150612085102');
+
+INSERT INTO schema_migrations (version) VALUES ('20150612091743');
+
+INSERT INTO schema_migrations (version) VALUES ('20150612092201');
+
+INSERT INTO schema_migrations (version) VALUES ('20150612122553');
+
+INSERT INTO schema_migrations (version) VALUES ('20150615132230');
+
+INSERT INTO schema_migrations (version) VALUES ('20150615134053');
+
+INSERT INTO schema_migrations (version) VALUES ('20150615135724');
+
+INSERT INTO schema_migrations (version) VALUES ('20150621202551');
 

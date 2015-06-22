@@ -11,7 +11,6 @@ class ConvocationPolicy < ApplicationPolicy
 
   def create?
    user && user.judge?
-
   end
 
   def edit?

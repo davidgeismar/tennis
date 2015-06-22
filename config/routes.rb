@@ -6,30 +6,35 @@ Rails.application.routes.draw do
   # root to: "home#home"
   resources :contacts, only: [:new, :create]
   resource :judge, only: :show
-  resources :tournaments, only: [:index, :show, :new, :create] do
+  resources :tournaments, only: [:index, :show, :new, :create, :update] do
     post :registrate_card, on: :member
-    resources :subscriptions, only: [:new, :show, :create, :index, :update]
+    resources :subscriptions, only: [:new, :show, :create, :index, :update] #en ai je vraiment besoin de ces routes
   end
   post 'tournaments/:tournament_id/convocations/multiple_new', to: "convocations#multiple_new", as: "multiple_new"
   post 'tournaments/:tournament_id/convocation/multiple_create', to: "convocations#multiple_create", as: "multiple_create"
-  # post '/tournaments/:tournament_id/subscriptions/new', to: "subscriptions#new", as: "pipi"
+
   post 'transfers/:tournament_id', to: "transfers#create", as: "transfers"
+  post 'refunds/:subscription_id', to: "subscriptions#refund", as: "refund"
+  post 'accept_player/:subscription_id', to: "subscriptions#accept_player", as: "accept_player"
+
+  post 'refusal/:subscription_id', to: "subscriptions#refus_without_remboursement", as: "refusal"
 
   resources :subscriptions do
     resources :convocations, only: [:new, :create]
   end
 
+  resources :subscriptions do
+    resources :disponibilities, only: [:new, :create, :edit, :update, :show]
+  end
+
   resources :transfers, only: :create do
     get :mangopay_return, on: :collection
   end
-   get "tournaments/:tournament_id:/success", to: "tournaments#success_payment", as: "success"
-  # resources :users, only: [:edit, :show, :update] do
-  #   get :card, on: :member
-  #   # get :rdstr_card_registration, on: :member
-  #   post :registrate_card, on: :member
-  #   # post :registrate_rdstr_card, on: :member
+   get "tournaments/:tournament_id/success", to: "tournaments#success_payment", as: "success" #should be subscriptions/:subscription_id/success
 
-  # end
+
+  post "tournament/:tournament_id/AEIexport", to: "tournaments#AEIexport", as: "AEIexport"
+  post "tournament/:tournament_id/AEIinfo", to: "tournaments#AEIinfo", as: "AEIinfo"
   post "updatenotif", to: "notifications#update_notif", as: "update_notification"
   get "contact", to: "messages#contact", as: "contact"
   get "messages", to: "tournaments#index", as: "messages"

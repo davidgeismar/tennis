@@ -1,21 +1,12 @@
 fr:
-  enumerize:
-    convocation:
-      status:
-        pending: En attente
-        confirmed: Confirmé
-        refused: Refusé
-        cancelled: W.O
-    subscription:
-      status:
-        pending: En attente
-        confirmed: Confirmé
-        refused: Refusé
-        cancelled: Annulé
-    tournament:
-      genre:
-        male: Homme
-        female: Femme
+  activerecord:
+    attributes:
+      disponibility:
+        week: En semaine
+        saturday: Le samedi
+        sunday: Le dimanche
+    models:
+      disponibility: Disponibilité
   active_admin:
     dashboard: "Tableau de bord"
     dashboard_welcome:
@@ -129,6 +120,46 @@ fr:
       block: "Liste"
       grid: "Grille"
       blog: "Blog"
+  enumerize:
+    convocation:
+      status:
+        pending: En attente
+        confirmed: Confirmé
+        refused: Refusé
+        cancelled: W.O
+    subscription:
+      status:
+        pending: En attente
+        confirmed: Confirmé
+        refused: Refusé
+        cancelled: Annulé
+        sent: Demande envoyée
+    tournament:
+      genre:
+        male: Homme
+        female: Femme
+      max_ranking:
+        '-2/6':  '-2/6'
+        '-4/6':  '-4/6'
+        '-15':   '-15'
+        '-30':   '-30'
+        '-30':   '-30'
+      min_ranking:
+        '-2/6':  '-2/6'
+        '-4/6':  '-4/6'
+        '-15':   '-15'
+        '-30':   '-30'
+        '-30':   '-30'
+    user:
+      genre:
+        male: Homme
+        female: Femme
+      ranking:
+        '-2/6':  '-2/6'
+        '-4/6':  '-4/6'
+        '-15':   '-15'
+        '-30':   '-30'
+        '-30':   '-30'
   views:
     pagination:
       next: "Suivant"

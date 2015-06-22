@@ -1,6 +1,6 @@
 ActiveAdmin.register Tournament do
 
- permit_params :accepted, :genre, :category, :amount, :starts_on, :ends_on, :city, :user_id, :address, :name, :club_organisateur, :latitude, :longitude
+ permit_params :accepted, :genre, :category, :amount, :starts_on, :ends_on, :city, :user_id, :address, :name, :club_organisateur, :latitude, :longitude, :homologation_number, :max_ranking, :min_ranking, :nature
   # See permitted parameters documentation:
   # https://github.com/activeadmin/activeadmin/blob/master/docs/2-resource-customization.md#setting-up-strong-parameters
   #
@@ -13,6 +13,7 @@ ActiveAdmin.register Tournament do
   #   permitted << :other if resource.something?
   #   permitted
   # end
+
 
 
 end

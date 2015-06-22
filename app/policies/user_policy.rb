@@ -6,7 +6,7 @@ class UserPolicy < ApplicationPolicy
   end
 
   def edit
-    true
+    user == record
   end
 
   def show
@@ -15,13 +15,13 @@ class UserPolicy < ApplicationPolicy
   end
 
   def update?
-    # user == record
-    true
+     user == record
   end
 
   def update_card?
-    true
+   user == record
   end
+
   def set_user?
   true
   end

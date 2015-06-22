@@ -1,10 +1,14 @@
 <div class="banner">
   <div class="container">
     <div class="row text-center">
-      <div class="col-xs-12">
-        <h2 class="marge"><%= @convocation.subscription.user.first_name%> <%= @convocation.subscription.user.last_name%> a refusé la convocation que vous lui avez proposé le <%= @convocation.date %> à <%= @convocation.hour %></h2>
+      <div class="col-xs-12 bigmarge">
+         <div class="panel panel-default">
+          <div class="panel-heading">
+            <h2 class="marge"><%= @convocation.subscription.user.first_name%> <%= @convocation.subscription.user.last_name%> a refusé la convocation que vous lui avez proposé le <%= @convocation.date.strftime("le %d/%m/%Y") %> à <%= @convocation.hour.strftime(" à %Hh%M")%></h2>
 
-        <p class="marge-bas">Ci dessous vous trouverez les disponibilités du joueur <%= @convocation.subscription.user.first_name%> <%= @convocation.subscription.user.last_name%></p>
+            <p class="marge-bas"><strong>Ci dessous vous trouverez les disponibilités de <%= @convocation.subscription.user.first_name%> <%= @convocation.subscription.user.last_name%></strong></p>
+               </div>
+             </div>
         </div>
     </div>
   </div>
@@ -24,7 +28,7 @@
             <% end %>
           </div>
         </div>
-        <p class="marge-bas"> <strong> Ci-dessous pour changer la convocation de ce joueur sinon appeler le au <%= @convocation.subscription.user.telephone %> pour lui expliquer la situation. </strong></p>
+        <p class="marge-bas"> <strong> Cliquer sur "Changer la convocation de ce joueur" pour envoyer une nouvelle convocation à <%= @convocation.subscription.user.full_name %> sinon appeler le au <%= @convocation.subscription.user.telephone %> pour lui expliquer la situation. </strong></p>
         <%=link_to "Changer la convocation de ce joueur", new_subscription_convocation_path(@convocation.subscription) , class: "btn btn-success marge-bas" %>
       </div>
     </div>

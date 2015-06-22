@@ -4,13 +4,13 @@ class ApplicationController < ActionController::Base
 
   protect_from_forgery with: :exception
 
-  before_action :authenticate_user!, unless: :pages_controller?
+  before_action :authenticate_user!, unless: :pages_controller_or_contacts_controller?
   before_action :configure_permitted_parameters, if: :devise_controller?
 
 
 
-  after_action :verify_authorized, except: :index, unless: :devise_or_pages_or_active_admin_controller?
-  after_action :verify_policy_scoped, only: :index, unless: :devise_or_pages_or_active_admin_controller?
+  after_action :verify_authorized,    except: :index, unless: :devise_or_pages_or_active_admin_controller?
+  after_action :verify_policy_scoped, only:   :index, unless: :devise_or_pages_or_active_admin_controller?
 
 #  rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
 
@@ -18,7 +18,7 @@ class ApplicationController < ActionController::Base
 
    def after_sign_in_path_for(user)
     if user.judge == false
-      request.env['omniauth.origin'] || stored_location_for(user) || tournaments_path
+      stored_location_for(user) || tournaments_path
     end
   end
 
@@ -30,6 +30,20 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  def custom_authorize(policy_class, record = {})
+    @_policy_authorized = true
+    policy    = custom_policy(policy_class, record)
+    predicate = "#{action_name}?"
+
+    unless policy.public_send(predicate)
+      raise NotAuthorizedError.new
+    end
+  end
+
+  def custom_policy(policy_class, record, user=current_user)
+    policy_class.new(user, record)
+  end
+
   private
 
   def user_not_authorized
@@ -38,10 +52,10 @@ class ApplicationController < ActionController::Base
   end
 
   def devise_or_pages_or_active_admin_controller?
-    devise_controller? || pages_controller? || params[:controller] =~ /^admin/
+    devise_controller? || pages_controller_or_contacts_controller? || params[:controller] =~ /^admin/
   end
 
-  def pages_controller?
-    controller_name == "pages"  # Brought by the `high_voltage` gem
+  def pages_controller_or_contacts_controller?
+    controller_name == "pages" || controller_name == "contacts"  # Brought by the `high_voltage` gem
   end
 end

@@ -158,7 +158,7 @@ ActiveRecord::Schema.define(version: 20150501141614) do
   end
 
   add_index "tournaments", ["user_id"], name: "index_tournaments_on_user_id", using: :btree
-
+# transfers have a credited_user_id and a author_id stored in json "archive"
   create_table "transfers", force: :cascade do |t|
     t.string   "status"
     t.integer  "mangopay_transaction_id"

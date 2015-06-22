@@ -5,7 +5,8 @@
         <div class="content text-center">
           <div role="tabpanel">
             <ul class="nav nav-tabs" role="tablist">
-              <li role="presentation" class="active"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">Profile</a></li>
+              <li role="presentation" class="active"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">Profil</a></li>
+              <li role="presentation"><a href="#disponibility" aria-controls="disponibility" role="tab" data-toggle="tab"><strong>Disponibilités</strong></a></li>
             </ul>
              <!-- Tab panes -->
             <div class="tab-content">
@@ -27,7 +28,7 @@
                   <h4><%= @user.telephone %></h4>
                   <h4><%= @user.ranking %></h4>
                   <h4><%= @user.genre %></h4>
-                  <h4><%= @user.date_of_birth %></h4>
+                  <h4><%= @user.birthdate.strftime("%d/%m/%Y") %></h4>
                   <h4><%= @user.licence_number %></h4>
                   </div>
                 <div class="col-xs-2">
@@ -35,6 +36,7 @@
                   </div>
                 </div>
               </div>
+             <!--  -->
             </div>
           </div>
         </div>

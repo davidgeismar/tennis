@@ -1,6 +1,5 @@
 class ConvocationsController < ApplicationController
   before_action :find_subscription, except: [:multiple_new, :multiple_create]
-  skip_after_action :verify_authorized, only: [:multiple_new, :multiple_create]
 
   def new
     @convocation = @subscription.convocations.build
@@ -13,7 +12,7 @@ class ConvocationsController < ApplicationController
     @convocation.save
     @notification = Notification.new
     @notification.user = @subscription.user
-    @notification.content = "Vous êtes convoqué à #{@convocation.subscription.tournament.name} le #{@convocation.date} à #{@convocation.hour}"
+    @notification.content = "Vous êtes convoqué à #{@convocation.subscription.tournament.name} le #{@convocation.date.strftime("le %d/%m/%Y")} à #{@convocation.hour.strftime(" à %Hh%M")}"
     @notification.save
     redirect_to tournament_subscriptions_path(@subscription.tournament)
   end
@@ -29,7 +28,7 @@ class ConvocationsController < ApplicationController
       @notification = Notification.new
       @notification.user = @convocation.subscription.tournament.user
       @notification.convocation = @convocation
-      @notification.content = "#{@convocation.subscription.user.name} n'est pas disponible à la date de votre convoncation"
+      @notification.content = "#{@convocation.subscription.user.full_name} n'est pas disponible à la date de votre convoncation"
       @notification.save
       redirect_to new_convocation_message_path(@convocation)
 
@@ -37,7 +36,7 @@ class ConvocationsController < ApplicationController
       @notification = Notification.new
       @notification.user = @convocation.subscription.tournament.user
       @notification.convocation = @convocation
-      @notification.content = "#{@convocation.subscription.user.name} confirme sa participation le #{@convocation.date} à #{@convocation.hour}"
+      @notification.content = "#{@convocation.subscription.user.full_name} confirme sa participation le #{@convocation.date.strftime("le %d/%m/%Y")} à #{@convocation.hour.strftime(" à %Hh%M")}"
       @notification.save
       redirect_to mes_tournois_path
     else
@@ -46,51 +45,60 @@ class ConvocationsController < ApplicationController
   end
 
   def multiple_new
-    @tournament = Tournament.find(params[:tournament_id])
-    @subscription_ids_string = params[:subscription_ids]
-    if @subscription_ids_string == ''
+    @tournament       = Tournament.find(params[:tournament_id])
+    @subscription_ids = params[:select_players].split(',')
+    @subscriptions    = Subscription.where(id: @subscription_ids)
+
+    custom_authorize ConvocationMultiPolicy, @subscriptions
+
+    if @subscriptions.blank?
       flash[:alert] = "Vous n'avez sélectionné aucun joueur"
       redirect_to tournament_subscriptions_path(@tournament)
     # @tournament = Tournament.find(params[:tournament_id])
     # @subscription_ids_string = params[:subscription_ids]
     else
-      @subscription_ids = params[:subscription_ids].split(', ')
-      @player_names = []
-      @subscription_ids.each do |subscription_id|
-        @player_names << Subscription.find(subscription_id).user.full_name
-      end
+      @player_names = @subscriptions.map { |subscription| subscription.user.full_name }
     end
-
   end
-
+  # coder un système d'alert box si les dispos d'un joueur ne matchent pas avec la convoc
   def multiple_create
+
     @tournament = Tournament.find(params[:tournament_id])
-    @subscription_ids = params[:subscription_ids].split(', ')
-    @subscription_ids.each do |subscription_id|
-      @subscription = Subscription.find(subscription_id)
-      convocation = Convocation.create(date: params[:date], hour: params[:hour], subscription: @subscription)
+    @subscription_ids = params[:subscription_ids].split(',')
+    @subscriptions = Subscription.where(id: @subscription_ids)
+    custom_authorize ConvocationMultiPolicy, @subscriptions
+
+    @subscriptions.each do |subscription|
+      convocation = Convocation.new(date: params[:date], hour: params[:hour], subscription: subscription)
+
       if convocation.save && convocation.subscription.user.telephone
         @notification = Notification.new
-        @notification.user = @subscription.user
-        @notification.content = "Vous êtes convoqué à #{convocation.subscription.tournament.name} le #{convocation.date} à #{convocation.hour}"
+        @notification.user = subscription.user
+        @notification.convocation = convocation
+        @notification.content = "Vous êtes convoqué à #{convocation.subscription.tournament.name} le #{convocation.date.strftime("%d/%m/%Y")} à #{convocation.hour.strftime(" à %Hh%M")}"
         @notification.save
 
-        client = Twilio::REST::Client.new(ENV['sid'], ENV['token'])
+        begin
+          client = Twilio::REST::Client.new(ENV['sid'], ENV['token'])
 
-      # Create and send an SMS message
-        client.account.sms.messages.create(
-        from: ENV['from'],
-        to: convocation.subscription.user.telephone,
-        body: "Vous etes convoque  #{convocation.date.strftime("le %d/%m/%Y")} #{convocation.hour.strftime(" à %Hh%M")} pour le tournoi #{convocation.subscription.tournament.name} "
-      )
+          # Create and send an SMS message
+          client.account.sms.messages.create(
+            from: ENV['from'],
+            to: convocation.subscription.user.telephone,
+            body: "Vous etes convoque  #{convocation.date.strftime("le %d/%m/%Y")} #{convocation.hour.strftime(" à %Hh%M")} pour le tournoi #{convocation.subscription.tournament.name} "
+          )
+        rescue Twilio::REST::RequestError
+          # on error, sms won't be sent.. deal
+        end
 
-        flash[:alert] = "Votre convocation a bien été envoyé"
+        flash[:notice] = "Votre convocation a bien été envoyé"
       elsif convocation.save
          @notification = Notification.new
-         @notification.user = @subscription.user
+         @notification.user = subscription.user
+         @notification.convocation = convocation
          @notification.content = "Vous êtes convoqué à #{@convocation.subscription.tournament.name} le #{@convocation.date.strftime("%d/%m/%Y")} à #{@convocation.hour.strftime(" à %Hh%M")}"
          @notification.save
-         flash[:alert] = "Votre convocation a bien été envoyé"
+         flash[:notice] = "Votre convocation a bien été envoyé"
       else
         flash[:warning] = "Un problème est survenu veuillez réessayer d'envoyer votre convocation"
       end

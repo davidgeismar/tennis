@@ -225,15 +225,15 @@ header {
 // Extras
 // -- Highlight Color Customization
 ::-moz-selection {
-    color: white;
+    color: #000032;
     text-shadow: none;
     // background: @theme-dark;
 }
 
 ::selection {
-    color: white;
+    color: #000032;
     text-shadow: none;
-    // background: @theme-dark;
+    background: #98EEFF;
 }
 
 img::selection {

@@ -41,7 +41,9 @@
                     <%if notification.read == false %>
                       <li class="notifstyling"><strong>
                         <%if notification.convocation%>
-                          <%= link_to notification.content,  tournament_subscriptions_path(notification.convocation.subscription.tournament), class: "notifcontent" %>
+                          <%= link_to notification.content,  edit_convocation_path(notification.convocation), class: "notifcontent" %>
+                          <% elsif notification.tournament%>
+                          <%= link_to notification.content,   tournament_subscriptions_path(notification.tournament), class: "notifcontent" %>
                         <% else %>
                           <%=notification.content%>
                         <% end -%>
@@ -104,13 +106,12 @@
 
  $(document).ready(function() {
     $("#dropdownMenu1").on('click', function(event){
-      $.ajax({url: "<%=update_notification_path%>",
-          dataType: "json",
-          type: "POST",
-          success: function() {
-                          $(".noti_bubble").hide();
-
-                        },
+      $.ajax({
+        url: "<%=update_notification_path %>",
+        type: "POST",
+        success: function() {
+          $(".noti_bubble").hide();
+        }
       });
     });
  });
