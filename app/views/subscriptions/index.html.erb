@@ -5,7 +5,7 @@
         <h1 id="tournament-name"><%= @tournament.name.upcase %></h1>
       </div>
       <div class="col-xs-5">
-        <%=link_to "Ajouter un joueur à la liste", invite_player_path(@tournament), class: "btn btn-success", id: "convocation-submit" %>
+        <%=link_to "Ajouter un joueur à la liste", new_tournament_player_invitation_path(@tournament), class: "btn btn-success", id: "convocation-submit" %>
       </div>
     </div>
       <table id="example" class="table table-hover card display dataTable table_judge_tournoi">
@@ -62,9 +62,8 @@
                              <p> Il vous suffit de cliquer sur <strong>Rembourser</strong> ci-dessous pour que son inscription au tournoi soit supprimé et lui reverser ses frais d'inscription</p>
                           </div>
                           <div class="modal-body">
-                          <%= form_tag refund_path(subscription) do %>
-                          <%= hidden_field_tag :subscription_id_refund, subscription.id %>
-                          <%= submit_tag "Rembourser ce joueur", id: "export", class: "btn btn-warning"%>
+                          <%= form_tag refund_subscription_path(subscription) do %>
+                            <%= submit_tag "Rembourser ce joueur", id: "export", class: "btn btn-warning"%>
                           <% end -%>
                           </div>
                           <div class="modal-footer">
@@ -87,9 +86,8 @@
                              <p>Ce joueur ne participe plus au tournoi finalement ? Il vous suffit simplement de cliquer ci-dessous pour annuler son inscription.<br></p>
                           </div>
                           <div class="modal-body">
-                          <%= form_tag refusal_path(subscription) do %>
-                          <%= hidden_field_tag :subscription_id_refus_without_remboursement, subscription.id %>
-                          <%= submit_tag "Refuser ce joueur", class: "btn btn-warning"%>
+                          <%= form_tag refuse_subscription_path(subscription) do %>
+                            <%= submit_tag "Refuser ce joueur", class: "btn btn-warning"%>
                           <% end -%>
                           </div>
                           <div class="modal-footer">
@@ -115,9 +113,8 @@
                              <p>le paiement en ligne ne pourra pas passer par TennisMatch pour ce joueur et vous devrez l'encaissez vous-même</p>
                           </div>
                           <div class="modal-body">
-                          <%= form_tag accept_player_path(subscription) do %>
-                          <%= hidden_field_tag :subscription_id_accept_player, subscription.id %>
-                          <%= submit_tag "Confirmer ce Joueur", class: "btn btn-success"%>
+                          <%= form_tag accept_subscription_path(subscription) do %>
+                            <%= submit_tag "Confirmer ce Joueur", class: "btn btn-success"%>
                           <% end -%>
                           </div>
                           <div class="modal-footer">
@@ -180,7 +177,7 @@
                   </div>
                   <div class="modal-body">
 
-                    <%= form_tag AEIexport_path(@tournament) do %>
+                    <%= form_tag tournament_aei_export_path(@tournament) do %>
                       <%= hidden_field_tag :subscription_ids_export %>
                       <%= label_tag :login_aei, "Identifiant AEI" %>
                       <%= text_field_tag(:login_aei) %>

@@ -20,14 +20,6 @@ class UsersController < ApplicationController
     end
   end
 
-  def update_notifications
-    current_user.notifications.each do |notification|
-      notification.read == true
-      notification.save
-    end
-    render nothing: true
-  end
-
   # called when user pays for subscription
   def update_card
     authorize @user
@@ -49,8 +41,4 @@ class UsersController < ApplicationController
     @user = User.find(params[:id])
     # authorize @user
   end
-
-
-
-
 end

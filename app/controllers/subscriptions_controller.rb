@@ -16,8 +16,8 @@ class SubscriptionsController < ApplicationController
     policy_scope(@subscriptions)
   end
 
-  def refus_without_remboursement
-     @subscription = Subscription.find(params[:subscription_id_refus_without_remboursement])
+  def refuse # refus_without_remboursement
+     @subscription = Subscription.find(params[:id])
      authorize @subscription
      @subscription.status = "refused"
      @subscription.save
@@ -39,8 +39,8 @@ class SubscriptionsController < ApplicationController
   # seul solution faire les payout 2 jours après la fin du tournoi
   # et bien faire des mangopay_refund
 
-  def accept_player
-     @subscription = Subscription.find(params[:subscription_id_accept_player])
+  def accept # accept_player
+     @subscription = Subscription.find(params[:id])
      @subscription.status = "confirmed!"
      @subscription.save
      authorize @subscription
@@ -48,7 +48,7 @@ class SubscriptionsController < ApplicationController
   end
 
   def refund
-    @subscription = Subscription.find(params[:subscription_id_refund])
+    @subscription = Subscription.find(params[:id])
     if mangopay_refund
       @subscription.status = "refused"
       authorize @subscription
