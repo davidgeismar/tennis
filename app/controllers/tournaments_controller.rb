@@ -56,7 +56,7 @@
                 page_selected_compet = agent.get(a) #following the link
                 body = page_selected_compet.body
                 html_body = Nokogiri::HTML(body)
-                joueur_access = html_body.search('#tabs0head2 a').each do |a|
+                joueur_access = html_body.search('#tabs0head2 a').each do |a| #wtf here
                   lien_joueurs_inscrits = a[:href] #following link on the player_tabs
                   page = agent.get("https://aei.app.fft.fr/ei/joueurRecherche.do?dispatch=afficher&returnMapping=competitionTabJoueurs&entite=COI") #getting the link in Par numéro de licence
                   body = page.body
@@ -127,9 +127,14 @@
                       form.submit
                     end
                   end
+                  checking_export()
+                  # number_validated_subscriptions == array_validated_subscriptions.count
                 end
-
-                flash[:notice] = "L'export s'est passé comme sur des roulettes"
+                number_validated_subscriptions == array_validated_subscriptions.count
+                flash[:notice] = "Vous avez exporté #{number_validated_subscriptions} avec succès"
+                array_failed_subscriptions.each do |failed_subscription|
+                  flash[:danger] = "#{failed_subscription.user.full_name} n'a pas pu être exporté. Merci de vous connecter sur AEI pour procéder à l'inscription manuelle"
+                end
                 # redirect_to tournament_subscriptions_path(@tournament)
               end
             end
@@ -143,9 +148,56 @@
         else
           flash[:alert] = "Votre identifiant ou votre mot de passe AEI ne sont pas valables"
         end
+
       end
 
       redirect_to tournament_subscriptions_path(@tournament)
+    end
+  end
+
+  def checking_export
+
+    successfully_exported_players = []
+    agent = Mechanize.new
+    page_compet_list = agent.get("https://aei.app.fft.fr/ei/competitions.do?dispatch=afficher")
+    body = page_compet_list.body
+    html_body = Nokogiri::HTML(body)
+    links = html_body.search('a.helptip')
+    homologation_number_found = false
+    links.each do |a|
+    # try with 2015 32 92 0076 not working why ?
+    # if a.text.split.join ==  @tournament.homologation_number.split.join
+      if a.text.split.join == "201532920419"
+        homologation_number_found = true
+        a = a.parent.previous.previous
+        a = a.at('a')[:href] # selecting the link to follow
+        page_selected_compet = agent.get(a) #following the link
+        body = page_selected_compet.body
+        html_body = Nokogiri::HTML(body)
+
+        joueur_access = html_body.search('#tabs0head2 a').each do |a|
+          lien_joueurs_inscrits = a[:href]
+          page_joueurs_inscrits = agent.get(lien_joueurs_inscrits)
+          body = page_joueurs_inscrits.body
+          html_body = Nokogiri::HTML(body)
+          valids = html_body.search('table.L1 table td.L2[2]').text
+          array_subscribed_players =[]
+          valids.each do |valid|
+            array_subscribed_players  << valid.text.downcase.strip
+          end
+          array_validated_subscriptions =[]
+          array_failed_subscriptions = []
+          subscription_array.each do |subscription|
+            if array_subscribed_players.include? '#{subscription.user.full_name.downcase.strip}'
+              array_validated_subscriptions << subscription
+              puts "SUCCESS"
+            else
+              array_failed_subscriptions << subscription
+              puts "FAILURE"
+            end
+          end
+        end
+      end
     end
   end
 
