@@ -43,7 +43,6 @@ class SubscriptionsController < ApplicationController
      @subscription = Subscription.find(params[:subscription_id_accept_player])
      @subscription.status = "confirmed!"
      @subscription.save
-     raise
      authorize @subscription
      redirect_to tournament_subscriptions_path(@subscription.tournament)
   end
