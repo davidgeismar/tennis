@@ -22,6 +22,10 @@
 
       #split array d'instance d'inscriptions into arrays de max 15 instances
       subscriptions_arrays = @subscriptions_selected.each_slice(15).to_a
+      stats = {
+        success: [],
+        failure: []
+      }
 
       subscriptions_arrays.each do |subscription_array|
         agent = Mechanize.new
@@ -47,8 +51,8 @@
             links.each do |a|
             # try with 2015 32 92 0076 not working why ?
 
-              # if a.text.split.join ==  @tournament.homologation_number.split.join
-              if a.text.split.join == "201532920419"
+              # if a.text.split.join ==  @tournament.homologation_number.split.join && !homologation_number_found
+              if a.text.split.join == "201532920419" && !homologation_number_found
                 homologation_number_found = true
 
                 a = a.parent.previous.previous
@@ -127,20 +131,18 @@
                       form.submit
                     end
                   end
-                  checking_export()
+                  slice_stats = checking_export(subscription_array)
+                  stats[:success] += slice_stats[:success]
+                  stats[:failure] += slice_stats[:failure]
                   # number_validated_subscriptions == array_validated_subscriptions.count
                 end
-                number_validated_subscriptions == array_validated_subscriptions.count
-                flash[:notice] = "Vous avez exporté #{number_validated_subscriptions} avec succès"
-                array_failed_subscriptions.each do |failed_subscription|
-                  flash[:danger] = "#{failed_subscription.user.full_name} n'a pas pu être exporté. Merci de vous connecter sur AEI pour procéder à l'inscription manuelle"
-                end
+
                 # redirect_to tournament_subscriptions_path(@tournament)
               end
             end
 
             unless homologation_number_found
-              raise
+
               flash[:danger] = "Le numéro d'homologation n'a pas été reconnu" #va me le faire a chaque fois
               # redirect_to tournament_subscriptions_path(@tournament)
               # return
@@ -148,22 +150,41 @@
         else
           flash[:alert] = "Votre identifiant ou votre mot de passe AEI ne sont pas valables"
         end
+      end
 
+      failure_full_names = stats[:failure].map { |subscription| subscription.user.full_name }.join(', ')
+
+
+      flash[:notice]  = "Vous avez exporté #{stats[:success].size} avec succès"
+
+      if failure_full_names.present?
+        raise
+        flash[:alert]   = "#{failure_full_names} n'ont pas pu être exportés. Merci de vous connecter sur AEI pour procéder à l'inscription manuelle"
       end
 
       redirect_to tournament_subscriptions_path(@tournament)
     end
   end
 
-  def checking_export
-
-    successfully_exported_players = []
+  def checking_export(subscription_array)
     agent = Mechanize.new
+    agent.get("https://aei.app.fft.fr/ei/connexion.do?dispatch=afficher")
+    # login into AEI
+    # gestion d'erreur si mot de passe fourni ou login fourni mauvais redirect avec
+    # if errors = html_body.search(erreur)
+    #  flash[:alert] = "Vos identifiants n'ont n'a pas été reconnu"
+    form_login_AEI = agent.page.forms.first
+    form_login_AEI.util_vlogin = params[:login_aei]
+    form_login_AEI.util_vpassword = params[:password_aei]
+    page_compet_list = agent.submit(form_login_AEI, form_login_AEI.buttons.first)
+    body = page_compet_list.body
+
     page_compet_list = agent.get("https://aei.app.fft.fr/ei/competitions.do?dispatch=afficher")
     body = page_compet_list.body
     html_body = Nokogiri::HTML(body)
     links = html_body.search('a.helptip')
     homologation_number_found = false
+
     links.each do |a|
     # try with 2015 32 92 0076 not working why ?
     # if a.text.split.join ==  @tournament.homologation_number.split.join
@@ -175,28 +196,47 @@
         body = page_selected_compet.body
         html_body = Nokogiri::HTML(body)
 
-        joueur_access = html_body.search('#tabs0head2 a').each do |a|
-          lien_joueurs_inscrits = a[:href]
-          page_joueurs_inscrits = agent.get(lien_joueurs_inscrits)
+        joueur_access = html_body.search('#tabs0head2 a').first
+        lien_joueurs_inscrits = joueur_access[:href]
+        page_joueurs_inscrits = agent.get(lien_joueurs_inscrits)
+
+
+        body = page_joueurs_inscrits.body
+        html_body = Nokogiri::HTML(body)
+        valids = html_body.search('table.L1 table td[2]')
+        array_subscribed_players = valids.map { |valid| valid.text.downcase.strip }
+
+
+
+
+        link_number = 2
+        while lien = page_joueurs_inscrits.link_with(:text=> link_number.to_s)
+
+          page_joueurs_inscrits = lien.click
           body = page_joueurs_inscrits.body
           html_body = Nokogiri::HTML(body)
-          valids = html_body.search('table.L1 table td.L2[2]').text
-          array_subscribed_players =[]
-          valids.each do |valid|
-            array_subscribed_players  << valid.text.downcase.strip
-          end
-          array_validated_subscriptions =[]
-          array_failed_subscriptions = []
-          subscription_array.each do |subscription|
-            if array_subscribed_players.include? '#{subscription.user.full_name.downcase.strip}'
-              array_validated_subscriptions << subscription
-              puts "SUCCESS"
-            else
-              array_failed_subscriptions << subscription
-              puts "FAILURE"
-            end
+          valids = html_body.search('table.L1 table td[2]')
+          array_subscribed_players += valids.map { |valid| valid.text.downcase.strip }
+          link_number = link_number + 1
+
+        end
+
+
+         stats = {
+            success: [],
+            failure: []
+          }
+        subscription_array.each do |subscription|
+          if array_subscribed_players.include?(subscription.user.full_name_inversed.downcase.strip)
+            stats[:success] << subscription
+          else
+            stats[:failure] << subscription
+            raise
           end
         end
+
+        return stats
+
       end
     end
   end

@@ -84,15 +84,28 @@ class User < ActiveRecord::Base
     now = Time.now.utc.to_date
     now.year - birthdate.year - (birthdate.to_date.change(:year => now.year) > now ? 1 : 0)
   end
+
   def full_name
-    if last_name != nil && first_name.nil?
+    if last_name && first_name.nil?
       "#{last_name.capitalize}"
-    elsif first_name != nil && last_name.nil?
+    elsif first_name && last_name.nil?
       "#{first_name.capitalize}"
     elsif last_name.nil? && first_name.nil?
       ""
     else
       "#{first_name.capitalize} #{last_name.capitalize}"
+    end
+  end
+
+  def full_name_inversed
+    if last_name && first_name.nil?
+      "#{last_name.capitalize}"
+    elsif first_name && last_name.nil?
+      "#{first_name.capitalize}"
+    elsif last_name.nil? && first_name.nil?
+      ""
+    else
+      "#{last_name.capitalize} #{first_name.capitalize}"
     end
   end
 
