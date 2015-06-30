@@ -23,9 +23,9 @@ class Subscription < ActiveRecord::Base
   end
 
   def send_update_email
-    if self.status == "confirmed"
+    if self.status == "confirmed" && self.exported == false
       SubscriptionMailer.confirmed(self).deliver
-    elsif self.status == "refused"
+    elsif self.status == "refused" && self.exported == false
       SubscriptionMailer.refused(self).deliver
     end
   end
