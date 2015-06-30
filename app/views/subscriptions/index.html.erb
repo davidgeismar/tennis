@@ -27,11 +27,12 @@
             <% @subscriptions.each do |subscription|%>
               <tr class="subscription_item" id="<%= subscription.id %>">
                 <%if subscription.exported == true%>
-                  <td>true</td>
+                  <td><i class="fa fa-check-circle"></i></td>
+
                 <%else%>
-                  <td>false</td>
+                  <td><i class="fa fa-times"></i></td>
                 <% end -%>
-                <%if subscription.status == "confirmed" || "confirmed!" %>
+                <%if subscription.status == "confirmed" || subscription.status == "confirmed!"%>
                   <td class="checkbox"><input class="checkbox-player" type="checkbox" name="foo"></td>
                 <%else %>
                   <td></td>
@@ -237,6 +238,11 @@ function toggle(source) {
   for(var i=0, n=checkboxes.length;i<n;i++) {
     checkboxes[i].checked = source.checked;
   }
+  var subscriptionIds = $('.checkbox-player:checked').map(function() {
+      return $(this).parent().parent().prop('id');
+    }).get().join(',');
+  $('#select_players').val(subscriptionIds);
+  $('#subscription_ids_export').val(subscriptionIds);
 }
 
 $(document).ready( function () {
