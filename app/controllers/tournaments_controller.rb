@@ -158,7 +158,7 @@
       flash[:notice]  = "Vous avez exporté #{stats[:success].size} avec succès"
 
       if failure_full_names.present?
-        raise
+
         flash[:alert]   = "#{failure_full_names} n'ont pas pu être exportés. Merci de vous connecter sur AEI pour procéder à l'inscription manuelle"
       end
 
@@ -229,12 +229,16 @@
         subscription_array.each do |subscription|
           if array_subscribed_players.include?(subscription.user.full_name_inversed.downcase.strip)
             stats[:success] << subscription
+
           else
             stats[:failure] << subscription
-            raise
+
           end
         end
-
+        stats[:success].each do |subscription|
+          subscription.exported = true
+          subscription.save
+        end
         return stats
 
       end

@@ -108,6 +108,7 @@
         <div class="col-xs-12">
           <button class= "btn-primary" id="process" onclick="javascript:registerCardDemo();">Payer <%=@subscription.tournament.amount%> € </button>
         </div>
+          <%= image_tag "mangopay_logos.png", id: "mangopay"%>
         <div class="col-xs-12">
           <div id="error-cgv" class="text-center"></div>
            <div id="result" class="text-center"></div>
@@ -181,8 +182,8 @@
                   // Register card
                   mangoPay.cardRegistration.registerCard(cardData,
                       function(res) {
-                          var message = 'Votre carte a été vérifiée ' + res.CardId + '.<br />';
-                          message += 'Le paiement est en cours';
+                          var message = '<strong>' +'Votre carte a été vérifiée ' + res.CardId + '.<br /> </strong>';
+                          message += '<strong>' +'Le paiement est en cours' + '</strong>';
                           resultDiv.innerHTML = message;
                           resultDiv.style.color = "green";
                           $.ajax({
@@ -203,8 +204,8 @@
                           });
                         },
                       function(res) {
-                          var message = "Votre carte n'a pas été débitée.<br />";
-                          message += res.ResultMessage + '<br />' +' Code : ' + res.ResultCode ;
+                          var message = "<strong>Votre carte n'a pas été débitée.</strong><br />";
+                          message += '<strong>' +res.ResultMessage + '<br />' +' Code : ' + res.ResultCode + '</strong>' ;
                           resultDiv.innerHTML = message;
                           resultDiv.style.color = "black";
                       }
@@ -214,7 +215,7 @@
 
         else
           {
-            $('#error-cgv').append('<p> Acceptez les CGV de TennisMatch pour procéder au paiement </p>');
+            $('#error-cgv').append('<p> <strong> Acceptez les CGV de TennisMatch pour procéder au paiement </strong></p>');
           }
     }
 
