@@ -335,13 +335,14 @@
       flash[:alert] = "Vous devez d'abord remplir votre profil entièrement avant de pouvoir vous inscrire à ce tournoi"
       redirect_to tournament_path(@tournament)
 
-    elsif user_ranking_index < tournament_min_ranking_index
-      flash[:alert] = "Vous n'avez pas le classement requis pour vous inscrire dans ce tournoi"
-      redirect_to tournament_path(@tournament)
+    # elsif user_ranking_index < tournament_min_ranking_index
+    #   flash[:alert] = "Vous n'avez pas le classement requis pour vous inscrire dans ce tournoi"
+    #   redirect_to tournament_path(@tournament)
 
-    elsif user_ranking_index > tournament_max_ranking_index
-      flash[:alert] = "Vous n'avez pas le classement requis pour vous inscrire dans ce tournoi"
-      redirect_to tournament_path(@tournament)
+    # elsif user_ranking_index > tournament_max_ranking_index
+    #   flash[:alert] = "Vous n'avez pas le classement requis pour vous inscrire dans ce tournoi"
+    #   redirect_to tournament_path(@tournament)
+
 
     elsif current_user.subscriptions.where(tournament: @tournament) != []
       flash[:alert] = "Vous êtes déjà inscrit à ce tournoi"

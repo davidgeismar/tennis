@@ -12,7 +12,7 @@
           <thead>
             <tr>
              <th>Exporté</th>
-             <th>Select</th>
+             <th><input type="checkbox" onClick="toggle(this)" />Sélectionner tout</th>
              <th>Prénom</th>
              <th>Nom</th>
              <th>Licence</th>
@@ -31,8 +31,8 @@
                 <%else%>
                   <td>false</td>
                 <% end -%>
-                <%if subscription.status == "confirmed" %>
-                  <td class="checkbox"><input class="checkbox-player" type="checkbox"></td>
+                <%if subscription.status == "confirmed" || "confirmed!" %>
+                  <td class="checkbox"><input class="checkbox-player" type="checkbox" name="foo"></td>
                 <%else %>
                   <td></td>
                 <%end%>
@@ -156,116 +156,6 @@
           </tbody>
         </table>
 
-        <div class="row">
-          <div class="col-xs-6">
-            <%= form_tag multiple_new_path(@tournament) do %>
-              <%= hidden_field_tag :select_players %>
-              <%= submit_tag "Convoquer les joueurs sélectionnés", class: "btn btn-success margin" %>
-            <% end %>
-          </div>
-          <div class="modal fade" id="confirme">
-            <div class="modal-dialog mymodal">
-              <div class="modal-content text-center">
-                <div class="modal-header">
-                  <h4 class="modal-title">Remboursement</h4>
-                  <p>Ce joueur ne participe plus au tournoi finalement ? Vous pouvez le supprimer et procéder au remboursement de ses frais d'inscription ! <br></p>
-                  <p> Il vous suffit de cliquer sur <strong>Rembourser</strong> ci-dessous pour que son inscription au tournoi soit supprimé et lui reverser ses frais d'inscription</p>
-                </div>
-                <div class="modal-body">
-                  <%= form_tag refund_path(subscription) do %>
-                  <%= hidden_field_tag :subscription_id_refund, subscription.id %>
-                  <%= submit_tag "Rembourser ce joueur", id: "export", class: "btn btn-warning"%>
-                  <% end -%>
-                </div>
-                <div class="modal-footer">
-                </div>
-              </div><!-- /.modal-content -->
-            </div><!-- /.modal-dialog -->
-          </div>
-          <%elsif subscription.status == "confirmed!"%>
-          <td>
-            <div class="btn btn-success">
-              <a href="#" data-target="#confirme_without" data-toggle="modal" class="subscription_status">
-                !Confirmé!
-              </a>
-            </div>
-            <div class="modal fade" id="confirme_without">
-              <div class="modal-dialog mymodal">
-                <div class="modal-content text-center">
-                  <div class="modal-header">
-                    <h4 class="modal-title">Refuser ce joueur ?</h4>
-                    <p>Ce joueur ne participe plus au tournoi finalement ? Il vous suffit simplement de cliquer ci-dessous pour annuler son inscription.<br></p>
-                  </div>
-                  <div class="modal-body">
-                    <%= form_tag refusal_path(subscription) do %>
-                    <%= hidden_field_tag :subscription_id_refus_without_remboursement, subscription.id %>
-                    <%= submit_tag "Refuser ce joueur", class: "btn btn-warning"%>
-                    <% end -%>
-                  </div>
-                  <div class="modal-footer">
-                  </div>
-                </div><!-- /.modal-content -->
-              </div><!-- /.modal-dialog -->
-            </div>
-            <%else%>
-            <td >
-             <div class="btn btn-danger">
-              <a href="#" data-target="#confirme" data-toggle="modal" class="subscription_status">
-                Refusé
-              </a>
-            </div>
-            <div class="modal fade" id="confirme">
-              <div class="modal-dialog mymodal">
-                <div class="modal-content text-center">
-                  <div class="modal-header">
-                    <h4 class="modal-title">Accepter ce joueur dans le tournoi finalement</h4>
-                    <p>Vous voulez finalement laisser ce joueur participer au tournoi? Pas de problème !<br></p>
-                    <p> Il vous suffit de cliquer sur <strong>Accepter ce joueur</strong> ci-dessous pour que son inscription au tournoi soit confirmée et commencer à lui envoyer des convocations</p><br>
-                    <strong>ATTENTION !</strong><br>
-                    <p>le paiement en ligne ne pourra pas passer par TennisMatch pour ce joueur et vous devrez l'encaissez vous-même</p>
-                  </div>
-                  <div class="modal-body">
-                    <%= form_tag accept_player_path(subscription) do %>
-                    <%= hidden_field_tag :subscription_id_accept_player, subscription.id %>
-                    <%= submit_tag "Confirmer ce Joueur", class: "btn btn-success"%>
-                    <% end -%>
-                  </div>
-                  <div class="modal-footer">
-                  </div>
-                </div><!-- /.modal-content -->
-              </div><!-- /.modal-dialog -->
-            </div>
-          </td>
-          <% end %>
-
-          <td><button type="button" class="btn btn-primary "><%=link_to "Profil", user_path(subscription.user) %></button></td>
-
-
-          <% if subscription.convocations.last %>
-          <td><%= subscription.convocations.last.status_text %></td>
-          <%else%>
-          <td></td>
-          <% end %>
-
-          <% if subscription.convocations.last && subscription.convocations.last.messages != [] %>
-          <td>
-            <%=link_to "+1", convocation_messages_path(subscription.convocations.last), class: "btn btn-success" %>
-          </td>
-          <%else%>
-          <td></td>
-          <% end %>
-          <% if subscription.disponibility %>
-          <td>
-            <%= link_to image_tag("fleche_bleufonce.svg"), subscription_disponibility_path(subscription, subscription.disponibility), class: "fleche_subscription" %>
-          </td>
-          <% else %>
-          <td>Non renseignées</td>
-          <% end %>
-        </tr>
-        <%end%>
-      </tbody>
-    </table>
-
     <div class="row">
       <div class="col-xs-6">
         <%= form_tag multiple_new_path(@tournament) do %>
@@ -337,6 +227,14 @@ $(document).ready( function () {
 
   });
 });
+
+
+function toggle(source) {
+  checkboxes = document.getElementsByName('foo');
+  for(var i=0, n=checkboxes.length;i<n;i++) {
+    checkboxes[i].checked = source.checked;
+  }
+}
 
 
 </script>

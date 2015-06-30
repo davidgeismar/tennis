@@ -12,11 +12,11 @@ class Tournament < ActiveRecord::Base
     address_changed? || city_changed?
   end
 
-  include AlgoliaSearch
-  algoliasearch index_name: "tournament#{ENV['ALGOLIA_SUFFIX']}" do
-    attribute :genre, :category, :starts_on, :ends_on, :address, :city, :name, :club_organisateur
-    attributesToIndex ['city', 'address', 'club_organisateur','starts_on', 'ends_on', 'category', 'name']
-  end
+  # include AlgoliaSearch
+  # algoliasearch index_name: "tournament#{ENV['ALGOLIA_SUFFIX']}" do
+  #   attribute :genre, :category, :starts_on, :ends_on, :address, :city, :name, :club_organisateur
+  #   attributesToIndex ['city', 'address', 'club_organisateur','starts_on', 'ends_on', 'category', 'name']
+  # end
 
   extend Enumerize
   enumerize :genre, in: [:male, :female]
