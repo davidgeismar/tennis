@@ -62,7 +62,6 @@ class ConvocationsController < ApplicationController
   end
   # coder un système d'alert box si les dispos d'un joueur ne matchent pas avec la convoc
   def multiple_create
-
     @tournament = Tournament.find(params[:tournament_id])
     @subscription_ids = params[:subscription_ids].split
     @subscriptions = Subscription.where(id: @subscription_ids)
@@ -91,11 +90,10 @@ class ConvocationsController < ApplicationController
           # on error, sms won't be sent.. deal
         end
         if @subscriptions.count == 1
-         flash[:notice] = "Votre convocation a bien été envoyé"
+         flash[:notice] = "Votre convocation a bien été envoyée"
         else
           flash[:notice] = "Vos convocations ont bien été envoyées"
         end
-
       elsif convocation.save
          @notification = Notification.new
          @notification.user = subscription.user
@@ -103,7 +101,7 @@ class ConvocationsController < ApplicationController
          @notification.content = "Vous êtes convoqué à #{@convocation.subscription.tournament.name} le #{@convocation.date.strftime("%d/%m/%Y")} à #{@convocation.hour.strftime(" à %Hh%M")}"
          @notification.save
         if @subscriptions.count == 1
-         flash[:notice] = "Votre convocation a bien été envoyé"
+         flash[:notice] = "Votre convocation a bien été envoyée"
         else
           flash[:notice] = "Vos convocations ont bien été envoyées"
         end
