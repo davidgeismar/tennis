@@ -46,8 +46,8 @@ class ConvocationsController < ApplicationController
 
   def multiple_new
     @tournament       = Tournament.find(params[:tournament_id])
-    @subscription_ids = params[:select_players].split(',')
-    @subscriptions    = Subscription.where(id: @subscription_ids)
+    @subscription_ids = params[:select_players].split(',') # ["27", "38", "37", "35"]
+    @subscriptions    = Subscription.where(id: @subscription_ids) # array of subscriptions
 
     custom_authorize ConvocationMultiPolicy, @subscriptions
 
@@ -64,11 +64,11 @@ class ConvocationsController < ApplicationController
   def multiple_create
 
     @tournament = Tournament.find(params[:tournament_id])
-    @subscription_ids = params[:subscription_ids].split(',')
+    @subscription_ids = params[:subscription_ids].split
     @subscriptions = Subscription.where(id: @subscription_ids)
     custom_authorize ConvocationMultiPolicy, @subscriptions
-
     @subscriptions.each do |subscription|
+
       convocation = Convocation.new(date: params[:date], hour: params[:hour], subscription: subscription)
 
       if convocation.save && convocation.subscription.user.telephone
@@ -90,15 +90,23 @@ class ConvocationsController < ApplicationController
         rescue Twilio::REST::RequestError
           # on error, sms won't be sent.. deal
         end
+        if @subscriptions.count == 1
+         flash[:notice] = "Votre convocation a bien été envoyé"
+        else
+          flash[:notice] = "Vos convocations ont bien été envoyées"
+        end
 
-        flash[:notice] = "Votre convocation a bien été envoyé"
       elsif convocation.save
          @notification = Notification.new
          @notification.user = subscription.user
          @notification.convocation = convocation
          @notification.content = "Vous êtes convoqué à #{@convocation.subscription.tournament.name} le #{@convocation.date.strftime("%d/%m/%Y")} à #{@convocation.hour.strftime(" à %Hh%M")}"
          @notification.save
+        if @subscriptions.count == 1
          flash[:notice] = "Votre convocation a bien été envoyé"
+        else
+          flash[:notice] = "Vos convocations ont bien été envoyées"
+        end
       else
         flash[:warning] = "Un problème est survenu veuillez réessayer d'envoyer votre convocation"
       end

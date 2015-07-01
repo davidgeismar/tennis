@@ -46,8 +46,11 @@ class Tournament < ActiveRecord::Base
 
   private
 
+
   def send_email_if_accepted
     if self.accepted
+      @notification = Notification.new(user_id: self.user.id, content: "#{self.name.upcase} a été accepté par l'équipe WeTennis.", tournament_id: self.id)
+      @notification.save
       TournamentMailer.accepted(self).deliver
     end
   end
