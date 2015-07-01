@@ -4,7 +4,7 @@ class Subscription < ActiveRecord::Base
   #tracked
 
   extend Enumerize
-  enumerize :status, in: [:pending, :confirmed, :refused, :confirmed!]
+  enumerize :status, in: [:pending, :confirmed, :refused]
 
 
   belongs_to :user
