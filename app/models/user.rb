@@ -1,5 +1,5 @@
 class User < ActiveRecord::Base
-  after_create :send_welcome_email
+  after_create :send_welcome_email, unless: :invited_by_id
 
 
   # Include default devise modules. Others available are:

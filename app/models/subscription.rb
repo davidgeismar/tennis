@@ -1,5 +1,5 @@
 class Subscription < ActiveRecord::Base
-  after_create :send_confirmation_email
+  after_create :send_confirmation_email #inscription déja crée
   after_update :send_update_email #is sending email after payment...wtf ?
   #tracked
 

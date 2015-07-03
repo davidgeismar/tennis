@@ -44,7 +44,7 @@
                 <%if subscription.status == "pending" %>
                   <td>
                     <%= form_for [@tournament, subscription] do |f| %>
-                      <%= f.select :status, Subscription.status.options, :confirm => 'Your confirm message', remote: true, class: "form-control subscription-status" %>
+                      <%= f.select :status, Subscription.status.options, class: "form-control subscription-status" %>
                     <%end%>
                   </td>
                 <%elsif subscription.status == "confirmed"%>

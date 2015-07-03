@@ -6,7 +6,11 @@
           <%= f.error_notification %>
           <p>
             <%= f.label :picture, label: "Photo" %>
-            <%= f.file_field :picture %>
+            <div class="upload-file-container">
+
+              <%= f.file_field :picture, id: "myFileInput4" %>
+            <span id="fileName4"></span>
+            </div>
           </p>
           <%= f.input :first_name, label: "Prénom" %>
           <%= f.input :last_name, label: "Nom" %>
@@ -26,3 +30,14 @@
     </div>
   </div>
 </div>
+
+<% content_for(:after_js) do %>
+<script>
+  $(document).ready(function(){
+      realInputField = $('#myFileInput4')
+      realInputField.change(function() {
+        $('#fileName4').append( "<i class='fa fa-check'></i>" )
+      });
+   });
+</script>
+<% end -%>

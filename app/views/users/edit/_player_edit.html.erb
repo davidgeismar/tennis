@@ -4,7 +4,7 @@
     <div class="row">
       <div class="col-xs-6 col-xs-offset-3">
         <h3 class="text-center">Modifier mon profil</h3>
-        <%= simple_form_for(@user)  do |f| %>
+        <%= simple_form_for @user do |f| %>
          <%= f.error_notification %>
 
         <%= f.input :first_name, label: "Prénom" %>
@@ -21,20 +21,22 @@
         <p>
           <%= f.label :Photo%>
           <div class="upload-file-container">
-          <%= f.file_field :picture %>
-        </div>
+            <%= f.file_field :picture, id: "myFileInput1" %>
+            <span id="fileName1"></span>
+          </div>
         </p>
         <p>
         <%= f.label :licence %>
         <div class="upload-file-container">
-        <%= f.file_field :licencepicture %>
-        <div id="fileName"></div>
+          <%= f.file_field :licencepicture, id: "myFileInput2" %> <span id="fileName2"></span>
+
         </div>
         </p>
         <p>
         <%= f.label :certificat %>
         <div class="upload-file-container">
-        <%= f.file_field :certifmedpicture %>
+          <%= f.file_field :certifmedpicture, id: "myFileInput3" %>
+          <span id="fileName3"></span>
         </div>
         </p>
         <div id="validation"><%= f.submit "valider", class: "btn btn-success" %></div>
@@ -46,7 +48,22 @@
 
 <% content_for(:after_js) do %>
 <script>
+$(document).ready(function(){
+    realInputField = $('#myFileInput1')
+    realInputField.change(function() {
+      $('#fileName1').append( "<i class='fa fa-check'></i>" )
+    });
 
+    realInputField = $('#myFileInput2')
+      realInputField.change(function() {
+        $('#fileName2').append( "<i class='fa fa-check'></i>" )
+      });
+
+    realInputField = $('#myFileInput3')
+        realInputField.change(function() {
+          $('#fileName3').append( "<i class='fa fa-check'></i>" )
+        });
+ });
 </script>
 
 <% end -%>

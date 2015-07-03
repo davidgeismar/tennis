@@ -1,5 +1,11 @@
 $('.subscription_item select').change(function(){
-  $(this).parent().submit()
+  var form = $(this).parent();
+  var text = "Are you sure?";
+  var result = confirm(text);
+
+  if (result == true) {
+    $(this).parent().submit();
+  }
 });
 
 $('submit').on('click', function(event){
