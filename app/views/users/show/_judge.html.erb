@@ -15,7 +15,7 @@
                     <h4>Nom</h4>
                     <h4>email</h4>
                     <h4>Telephone</h4>
-                    <h4> numéro de juge-arbitre</h4>
+                    <h4> numéro de licence</h4>
                     <h4>Date de naissance</h4>
                     <h4>Iban</h4>
                     <h4>bic</h4>
@@ -49,10 +49,10 @@
                         <% end -%>
                     </h4>
                     <h4>
-                      <% if @user.judge_number.blank? %>
+                      <% if @user.licence_number.blank? %>
                           <br>
                       <%else%>
-                        <%= @user.judge_number%>
+                        <%= @user.licence_number%>
                        <% end -%>
                     </h4>
                     <h4>

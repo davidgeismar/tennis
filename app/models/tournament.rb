@@ -28,6 +28,7 @@ class Tournament < ActiveRecord::Base
   has_many :notifications, dependent: :destroy
   has_many :subscriptions, dependent: :destroy
 
+  validates :postcode, presence:  { message: "Merci d'indiquer un code postal valide" }
   validates :genre, presence:  { message: "Merci d'indiquer le genre" }
   validates :category, presence: { message: "Merci d'indiquer la catégorie" }
   validates :starts_on, presence: { message: "Merci d'indiquer la date de début" }
