@@ -18,12 +18,16 @@
         <%=simple_form_for [@subscription, @disponibility] do |f|%>
         <%= f.error_notification %>
 
-        <%= f.input :week %>
-
-
+        <%= f.input :monday %>
+        <%= f.input :tuesday %>
+        <%= f.input :wednesday %>
+        <%= f.input :thursday %>
+        <%= f.input :friday %>
         <%= f.input :saturday  %>
-
         <%= f.input :sunday  %>
+        <%= f.input :comment %>
+
+
        <%= f.button :submit, "Valider", class: "btn btn-success" %>
         <%end%>
         </div>

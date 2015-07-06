@@ -16,7 +16,7 @@
           <%= f.input :last_name, label: "Nom" %>
           <%= f.input :email, label: "email" %>
           <%= f.input :telephone %>
-          <%= f.input :judge_number, label: "Numéro de juge" %>
+          <%= f.input :licence_number, label: "Numéro de Licence" %>
           <p><%= f.label :birthdate, 'Date de naissance' %></p>
         <%= f.date_select :birthdate, {:include_blank => true, :default => nil, :use_month_names => ['Janv.','Fevr.', 'Mars', 'Avr.', 'Mai', 'Juin', 'Juil.', 'Août','Sept.', 'Oct.', 'Nov.', 'Déc.'], :order => [:day, :month, :year], :start_year => 1910, :end_year => 1995} %>
 

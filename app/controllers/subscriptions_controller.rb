@@ -67,6 +67,7 @@ class SubscriptionsController < ApplicationController
 
   def update
 
+#mangopay refund en cas de subscription.status = refused
     @subscription = Subscription.find(params[:id])
     authorize @subscription
     @subscription.update(subscription_params)

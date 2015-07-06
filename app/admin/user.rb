@@ -20,6 +20,7 @@ ActiveAdmin.register User do
       f.input :email
       f.input :telephone
       f.input :judge
+      f.input :accepted
     end
     f.inputs "Admin" do
       f.input :admin
@@ -27,7 +28,7 @@ ActiveAdmin.register User do
     f.actions
   end
 
-  permit_params :first_name, :last_name, :email, :admin, :telephone, :judge
+  permit_params :first_name, :last_name, :email, :admin, :telephone, :judge, :accepted
 end
 
   # See permitted parameters documentation:

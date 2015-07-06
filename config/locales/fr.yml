@@ -3,6 +3,11 @@ fr:
     attributes:
       disponibility:
         week: En semaine
+        monday: Le lundi
+        tuesday: Le mardi
+        wednesday: Le mercredi
+        thursday: Le jeudi
+        friday: Le vendredi
         saturday: Le samedi
         sunday: Le dimanche
     models:

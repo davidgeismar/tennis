@@ -44,7 +44,7 @@ class DisponibilitiesController < ApplicationController
   end
 
   def disponibility_params
-    params.require(:disponibility).permit(:week, :saturday, :sunday)
+    params.require(:disponibility).permit(:week, :saturday, :sunday, :monday, :tuesday, :wednesday, :thursday, :friday, :comment)
   end
 
 end

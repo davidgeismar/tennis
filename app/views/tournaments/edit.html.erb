@@ -9,6 +9,7 @@
           <%= t.input :homologation_number, label: "Numéro d'homologation" %>
           <%= t.input :name, label: 'Nom de la Compétition' %>
           <%= t.input :city, label: 'Ville' %>
+           <%= t.input :postcode, label: 'Code Postal' %>
           <%= t.input :address, label: 'Addresse des installations' %>
             <p><%= t.label :starts_on, 'Date de début de la compétition' %></p>
            <%= t.date_select :starts_on, {:include_blank => true, :default => nil, :use_month_names => ['Janv.','Fevr.', 'Mars', 'Avr.', 'Mai', 'Juin', 'Juil.', 'Août','Sept.', 'Oct.', 'Nov.', 'Déc.'], :order => [:day, :month, :year], :start_year => 2015, :end_year => 2017} %>
