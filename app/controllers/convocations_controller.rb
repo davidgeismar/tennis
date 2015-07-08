@@ -1,4 +1,4 @@
-class ConvocationsController < ApplicationController
+  class ConvocationsController < ApplicationController
   before_action :find_subscription, except: [:multiple_new, :multiple_create]
 
   def new
@@ -124,7 +124,8 @@ class ConvocationsController < ApplicationController
 
   def convocation_params
     if current_user.judge?
-      params.require(:convocation).permit(:hour, :date)
+      params.permit(:hour, :date, :utf8, :commit, :authenticity_token, :subscription_id)
+      # params.require(:convocation).permit(:hour, :date)
     else
       params.require(:convocation).permit(:status)
     end

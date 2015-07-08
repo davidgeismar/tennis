@@ -40,9 +40,13 @@
                   <% current_user.notifications.each do |notification| %>
                     <%if notification.read == false %>
                       <li class="notifstyling"><strong>
-                        <%if notification.convocation%>
+                        <%if notification.convocation && notification.user.judge == false%>
                           <%= link_to notification.content,  edit_convocation_path(notification.convocation), class: "notifcontent" %>
-                          <% elsif notification.tournament%>
+                        <%elsif notification.convocation && notification.user.judge == true && notification.convocation.messages.blank? %>
+                        <%= link_to notification.content,  tournament_subscriptions_path(notification.convocation.subscription.tournament), class: "notifcontent" %>
+                        <%elsif notification.convocation && notification.user.judge == true && notification.convocation.messages %>
+                        <%= link_to notification.content,  convocation_messages_path(notification.convocation), class: "notifcontent" %>
+                        <% elsif notification.tournament%>
                           <%= link_to notification.content,   tournament_subscriptions_path(notification.tournament), class: "notifcontent" %>
                         <% else %>
                           <%=notification.content%>
