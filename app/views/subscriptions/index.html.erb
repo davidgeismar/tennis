@@ -6,8 +6,10 @@
       </div>
       <div class="col-xs-5">
         <%=link_to "Ajouter un joueur à la liste", invite_player_path(@tournament), class: "btn btn-success", id: "convocation-submit" %>
+        <%=link_to "Statistiques Tournoi", rankings_path(@tournament), class: "btn btn-success", id: "convocation-submit" %>
       </div>
     </div>
+
       <table id="example" class="table table-hover card display dataTable table_judge_tournoi">
           <thead>
             <tr>

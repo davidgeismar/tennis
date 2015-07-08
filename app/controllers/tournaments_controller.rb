@@ -1,5 +1,5 @@
  class TournamentsController < ApplicationController
-  before_filter :set_tournament, only: [:invite_player_to_tournament, :update, :edit, :show, :invite_player, :registrate_card]
+  before_filter :set_tournament, only: [:invite_player_to_tournament, :update, :edit, :show, :invite_player, :registrate_card,]
   skip_after_action :verify_authorized
 
 
@@ -270,6 +270,11 @@
       @tournament = Tournament.new
       authorize @tournament
     end
+  end
+
+  def rankings
+    @tournament = Tournament.find(params[:tournament_id])
+    @subscriptions = @tournament.subscriptions
   end
 
   def create #must create a different tournament for each checkbox that is selected

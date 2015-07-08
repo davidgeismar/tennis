@@ -1,0 +1,124 @@
+  <div class="banner">
+    <div class="container text-center bigmarge">
+      <table id="example" class="table table-hover card display dataTable table_judge_tournoi">
+        <thead>
+          <tr>
+            <th>Classements</th>
+            <th>Nombre de joueurs</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Total Inscrits</td>
+            <td><%= @subscriptions.count %></td>
+          </tr>
+          <tr>
+            <td>NC</td>
+            <td><%= @subscriptions.joins(:user).where("users.ranking = 'NC'").count %></td>
+          </tr>
+          <tr>
+            <td>40</td>
+            <td><%= @subscriptions.joins(:user).where("users.ranking = '40'").count %></td>
+          </tr>
+          <tr>
+            <td>30/5</td>
+            <td><%= @subscriptions.joins(:user).where("users.ranking = '30/5'").count %></td>
+          </tr>
+          <tr>
+            <td>30/4</td>
+            <td><%= @subscriptions.joins(:user).where("users.ranking = '30/4'").count %></td>
+          </tr>
+          <tr>
+            <td>30/3</td>
+            <td><%= @subscriptions.joins(:user).where("users.ranking = '30/3'").count %></td>
+          </tr>
+          <tr>
+            <td>30/2</td>
+            <td><%= @subscriptions.joins(:user).where("users.ranking = '30/2'").count %></td>
+          </tr>
+          <tr>
+            <td>30/1</td>
+            <td><%= @subscriptions.joins(:user).where("users.ranking = '30/1'").count %></td>
+          </tr>
+          <tr>
+            <td>30</td>
+            <td><%= @subscriptions.joins(:user).where("users.ranking = '30'").count %></td>
+          </tr>
+          <tr>
+            <td>15/5</td>
+            <td><%= @subscriptions.joins(:user).where("users.ranking = '15/5'").count %></td>
+
+          <tr>
+            <td>15/4</td>
+            <td><%= @subscriptions.joins(:user).where("users.ranking = '15/4'").count %></td>
+          </tr>
+          <tr>
+            <td>15/3</td>
+            <td><%= @subscriptions.joins(:user).where("users.ranking = '15/3'").count %></td>
+          </tr>
+          <tr>
+            <td>15/2</td>
+            <td><%= @subscriptions.joins(:user).where("users.ranking = '15/2'").count %></td>
+          </tr>
+          <tr>
+            <td>15/1</td>
+            <td><%= @subscriptions.joins(:user).where("users.ranking = '15/1'").count %></td>
+          </tr>
+          <tr>
+            <td>15</td>
+            <td><%= @subscriptions.joins(:user).where("users.ranking = '15'").count %></td>
+          </tr>
+          <tr>
+            <td>5/6</td>
+            <td><%= @subscriptions.joins(:user).where("users.ranking = '5/6'").count %></td>
+          </tr>
+          <tr>
+            <td>4/6</td>
+            <td><%= @subscriptions.joins(:user).where("users.ranking = '4/6'").count %></td>
+          </tr>
+          <tr>
+            <td>3/6</td>
+            <td><%= @subscriptions.joins(:user).where("users.ranking = '3/6'").count %></td>
+          </tr>
+          <tr>
+            <td>2/6</td>
+            <td><%= @subscriptions.joins(:user).where("users.ranking = '2/6'").count %>
+            </td>
+          </tr>
+          <tr>
+            <td>1/6</td>
+            <td><%= @subscriptions.joins(:user).where("users.ranking = '1/6'").count %></td>
+          </tr>
+          <tr>
+            <td>0</td>
+            <td><%= @subscriptions.joins(:user).where("users.ranking = '0'").count %></td>
+          </tr>
+          <tr>
+            <td>-2/6</td>
+            <td><%= @subscriptions.joins(:user).where("users.ranking = '-2/6'").count %></td>
+          </tr>
+            <td>-4/6</td>
+            <td><%= @subscriptions.joins(:user).where("users.ranking = '-4/6'").count %></td>
+          </tr>
+          <tr>
+            <td>-15</td>
+            <td><%= @subscriptions.joins(:user).where("users.ranking = '-15'").count %></td>
+          </tr>
+          <tr>
+            <td>-30</td>
+            <td><%= @subscriptions.joins(:user).where("users.ranking = '-30'").count %></td>
+              </td>
+          </tr>
+
+       </tbody>
+</table>
+
+
+
+
+
+
+              </div>
+          </div>
+    </div>
+  </div>
