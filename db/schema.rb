@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150703190101) do
+ActiveRecord::Schema.define(version: 20150709153544) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -157,6 +157,7 @@ ActiveRecord::Schema.define(version: 20150703190101) do
     t.string   "max_ranking"
     t.string   "nature",              default: "single"
     t.string   "postcode"
+    t.integer  "young_fare"
   end
 
   add_index "tournaments", ["user_id"], name: "index_tournaments_on_user_id", using: :btree

@@ -5,8 +5,8 @@
         <h1 id="tournament-name"><%= @tournament.name.upcase %></h1>
       </div>
       <div class="col-xs-5">
-        <%=link_to "Ajouter un joueur à la liste", invite_player_path(@tournament), class: "btn btn-success", id: "convocation-submit" %>
-        <%=link_to "Statistiques Tournoi", rankings_path(@tournament), class: "btn btn-success", id: "convocation-submit" %>
+        <%=link_to image_tag('fleche_droite.svg', class: 'fleche_subscription_index') + "Ajouter un joueur à la liste", invite_player_path(@tournament), class: "btn btn-success", id: "convocation-submit" %>
+        <%=link_to image_tag('fleche_droite.svg', class: 'fleche_subscription_index') + "Statistiques Tournoi", rankings_path(@tournament), class: "btn btn-success", id: "convocation-submit" %>
       </div>
     </div>
 
