@@ -2,12 +2,13 @@
   before_action :find_subscription, except: [:multiple_new, :multiple_create]
 
   def new
-    @convocation = @subscription.convocations.build
+    # @convocation = @subscription.convocations.build
+    @convocation = Convocation.new
     authorize @convocation
   end
 
   def create
-    @convocation = @subscription.convocations.build(convocation_params)
+    @convocation = Convocation.new(convocation_params)
     authorize @convocation
     @convocation.save
     @notification = Notification.new
@@ -124,7 +125,8 @@
 
   def convocation_params
     if current_user.judge?
-      params.permit(:hour, :date, :utf8, :commit, :authenticity_token, :subscription_id)
+      # params.permit(:hour, :date, :utf8, :commit, :authenticity_token, :subscription_id)
+      params.permit(:hour, :date)
       # params.require(:convocation).permit(:hour, :date)
     else
       params.require(:convocation).permit(:status)

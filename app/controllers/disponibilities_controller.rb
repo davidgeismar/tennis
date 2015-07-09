@@ -1,9 +1,10 @@
 class DisponibilitiesController < ApplicationController
   before_action :set_subscription
-  skip_after_action :verify_authorized, only: [:new, :create, :update, :edit, :show]
+  skip_after_action :verify_authorized, only: [:create, :update, :edit, :show]
 
   def new
     @disponibility = Disponibility.new
+    authorize @disponibility
     @disponibility.subscription = @subscription
   end
 

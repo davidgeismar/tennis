@@ -1,5 +1,5 @@
 class SubscriptionsController < ApplicationController
-  skip_after_action :verify_authorized, only: [:mytournaments]
+  skip_after_action :verify_authorized, only: [:mytournaments, :accept_player]
 
 
   def mytournaments
@@ -43,8 +43,10 @@ class SubscriptionsController < ApplicationController
   def accept_player
      @subscription = Subscription.find(params[:subscription_id_accept_player])
      @subscription.status = "confirmed!"
+
      @subscription.save
-     authorize @subscription
+
+     # authorize @subscription
      redirect_to tournament_subscriptions_path(@subscription.tournament)
   end
 
