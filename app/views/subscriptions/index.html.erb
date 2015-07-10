@@ -5,8 +5,8 @@
         <h1 id="tournament-name"><%= @tournament.name.upcase %></h1>
       </div>
       <div class="col-xs-5">
-        <%=link_to image_tag('fleche_droite.svg', class: 'fleche_subscription_index') + "Ajouter un joueur à la liste", invite_player_path(@tournament), class: "btn btn-success", id: "convocation-submit" %>
-        <%=link_to image_tag('fleche_droite.svg', class: 'fleche_subscription_index') + "Statistiques Tournoi", rankings_path(@tournament), class: "btn btn-success", id: "convocation-submit" %>
+        <%=link_to image_tag('fleche_droite.svg', class: 'fleche_subscription_index') + "Ajouter un joueur à la liste", new_tournament_player_invitation_path(@tournament), class: "btn btn-success", id: "convocation-submit" %>
+        <%=link_to image_tag('fleche_droite.svg', class: 'fleche_subscription_index') + "Statistiques Tournoi", tournament_rankings_path(@tournament), class: "btn btn-success", id: "convocation-submit" %>
       </div>
     </div>
 
@@ -34,7 +34,7 @@
                 <%else%>
                   <td><i class="fa fa-times"></i></td>
                 <% end -%>
-                <%if subscription.status == "confirmed" || subscription.status == "confirmed!"%>
+                <%if subscription.status == "confirmed" || subscription.status == "confirmed_warning"%>
                   <td class="checkbox"><input class="checkbox-player" type="checkbox" name="foo"></td>
                 <%else %>
                   <td></td>
@@ -46,7 +46,7 @@
                 <%if subscription.status == "pending" %>
                   <td>
                     <%= form_for [@tournament, subscription] do |f| %>
-                      <%= f.select :status, Subscription.status.options, class: "form-control subscription-status" %>
+                      <%= f.select :status, subscription_status_options, class: "form-control subscription-status" %>
                     <%end%>
                   </td>
                 <%elsif subscription.status == "confirmed"%>
@@ -65,9 +65,8 @@
                              <p> Il vous suffit de cliquer sur <strong>Rembourser</strong> ci-dessous pour que son inscription au tournoi soit supprimé et lui reverser ses frais d'inscription</p>
                           </div>
                           <div class="modal-body">
-                          <%= form_tag refund_path(subscription) do %>
-                          <%= hidden_field_tag :subscription_id_refund, subscription.id %>
-                          <%= submit_tag "Rembourser ce joueur", id: "export", class: "btn btn-warning"%>
+                          <%= form_tag refund_subscription_path(subscription) do %>
+                            <%= submit_tag "Rembourser ce joueur", id: "export", class: "btn btn-warning"%>
                           <% end -%>
                           </div>
                           <div class="modal-footer">
@@ -75,7 +74,7 @@
                         </div><!-- /.modal-content -->
                       </div><!-- /.modal-dialog -->
                     </div>
-                    <%elsif subscription.status == "confirmed!"%>
+                    <%elsif subscription.status == "confirmed_warning"%>
                     <td>
                     <div class="btn btn-success">
                       <a href="#" data-target="#confirme_without" data-toggle="modal" class="subscription_status" id="confirm!">
@@ -93,9 +92,8 @@
                              <p>Ce joueur ne participe plus au tournoi finalement ? Il vous suffit simplement de cliquer ci-dessous pour annuler son inscription.<br></p>
                           </div>
                           <div class="modal-body">
-                          <%= form_tag refusal_path(subscription) do %>
-                          <%= hidden_field_tag :subscription_id_refus_without_remboursement, subscription.id %>
-                          <%= submit_tag "Refuser ce joueur", class: "btn btn-warning"%>
+                          <%= form_tag refuse_subscription_path(subscription) do %>
+                            <%= submit_tag "Refuser ce joueur", class: "btn btn-warning"%>
                           <% end -%>
                           </div>
                           <div class="modal-footer">
@@ -121,9 +119,8 @@
                              <p>le paiement en ligne ne pourra pas passer par TennisMatch pour ce joueur et vous devrez l'encaissez vous-même</p>
                           </div>
                           <div class="modal-body">
-                          <%= form_tag accept_player_path(subscription) do %>
-                          <%= hidden_field_tag :subscription_id_accept_player, subscription.id %>
-                          <%= submit_tag "Confirmer ce Joueur", class: "btn btn-success"%>
+                          <%= form_tag accept_subscription_path(subscription) do %>
+                            <%= submit_tag "Confirmer ce Joueur", class: "btn btn-success"%>
                           <% end -%>
                           </div>
                           <div class="modal-footer">
@@ -162,44 +159,46 @@
           </tbody>
         </table>
 
-    <div class="row">
-      <div class="col-xs-6">
-        <%= form_tag multiple_new_path(@tournament) do %>
-        <%= hidden_field_tag :select_players %>
-        <%= submit_tag "Convoquer les joueurs sélectionnés", class: "btn btn-success margin" %>
+        <div class="row">
+          <div class="col-xs-6">
+            <%= form_tag multiple_new_path(@tournament) do %>
+              <%= hidden_field_tag :select_players %>
+              <%= submit_tag "Convoquer les joueurs sélectionnés", class: "btn btn-success margin" %>
+            <% end %>
 
-        <% end %>
+          </div>
+          <div class="col-xs-offset-2 col-xs-2">
+            <a href="#" data-target="#exporter" data-toggle="modal" class="btn btn-success convocation-answer"><%=image_tag('fleche_droite.svg', class: 'fleche_subscription_index')%>Exporter vers AEI</a>
+            <div class="modal fade" id="exporter">
+              <div class="modal-dialog mymodal">
+                <div class="modal-content text-center">
+                  <div class="modal-header">
+                    <h4 class="modal-title">Exporter la liste de vos inscrits sur AEI</h4>
+                     <p> Tennis-Match vous permet d'exporter la liste de tous vos inscrits sur AEI.Avant de continuer, assurer vous: <br></p>
+                      <ul>
+                        <li> <strong>D'avoir bien créer votre Tournoi sur AEI</strong></li>
+                        <li> <strong>Que le numéro d'homologation sur AEI et TennisMatch correspondent</strong></li>
+                        <li><strong>Que la catégorie du tournoi sur AEI et TennisMatch correspondent</strong></li>
+                      </ul>
+                  </div>
+                  <div class="modal-body">
 
-      </div>
-      <div class="col-xs-offset-2 col-xs-2">
-        <a href="#" data-target="#exporter" data-toggle="modal" class="btn btn-success convocation-answer"><%=image_tag('fleche_droite.svg', class: 'fleche_subscription_index')%>Exporter vers AEI</a>
-        <div class="modal fade" id="exporter">
-          <div class="modal-dialog mymodal">
-            <div class="modal-content text-center">
-              <div class="modal-header">
-                <h4 class="modal-title">Exporter la liste de vos inscrits sur AEI</h4>
-                <p> Tennis-Match vous permet d'exporter la liste de tous vos inscrits sur AEI.Avant de continuer, assurer vous: <br></p>
-                <ul>
-                  <li> <strong>D'avoir bien créer votre Tournoi sur AEI</strong></li>
-                  <li> <strong>Que le numéro d'homologation sur AEI et TennisMatch correspondent</strong></li>
-                  <li><strong>Que la catégorie du tournoi sur AEI et TennisMatch correspondent</strong></li>
-                </ul>
-              </div>
-              <div class="modal-body">
+                    <%= form_tag tournament_aei_export_path(@tournament) do %>
+                      <%= hidden_field_tag :subscription_ids_export %>
+                      <%= label_tag :login_aei, "Identifiant AEI" %>
+                      <%= text_field_tag(:login_aei) %>
+                      <%= label_tag :password_aei, "Mot de passe AEI" %>
+                      <%= text_field_tag(:password_aei) %>
+                      <%= submit_tag "Exporter vos inscrits", id: "export", class: "btn btn-success margin"%>
+                    <% end -%>
+                  </div>
+                  <div class="modal-footer">
+                  </div>
+                </div><!-- /.modal-content -->
+              </div><!-- /.modal-dialog -->
+            </div>
 
-                <%= form_tag AEIexport_path(@tournament) do %>
-                <%= hidden_field_tag :subscription_ids_export %>
-                <%= label_tag :login_aei, "Identifiant AEI" %>
-                <%= text_field_tag(:login_aei) %>
-                <%= label_tag :password_aei, "Mot de passe AEI" %>
-                <%= text_field_tag(:password_aei) %>
-                <%= submit_tag "Exporter vos inscrits", id: "export", class: "btn btn-success margin"%>
-                <% end -%>
-              </div>
-              <div class="modal-footer">
-              </div>
-            </div><!-- /.modal-content -->
-          </div><!-- /.modal-dialog -->
+          </div>
         </div>
 
       </div>

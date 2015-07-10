@@ -204,7 +204,7 @@
                             success: function() {$.ajax({
                                 type:"post",
                                 dataType: "script",
-                                url: "<%=j transfers_path(tournament_id: params[:tournament_id])%>",
+                                url: "<%=j tournament_transfers_path(params[:tournament_id])%>",
                               });
                             }
                           });

@@ -2,7 +2,7 @@
   <div class="col-lg-4 col-lg-offset-3">
     <h2 class="text-center not-accepted">Inscrire un joueur</h2>
 
-    <%= form_tag invite_player_path(@tournament) do %>
+    <%= form_tag tournament_player_invitations_path(@tournament) do %>
       <div class="form-group">
         <%= label_tag :first_name, "Prénom" %>
         <%= text_field_tag :first_name, nil, class: "form-control" %>

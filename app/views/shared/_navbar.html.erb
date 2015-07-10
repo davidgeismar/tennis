@@ -111,7 +111,7 @@
  $(document).ready(function() {
     $("#dropdownMenu1").on('click', function(event){
       $.ajax({
-        url: "<%=update_notification_path %>",
+        url: "<%= notification_update_path %>",
         type: "POST",
         success: function() {
           $(".noti_bubble").hide();
