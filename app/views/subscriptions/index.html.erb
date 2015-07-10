@@ -5,9 +5,11 @@
         <h1 id="tournament-name"><%= @tournament.name.upcase %></h1>
       </div>
       <div class="col-xs-5">
-        <%=link_to "Ajouter un joueur à la liste", invite_player_path(@tournament), class: "btn btn-success", id: "convocation-submit" %>
+        <%=link_to image_tag('fleche_droite.svg', class: 'fleche_subscription_index') + "Ajouter un joueur à la liste", invite_player_path(@tournament), class: "btn btn-success", id: "convocation-submit" %>
+        <%=link_to image_tag('fleche_droite.svg', class: 'fleche_subscription_index') + "Statistiques Tournoi", rankings_path(@tournament), class: "btn btn-success", id: "convocation-submit" %>
       </div>
     </div>
+
       <table id="example" class="table table-hover card display dataTable table_judge_tournoi">
           <thead>
             <tr>
@@ -165,11 +167,12 @@
         <%= form_tag multiple_new_path(@tournament) do %>
         <%= hidden_field_tag :select_players %>
         <%= submit_tag "Convoquer les joueurs sélectionnés", class: "btn btn-success margin" %>
+
         <% end %>
 
       </div>
       <div class="col-xs-offset-2 col-xs-2">
-        <a href="#" data-target="#exporter" data-toggle="modal" class="btn btn-success convocation-answer">Exporter vers AEI</a>
+        <a href="#" data-target="#exporter" data-toggle="modal" class="btn btn-success convocation-answer"><%=image_tag('fleche_droite.svg', class: 'fleche_subscription_index')%>Exporter vers AEI</a>
         <div class="modal fade" id="exporter">
           <div class="modal-dialog mymodal">
             <div class="modal-content text-center">

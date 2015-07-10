@@ -31,7 +31,7 @@ Rails.application.routes.draw do
     get :mangopay_return, on: :collection
   end
    get "tournaments/:tournament_id/success", to: "tournaments#success_payment", as: "success" #should be subscriptions/:subscription_id/success
-
+   get "tournaments/:tournament_id/rankings", to: "tournaments#rankings", as: "rankings"
 
   post "tournament/:tournament_id/AEIexport", to: "tournaments#AEIexport", as: "AEIexport"
   post "tournament/:tournament_id/AEIinfo", to: "tournaments#AEIinfo", as: "AEIinfo"

@@ -2,7 +2,8 @@
   <div class='container padded'>
     <div class="row">
       <div class="col-sm-6 col-sm-offset-3">
-        <h1 id="convocations">Convocation</h1>
+        <h1 id="convocations">Convocation <%=image_tag ("lettre.svg"), class: "enveloppe"%></h1>
+
           <p>Les joueurs qui seront convoqués à l'envoi de ce formulaires sont :</p>
         <ul class="list-unstyled">
           <% @player_names.each do |player_name| %>

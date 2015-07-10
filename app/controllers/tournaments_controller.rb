@@ -1,5 +1,5 @@
  class TournamentsController < ApplicationController
-  before_filter :set_tournament, only: [:invite_player_to_tournament, :update, :edit, :show, :invite_player, :registrate_card]
+  before_filter :set_tournament, only: [:invite_player_to_tournament, :update, :edit, :show, :invite_player, :registrate_card,]
   skip_after_action :verify_authorized
 
 
@@ -272,6 +272,11 @@
     end
   end
 
+  def rankings
+    @tournament = Tournament.find(params[:tournament_id])
+    @subscriptions = @tournament.subscriptions.joins(:user)
+  end
+
   def create #must create a different tournament for each checkbox that is selected
     custom_homologation_number = params[:tournament][:homologation_number].split.join
     params[:tournament][:homologation_number] = custom_homologation_number
@@ -465,7 +470,7 @@
   end
 
   def tournament_params
-    params.require(:tournament).permit(:genre, :category, :amount, :starts_on, :ends_on, :address, :club_organisateur, :name, :city, :lat, :long, :homologation_number, :max_ranking, :min_ranking, :nature, :postcode)
+    params.require(:tournament).permit(:genre, :category, :amount, :starts_on, :ends_on, :address, :club_organisateur, :name, :city, :lat, :long, :homologation_number, :max_ranking, :min_ranking, :nature, :postcode, :young_fare)
   end
 
 

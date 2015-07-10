@@ -10,8 +10,8 @@ class Subscription < ActiveRecord::Base
   belongs_to :user
   belongs_to :tournament
 
-  has_many :convocations, dependent: :destroy
   has_one :disponibility, dependent: :destroy
+  has_many :convocations, dependent: :destroy
 
   validates :user_id, presence: true, uniqueness: { scope: :tournament,
     message: "Vous etes déjà inscrit à ce tournoi" }
