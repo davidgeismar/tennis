@@ -1,13 +1,14 @@
-class ConvocationsController < ApplicationController
+  class ConvocationsController < ApplicationController
   before_action :find_subscription, except: [:multiple_new, :multiple_create]
 
   def new
-    @convocation = @subscription.convocations.build
+    # @convocation = @subscription.convocations.build
+    @convocation = Convocation.new
     authorize @convocation
   end
 
   def create
-    @convocation = @subscription.convocations.build(convocation_params)
+    @convocation = Convocation.new(convocation_params)
     authorize @convocation
     @convocation.save
     @notification = Notification.new
@@ -46,8 +47,8 @@ class ConvocationsController < ApplicationController
 
   def multiple_new
     @tournament       = Tournament.find(params[:tournament_id])
-    @subscription_ids = params[:select_players].split(',')
-    @subscriptions    = Subscription.where(id: @subscription_ids)
+    @subscription_ids = params[:select_players].split(',') # ["27", "38", "37", "35"]
+    @subscriptions    = Subscription.where(id: @subscription_ids) # array of subscriptions
 
     custom_authorize ConvocationMultiPolicy, @subscriptions
 
@@ -62,13 +63,12 @@ class ConvocationsController < ApplicationController
   end
   # coder un système d'alert box si les dispos d'un joueur ne matchent pas avec la convoc
   def multiple_create
-
     @tournament = Tournament.find(params[:tournament_id])
-    @subscription_ids = params[:subscription_ids].split(',')
+    @subscription_ids = params[:subscription_ids].split
     @subscriptions = Subscription.where(id: @subscription_ids)
     custom_authorize ConvocationMultiPolicy, @subscriptions
-
     @subscriptions.each do |subscription|
+
       convocation = Convocation.new(date: params[:date], hour: params[:hour], subscription: subscription)
 
       if convocation.save && convocation.subscription.user.telephone
@@ -90,15 +90,22 @@ class ConvocationsController < ApplicationController
         rescue Twilio::REST::RequestError
           # on error, sms won't be sent.. deal
         end
-
-        flash[:notice] = "Votre convocation a bien été envoyé"
+        if @subscriptions.count == 1
+         flash[:notice] = "Votre convocation a bien été envoyée"
+        else
+          flash[:notice] = "Vos convocations ont bien été envoyées"
+        end
       elsif convocation.save
          @notification = Notification.new
          @notification.user = subscription.user
          @notification.convocation = convocation
          @notification.content = "Vous êtes convoqué à #{@convocation.subscription.tournament.name} le #{@convocation.date.strftime("%d/%m/%Y")} à #{@convocation.hour.strftime(" à %Hh%M")}"
          @notification.save
-         flash[:notice] = "Votre convocation a bien été envoyé"
+        if @subscriptions.count == 1
+         flash[:notice] = "Votre convocation a bien été envoyée"
+        else
+          flash[:notice] = "Vos convocations ont bien été envoyées"
+        end
       else
         flash[:warning] = "Un problème est survenu veuillez réessayer d'envoyer votre convocation"
       end
@@ -118,7 +125,9 @@ class ConvocationsController < ApplicationController
 
   def convocation_params
     if current_user.judge?
-      params.require(:convocation).permit(:hour, :date)
+      # params.permit(:hour, :date, :utf8, :commit, :authenticity_token, :subscription_id)
+      params.permit(:hour, :date)
+      # params.require(:convocation).permit(:hour, :date)
     else
       params.require(:convocation).permit(:status)
     end

@@ -27,7 +27,7 @@
     end
   end
 
-  def create
+  def create #must create a different tournament for each checkbox that is selected
     custom_homologation_number = params[:tournament][:homologation_number].split.join
     params[:tournament][:homologation_number] = custom_homologation_number
     @tournament = Tournament.new(tournament_params)
@@ -197,7 +197,7 @@
   end
 
   def tournament_params
-    params.require(:tournament).permit(:genre, :category, :amount, :starts_on, :ends_on, :address, :club_organisateur, :name, :city, :lat, :long, :homologation_number, :max_ranking, :min_ranking, :nature)
+    params.require(:tournament).permit(:genre, :category, :amount, :starts_on, :ends_on, :address, :club_organisateur, :name, :city, :lat, :long, :homologation_number, :max_ranking, :min_ranking, :nature, :postcode, :young_fare)
   end
 
 

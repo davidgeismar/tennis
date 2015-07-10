@@ -9,7 +9,7 @@ gem "figaro"
 gem "simple_form"
 gem "country_select"
 gem "high_voltage"
-gem "pundit"
+gem "pundit", "~> 0.3.0"
 gem "paperclip"
 gem "algoliasearch-rails"
 gem "aws-sdk", '< 2.0'

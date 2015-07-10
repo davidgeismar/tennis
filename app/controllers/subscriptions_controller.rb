@@ -1,5 +1,5 @@
 class SubscriptionsController < ApplicationController
-  skip_after_action :verify_authorized, only: [:mytournaments]
+  skip_after_action :verify_authorized, only: [:mytournaments, :accept_player]
 
 
   def mytournaments
@@ -9,6 +9,7 @@ class SubscriptionsController < ApplicationController
 
 
   def index
+    @rankings = ['NC', '40', '30/5', '30/4', '30/3', '30/2', '30/1', '30', '15/5', '15/4', '15/3', '15/2', '15/1', '15', '5/6', '4/6', '3/6', '2/6', '1/6', '0', '-2/6', '-4/6', '-15', '-30']
     @user = current_user
     @tournament     = Tournament.find(params[:tournament_id])
     @subscriptions  = @tournament.subscriptions
@@ -42,8 +43,10 @@ class SubscriptionsController < ApplicationController
   def accept # accept_player
      @subscription = Subscription.find(params[:id])
      @subscription.status = "confirmed!"
+
      @subscription.save
-     authorize @subscription
+
+     # authorize @subscription
      redirect_to tournament_subscriptions_path(@subscription.tournament)
   end
 
@@ -66,6 +69,8 @@ class SubscriptionsController < ApplicationController
   end
 
   def update
+
+#mangopay refund en cas de subscription.status = refused
     @subscription = Subscription.find(params[:id])
     authorize @subscription
     @subscription.update(subscription_params)

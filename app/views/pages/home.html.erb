@@ -23,36 +23,36 @@
 <script type="text/javascript">
 
 
-  $(document).ready(function() {
-    var client = new AlgoliaSearch("<%=ENV["ALGOLIA_APPLICATION_ID"]%>", "<%=ENV["ALGOLIA_SEARCH_ONLY_API_KEY"]%>");
-    var $facets = $('#facets');
+  // $(document).ready(function() {
+  //   var client = new AlgoliaSearch("<%=ENV["ALGOLIA_APPLICATION_ID"]%>", "<%=ENV["ALGOLIA_SEARCH_ONLY_API_KEY"]%>");
+  //   var $facets = $('#facets');
 
-    $('#tournament').typeahead(null, {
-      source: client.initIndex('<%= Tournament.index_name %>').ttAdapter(),
-      displayKey: 'name',
-      templates: {
-        suggestion: function(hit) {
-          console.log(hit);
-          return '<div class="result-item col-xs-12"><a href="/tournaments/' + hit.objectID + '">' +
-              '<div class="col-xs-8">' +
-                '<h5>' + hit._highlightResult.name.value + '</h5>' +
-                '<p>' + hit._highlightResult.category.value + '</p>' +
-                // '<p>' + hit._highlightResult.genre.value + '</p>' +
-              '</div>' +
-              '<div class="col-xs-4">' +
-                '<h5>' + 'du '+ hit._highlightResult.starts_on.value + ' au ' +hit._highlightResult.ends_on.value +
-                '</h5>' +
-              '</div>' +
-              '<div class="col-xs-4">' +
-                '<h5>' + hit._highlightResult.address.value + ' à ' +hit._highlightResult.city.value +
-                '</h5>' +
-              '</div>' +
-           '</a>' +
-          '</div>';
-        }
-      }
-    });
-  });
+  //   $('#tournament').typeahead(null, {
+  //
+  //     displayKey: 'name',
+  //     templates: {
+  //       suggestion: function(hit) {
+  //         console.log(hit);
+  //         return '<div class="result-item col-xs-12"><a href="/tournaments/' + hit.objectID + '">' +
+  //             '<div class="col-xs-8">' +
+  //               '<h5>' + hit._highlightResult.name.value + '</h5>' +
+  //               '<p>' + hit._highlightResult.category.value + '</p>' +
+  //               // '<p>' + hit._highlightResult.genre.value + '</p>' +
+  //             '</div>' +
+  //             '<div class="col-xs-4">' +
+  //               '<h5>' + 'du '+ hit._highlightResult.starts_on.value + ' au ' +hit._highlightResult.ends_on.value +
+  //               '</h5>' +
+  //             '</div>' +
+  //             '<div class="col-xs-4">' +
+  //               '<h5>' + hit._highlightResult.address.value + ' à ' +hit._highlightResult.city.value +
+  //               '</h5>' +
+  //             '</div>' +
+  //          '</a>' +
+  //         '</div>';
+  //       }
+  //     }
+  //   });
+  // });
 
 </script>
 

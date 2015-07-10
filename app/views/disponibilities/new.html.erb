@@ -14,16 +14,20 @@
       <div class="col-md-offset-1 col-md-4 bigmarge">
         <div class="panel panel-default">
           <div class="panel-heading">
-        <h3> Merci d'indiquer vos disponibilités pour <%=@subscription.tournament.name.upcase%>  </h3>
+        <h3 id="indiquer_dispo"><%=image_tag ("calendrier.svg"), class: "enveloppe"%> Merci d'indiquer vos disponibilités pour <%=@subscription.tournament.name.upcase%>  </h3>
         <%=simple_form_for [@subscription, @disponibility] do |f|%>
         <%= f.error_notification %>
 
-        <%= f.input :week %>
-
-
+        <%= f.input :monday %>
+        <%= f.input :tuesday %>
+        <%= f.input :wednesday %>
+        <%= f.input :thursday %>
+        <%= f.input :friday %>
         <%= f.input :saturday  %>
-
         <%= f.input :sunday  %>
+        <%= f.input :comment %>
+
+
        <%= f.button :submit, "Valider", class: "btn btn-success" %>
         <%end%>
         </div>

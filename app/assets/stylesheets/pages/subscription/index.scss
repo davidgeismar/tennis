@@ -3,6 +3,7 @@
   margin-bottom: 100px;
 }
 
+
 #convocation-submit {
   margin-top: 55px;
   margin-left: 120px;
@@ -33,5 +34,18 @@
   width: 800px;
   height: 50px;
   background-color: white
+}
+#popup_subscription_index {
+  background-color: white;
+  width : 250px;
+
+}
+
+.fa-check-circle {
+  color: green;
+}
+
+.fa-times {
+  color: red;
 }
 

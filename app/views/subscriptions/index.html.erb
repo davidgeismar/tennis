@@ -5,14 +5,16 @@
         <h1 id="tournament-name"><%= @tournament.name.upcase %></h1>
       </div>
       <div class="col-xs-5">
-        <%=link_to "Ajouter un joueur à la liste", new_tournament_player_invitation_path(@tournament), class: "btn btn-success", id: "convocation-submit" %>
+        <%=link_to image_tag('fleche_droite.svg', class: 'fleche_subscription_index') + "Ajouter un joueur à la liste", new_tournament_player_invitation_path(@tournament), class: "btn btn-success", id: "convocation-submit" %>
+        <%=link_to image_tag('fleche_droite.svg', class: 'fleche_subscription_index') + "Statistiques Tournoi", tournament_rankings_path(@tournament), class: "btn btn-success", id: "convocation-submit" %>
       </div>
     </div>
+
       <table id="example" class="table table-hover card display dataTable table_judge_tournoi">
           <thead>
             <tr>
              <th>Exporté</th>
-             <th>Select</th>
+             <th><input type="checkbox" onClick="toggle(this)" />Sélectionner tout</th>
              <th>Prénom</th>
              <th>Nom</th>
              <th>Licence</th>
@@ -27,12 +29,13 @@
             <% @subscriptions.each do |subscription|%>
               <tr class="subscription_item" id="<%= subscription.id %>">
                 <%if subscription.exported == true%>
-                  <td>true</td>
+                  <td><i class="fa fa-check-circle"></i></td>
+
                 <%else%>
-                  <td>false</td>
+                  <td><i class="fa fa-times"></i></td>
                 <% end -%>
-                <%if subscription.status == "confirmed" %>
-                  <td class="checkbox"><input class="checkbox-player" type="checkbox"></td>
+                <%if subscription.status == "confirmed" || subscription.status == "confirmed!"%>
+                  <td class="checkbox"><input class="checkbox-player" type="checkbox" name="foo"></td>
                 <%else %>
                   <td></td>
                 <%end%>
@@ -43,7 +46,7 @@
                 <%if subscription.status == "pending" %>
                   <td>
                     <%= form_for [@tournament, subscription] do |f| %>
-                      <%= f.select :status, Subscription.status.options, :confirm => 'Your confirm message', remote: true, class: "form-control subscription-status" %>
+                      <%= f.select :status, Subscription.status.options, class: "form-control subscription-status" %>
                     <%end%>
                   </td>
                 <%elsif subscription.status == "confirmed"%>
@@ -74,10 +77,13 @@
                     <%elsif subscription.status == "confirmed!"%>
                     <td>
                     <div class="btn btn-success">
-                      <a href="#" data-target="#confirme_without" data-toggle="modal" class="subscription_status">
+                      <a href="#" data-target="#confirme_without" data-toggle="modal" class="subscription_status" id="confirm!">
                         !Confirmé!
                       </a>
                     </div>
+                     <div id="parent">
+                        <div id="popup_subscription_index" style="display: none"><strong>!CONFIRME!</strong> signifie que le joueur a bien été confirmé dans la compétition mais que son paiement n'a pas été pris en compte via WeTennis. <strong>Vous devrez donc encaissez le joueur le jour de sa première convocation.</strong></div>
+                      </div>
                     <div class="modal fade" id="confirme_without">
                       <div class="modal-dialog mymodal">
                         <div class="modal-content text-center">
@@ -162,7 +168,7 @@
 
           </div>
           <div class="col-xs-offset-2 col-xs-2">
-            <a href="#" data-target="#exporter" data-toggle="modal" class="btn btn-success convocation-answer">Exporter</a>
+            <a href="#" data-target="#exporter" data-toggle="modal" class="btn btn-success convocation-answer"><%=image_tag('fleche_droite.svg', class: 'fleche_subscription_index')%>Exporter vers AEI</a>
             <div class="modal fade" id="exporter">
               <div class="modal-dialog mymodal">
                 <div class="modal-content text-center">
@@ -194,20 +200,23 @@
 
           </div>
         </div>
+
+      </div>
     </div>
+  </div>
 </div>
 <!-- this js should use toggleclass -->
-    <%= content_for :after_js do %>
-      <script>
+<%= content_for :after_js do %>
+<script>
 $(document).ready(function() {
 
 
   $('.checkbox-player').on('change', function() {
-      var subscriptionIds = $('.checkbox-player:checked').map(function() {
-          return $(this).parent().parent().prop('id');
-      }).get().join(',');
-      $('#select_players').val(subscriptionIds);
-      $('#subscription_ids_export').val(subscriptionIds);
+    var subscriptionIds = $('.checkbox-player:checked').map(function() {
+      return $(this).parent().parent().prop('id');
+    }).get().join(',');
+    $('#select_players').val(subscriptionIds);
+    $('#subscription_ids_export').val(subscriptionIds);
   })
 })
 
@@ -217,21 +226,36 @@ $(document).ready(function() {
 
 $(document).ready( function () {
   $.fn.dataTableExt.oStdClasses["sFilter"] = "my-style-class";
-    $('#example').DataTable({
-      "paging": false,
-      "ordering": false,
-      "info":     false,
+  $('#example').DataTable({
+    "paging": false,
+    "ordering": false,
+    "info":     false,
 
-    });
+  });
 });
 
 
+function toggle(source) {
+  checkboxes = document.getElementsByName('foo');
+  for(var i=0, n=checkboxes.length;i<n;i++) {
+    checkboxes[i].checked = source.checked;
+  }
+  var subscriptionIds = $('.checkbox-player:checked').map(function() {
+      return $(this).parent().parent().prop('id');
+    }).get().join(',');
+  $('#select_players').val(subscriptionIds);
+  $('#subscription_ids_export').val(subscriptionIds);
+}
+
+$(document).ready( function () {
+  var e = document.getElementById('confirm!');
+  e.onmouseover = function() {
+    document.getElementById('popup_subscription_index').style.display = 'block';
+  }
+  e.onmouseout = function() {
+    document.getElementById('popup_subscription_index').style.display = 'none';
+  }
+});
+
 </script>
-    <% end %>
-
-
-
-
-
-
-
+<% end %>

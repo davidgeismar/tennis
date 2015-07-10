@@ -11,4 +11,35 @@
 .upload-file-container input {
    filter: alpha(opacity=0);
    opacity: 0;
+   float: left;
+}
+
+#fileName1 {
+  float: right;
+  margin-right: 500px;
+  margin-top: -20px;
+  color: green;
+}
+
+
+#fileName2 {
+  float: right;
+  margin-right: 500px;
+  margin-top: -20px;
+  color: green;
+}
+
+
+#fileName3 {
+  float: right;
+  margin-right: 500px;
+  margin-top: -20px;
+  color: green;
+}
+
+#fileName4 {
+  float: right;
+  margin-right: 500px;
+  margin-top: -20px;
+  color: green;
 }

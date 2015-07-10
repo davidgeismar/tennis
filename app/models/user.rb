@@ -1,14 +1,14 @@
 class User < ActiveRecord::Base
-  after_create :send_welcome_email
+  after_create :send_welcome_email, unless: :invited_by_id
 
 
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
-  include AlgoliaSearch
-  algoliasearch index_name: "user#{ENV['ALGOLIA_SUFFIX']}" do
-    attribute :email, :licence_number, :ranking, :first_name, :last_name
-    attributesToIndex ['email', 'licence_number', 'ranking','first_name', 'last_name']
-  end
+  # include AlgoliaSearch
+  # algoliasearch index_name: "user#{ENV['ALGOLIA_SUFFIX']}" do
+  #   attribute :email, :licence_number, :ranking, :first_name, :last_name
+  #   attributesToIndex ['email', 'licence_number', 'ranking','first_name', 'last_name']
+  # end
 
   extend Enumerize
   enumerize :genre, in: [:male, :female]
@@ -61,18 +61,22 @@ class User < ActiveRecord::Base
   has_many :notifications
 
   def self.find_for_facebook_oauth(auth)
+    user    = where(email: auth.info.email).first
+    user  ||= where(provider: auth.provider, uid: auth.uid).first_or_create
 
-   where(provider: auth.provider, uid: auth.uid).first_or_create do |user|
-     user.provider = auth.provider
-     user.uid = auth.uid
-     user.email = auth.info.email
-     user.password = Devise.friendly_token[0,20]
-     user.first_name = auth.info.first_name
-     user.last_name = auth.info.last_name
-     user.picture = auth.info.image
-     user.token = auth.credentials.token
-     user.token_expiry = Time.at(auth.credentials.expires_at)
-   end
+    user.provider     = auth.provider
+    user.uid          = auth.uid
+    user.email        = auth.info.email
+    user.password     = Devise.friendly_token[0,20]
+    user.first_name   = auth.info.first_name
+    user.last_name    = auth.info.last_name
+    user.picture      = auth.info.image
+    user.token        = auth.credentials.token
+    user.token_expiry = Time.at(auth.credentials.expires_at)
+
+    user.save
+
+    user
  end
 
   # def initialize
@@ -84,15 +88,28 @@ class User < ActiveRecord::Base
     now = Time.now.utc.to_date
     now.year - birthdate.year - (birthdate.to_date.change(:year => now.year) > now ? 1 : 0)
   end
+
   def full_name
-    if last_name != nil && first_name.nil?
+    if last_name && first_name.nil?
       "#{last_name.capitalize}"
-    elsif first_name != nil && last_name.nil?
+    elsif first_name && last_name.nil?
       "#{first_name.capitalize}"
     elsif last_name.nil? && first_name.nil?
       ""
     else
       "#{first_name.capitalize} #{last_name.capitalize}"
+    end
+  end
+
+  def full_name_inversed
+    if last_name && first_name.nil?
+      "#{last_name.capitalize}"
+    elsif first_name && last_name.nil?
+      "#{first_name.capitalize}"
+    elsif last_name.nil? && first_name.nil?
+      ""
+    else
+      "#{last_name.capitalize} #{first_name.capitalize}"
     end
   end
 

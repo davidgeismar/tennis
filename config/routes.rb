@@ -26,6 +26,7 @@ Rails.application.routes.draw do
     post :registrate_card, on: :member
 
     resource  :aei_export,          only: [:create]
+    resource  :rankings,            only: [:show]
 
     resources :player_invitations,  only: [:new, :create]
     resources :subscriptions,       only: [:new, :show, :create, :index, :update]
@@ -36,7 +37,6 @@ Rails.application.routes.draw do
   post 'tournaments/:tournament_id/convocation/multiple_create',  to: "convocations#multiple_create", as: "multiple_create"
 
   # subscriptions
-
   get "mestournois", to: "subscriptions#mytournaments", as: "mes_tournois"
 
   resources :subscriptions, only: [] do

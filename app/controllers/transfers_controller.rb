@@ -32,6 +32,29 @@ skip_after_action :verify_authorized
         "SecureMode" => "DEFAULT"
       })
 
+  # transfer = Transfer.create(:status => "pending", :cgv => true, :category => "preauthorization", tournament_id: params[:tournament_id])
+
+  #     @preauthorize = MangoPay::PreAuthorization.create({
+  #       "Tag" => "Payment Carte Bancaire",
+  #       "CardType" => "CB_VISA_MASTERCARD",
+  #       "AuthorId" => player.mangopay_natural_user_id,
+  #       "CreditedUserId" => judge.mangopay_natural_user_id,
+  #       "DebitedFunds" => {
+  #         "Currency" => "EUR",
+  #         "Amount" => new_price.to_i*100
+  #       },
+  #       "Fees" => {
+  #         "Currency" => "EUR",
+  #         "Amount" => new_price.to_i*30
+  #       },
+  #       "CreditedWalletID" => judge.wallet_id,
+  #       "SecureModeReturnURL" => "http://wwww.google.fr",
+  #       "CardId" => player.card_id,
+  #       "CardType" => "CB_VISA_MASTERCARD",
+  #       "Culture" => "FR",
+  #       "SecureMode" => "DEFAULT"
+  #     })
+
 
       transfer.archive = @payin
       transfer.save

@@ -12,11 +12,11 @@ class Tournament < ActiveRecord::Base
     address_changed? || city_changed?
   end
 
-  include AlgoliaSearch
-  algoliasearch index_name: "tournament#{ENV['ALGOLIA_SUFFIX']}" do
-    attribute :genre, :category, :starts_on, :ends_on, :address, :city, :name, :club_organisateur
-    attributesToIndex ['city', 'address', 'club_organisateur','starts_on', 'ends_on', 'category', 'name']
-  end
+  # include AlgoliaSearch
+  # algoliasearch index_name: "tournament#{ENV['ALGOLIA_SUFFIX']}" do
+  #   attribute :genre, :category, :starts_on, :ends_on, :address, :city, :name, :club_organisateur
+  #   attributesToIndex ['city', 'address', 'club_organisateur','starts_on', 'ends_on', 'category', 'name']
+  # end
 
   extend Enumerize
   enumerize :genre, in: [:male, :female]
@@ -28,6 +28,7 @@ class Tournament < ActiveRecord::Base
   has_many :notifications, dependent: :destroy
   has_many :subscriptions, dependent: :destroy
 
+  validates :postcode, presence:  { message: "Merci d'indiquer un code postal valide" }
   validates :genre, presence:  { message: "Merci d'indiquer le genre" }
   validates :category, presence: { message: "Merci d'indiquer la catégorie" }
   validates :starts_on, presence: { message: "Merci d'indiquer la date de début" }
@@ -46,8 +47,11 @@ class Tournament < ActiveRecord::Base
 
   private
 
+
   def send_email_if_accepted
     if self.accepted
+      @notification = Notification.new(user_id: self.user.id, content: "#{self.name.upcase} a été accepté par l'équipe WeTennis.", tournament_id: self.id)
+      @notification.save
       TournamentMailer.accepted(self).deliver
     end
   end
