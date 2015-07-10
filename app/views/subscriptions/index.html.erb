@@ -34,7 +34,7 @@
                 <%else%>
                   <td><i class="fa fa-times"></i></td>
                 <% end -%>
-                <%if subscription.status == "confirmed" || subscription.status == "confirmed!"%>
+                <%if subscription.status == "confirmed" || subscription.status == "confirmed_warning"%>
                   <td class="checkbox"><input class="checkbox-player" type="checkbox" name="foo"></td>
                 <%else %>
                   <td></td>
@@ -46,7 +46,7 @@
                 <%if subscription.status == "pending" %>
                   <td>
                     <%= form_for [@tournament, subscription] do |f| %>
-                      <%= f.select :status, Subscription.status.options, class: "form-control subscription-status" %>
+                      <%= f.select :status, subscription_status_options, class: "form-control subscription-status" %>
                     <%end%>
                   </td>
                 <%elsif subscription.status == "confirmed"%>
@@ -74,7 +74,7 @@
                         </div><!-- /.modal-content -->
                       </div><!-- /.modal-dialog -->
                     </div>
-                    <%elsif subscription.status == "confirmed!"%>
+                    <%elsif subscription.status == "confirmed_warning"%>
                     <td>
                     <div class="btn btn-success">
                       <a href="#" data-target="#confirme_without" data-toggle="modal" class="subscription_status" id="confirm!">

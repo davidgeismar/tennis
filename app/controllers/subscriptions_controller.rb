@@ -1,5 +1,5 @@
 class SubscriptionsController < ApplicationController
-  skip_after_action :verify_authorized, only: [:mytournaments, :accept_player]
+  skip_after_action :verify_authorized, only: [:mytournaments]
 
 
   def mytournaments
@@ -18,12 +18,13 @@ class SubscriptionsController < ApplicationController
   end
 
   def refuse # refus_without_remboursement
-     @subscription = Subscription.find(params[:id])
-     authorize @subscription
-     @subscription.status = "refused"
-     @subscription.save
-      redirect_to tournament_subscriptions_path(@subscription.tournament)
-      flash[:notice] = "Vous avez bien désinscrit #{@subscription.user.full_name}. Celui-ci ne participe plus au tournoi"
+    @subscription = Subscription.find(params[:id])
+    authorize @subscription
+    @subscription.status = "refused"
+    @subscription.save
+
+    flash[:notice] = "Vous avez bien désinscrit #{@subscription.user.full_name}. Celui-ci ne participe plus au tournoi"
+    redirect_to tournament_subscriptions_path(@subscription.tournament)
   end
 
 # method must trigger mangopay_payout on each subscription as soon as the tournament is completed
@@ -41,13 +42,12 @@ class SubscriptionsController < ApplicationController
   # et bien faire des mangopay_refund
 
   def accept # accept_player
-     @subscription = Subscription.find(params[:id])
-     @subscription.status = "confirmed!"
+    @subscription = Subscription.find(params[:id])
+    @subscription.status = "confirmed_warning"
+    authorize @subscription
+    @subscription.save
 
-     @subscription.save
-
-     # authorize @subscription
-     redirect_to tournament_subscriptions_path(@subscription.tournament)
+    redirect_to tournament_subscriptions_path(@subscription.tournament)
   end
 
   def refund
