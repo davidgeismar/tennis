@@ -1,16 +1,17 @@
 class DisponibilitiesController < ApplicationController
   before_action :set_subscription
-  skip_after_action :verify_authorized, only: [:new, :create, :update, :edit, :show]
 
   def new
     @disponibility = Disponibility.new
     @disponibility.subscription = @subscription
-    # authorize @disponibility
+    authorize @disponibility
   end
 
   def create
     @disponibility = Disponibility.new(disponibility_params)
     @disponibility.subscription = @subscription
+    authorize @disponibility
+
     if @disponibility.save
       redirect_to root_path
       flash[:notice] = "Vos disponibilités ont bien été enregistrées"
@@ -21,15 +22,17 @@ class DisponibilitiesController < ApplicationController
   end
 
   def show
+    authorize @subscription.disponibility
   end
 
   def edit
     @disponibility = @subscription.disponibility
+    authorize @disponibility
   end
 
   def update
    @disponibility = @subscription.disponibility
-
+   authorize @disponibility
    if @disponibility.update(disponibility_params)
     redirect_to root_path
     flash[:notice] = "Vos disponibilités ont bien été modifiés"

@@ -274,7 +274,7 @@
 
   def rankings
     @tournament = Tournament.find(params[:tournament_id])
-    @subscriptions = @tournament.subscriptions
+    @subscriptions = @tournament.subscriptions.joins(:user)
   end
 
   def create #must create a different tournament for each checkbox that is selected
