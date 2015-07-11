@@ -27,7 +27,6 @@ skip_after_action :verify_authorized
         "CreditedWalletID" => judge.wallet_id,
         "SecureModeReturnURL" => "http://wwww.google.fr",
         "CardId" => player.card_id,
-        "CardType" => "CB_VISA_MASTERCARD",
         "Culture" => "FR",
         "SecureMode" => "DEFAULT"
       })

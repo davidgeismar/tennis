@@ -152,7 +152,6 @@ class SubscriptionsController < ApplicationController
           "CreditedWalletID" => current_user.wallet_id,
           "SecureModeReturnURL" => mangopay_return_transfers_url(booking_id: params[:booking_id]),
           "CardId" => current_user.card_id,
-          "CardType" => "CB_VISA_MASTERCARD",
           "Culture" => "FR",
           "SecureMode" => "DEFAULT"
         })
