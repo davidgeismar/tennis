@@ -1,11 +1,4 @@
 class Licenciefft < ActiveRecord::Base
-  #  include AlgoliaSearch
-
-  # algoliasearch index_name: "licenciefft#{ENV['ALGOLIA_SUFFIX']}" do
-  #   attribute :genre, :date_of_birth, :licence_number, :full_name, :ranking, :club
-  #   attributesToIndex ['full_name', 'licence_number', 'ranking', 'club', 'date_of_birth', 'genre']
-  # end
-
    def self.mechanize_club
     agent = Mechanize.new
     agent.get("http://www.rechercheclub.applipub-fft.fr/rechercheclub/")

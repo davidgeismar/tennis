@@ -3,8 +3,6 @@
 //= require bootstrap-sprockets
 //= require underscore
 //= require gmaps/google
-//= require algolia/algoliasearch.min
-//= require algolia/typeahead.jquery
 //= require mangopay-kit.js
 //= require jquery.dataTables
 //= require bootstrap-datepicker
