@@ -82,12 +82,12 @@
         @notification.save
 
         begin
-          client = Twilio::REST::Client.new(ENV['sid'], ENV['token'])
+          client = Twilio::REST::Client.new(ENV['TWILIO_SID'], ENV['TWILIO_TOKEN'])
 
           # Create and send an SMS message
           client.account.sms.messages.create(
-            from: ENV['from'],
-            to: convocation.subscription.user.telephone,
+            from: ENV['TWILIO_FROM'],
+            to:   convocation.subscription.user.telephone,
             body: "Vous etes convoque  #{convocation.date.strftime("le %d/%m/%Y")} #{convocation.hour.strftime(" à %Hh%M")} pour le tournoi #{convocation.subscription.tournament.name} "
           )
         rescue Twilio::REST::RequestError
