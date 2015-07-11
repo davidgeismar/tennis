@@ -1,4 +1,4 @@
-class MessagePolicy < ApplicationPolicy
+class NotificationPolicy < ApplicationPolicy
   class Scope < Scope
     def resolve
       scope.all
@@ -6,6 +6,6 @@ class MessagePolicy < ApplicationPolicy
   end
 
   def update?
-  true
+    true
   end
 end
