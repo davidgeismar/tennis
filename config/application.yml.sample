@@ -18,6 +18,7 @@ production:
   AWS_SECRET_ACCESS_KEY: ""
   FB_ID: ""
   FB_SECRET: ""
+  HOST: ""
   TWILIO_FROM: ""
   TWILIO_SID: ""
   TWILIO_TOKEN: ""
