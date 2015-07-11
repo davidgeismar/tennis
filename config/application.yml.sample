@@ -1,0 +1,29 @@
+development:
+  AWS_ACCESS_KEY_ID: ""
+  AWS_S3_BUCKET_NAME: ""
+  AWS_SECRET_ACCESS_KEY: ""
+  FB_ID: ""
+  FB_SECRET: ""
+  MEMBER_TRELLO_TOKEN: ""
+  PUBLIC_TRELLO_KEY: ""
+  TWILIO_FROM: ""
+  TWILIO_SID: ""
+  TWILIO_TOKEN: ""
+
+production:
+  AWS_ACCESS_KEY_ID: ""
+  AWS_S3_BUCKET_NAME: ""
+  AWS_SECRET_ACCESS_KEY: ""
+  FB_ID: ""
+  FB_SECRET: ""
+  MANDRILL_APIKEY: ""
+  MANDRILL_USERNAME: ""
+  TWILIO_FROM: ""
+  TWILIO_SID: ""
+  TWILIO_TOKEN: ""
+
+  # configuration (not required if Rails generator fired as above)
+
+  # MANGOPAY_PRODUCTION: false
+  # MANGOPAY_CLIENT_ID: ""
+  # MANGOPAY_CLIENT_PASSPHRASE: ""
