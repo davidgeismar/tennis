@@ -163,7 +163,10 @@
           <div class="col-xs-6">
             <%= form_tag multiple_new_path(@tournament) do %>
               <%= hidden_field_tag :select_players %>
-              <%= submit_tag "Convoquer les joueurs sélectionnés", class: "btn btn-success margin" %>
+              <%= button_tag(type: "submit", class: "btn btn-success margin") do %>
+                <%= image_tag('lettre.svg', class: "enveloppe_subscription_index") %> Convoquer les joueurs sélectionnés
+              <% end %>
+
             <% end %>
 
           </div>

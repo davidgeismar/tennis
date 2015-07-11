@@ -5,9 +5,9 @@
       <div role="tabpanel">
         <ul class="nav nav-tabs" role="tablist">
           <li role="presentation" class="active"><a href="#profil" aria-controls="profil" role="tab" data-toggle="tab"><strong>Profil</strong></a></li>
+          <li role="presentation"><a href="#compte" aria-controls="compte" role="tab" data-toggle="tab"><strong>Compte</strong></a></li>
           <li role="presentation"><a href="#licence" aria-controls="licence" role="tab" data-toggle="tab"><strong>Licence</strong></a></li>
           <li role="presentation"><a href="#certif" aria-controls="certif" role="tab" data-toggle="tab"><strong>Certificat Médical</strong></a></li>
-          <li role="presentation"><a href="#compte" aria-controls="compte" role="tab" data-toggle="tab"><strong>Compte</strong></a></li>
         </ul>
         <div class="tab-content">
           <div role="tabpanel" class="tab-pane active" id="profil">
@@ -22,6 +22,7 @@
               <h4> Sexe </h4>
               <h4>Date de naissance</h4>
               <h4><%= link_to "Modifier mon profil", edit_user_path, class:"btn btn-warning modifier-profil", id: "modif-prof"  %></h4>
+              <h4><%= link_to image_tag('logo.png', class: 'logo_btn') + "Chercher des tournois !", tournaments_path, class:"btn btn-success modifier-profil", id: "modif-prof"  %></h4>
             </div>
             <div class="col-xs-5 text-left">
               <h4>
@@ -88,6 +89,9 @@
             </div>
             </div>
           </div>
+          <div role="tabpanel" class="tab-pane" id="compte">
+            <%= link_to "Editer mon compte", edit_user_registration_path, class: "btn btn-warning" %>
+          </div>
           <div role="tabpanel" class="tab-pane" id="licence">
             <% if @user.licencepicture_content_type == nil %>
               <%= render "users/edit/player_upload_licence_btn"%>
@@ -98,21 +102,16 @@
             <% end %>
           </div>
           <div role="tabpanel" class="tab-pane" id="certif">
-            <% if @user.certifmedpicture_content_type == nil %>
-              <%= render "users/edit/player_upload_certif_btn"%>
-            <% else %>
+            <% if @user.certifmedpicture_content_type %>
               <div id="licence_picture">
                 <%= render "users/edit/certif_picture" %>
               </div>
+            <% else %>
+              <%= render "users/edit/player_upload_certif_btn"%>
             <% end %>
             </div>
           </div>
-          <div role="tabpanel" class="tab-pane" id="compte">
-            <div class="btn btn-warning">
-              <%= link_to edit_user_registration_path
-                  %>
-            </div>
-          </div>
+
         </div>
       </div>
     </div>

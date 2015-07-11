@@ -9,11 +9,12 @@
             <h4>Du <%=  @tournament.starts_on.strftime("%d/%m/%Y") %> au <%=  @tournament.ends_on.strftime("%d/%m/%Y") %></h4>
             <p>Club Organisateur: <strong><%= @tournament.club_organisateur %></strong></p>
             <p>Numéro d'homologation: <strong><%= @tournament.homologation_number %></strong></p>
-
             <p>Ville: <strong><%= @tournament.city %></strong></p>
-            <p>Sexe: <strong><%= @tournament.genre.text %></strong></p>
-            <p>Catégorie: <strong><%= @tournament.category %></strong></p>
+            <p>Code Postal: <strong><%= @tournament.postcode %></strong></p>
             <p>Addresse des installations: <strong><%= @tournament.address %></strong></p>
+            <p>Sexe: <strong><%= @tournament.genre.text %></strong></p>
+            <p>Nature de la compétition: <strong><%= @tournament.nature %></strong></p>
+            <p>Catégorie: <strong><%= @tournament.category %></strong></p>
             <p>Frais d'inscription: <strong><%= @tournament.amount %> €</strong></p>
 
               <%= link_to "Edit", edit_user_tournament_path(current_user, @tournament), class:'btn btn-warning' %>

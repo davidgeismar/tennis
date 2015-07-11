@@ -8,13 +8,16 @@
   end
 
   def create
-    @convocation = Convocation.new(convocation_params)
+    @convocation = @subscription.convocations.build(convocation_params)
     authorize @convocation
+
     @convocation.save
+
     @notification = Notification.new
     @notification.user = @subscription.user
     @notification.content = "Vous êtes convoqué à #{@convocation.subscription.tournament.name} le #{@convocation.date.strftime("le %d/%m/%Y")} à #{@convocation.hour.strftime(" à %Hh%M")}"
     @notification.save
+
     redirect_to tournament_subscriptions_path(@subscription.tournament)
   end
 
@@ -126,7 +129,7 @@
   def convocation_params
     if current_user.judge?
       # params.permit(:hour, :date, :utf8, :commit, :authenticity_token, :subscription_id)
-      params.permit(:hour, :date)
+      params.require(:convocation).permit(:hour, :date)
       # params.require(:convocation).permit(:hour, :date)
     else
       params.require(:convocation).permit(:status)

@@ -16,7 +16,7 @@
 
   def new
     if current_user.first_name.blank? || current_user.last_name.blank? || current_user.judge_number.blank? || current_user.telephone.blank? || current_user.birthdate.blank? || current_user.iban.blank? || current_user.bic.blank? || current_user.address.blank? || current_user.iban.blank? || current_user.bic.blank?
-      flash[:alert] = "Vous devez d'abord remplir votre profil entièrement pour pouvoir ajouter votre tournoi"
+      flash[:alert] = "Vous devez d'abord remplir <%= view_context.link_to 'votre profil', user_path(current_user) %> entièrement pour pouvoir ajouter votre tournoi"
       redirect_to 'judge_connected'
     else
       create_mangopay_natural_user_and_wallet
@@ -69,7 +69,7 @@
 
 
     if current_user.first_name.blank? || current_user.last_name.blank? || current_user.licence_number.blank? || current_user.telephone.blank? || current_user.birthdate.blank? || current_user.club.blank? || current_user.genre.blank?
-      flash[:alert] = "Vous devez d'abord remplir votre profil entièrement avant de pouvoir vous inscrire à ce tournoi"
+      flash[:alert] = "Vous devez d'abord remplir" + "<a href=#{user_path(current_user)}>" + "votre profil" + "</a>" + "entièrement avant de pouvoir vous inscrire à ce tournoi"
       redirect_to tournament_path(@tournament)
 
     # elsif user_ranking_index < tournament_min_ranking_index

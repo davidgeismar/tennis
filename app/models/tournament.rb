@@ -38,7 +38,7 @@ class Tournament < ActiveRecord::Base
   validates :address, presence: { message: "Merci d'indiquer l'addresse des installations" }
   validates :name, presence: { message: "Merci d'indiquer le nom de la compétition" }
   validates :club_organisateur, presence: { message: "Merci d'indiquer le club organisateur" }
-  validates :homologation_number, format:{
+  validates :homologation_number, presence: true, format:{
         with: /2015\d{11}/,
         message: "Le format de votre numéro d'homologation doit être du type 201532920076013"
     }, on: :create
