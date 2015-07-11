@@ -11,13 +11,13 @@ development:
   TWILIO_TOKEN: ""
 
 production:
+  # MANDRILL_APIKEY: ""   # set by heroku
+  # MANDRILL_USERNAME: "" # set by heroku
   AWS_ACCESS_KEY_ID: ""
   AWS_S3_BUCKET_NAME: ""
   AWS_SECRET_ACCESS_KEY: ""
   FB_ID: ""
   FB_SECRET: ""
-  MANDRILL_APIKEY: ""
-  MANDRILL_USERNAME: ""
   TWILIO_FROM: ""
   TWILIO_SID: ""
   TWILIO_TOKEN: ""
