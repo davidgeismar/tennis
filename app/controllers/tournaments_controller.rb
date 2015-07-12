@@ -4,6 +4,9 @@
 
   def index
     @tournaments = policy_scope(Tournament)
+    if @tournaments.blank?
+     render 'pages/partials/_no_tournaments'
+    end
   end
 
   def show
@@ -18,8 +21,6 @@
 
     if current_user.first_name.blank? || current_user.last_name.blank? || current_user.licence_number.blank? || current_user.telephone.blank? || current_user.birthdate.blank? || current_user.iban.blank? || current_user.bic.blank? || current_user.address.blank?
        flash[:alert] = "Vous devez d'abord remplir <%= view_context.link_to 'votre profil', user_path(current_user) %> entièrement pour pouvoir ajouter votre tournoi"
-
-
       redirect_to 'judge_connected'
 
     elsif current_user.accepted.blank?

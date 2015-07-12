@@ -2,7 +2,11 @@
   <div class="container">
     <div class="row">
       <div class="col-xs-12 bigmarge">
+        <div class="col-xs-offset-8 ">
+        <%=link_to "Rechercher des tournois", tournaments_path, class: "btn btn-success btn-recherche-mytournaments"%>
+        </div>
         <div class="content text-center marge-bas">
+
           <div role="tabpanel" class="mestournois">
             <ul class="nav nav-tabs" role="tablist">
               <li role="presentation"><a href="#tournois" aria-controls="tournois" role="tab" data-toggle="tab"><h1 id="title_player">Mes Tournois</h1></a></li>
