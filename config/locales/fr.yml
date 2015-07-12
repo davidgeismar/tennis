@@ -10,6 +10,7 @@ fr:
         friday: Le vendredi
         saturday: Le samedi
         sunday: Le dimanche
+        comment: Commentaires
     models:
       disponibility: Disponibilité
   active_admin:
