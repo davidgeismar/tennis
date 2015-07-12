@@ -14,14 +14,18 @@
     authorize @tournament
   end
 
-  def new
+  def new #Iam creating mangopay wallet and user here
 
-    if current_user.first_name.blank? || current_user.last_name.blank? || current_user.judge_number.blank? || current_user.telephone.blank? || current_user.birthdate.blank? || current_user.iban.blank? || current_user.bic.blank? || current_user.address.blank? || current_user.iban.blank? || current_user.bic.blank?
-      flash[:alert] = "Vous devez d'abord remplir <%= view_context.link_to 'votre profil', user_path(current_user) %> entièrement pour pouvoir ajouter votre tournoi"
+    if current_user.first_name.blank? || current_user.last_name.blank? || current_user.licence_number.blank? || current_user.telephone.blank? || current_user.birthdate.blank? || current_user.iban.blank? || current_user.bic.blank? || current_user.address.blank?
+       flash[:alert] = "Vous devez d'abord remplir <%= view_context.link_to 'votre profil', user_path(current_user) %> entièrement pour pouvoir ajouter votre tournoi"
+
+
       redirect_to 'judge_connected'
-    # elsif current_user.accepted == false
-    #   flash[:alert] = "Votre compte Juge Arbitre doit d'abord avoir été accepté par l'équipe WeTennis avant de pouvoir ajouter un tournoi. Assurez vous d'avoir bien rempli intégralement<%= view_context.link_to 'votre profil', user_path(current_user) %> afin d'avoir une réponse rapide."
-    #   redirect_to 'judge_connected'
+
+    elsif current_user.accepted.blank?
+      raise
+      flash[:alert] = "Votre compte Juge Arbitre doit d'abord avoir été accepté par l'équipe WeTennis avant de pouvoir ajouter un tournoi. Assurez vous d'avoir bien rempli intégralement<%= view_context.link_to 'votre profil', user_path(current_user) %> afin d'avoir une réponse rapide."
+      redirect_to 'judge_connected'
     else
       create_mangopay_natural_user_and_wallet
       create_mangopay_bank_account

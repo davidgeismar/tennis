@@ -141,6 +141,10 @@ class User < ActiveRecord::Base
 
 
   def send_welcome_email
-    UserMailer.welcome(self).deliver
+     if self.judge?
+      UserMailer.welcome_judge(self).deliver
+     else
+      UserMailer.welcome(self).deliver
+     end
   end
 end
