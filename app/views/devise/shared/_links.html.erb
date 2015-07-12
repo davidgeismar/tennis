@@ -1,5 +1,7 @@
+
 <%- if controller_name != 'sessions' %>
-<%= link_to t(".sign_in", :default => "Sign in"), new_session_path(resource_name) %><br />
+<%= link_to t(".sign_in", :default => "Sign in"), new_session_path(resource_name), class:"btn btn-default btn-connection" %><br />
+  <p> ou </p>
 <% end -%>
 
 <%- if devise_mapping.recoverable? && controller_name != 'passwords' %>

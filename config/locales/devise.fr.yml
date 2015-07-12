@@ -85,13 +85,15 @@ fr:
     registrations:
       edit:
         edit: "Modifier"
+        title: "Modifier les informations du compte"
         # For "leave blank if you don't want to change it"
         password_instruction: "Laisser vide si vous ne voulez pas le changer"
         # For "we need your current password to confirm your changes"
         current_password_instruction: "Vous devez saisir votre mot de passe courant pour confirmer vos changement"
         update: "Mettre à jour"
         cancel_my_account: "Annuler mon compte"
-        unhappy?: "Pas content(e) ?"
+        unhappy?: "Pas satisfait ?"
+        unhappy: "Pas satisfait"
         are_you_sure?: "Êtes-vous sûr ?"
         back: "Retour"
     unlocks:
