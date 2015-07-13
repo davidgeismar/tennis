@@ -74,8 +74,14 @@ class SubscriptionsController < ApplicationController
     @subscription = Subscription.find(params[:id])
     authorize @subscription
     @subscription.update(subscription_params)
-    if @subscription.status == "refused"
+    if @subscription.status == "refused" && @subscription.user.invitation_token.blank?
       mangopay_refund
+      @notification = Notification.new
+      @notification.user = @subscription.user
+      @notification.content = "Votre inscription à #{@subscription.tournament.name} a été refusé"
+      @notification.save
+      redirect_to tournament_subscriptions_path(@subscription.tournament)
+    elsif @subscription.status == "refused" && @subscription.user.invitation_token
       @notification = Notification.new
       @notification.user = @subscription.user
       @notification.content = "Votre inscription à #{@subscription.tournament.name} a été refusé"

@@ -4,10 +4,14 @@
         <div class="panel panel-default">
           <div class="panel-heading">
             <h1>DISPONIBILITES DE <%= @subscription.user.full_name %></h1>
-           En semaine : <%= @subscription.disponibility.week %> <br>
+           Le lundi: <%= @subscription.disponibility.monday %> <br>
+           Le mardi: <%= @subscription.disponibility.tuesday %> <br>
+           Le mercredi: <%= @subscription.disponibility.wednesday %> <br>
+           Le jeudi: <%= @subscription.disponibility.thursday %> <br>
+           Le vendredi: <%= @subscription.disponibility.friday %> <br>
            Le samedi : <%= @subscription.disponibility.saturday %> <br>
            Le dimanche : <%= @subscription.disponibility.sunday %> <br>
-
+           Commentaire : <%= @subscription.disponibility.comment %> <br>
           </div>
          </div>
        </div>

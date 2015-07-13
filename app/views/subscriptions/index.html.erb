@@ -160,7 +160,7 @@
         </table>
 
         <div class="row">
-          <div class="col-xs-6">
+          <div class="col-xs-6" id="multiple_convoc">
             <%= form_tag multiple_new_path(@tournament) do %>
               <%= hidden_field_tag :select_players %>
               <%= button_tag(type: "submit", class: "btn btn-success margin") do %>
@@ -170,8 +170,8 @@
             <% end %>
 
           </div>
-          <div class="col-xs-offset-2 col-xs-2">
-            <a href="#" data-target="#exporter" data-toggle="modal" class="btn btn-success convocation-answer"><%=image_tag('fleche_droite.svg', class: 'fleche_subscription_index')%>Exporter vers AEI</a>
+          <div class="col-xs-offset-2 col-xs-2" id="export_to_AEI">
+            <a href="#" data-target="#exporter" data-toggle="modal" class="btn btn-success convocation-answer"><%=image_tag('fleche_droite.svg', class: 'fleche_subscription_index', id: "export_to_AEI_btn")%>Exporter vers AEI</a>
             <div class="modal fade" id="exporter">
               <div class="modal-dialog mymodal">
                 <div class="modal-content text-center">

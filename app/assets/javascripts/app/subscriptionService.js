@@ -1,6 +1,6 @@
 $('.subscription_item select').change(function(){
   var form = $(this).parent();
-  var text = "Are you sure?";
+  var text = "Etes vous sur ?";
   var result = confirm(text);
 
   if (result == true) {

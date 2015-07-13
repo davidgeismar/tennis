@@ -1,5 +1,5 @@
 <div class="banner">
-<div class="container">
+  <div class="container">
     <div class="col-xs-12 col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3 bigmarge paymentcard">
       <div class="row padded">
         <div class="col-xs-12" id="paiement">
@@ -7,7 +7,7 @@
         </div>
         <div class="col-xs-12">
           <p>Paiement de l'inscription pour un montant de
-          <% if @subscription.tournament.young_fare && @subscription.user.age < 18 %>
+          <% if @subscription.tournament.young_fare && current_user.age < 18 %>
             <strong> <%= @subscription.tournament.young_fare %> €</strong>
           <%else %>
             <strong> <%= @subscription.tournament.amount %> €</strong>

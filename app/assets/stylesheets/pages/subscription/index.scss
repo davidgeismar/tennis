@@ -2,9 +2,14 @@
   margin: 50px;
   margin-bottom: 100px;
 }
-
+#multiple_convoc{
+      margin-left: -70px;
+}
+#export_to_AEI {
+  margin-top: 20px;
+}
 .enveloppe_subscription_index {
-  height: 25px;
+  height: 15px;
   margin: 5px;
 }
 #convocation-submit {
@@ -23,6 +28,7 @@
 .table_judge_tournoi {
   margin-top: 150px;
   margin-left: -110px;
+  min-width: 1150px;
 }
 
 .fleche_subscription {
