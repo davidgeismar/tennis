@@ -4,6 +4,9 @@
 
   def index
     @tournaments = policy_scope(Tournament)
+    if @tournaments.blank?
+     render 'pages/partials/_no_tournaments'
+    end
   end
 
   def show

@@ -26,7 +26,7 @@ class ApplicationController < ActionController::Base
       stored_location_for(user) || tournaments_path
     else
       root_path
-     end
+    end
   end
 
   def configure_permitted_parameters
