@@ -1,4 +1,4 @@
-class AEIExportsController < ApplicationController
+class AeiExportsController < ApplicationController
   before_filter :set_tournament
 
   def create
