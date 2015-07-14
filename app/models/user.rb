@@ -1,5 +1,5 @@
 class User < ActiveRecord::Base
-  after_create :send_welcome_email, unless: :invited_by_id
+  after_create :send_welcome_email, unless: :invitation_token
 
   extend Enumerize
   enumerize :genre, in: [:male, :female]

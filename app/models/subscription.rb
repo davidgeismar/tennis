@@ -19,7 +19,11 @@ class Subscription < ActiveRecord::Base
   private
 
   def send_confirmation_email
-    SubscriptionMailer.confirmation(self).deliver
+    if self.user.invitation_token?
+      SubscriptionMailer.confirmation_invited_user(self).deliver
+    else
+      SubscriptionMailer.confirmation(self).deliver
+    end
   end
 
   def send_update_email

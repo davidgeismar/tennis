@@ -16,6 +16,6 @@ fr:
       invitation_instructions:
         subject: 'Instruction de confirmation'
         hello: 'Bonjour %{email}'
-        someone_invited_you: "Quelqu'un vous a invité à rejoindre %{url}, vous pouvez accepter cette invitation via le lien ci-dessous."
+        someone_invited_you: "Vous avez été ajouté à un tournoi de tennis par un juge arbitre sur WeTennis, %{url}. Vous allez recevoir dans les plus brefs délais un e-mail avec des précisions sur le tournoi auquel vous avez été ajouté. Pour recevoir toutes vos convocations en ligne, par notifications, emails et sms, Veuillez accepter cette invitation via le lien ci-dessous."
         accept: "Accepter l'invitation"
         ignore: "Si vous ne souhaitez pas accepter cette invitation, veuillez ignorer cet e-mail.<br />Votre compte ne sera pas créé tant que vous n'accéderez pas au lien ci-dessous et que vous ayez défini votre mot de passe."
