@@ -1,6 +1,9 @@
   <div class="banner">
     <div class="container text-center">
-      <table id="example" class="table table-hover card display dataTable bigmarge_stats">
+
+
+<%=link_to "Retour à la gestion du tournoi", tournament_subscriptions_path(@tournament), class: "btn btn-default bigmarge_stats"%>
+            <table id="example" class="table table-hover card display dataTable bigmarge_stats">
         <thead>
           <tr>
             <th class="text-center">Classements</th>
@@ -11,103 +14,127 @@
           <tr>
             <td>Total Inscrits</td>
             <td><%= @subscriptions.count %></td>
+            <td><input id="test" type="checkbox" name="my-checkbox" class="checkbox-ranking" data-size='small' checked></td>
           </tr>
           <tr>
             <td>NC</td>
             <td><%= @subscriptions.where("users.ranking = 'NC'").count %></td>
+            <td><input type="checkbox" name="my-checkbox" class="checkbox-ranking" id="bite" data-size='small' checked></td>
           </tr>
           <tr>
             <td>40</td>
             <td><%= @subscriptions.where("users.ranking = '40'").count %></td>
+            <td><input type="checkbox" name="my-checkbox" class="checkbox-ranking" data-size='small' checked></td>
           </tr>
           <tr>
             <td>30/5</td>
             <td><%= @subscriptions.where("users.ranking = '30/5'").count %></td>
+            <td><input type="checkbox" name="my-checkbox" class="checkbox-ranking" data-size='small' checked ></td>
           </tr>
           <tr>
             <td>30/4</td>
             <td><%= @subscriptions.where("users.ranking = '30/4'").count %></td>
+            <td><input type="checkbox" name="my-checkbox" class="checkbox-ranking" data-size='small' checked></td>
           </tr>
           <tr>
             <td>30/3</td>
             <td><%= @subscriptions.where("users.ranking = '30/3'").count %></td>
+            <td><input type="checkbox" name="my-checkbox" class="checkbox-ranking" data-size='small' checked ></td>
           </tr>
           <tr>
             <td>30/2</td>
             <td><%= @subscriptions.where("users.ranking = '30/2'").count %></td>
+            <td><input type="checkbox" name="my-checkbox" class="checkbox-ranking" data-size='small' checked></td>
           </tr>
           <tr>
             <td>30/1</td>
             <td><%= @subscriptions.where("users.ranking = '30/1'").count %></td>
+            <td><input type="checkbox" name="my-checkbox" class="checkbox-ranking" data-size='small' checked ></td>
           </tr>
           <tr>
             <td>30</td>
             <td><%= @subscriptions.where("users.ranking = '30'").count %></td>
+            <td><input type="checkbox" name="my-checkbox" class="checkbox-ranking" data-size='small' checked></td>
           </tr>
           <tr>
             <td>15/5</td>
             <td><%= @subscriptions.where("users.ranking = '15/5'").count %></td>
+            <td><input type="checkbox" name="my-checkbox" class="checkbox-ranking" data-size='small' checked></td>
 
           <tr>
             <td>15/4</td>
             <td><%= @subscriptions.where("users.ranking = '15/4'").count %></td>
+            <td><input type="checkbox" name="my-checkbox" class="checkbox-ranking" data-size='small' checked></td>
           </tr>
           <tr>
             <td>15/3</td>
             <td><%= @subscriptions.where("users.ranking = '15/3'").count %></td>
+            <td><input type="checkbox" name="my-checkbox" class="checkbox-ranking" data-size='small' checked></td>
           </tr>
           <tr>
             <td>15/2</td>
             <td><%= @subscriptions.where("users.ranking = '15/2'").count %></td>
+            <td><input type="checkbox" name="my-checkbox" class="checkbox-ranking" data-size='small' checked></td>
           </tr>
           <tr>
             <td>15/1</td>
             <td><%= @subscriptions.where("users.ranking = '15/1'").count %></td>
+            <td><input type="checkbox" name="my-checkbox" class="checkbox-ranking" data-size='small' checked></td>
           </tr>
           <tr>
             <td>15</td>
             <td><%= @subscriptions.where("users.ranking = '15'").count %></td>
+            <td><input type="checkbox" name="my-checkbox" class="checkbox-ranking" data-size='small' checked></td>
           </tr>
           <tr>
             <td>5/6</td>
             <td><%= @subscriptions.where("users.ranking = '5/6'").count %></td>
+            <td><input type="checkbox" name="my-checkbox" class="checkbox-ranking" data-size='small' checked></td>
           </tr>
           <tr>
             <td>4/6</td>
             <td><%= @subscriptions.where("users.ranking = '4/6'").count %></td>
+            <td><input type="checkbox" name="my-checkbox" class="checkbox-ranking" data-size='small' checked></td>
           </tr>
           <tr>
             <td>3/6</td>
             <td><%= @subscriptions.where("users.ranking = '3/6'").count %></td>
+            <td><input type="checkbox" name="my-checkbox" class="checkbox-ranking" data-size='small' checked></td>
           </tr>
           <tr>
             <td>2/6</td>
             <td><%= @subscriptions.where("users.ranking = '2/6'").count %>
+            <td><input type="checkbox" name="my-checkbox" class="checkbox-ranking" data-size='small' checked></td>
             </td>
           </tr>
           <tr>
             <td>1/6</td>
             <td><%= @subscriptions.where("users.ranking = '1/6'").count %></td>
+            <td><input type="checkbox" name="my-checkbox" class="checkbox-ranking" data-size='small' checked></td>
           </tr>
           <tr>
             <td>0</td>
             <td><%= @subscriptions.where("users.ranking = '0'").count %></td>
+            <td><input type="checkbox" name="my-checkbox" class="checkbox-ranking" data-size='small'  checked></td>
           </tr>
           <tr>
             <td>-2/6</td>
             <td><%= @subscriptions.where("users.ranking = '-2/6'").count %></td>
+            <td><input type="checkbox" name="my-checkbox" class="checkbox-ranking" data-size='small' checked></td>
           </tr>
             <td>-4/6</td>
             <td><%= @subscriptions.where("users.ranking = '-4/6'").count %></td>
+            <td><input type="checkbox" name="my-checkbox" class="checkbox-ranking" data-size='small' checked></td>
           </tr>
           <tr>
             <td>-15</td>
             <td><%= @subscriptions.where("users.ranking = '-15'").count %></td>
+            <td><input type="checkbox" name="my-checkbox" class="checkbox-ranking" data-size='small' checked></td>
           </tr>
           <tr>
             <td>-30</td>
             <td><%= @subscriptions.where("users.ranking = '-30'").count %></td>
-              </td>
+            <td><input type="checkbox" name="my-checkbox" class="checkbox-ranking" data-size='small' checked></td>
           </tr>
 
        </tbody>
@@ -122,3 +149,25 @@
           </div>
     </div>
   </div>
+
+  <% content_for(:after_js) do %>
+     <script type="text/javascript">
+     $(document).ready(function(){
+        $("[name='my-checkbox']").bootstrapSwitch();
+
+      });
+    $(document).ready(function(){
+       $('input[name="my-checkbox"]').on('switchChange.bootstrapSwitch', function(event, state) {
+       var states = $('input[name="my-checkbox"]').bootstrapSwitch('state');
+       alert(states);
+  //   var ranking = $(this).parent().parent().parent().parent().children().first().html();
+  //   alert(ranking);
+  // console.log(ranking); // DOM element
+  // console.log(event); // jQuery event
+  // console.log(state); // true | false
+});
+    });
+
+
+     </script>
+   <% end -%>

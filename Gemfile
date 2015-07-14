@@ -36,6 +36,7 @@ gem "sass-rails",                 "~> 5.0"
 gem "simple_form",                "~> 3.1.0"
 gem "uglifier",                   "~> 2.7.0"
 gem "unicode_utils",              "~> 1.4.0"
+gem "bootstrap-switch-rails"
 
 group :development, :test do
   gem "annotate"
