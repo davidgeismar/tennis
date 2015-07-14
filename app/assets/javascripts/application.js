@@ -6,6 +6,7 @@
 //= require mangopay-kit.js
 //= require jquery.dataTables
 //= require bootstrap-datepicker
+//= require bootstrap-switch
 //= require_tree ./app
 
 

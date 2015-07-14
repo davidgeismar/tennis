@@ -7,6 +7,10 @@ class SubscriptionsController < ApplicationController
     #writte custom policy
   end
 
+  def stop_subscription
+    # recup data from ranking
+    # return an array with all rankings
+  end
 
   def index
     @rankings = ['NC', '40', '30/5', '30/4', '30/3', '30/2', '30/1', '30', '15/5', '15/4', '15/3', '15/2', '15/1', '15', '5/6', '4/6', '3/6', '2/6', '1/6', '0', '-2/6', '-4/6', '-15', '-30']
@@ -101,6 +105,10 @@ class SubscriptionsController < ApplicationController
   end
 
   def new
+
+    # if rankings.include? current_user.ranking
+      #  flash[:alert]
+    #else
     @subscription = Subscription.new(tournament_id: params[:tournament_id])
     authorize @subscription
   end
@@ -111,6 +119,11 @@ class SubscriptionsController < ApplicationController
   end
 
   private
+
+    def age_when_tournament_starts
+      tournament_starting_date = @subscription.tournament.starts_on
+      tournament_starting_date.year - current_user.birthdate.year
+    end
 
      def mangopay_user_attributes
       {
