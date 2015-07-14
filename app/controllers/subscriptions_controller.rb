@@ -5,7 +5,7 @@ class SubscriptionsController < ApplicationController
   def mytournaments
 
     @subscriptions = Subscription.where(user_id: current_user)
-    if @subscriptions.blank?
+    if @subscriptions.blank? && current_user.judge == false
       flash[:notice] = "Vous ne vous êtes pas encore inscrit à un tournoi."
     end
     #writte custom policy
