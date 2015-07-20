@@ -168,6 +168,8 @@ fr:
         '-30':   '-30'
   views:
     pagination:
+      first: "première"
+      previous: "précédente"
       next: "Suivant"
       last: "Dernière"
       empty: "Aucun %{model} trouvé"

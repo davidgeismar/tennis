@@ -1,6 +1,6 @@
  class TournamentsController < ApplicationController
   before_filter :set_tournament, only: [:update, :edit, :show, :registrate_card]
-  skip_after_action :verify_authorized
+  skip_after_action :verify_authorized, only: [:datatreat]
 
   def index
     @tournaments = policy_scope(Tournament)
@@ -60,7 +60,7 @@
     @tournament.save
   end
 
-  def registrate_card
+  def registrate_card #creating mangopay user and wallet for payer
     authorize @tournament
     arrayminor = ['9 ans', '9-10ans', '10 ans', '11 ans', '11-12 ans', '12 ans', '13-14 ans', '15-16 ans', '17-18 ans']
     arrayinf18 = ['9 ans', '9-10ans', '10 ans', '11 ans', '11-12 ans', '12 ans', '13-14 ans', '15-16 ans']
@@ -172,6 +172,19 @@
     end
   end
 
+  def datatreat #this doesnt work
+    # @tournament     = Tournament.find(params[:tournament_id])
+    # authorize @tournament
+    # @rankings = params[:rankings] #renvoit array avec tout les classements autorisés
+    # options = { nc: "NC", quarante: "40", trentecinq: "30/5", trentequatre: "30/4", trentetrois: "30/3", trentedeux: "30/2", trenteun: "30/1", trente: "30", quinzecinq: "15/5", quinzequatre:"15/4", quinzetrois: "15/3", quinzedeux: "15/2", quinzeun: "15/1", quinze: "15", cinqsix: "5/6", quatresix: "4/6", troissix: "3/6", deuxsix: "2/6", unsix: "1/6", zero: "0", moinsdeuxsix: "-2/6", moinsquatresix: "-2/6", moinsquinze: "-15", moinstrente: "-30"}
+    @tournament     = Tournament.find(params[:tournament_id])
+    if @tournament.save
+      redirect_to root_path
+    else
+    end
+
+  end
+
   def find
     @tournament = Tournament.new
     authorize @tournament
@@ -206,7 +219,7 @@
   end
 
   def tournament_params
-    params.require(:tournament).permit(:genre, :category, :amount, :starts_on, :ends_on, :address, :club_organisateur, :name, :city, :lat, :long, :homologation_number, :max_ranking, :min_ranking, :nature, :postcode, :young_fare)
+    params.require(:tournament).permit(:genre, :category, :amount, :starts_on, :ends_on, :address, :club_organisateur, :name, :city, :lat, :long, :homologation_number, :max_ranking, :min_ranking, :nature, :postcode, :young_fare, :trentecinq, :NC)
   end
 
 

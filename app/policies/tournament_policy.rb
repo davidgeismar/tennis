@@ -29,6 +29,10 @@ class TournamentPolicy < ApplicationPolicy
     user && record.user == user
   end
 
+  def  datatreat?
+    user && record.user == user
+  end
+
   def find?
     true
   end

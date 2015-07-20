@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150709153544) do
+ActiveRecord::Schema.define(version: 20150719081731) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -158,6 +158,30 @@ ActiveRecord::Schema.define(version: 20150709153544) do
     t.string   "nature",              default: "single"
     t.string   "postcode"
     t.integer  "young_fare"
+    t.boolean  "NC",                  default: true
+    t.boolean  "trentecinq",          default: true
+    t.boolean  "trentequatre",        default: true
+    t.boolean  "trentetrois",         default: true
+    t.boolean  "trentedeux",          default: true
+    t.boolean  "trenteun",            default: true
+    t.boolean  "trente",              default: true
+    t.boolean  "quinzecinq",          default: true
+    t.boolean  "quinzequatre",        default: true
+    t.boolean  "quinzetrois",         default: true
+    t.boolean  "quinzedeux",          default: true
+    t.boolean  "quinzeun",            default: true
+    t.boolean  "quinze",              default: true
+    t.boolean  "cinqsix",             default: true
+    t.boolean  "quatresix",           default: true
+    t.boolean  "troissix",            default: true
+    t.boolean  "deuxsix",             default: true
+    t.boolean  "unsix",               default: true
+    t.boolean  "zero",                default: true
+    t.boolean  "moinsdeuxsix",        default: true
+    t.boolean  "moinsquatresix",      default: true
+    t.boolean  "moinsquinze",         default: true
+    t.boolean  "moinstrente",         default: true
+    t.boolean  "quarante",            default: true
   end
 
   add_index "tournaments", ["user_id"], name: "index_tournaments_on_user_id", using: :btree

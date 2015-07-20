@@ -34,7 +34,7 @@ Rails.application.routes.draw do
   end
 
   post 'tournaments/:tournament_id/convocations/multiple_new',    to: "convocations#multiple_new",    as: "multiple_new"
-  post 'tournaments/:tournament_id/convocation/multiple_create',  to: "convocations#multiple_create", as: "multiple_create"
+  post 'tournaments/:tournament_id/sendrankings',  to: "tournaments#datatreat", as: "datatreat"
 
   # subscriptions
   get "mestournois", to: "subscriptions#mytournaments", as: "mes_tournois"
