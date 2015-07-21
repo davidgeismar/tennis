@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150719081731) do
+ActiveRecord::Schema.define(version: 20150721092758) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -182,6 +182,7 @@ ActiveRecord::Schema.define(version: 20150719081731) do
     t.boolean  "moinsquinze",         default: true
     t.boolean  "moinstrente",         default: true
     t.boolean  "quarante",            default: true
+    t.boolean  "total",               default: true
   end
 
   add_index "tournaments", ["user_id"], name: "index_tournaments_on_user_id", using: :btree

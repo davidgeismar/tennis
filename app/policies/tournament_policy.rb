@@ -29,7 +29,7 @@ class TournamentPolicy < ApplicationPolicy
     user && record.user == user
   end
 
-  def  datatreat?
+  def  update_rankings?
     user && record.user == user
   end
 

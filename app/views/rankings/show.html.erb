@@ -6,7 +6,7 @@
             <table id="example" class="table table-hover card display dataTable bigmarge_stats">
         <thead>
           <tr>
-            <th class="text-center">Classements</th>
+            <th class="text-center">Classements </th>
             <th class="text-center">Nombre de joueurs</th>
           </tr>
         </thead>
@@ -14,15 +14,19 @@
           <tr>
             <td>Total Inscrits</td>
             <td><%= @subscriptions.count %></td>
-            <td><input id="test" type="checkbox" name="my-checkbox" class="checkbox-ranking" data-size='small' checked></td>
+            <td><%= simple_form_for @tournament, url: updaterankings_path(@tournament),:method => 'post', :remote => true do |f| %>
+                <%= f.input :total, name: "my-checkbox", class: "checkbox-ranking" %>
+                <%= f.button :submit, class: "hidden"   %>
+              <% end %>
+            </td>
           </tr>
           <tr>
             <td>NC</td>
             <td><%= @subscriptions.where("users.ranking = 'NC'").count %></td>
             <td>
-              <%= form_for @tournament, url: datatreat_path(@tournament), :remote => true do |f| %>
-                <%= f.label :NC, 'NC' %>
-                <%= f.check_box :NC, name: "my-checkbox" %>
+              <%= simple_form_for @tournament, url: updaterankings_path(@tournament),:method => 'post', :remote => true do |f| %>
+                <%= f.input :NC, name: "my-checkbox", class: "checkbox-ranking" %>
+                <%= f.button :submit, class: "hidden"   %>
               <% end %>
             </td>
           </tr>
@@ -30,9 +34,9 @@
             <td>40</td>
             <td><%= @subscriptions.where("users.ranking = '40'").count %></td>
             <td>
-              <%= form_for @tournament, :remote => true do |f| %>
-                <%= f.label :quarante, '40' %>
-                <%= f.check_box :quarante, name: "my-checkbox" %>
+              <%= simple_form_for @tournament, url: updaterankings_path(@tournament),:method => 'post', :remote => true do |f| %>
+                <%= f.input :quarante, name: "my-checkbox", id: "input" %>
+                <%= f.button :submit, class: "hidden" %>
               <% end %>
               </td>
           </tr>
@@ -40,217 +44,218 @@
             <td>30/5</td>
             <td><%= @subscriptions.where("users.ranking = '30/5'").count %></td>
             <td>
-               <%= form_for @tournament, :remote => true do |f| %>
-                <%= f.label :trentecinq, '35' %>
-                <%= f.check_box :quarante, name: "my-checkbox" %>
+                <%= simple_form_for @tournament, url: updaterankings_path(@tournament), :method => 'post', :remote => true do |f| %>
+                <%= f.input :trentecinq, name: "my-checkbox", id: "input" %>
+                <%= f.button :submit, class: "hidden" %>
               <% end %>
             </td>
           </tr>
           <tr>
             <td>30/4</td>
             <td><%= @subscriptions.where("users.ranking = '30/4'").count %></td>
-            <td><% if @tournament.trentequatre %>
-                <input type="checkbox" name="my-checkbox" class="checkbox-ranking" id="bite" data-size='small' checked>
-              <% else %>
-                 <input type="checkbox" name="my-checkbox" class="checkbox-ranking" id="bite" data-size='small' >
-              <% end -%>
+            <td>
+
+                <%= simple_form_for @tournament, url: updaterankings_path(@tournament),:method => 'post', :remote => true do |f| %>
+                <%= f.input :trentequatre, name: "my-checkbox", id: "input" %>
+                <%= f.button :submit, class: "hidden" %>
+              <% end %>
             </td>
           </tr>
           <tr>
             <td>30/3</td>
             <td><%= @subscriptions.where("users.ranking = '30/3'").count %></td>
-            <td><% if @tournament.trentetrois %>
-                <input type="checkbox" name="my-checkbox" class="checkbox-ranking" id="bite" data-size='small' checked>
-              <% else %>
-                 <input type="checkbox" name="my-checkbox" class="checkbox-ranking" id="bite" data-size='small' >
-              <% end -%></td>
+            <td>
+              <%= simple_form_for @tournament, url: updaterankings_path(@tournament),:method => 'post', :remote => true do |f| %>
+                <%= f.input :trentetrois, name: "my-checkbox", id: "input" %>
+                <%= f.button :submit, class: "hidden" %>
+              <% end %></td>
           </tr>
           <tr>
             <td>30/2</td>
             <td><%= @subscriptions.where("users.ranking = '30/2'").count %></td>
-            <td><% if @tournament.trentedeux %>
-                <input type="checkbox" name="my-checkbox" class="checkbox-ranking" id="bite" data-size='small' checked>
-              <% else %>
-                 <input type="checkbox" name="my-checkbox" class="checkbox-ranking" id="bite" data-size='small' >
-              <% end -%>
+            <td>
+              <%= simple_form_for @tournament, url: updaterankings_path(@tournament),:method => 'post', :remote => true do |f| %>
+                <%= f.input :trentedeux, name: "my-checkbox", id: "input" %>
+                <%= f.button :submit, class: "hidden" %>
+              <% end %>
             </td>
           </tr>
           <tr>
             <td>30/1</td>
             <td><%= @subscriptions.where("users.ranking = '30/1'").count %></td>
-            <td><% if @tournament.trenteun %>
-                <input type="checkbox" name="my-checkbox" class="checkbox-ranking" id="bite" data-size='small' checked>
-              <% else %>
-                 <input type="checkbox" name="my-checkbox" class="checkbox-ranking" id="bite" data-size='small' >
-              <% end -%></td>
+            <td>
+              <%= simple_form_for @tournament, url: updaterankings_path(@tournament),:method => 'post', :remote => true do |f| %>
+                <%= f.input :trenteun, name: "my-checkbox", id: "input" %>
+                <%= f.button :submit, class: "hidden" %>
+              <% end %></td>
           </tr>
           <tr>
             <td>30</td>
             <td><%= @subscriptions.where("users.ranking = '30'").count %></td>
-            <td><% if @tournament.trente %>
-                <input type="checkbox" name="my-checkbox" class="checkbox-ranking" id="bite" data-size='small' checked>
-              <% else %>
-                 <input type="checkbox" name="my-checkbox" class="checkbox-ranking" id="bite" data-size='small' >
-              <% end -%>
+            <td>
+              <%= simple_form_for @tournament, url: updaterankings_path(@tournament),:method => 'post', :remote => true do |f| %>
+                <%= f.input :trente, name: "my-checkbox", id: "input" %>
+                <%= f.button :submit, class: "hidden" %>
+              <% end %>
             </td>
           </tr>
           <tr>
             <td>15/5</td>
             <td><%= @subscriptions.where("users.ranking = '15/5'").count %></td>
-            <td><% if @tournament.quinzecinq %>
-                <input type="checkbox" name="my-checkbox" class="checkbox-ranking" id="bite" data-size='small' checked>
-              <% else %>
-                 <input type="checkbox" name="my-checkbox" class="checkbox-ranking" id="bite" data-size='small' >
-              <% end -%>
+            <td>
+              <%= simple_form_for @tournament, url: updaterankings_path(@tournament), :method => 'post', :remote => true do |f| %>
+                <%= f.input :quinzecinq, name: "my-checkbox", id: "input" %>
+                <%= f.button :submit, class: "hidden" %>
+              <% end %>
             </td>
 
           <tr>
             <td>15/4</td>
             <td><%= @subscriptions.where("users.ranking = '15/4'").count %></td>
-            <td><% if @tournament.quinzequatre %>
-                <input type="checkbox" name="my-checkbox" class="checkbox-ranking" id="bite" data-size='small' checked>
-              <% else %>
-                 <input type="checkbox" name="my-checkbox" class="checkbox-ranking" id="bite" data-size='small' >
-              <% end -%>
+            <td>
+              <%= simple_form_for @tournament, url: updaterankings_path(@tournament), :method => 'post', :remote => true do |f| %>
+                <%= f.input :quinzequatre, name: "my-checkbox", id: "input" %>
+                <%= f.button :submit, class: "hidden" %>
+              <% end %>
             </td>
           </tr>
           <tr>
             <td>15/3</td>
             <td><%= @subscriptions.where("users.ranking = '15/3'").count %></td>
-            <td><% if @tournament.quinzetrois %>
-                <input type="checkbox" name="my-checkbox" class="checkbox-ranking" id="bite" data-size='small' checked>
-              <% else %>
-                 <input type="checkbox" name="my-checkbox" class="checkbox-ranking" id="bite" data-size='small' >
-              <% end -%>
+            <td>
+              <%= simple_form_for @tournament, url: updaterankings_path(@tournament), :method => 'post', :remote => true do |f| %>
+                <%= f.input :quinzetrois, name: "my-checkbox", id: "input" %>
+                <%= f.button :submit, class: "hidden" %>
+              <% end %>
             </td>
           </tr>
           <tr>
             <td>15/2</td>
             <td><%= @subscriptions.where("users.ranking = '15/2'").count %></td>
-            <td><% if @tournament.quinzedeux %>
-                <input type="checkbox" name="my-checkbox" class="checkbox-ranking" id="bite" data-size='small' checked>
-              <% else %>
-                 <input type="checkbox" name="my-checkbox" class="checkbox-ranking" id="bite" data-size='small' >
-              <% end -%>
+            <td>
+              <%= simple_form_for @tournament, url: updaterankings_path(@tournament), :method => 'post', :remote => true do |f| %>
+                <%= f.input :quinzedeux, name: "my-checkbox", id: "input" %>
+                <%= f.button :submit, class: "hidden" %>
+              <% end %>
             </td>
           </tr>
           <tr>
             <td>15/1</td>
             <td><%= @subscriptions.where("users.ranking = '15/1'").count %></td>
-            <td><% if @tournament.quinzeun %>
-                <input type="checkbox" name="my-checkbox" class="checkbox-ranking" id="bite" data-size='small' checked>
-              <% else %>
-                 <input type="checkbox" name="my-checkbox" class="checkbox-ranking" id="bite" data-size='small' >
-              <% end -%>
+            <td>
+              <%= simple_form_for @tournament, url: updaterankings_path(@tournament), :method => 'post', :remote => true do |f| %>
+                <%= f.input :quinzeun, name: "my-checkbox", id: "input" %>
+                <%= f.button :submit, class: "hidden" %>
+              <% end %>
             </td>
           </tr>
           <tr>
             <td>15</td>
             <td><%= @subscriptions.where("users.ranking = '15'").count %></td>
-            <td><% if @tournament.quinze %>
-                <input type="checkbox" name="my-checkbox" class="checkbox-ranking" id="bite" data-size='small' checked>
-              <% else %>
-                 <input type="checkbox" name="my-checkbox" class="checkbox-ranking" id="bite" data-size='small' >
-              <% end -%>
+            <td>
+              <%= simple_form_for @tournament, url: updaterankings_path(@tournament), :method => 'post', :remote => true do |f| %>
+                <%= f.input :quinze, name: "my-checkbox", id: "input" %>
+                <%= f.button :submit, class: "hidden" %>
+              <% end %>
             </td>
           </tr>
           <tr>
             <td>5/6</td>
             <td><%= @subscriptions.where("users.ranking = '5/6'").count %></td>
-            <td><% if @tournament.cinqsix %>
-                <input type="checkbox" name="my-checkbox" class="checkbox-ranking" id="bite" data-size='small' checked>
-              <% else %>
-                 <input type="checkbox" name="my-checkbox" class="checkbox-ranking" id="bite" data-size='small' >
-              <% end -%>
+            <td>
+              <%= simple_form_for @tournament, url: updaterankings_path(@tournament), :method => 'post', :remote => true do |f| %>
+                <%= f.input :cinqsix, name: "my-checkbox", id: "input" %>
+                <%= f.button :submit, class: "hidden" %>
+              <% end %>
             </td>
           </tr>
           <tr>
             <td>4/6</td>
             <td><%= @subscriptions.where("users.ranking = '4/6'").count %></td>
-            <td><% if @tournament.quatresix %>
-                <input type="checkbox" name="my-checkbox" class="checkbox-ranking" id="bite" data-size='small' checked>
-              <% else %>
-                 <input type="checkbox" name="my-checkbox" class="checkbox-ranking" id="bite" data-size='small' >
-              <% end -%>
+            <td>
+              <%= simple_form_for @tournament, url: updaterankings_path(@tournament), :method => 'post', :remote => true do |f| %>
+                <%= f.input :quatresix, name: "my-checkbox", id: "input" %>
+                <%= f.button :submit, class: "hidden" %>
+              <% end %>
             </td>
           </tr>
           <tr>
             <td>3/6</td>
             <td><%= @subscriptions.where("users.ranking = '3/6'").count %></td>
-            <td><% if @tournament.troissix %>
-                <input type="checkbox" name="my-checkbox" class="checkbox-ranking" id="bite" data-size='small' checked>
-              <% else %>
-                 <input type="checkbox" name="my-checkbox" class="checkbox-ranking" id="bite" data-size='small' >
-              <% end -%>
+            <td>
+              <%= simple_form_for @tournament, url: updaterankings_path(@tournament), :method => 'post', :remote => true do |f| %>
+                <%= f.input :troissix, name: "my-checkbox", id: "input" %>
+                <%= f.button :submit, class: "hidden" %>
+              <% end %>
             </td>
           </tr>
           <tr>
             <td>2/6</td>
             <td><%= @subscriptions.where("users.ranking = '2/6'").count %>
-            <td><% if @tournament.deuxsix %>
-                <input type="checkbox" name="my-checkbox" class="checkbox-ranking" id="bite" data-size='small' checked>
-              <% else %>
-                 <input type="checkbox" name="my-checkbox" class="checkbox-ranking" id="bite" data-size='small' >
-              <% end -%>
+            <td>
+              <%= simple_form_for @tournament, url: updaterankings_path(@tournament), :method => 'post', :remote => true do |f| %>
+                <%= f.input :deuxsix, name: "my-checkbox", id: "input" %>
+                <%= f.button :submit, class: "hidden" %>
+              <% end %>
             </td>
             </td>
           </tr>
           <tr>
             <td>1/6</td>
             <td><%= @subscriptions.where("users.ranking = '1/6'").count %></td>
-            <td><% if @tournament.unsix %>
-                <input type="checkbox" name="my-checkbox" class="checkbox-ranking" id="bite" data-size='small' checked>
-              <% else %>
-                 <input type="checkbox" name="my-checkbox" class="checkbox-ranking" id="bite" data-size='small' >
-              <% end -%>
+            <td>
+              <%= simple_form_for @tournament, url: updaterankings_path(@tournament), :method => 'post', :remote => true do |f| %>
+                <%= f.input :unsix, name: "my-checkbox", id: "input" %>
+                <%= f.button :submit, class: "hidden" %>
+              <% end %>
             </td>
           </tr>
           <tr>
             <td>0</td>
             <td><%= @subscriptions.where("users.ranking = '0'").count %></td>
-            <td><% if @tournament.zero %>
-                <input type="checkbox" name="my-checkbox" class="checkbox-ranking" id="bite" data-size='small' checked>
-              <% else %>
-                 <input type="checkbox" name="my-checkbox" class="checkbox-ranking" id="bite" data-size='small' >
-              <% end -%></td>
+            <td>
+              <%= simple_form_for @tournament, url: updaterankings_path(@tournament), :method => 'post', :remote => true do |f| %>
+                <%= f.input :zero, name: "my-checkbox", id: "input" %>
+                <%= f.button :submit, class: "hidden" %>
+              <% end %></td>
           </tr>
           <tr>
             <td>-2/6</td>
             <td><%= @subscriptions.where("users.ranking = '-2/6'").count %></td>
-            <td><% if @tournament.moinsdeuxsix %>
-                <input type="checkbox" name="my-checkbox" class="checkbox-ranking" id="bite" data-size='small' checked>
-              <% else %>
-                 <input type="checkbox" name="my-checkbox" class="checkbox-ranking" id="bite" data-size='small' >
-              <% end -%>
+            <td>
+              <%= simple_form_for @tournament, url: updaterankings_path(@tournament), :method => 'post', :remote => true do |f| %>
+                <%= f.input :moinsdeuxsix, name: "my-checkbox", id: "input" %>
+                <%= f.button :submit, class: "hidden" %>
+              <% end %>
             </td>
           </tr>
             <td>-4/6</td>
             <td><%= @subscriptions.where("users.ranking = '-4/6'").count %></td>
-            <td><% if @tournament.moinsquatresix %>
-                <input type="checkbox" name="my-checkbox" class="checkbox-ranking" id="bite" data-size='small' checked>
-              <% else %>
-                 <input type="checkbox" name="my-checkbox" class="checkbox-ranking" id="bite" data-size='small' >
-              <% end -%>
+            <td>
+              <%= simple_form_for @tournament, url: updaterankings_path(@tournament), :method => 'post', :remote => true do |f| %>
+                <%= f.input :moinsquatresix, name: "my-checkbox", id: "input" %>
+                <%= f.button :submit, class: "hidden" %>
+              <% end %>
             </td>
           </tr>
           <tr>
             <td>-15</td>
             <td><%= @subscriptions.where("users.ranking = '-15'").count %></td>
-            <td><% if @tournament.moinsquinze %>
-                <input type="checkbox" name="my-checkbox" class="checkbox-ranking" id="bite" data-size='small' checked>
-              <% else %>
-                 <input type="checkbox" name="my-checkbox" class="checkbox-ranking" id="bite" data-size='small' >
-              <% end -%>
+            <td>
+              <%= simple_form_for @tournament, url: updaterankings_path(@tournament), :method => 'post', :remote => true do |f| %>
+                <%= f.input :moinsquinze, name: "my-checkbox", id: "input" %>
+                <%= f.button :submit, class: "hidden" %>
+              <% end %>
             </td>
           </tr>
           <tr>
             <td>-30</td>
             <td><%= @subscriptions.where("users.ranking = '-30'").count %></td>
-            <td><% if @tournament.moinstrente %>
-                <input type="checkbox" name="my-checkbox" class="checkbox-ranking" id="bite" data-size='small' checked>
-              <% else %>
-                 <input type="checkbox" name="my-checkbox" class="checkbox-ranking" id="bite" data-size='small' >
-              <% end -%>
+            <td>
+              <%= simple_form_for @tournament, url: updaterankings_path(@tournament), :method => 'post', :remote => true do |f| %>
+                <%= f.input :moinstrente, name: "my-checkbox", id: "input" %>
+                <%= f.button :submit, class: "hidden" %>
+              <% end %>
             </td>
           </tr>
 
@@ -275,23 +280,9 @@
       });
     $(document).ready(function(){
 
-       $('input[name="my-checkbox"]').on('switchChange.bootstrapSwitch', function(event, state) {
-          var array = $(".bootstrap-switch-on")
-          rankings = [];
-          for (i=0;i<array.length;i++) {
-            var ranking = $(array[i]).parent().parent().children().first().html();
-            rankings.push(ranking);
-          }
-
-
-          console.log(rankings);
-          $.ajax({url: "<%=datatreat_path(params[:tournament_id])%>",
-                  dataType: "script",
-                  data: {rankings: rankings, "_method":"post"},
-                  type: "POST"
-
-                })
-        });
+      $("input:checkbox.boolean").on('click', function(event){
+        $(this).parent().parent().parent().parent().submit();
+      });
     });
 
      </script>

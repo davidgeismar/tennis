@@ -117,7 +117,13 @@ class SubscriptionsController < ApplicationController
     @subscription = Subscription.new(tournament_id: params[:tournament_id])
     @tournament = @subscription.tournament
       authorize @subscription
-    if current_user.ranking == "NC" && @subscription.tournament.NC == false
+
+    if @subscription.tournament.total == false
+      flash[:notice] = "Ce tournoi n'accepte plus d'inscrits à votre classement"
+      redirect_to tournament_path(@tournament)
+    elsif current_user.ranking == "NC" && @subscription.tournament.NC == false
+      flash[:notice] = "Ce tournoi n'accepte plus d'inscrits à votre classement"
+      redirect_to tournament_path(@tournament)
     elsif current_user.ranking == "40" && @subscription.tournament.quarante == false
       flash[:notice] = "Ce tournoi n'accepte plus d'inscrits à votre classement"
       redirect_to tournament_path(@tournament)
