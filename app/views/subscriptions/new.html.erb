@@ -37,7 +37,7 @@
          <div id="scrollable-content">
 
 
-          Les présentes conditions de vente sont conclues d'une part par la société TennisMatch, SAS au capital de X euros dont le siège social est situé à (adresse), immatriculée au registre du commerce et des sociétés de (précisez la ville) sous le numéro (numéro d’immatriculation au RCS) ci-après dénommée « X » et d'autre part, par toute personne physique ou morale souhaitant procéder à un achat via le site Internet de « X » dénommée ci-après « le Client  ». <br>
+          Les présentes conditions de vente sont conclues d'une part par la société WeTennis, SAS au capital de X euros dont le siège social est situé à (adresse), immatriculée au registre du commerce et des sociétés de (précisez la ville) sous le numéro (numéro d’immatriculation au RCS) ci-après dénommée « X » et d'autre part, par toute personne physique ou morale souhaitant procéder à un achat via le site Internet de « X » dénommée ci-après « le Client  ». <br>
 
           <strong>1. Objet du contrat</strong><br>
 
@@ -180,7 +180,7 @@
               // Set MangoPay API base URL and Client ID
 
                   mangoPay.cardRegistration.baseURL = "<%= ENV['MANGOPAY_PRODUCTION'] == 'true' ? 'https://api.mangopay.com' : 'https://api.sandbox.mangopay.com' %>";
-                  mangoPay.cardRegistration.clientId = "<%= ENV['MANGOPAY_PRODUCTION'] == 'true' ? 'tennismatch' : 'davidgeismar' %>";
+                  mangoPay.cardRegistration.clientId = "<%= ENV['MANGOPAY_PRODUCTION'] == 'true' ? 'WeTennis' : 'davidgeismar' %>";
 
                // Initialize the CardRegistration Kit
                   mangoPay.cardRegistration.init(cardRegisterData);
@@ -221,7 +221,7 @@
 
         else
           {
-            $('#error-cgv').append('<p> <strong> Acceptez les CGV de TennisMatch pour procéder au paiement </strong></p>');
+            $('#error-cgv').append('<p> <strong> Acceptez les CGV de WeTennis pour procéder au paiement </strong></p>');
           }
     }
 

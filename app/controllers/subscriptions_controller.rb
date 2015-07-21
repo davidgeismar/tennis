@@ -290,7 +290,7 @@ class SubscriptionsController < ApplicationController
         },
         'DebitedWalletId' => @subscription.user.wallet_id,
         'BankAccountId' => @subscription.tournament.user.bank_account_id,
-        'BankWireRef' => "Virement TennisMatch"
+        'BankWireRef' => "Virement WeTennis"
       }
     end
 
