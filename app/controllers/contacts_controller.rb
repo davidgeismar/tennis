@@ -8,7 +8,7 @@ class ContactsController < ApplicationController
     @contact = Contact.new(contact_params)
     if @contact.save
       redirect_to root_path
-      flash[:alert] = "Votre message a bien été envoyé à l'équipe TennisMatch, nous vous contacterons dans les plus brefs délais !"
+      flash[:alert] = "Votre message a bien été envoyé à l'équipe WeTennis, nous vous contacterons dans les plus brefs délais !"
 
 
         me = Trello::Member.find("david_geismar")

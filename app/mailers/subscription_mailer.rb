@@ -1,5 +1,5 @@
 class SubscriptionMailer < ApplicationMailer
-  default from: 'contactl@tennismatch.com'
+  default from: 'contactl@WeTennis.com'
 
   # Subject can be set in your I18n file at config/locales/en.yml
   # with the following lookup:

@@ -70,10 +70,6 @@ class User < ActiveRecord::Base
     user
  end
 
-  # def initialize
-  #   @errors = ActiveModel::Errors.new(self)
-  # end
-
 
   def age
     now = Time.now.utc.to_date

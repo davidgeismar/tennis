@@ -221,13 +221,12 @@ class AeiExportsController < ApplicationController
 
         end
 
-
          stats = {
             success: [],
             failure: []
           }
         subscription_array.each do |subscription|
-          if array_subscribed_players.include?(subscription.user.full_name_inversed.downcase.strip)
+          if array_subscribed_players.include?(subscription.user.full_name_inversed.downcase.strip) || array_subscribed_players.include?(subscription.user.full_name.downcase.strip)
             stats[:success] << subscription
 
           else

@@ -110,11 +110,91 @@ class SubscriptionsController < ApplicationController
 
   def new
 
-    # if rankings.include? current_user.ranking
-      #  flash[:alert]
-    #else
+    # if @rankings.include? current_user.ranking
+    #    flash[:alert] = "plus de places dispos à ce classement "
+    #    redirect_to root_path
+    # else
     @subscription = Subscription.new(tournament_id: params[:tournament_id])
-    authorize @subscription
+    @tournament = @subscription.tournament
+      authorize @subscription
+
+    if @subscription.tournament.total == false
+      flash[:notice] = "Ce tournoi n'accepte plus d'inscrits à votre classement"
+      redirect_to tournament_path(@tournament)
+    elsif current_user.ranking == "NC" && @subscription.tournament.NC == false
+      flash[:notice] = "Ce tournoi n'accepte plus d'inscrits à votre classement"
+      redirect_to tournament_path(@tournament)
+    elsif current_user.ranking == "40" && @subscription.tournament.quarante == false
+      flash[:notice] = "Ce tournoi n'accepte plus d'inscrits à votre classement"
+      redirect_to tournament_path(@tournament)
+    elsif current_user.ranking == "30/5" && @subscription.tournament.trentecinq == false
+      flash[:notice] = "Ce tournoi n'accepte plus d'inscrits à votre classement"
+      redirect_to tournament_path(@tournament)
+    elsif current_user.ranking == "30/4" && @subscription.tournament.trentequatre == false
+      flash[:notice] = "Ce tournoi n'accepte plus d'inscrits à votre classement"
+      redirect_to tournament_path(@tournament)
+    elsif current_user.ranking == "30/3" && @subscription.tournament.trentetrois == false
+      flash[:notice] = "Ce tournoi n'accepte plus d'inscrits à votre classement"
+      redirect_to tournament_path(@tournament)
+    elsif current_user.ranking == "30/2" && @subscription.tournament.trentedeux == false
+      flash[:notice] = "Ce tournoi n'accepte plus d'inscrits à votre classement"
+      redirect_to tournament_path(@tournament)
+    elsif current_user.ranking == "30/1" && @subscription.tournament.trenteun == false
+      flash[:notice] = "Ce tournoi n'accepte plus d'inscrits à votre classement"
+      redirect_to tournament_path(@tournament)
+    elsif current_user.ranking == "30" && @subscription.tournament.trente == false
+      flash[:notice] = "Ce tournoi n'accepte plus d'inscrits à votre classement"
+      redirect_to tournament_path(@tournament)
+    elsif current_user.ranking == "15/5" && @subscription.tournament.quinzecinq == false
+      flash[:notice] = "Ce tournoi n'accepte plus d'inscrits à votre classement"
+      redirect_to tournament_path(@tournament)
+    elsif current_user.ranking == "15/4" && @subscription.tournament.quinzequatre == false
+      flash[:notice] = "Ce tournoi n'accepte plus d'inscrits à votre classement"
+      redirect_to tournament_path(@tournament)
+    elsif current_user.ranking == "15/3" && @subscription.tournament.quinzetrois == false
+      flash[:notice] = "Ce tournoi n'accepte plus d'inscrits à votre classement"
+      redirect_to tournament_path(@tournament)
+    elsif current_user.ranking == "15/2" && @subscription.tournament.quinzedeux == false
+      flash[:notice] = "Ce tournoi n'accepte plus d'inscrits à votre classement"
+          redirect_to tournament_path(@tournament)
+    elsif current_user.ranking == "15/1" && @subscription.tournament.quinzeun == false
+      flash[:notice] = "Ce tournoi n'accepte plus d'inscrits à votre classement"
+          redirect_to tournament_path(@tournament)
+    elsif current_user.ranking == "15" && @subscription.tournament.quinze == false
+      flash[:notice] = "Ce tournoi n'accepte plus d'inscrits à votre classement"
+          redirect_to tournament_path(@tournament)
+    elsif current_user.ranking == "5/6" && @subscription.tournament.cinqsix == false
+      flash[:notice] = "Ce tournoi n'accepte plus d'inscrits à votre classement"
+          redirect_to tournament_path(@tournament)
+    elsif current_user.ranking == "4/6" && @subscription.tournament.quatresix == false
+      flash[:notice] = "Ce tournoi n'accepte plus d'inscrits à votre classement"
+          redirect_to tournament_path(@tournament)
+    elsif current_user.ranking == "3/6" && @subscription.tournament.troissix == false
+      flash[:notice] = "Ce tournoi n'accepte plus d'inscrits à votre classement"
+          redirect_to tournament_path(@tournament)
+    elsif current_user.ranking == "2/6" && @subscription.tournament.deuxsix == false
+      flash[:notice] = "Ce tournoi n'accepte plus d'inscrits à votre classement"
+          redirect_to tournament_path(@tournament)
+    elsif current_user.ranking == "1/6" && @subscription.tournament.unsix == false
+      flash[:notice] = "Ce tournoi n'accepte plus d'inscrits à votre classement"
+          redirect_to tournament_path(@tournament)
+    elsif current_user.ranking == "0" && @subscription.tournament.zero == false
+      flash[:notice] = "Ce tournoi n'accepte plus d'inscrits à votre classement"
+          redirect_to tournament_path(@tournament)
+    elsif current_user.ranking == "-2/6" && @subscription.tournament.moinsdeuxsix == false
+      flash[:notice] = "Ce tournoi n'accepte plus d'inscrits à votre classement"
+          redirect_to tournament_path(@tournament)
+    elsif current_user.ranking == "-4/6" && @subscription.tournament.moinsquatresix == false
+      flash[:notice] = "Ce tournoi n'accepte plus d'inscrits à votre classement"
+          redirect_to tournament_path(@tournament)
+    elsif current_user.ranking == "-15" && @subscription.tournament.moinsquize == false
+      flash[:notice] = "Ce tournoi n'accepte plus d'inscrits à votre classement"
+          redirect_to tournament_path(@tournament)
+    elsif current_user.ranking == "-30" && @subscription.tournament.moinstrente == false
+      flash[:notice] = "Ce tournoi n'accepte plus d'inscrits à votre classement"
+      redirect_to tournament_path(@tournament)
+    else
+    end
   end
 
   def show
@@ -210,7 +290,7 @@ class SubscriptionsController < ApplicationController
         },
         'DebitedWalletId' => @subscription.user.wallet_id,
         'BankAccountId' => @subscription.tournament.user.bank_account_id,
-        'BankWireRef' => "Virement TennisMatch"
+        'BankWireRef' => "Virement WeTennis"
       }
     end
 
