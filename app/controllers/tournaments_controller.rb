@@ -1,6 +1,6 @@
  class TournamentsController < ApplicationController
   before_filter :set_tournament, only: [:update, :edit, :show, :registrate_card]
-  # skip_after_action :verify_authorized, only: [:datatreat]
+  # skip_after_action :verify_authorized, only: [:new]
 
   def index
     @tournaments = policy_scope(Tournament)
@@ -19,20 +19,21 @@
 
   def new #Iam creating mangopay wallet and user here
 
+     @tournament = Tournament.new
+      authorize @tournament
+
     if current_user.first_name.blank? || current_user.last_name.blank? || current_user.licence_number.blank? || current_user.telephone.blank? || current_user.birthdate.blank? || current_user.iban.blank? || current_user.bic.blank? || current_user.address.blank?
-       flash[:alert] = "Vous devez d'abord remplir <%= view_context.link_to 'votre profil', user_path(current_user) %> entièrement pour pouvoir ajouter votre tournoi"
-      redirect_to 'judge_connected'
+       flash[:alert] = "Vous devez d'abord remplir" + "<a href=#{user_path(current_user)} class='profil_link'>" + "votre profil" + "</a>"  + "entièrement pour pouvoir ajouter votre tournoi"
+      redirect_to root_path
 
     elsif current_user.accepted.blank?
 
-      flash[:alert] = "Votre compte Juge Arbitre doit d'abord avoir été accepté par l'équipe WeTennis avant de pouvoir ajouter un tournoi. Assurez vous d'avoir bien rempli intégralement<%= view_context.link_to 'votre profil', user_path(current_user) %> afin d'avoir une réponse rapide."
-      redirect_to 'judge_connected'
+      flash[:alert] = "Votre compte Juge Arbitre doit d'abord avoir été accepté par l'équipe WeTennis avant de pouvoir ajouter un tournoi. Assurez vous d'avoir bien rempli intégralement" + "<a href=#{user_path(current_user)} class='profil_link'>" + "votre profil" + "</a>" + "afin d'avoir une réponse rapide."
+      redirect_to root_path
     else
       create_mangopay_natural_user_and_wallet
       create_mangopay_bank_account
 
-      @tournament = Tournament.new
-      authorize @tournament
     end
   end
 
@@ -68,7 +69,7 @@
     render nothing: true
   end
 
-  def registrate_card #creating mangopay user and wallet for payer
+  def registrate_card #creating mangopay user and wallet for payer #checking category here
     authorize @tournament
     arrayminor = ['9 ans', '9-10ans', '10 ans', '11 ans', '11-12 ans', '12 ans', '13-14 ans', '15-16 ans', '17-18 ans']
     arrayinf18 = ['9 ans', '9-10ans', '10 ans', '11 ans', '11-12 ans', '12 ans', '13-14 ans', '15-16 ans']
@@ -105,56 +106,137 @@
       flash[:alert] = "Ce tournoi n'est pas mixte. Vous ne pouvez pas vous inscrire."
       redirect_to tournament_path(@tournament)
 
-    elsif arrayminor.include? "#{@tournament.category}" && current_user.age > 18
-
-      flash[:alert] = "Vous ne pouvez pas vous inscrire dans ces catégories"
+    elsif @tournament.category == "11 ans" && current_user.birthdate.year < 2004
+      flash[:notice] = "Vous n'avez pas l'age requis pour participer à ce tournoi"
       redirect_to tournament_path(@tournament)
 
-    elsif arrayinf18.include? "#{@tournament.category}" && 16<current_user.age
-      flash[:alert] = "Vous ne pouvez pas vous inscrire dans ces catégories"
+    elsif @tournament.category == "12 ans" && current_user.birthdate.year < 2003
+      flash[:notice] = "Vous n'avez pas l'age requis pour participer à ce tournoi"
       redirect_to tournament_path(@tournament)
 
-    elsif arrayinf16.include? "#{@tournament.category}" && 14<current_user.age
-      flash[:alert] = "Vous ne pouvez pas vous inscrire dans ces catégories"
+    elsif @tournament.category == "13 ans" && current_user.birthdate.year < 2002
+      flash[:notice] = "Vous n'avez pas l'age requis pour participer à ce tournoi"
       redirect_to tournament_path(@tournament)
 
-    elsif arrayinf14.include? "#{@tournament.category}" && 12<current_user.age
-      flash[:alert] = "Vous ne pouvez pas vous inscrire dans ces catégories"
+    elsif @tournament.category == "14 ans" && current_user.birthdate.year < 2001
+      flash[:notice] = "Vous n'avez pas l'age requis pour participer à ce tournoi"
       redirect_to tournament_path(@tournament)
 
-    elsif arrayinf12.include? "#{@tournament.category}" && 11<current_user.age
-      flash[:alert] = "Vous ne pouvez pas vous inscrire dans ces catégories"
+    elsif @tournament.category == "13-14 ans" && current_user.birthdate.year < 2001
+      flash[:notice] = "Vous n'avez pas l'age requis pour participer à ce tournoi"
       redirect_to tournament_path(@tournament)
-    elsif arrayinf11.include? "#{@tournament.category}" && 10<current_user.age
-      flash[:alert] = "Vous ne pouvez pas vous inscrire dans ces catégories"
+
+    elsif @tournament.category == "15 ans" && current_user.birthdate.year < 2000
+      flash[:notice] = "Vous n'avez pas l'age requis pour participer à ce tournoi"
       redirect_to tournament_path(@tournament)
-    elsif @tournament.category == '9 ans' && 9<current_user.age
-      flash[:alert] = "Vous ne pouvez pas vous inscrire dans ces catégories"
+
+    elsif @tournament.category == "16 ans" && current_user.birthdate.year < 1999
+      flash[:notice] = "Vous n'avez pas l'age requis pour participer à ce tournoi"
       redirect_to tournament_path(@tournament)
-    elsif @tournament.category == '35 ans' && current_user.age < 35
-      flash[:alert] = "Vous ne pouvez pas vous inscrire dans ces catégories"
+
+    elsif @tournament.category == "15-16 ans" && current_user.birthdate.year < 1999
+      flash[:notice] = "Vous n'avez pas l'age requis pour participer à ce tournoi"
       redirect_to tournament_path(@tournament)
-    elsif @tournament.category == '40 ans' && current_user.age < 40
-      flash[:alert] = "Vous ne pouvez pas vous inscrire dans ces catégories"
+
+    elsif @tournament.category == "17 ans" && current_user.birthdate.year < 1998
+      flash[:notice] = "Vous n'avez pas l'age requis pour participer à ce tournoi"
       redirect_to tournament_path(@tournament)
-    elsif @tournament.category == '50 ans' && current_user.age < 50
-      flash[:alert] = "Vous ne pouvez pas vous inscrire dans ces catégories"
+
+    elsif @tournament.category == "18 ans" && current_user.birthdate.year < 1997
+      flash[:notice] = "Vous n'avez pas l'age requis pour participer à ce tournoi"
       redirect_to tournament_path(@tournament)
-    elsif @tournament.category == '55 ans' && current_user.age < 55
-      flash[:alert] = "Vous ne pouvez pas vous inscrire dans ces catégories"
+
+    elsif @tournament.category == "17-18 ans" && current_user.birthdate.year < 1997
+      flash[:notice] = "Vous n'avez pas l'age requis pour participer à ce tournoi"
       redirect_to tournament_path(@tournament)
-    elsif @tournament.category == '60 ans' && current_user.age < 60
-      flash[:alert] = "Vous ne pouvez pas vous inscrire dans ces catégories"
+
+    elsif @tournament.category == "35 ans" && current_user.birthdate.year > 1980
+      flash[:notice] = "Vous n'avez pas l'age requis pour participer à ce tournoi"
       redirect_to tournament_path(@tournament)
-    elsif @tournament.category == '70 ans' && current_user.age < 70
-      flash[:alert] = "Vous ne pouvez pas vous inscrire dans ces catégories"
+
+    elsif @tournament.category == "40 ans" && current_user.birthdate.year > 1975
+      flash[:notice] = "Vous n'avez pas l'age requis pour participer à ce tournoi"
       redirect_to tournament_path(@tournament)
-    elsif @tournament.category == '75 ans' && current_user.age < 75
-      flash[:alert] = "Vous ne pouvez pas vous inscrire dans ces catégories"
+
+    elsif @tournament.category == "45 ans" && current_user.birthdate.year > 1970
+      flash[:notice] = "Vous n'avez pas l'age requis pour participer à ce tournoi"
       redirect_to tournament_path(@tournament)
-    elsif @tournament.category == '80 ans' && current_user.age < 80
-      flash[:alert] = "Vous ne pouvez pas vous inscrire dans ces catégories"
+
+    elsif @tournament.category == "50 ans" && current_user.birthdate.year > 1965
+      flash[:notice] = "Vous n'avez pas l'age requis pour participer à ce tournoi"
       redirect_to tournament_path(@tournament)
+
+    elsif @tournament.category == "55 ans" && current_user.birthdate.year > 1960
+      flash[:notice] = "Vous n'avez pas l'age requis pour participer à ce tournoi"
+      redirect_to tournament_path(@tournament)
+
+    elsif @tournament.category == "60 ans" && current_user.birthdate.year > 1955
+      flash[:notice] = "Vous n'avez pas l'age requis pour participer à ce tournoi"
+      redirect_to tournament_path(@tournament)
+
+    elsif @tournament.category == "65 ans" && current_user.birthdate.year > 1950
+      flash[:notice] = "Vous n'avez pas l'age requis pour participer à ce tournoi"
+      redirect_to tournament_path(@tournament)
+
+    elsif @tournament.category == "70 ans" && current_user.birthdate.year > 1945
+      flash[:notice] = "Vous n'avez pas l'age requis pour participer à ce tournoi"
+      redirect_to tournament_path(@tournament)
+
+    elsif @tournament.category == "75 ans" && current_user.birthdate.year > 1940
+      flash[:notice] = "Vous n'avez pas l'age requis pour participer à ce tournoi"
+      redirect_to tournament_path(@tournament)
+
+
+    # elsif arrayminor.include? "#{@tournament.category}" && current_user.age > 18
+
+    #   flash[:alert] = "Vous ne pouvez pas vous inscrire dans ces catégories"
+    #   redirect_to tournament_path(@tournament)
+
+    # elsif arrayinf18.include? "#{@tournament.category}" && 16<current_user.age
+    #   flash[:alert] = "Vous ne pouvez pas vous inscrire dans ces catégories"
+    #   redirect_to tournament_path(@tournament)
+
+    # elsif arrayinf16.include? "#{@tournament.category}" && 14<current_user.age
+    #   flash[:alert] = "Vous ne pouvez pas vous inscrire dans ces catégories"
+    #   redirect_to tournament_path(@tournament)
+
+    # elsif arrayinf14.include? "#{@tournament.category}" && 12<current_user.age
+    #   flash[:alert] = "Vous ne pouvez pas vous inscrire dans ces catégories"
+    #   redirect_to tournament_path(@tournament)
+
+    # elsif arrayinf12.include? "#{@tournament.category}" && 11<current_user.age
+    #   flash[:alert] = "Vous ne pouvez pas vous inscrire dans ces catégories"
+    #   redirect_to tournament_path(@tournament)
+    # elsif arrayinf11.include? "#{@tournament.category}" && 10<current_user.age
+    #   flash[:alert] = "Vous ne pouvez pas vous inscrire dans ces catégories"
+    #   redirect_to tournament_path(@tournament)
+    # elsif @tournament.category == '9 ans' && 9<current_user.age
+    #   flash[:alert] = "Vous ne pouvez pas vous inscrire dans ces catégories"
+    #   redirect_to tournament_path(@tournament)
+    # elsif @tournament.category == '35 ans' && current_user.age < 35
+    #   flash[:alert] = "Vous ne pouvez pas vous inscrire dans ces catégories"
+    #   redirect_to tournament_path(@tournament)
+    # elsif @tournament.category == '40 ans' && current_user.age < 40
+    #   flash[:alert] = "Vous ne pouvez pas vous inscrire dans ces catégories"
+    #   redirect_to tournament_path(@tournament)
+    # elsif @tournament.category == '50 ans' && current_user.age < 50
+    #   flash[:alert] = "Vous ne pouvez pas vous inscrire dans ces catégories"
+    #   redirect_to tournament_path(@tournament)
+    # elsif @tournament.category == '55 ans' && current_user.age < 55
+    #   flash[:alert] = "Vous ne pouvez pas vous inscrire dans ces catégories"
+    #   redirect_to tournament_path(@tournament)
+    # elsif @tournament.category == '60 ans' && current_user.age < 60
+    #   flash[:alert] = "Vous ne pouvez pas vous inscrire dans ces catégories"
+    #   redirect_to tournament_path(@tournament)
+    # elsif @tournament.category == '70 ans' && current_user.age < 70
+    #   flash[:alert] = "Vous ne pouvez pas vous inscrire dans ces catégories"
+    #   redirect_to tournament_path(@tournament)
+    # elsif @tournament.category == '75 ans' && current_user.age < 75
+    #   flash[:alert] = "Vous ne pouvez pas vous inscrire dans ces catégories"
+    #   redirect_to tournament_path(@tournament)
+    # elsif @tournament.category == '80 ans' && current_user.age < 80
+    #   flash[:alert] = "Vous ne pouvez pas vous inscrire dans ces catégories"
+    #   redirect_to tournament_path(@tournament)
 
 
     elsif current_user.mangopay_natural_user_id.blank?

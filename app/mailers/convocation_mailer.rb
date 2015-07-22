@@ -1,5 +1,5 @@
 class ConvocationMailer < ApplicationMailer
-  default from: 'convocation@tennis-match.com'
+  default from: 'convocations@wetennis.fr'
   # Subject can be set in your I18n file at config/locales/en.yml
   # with the following lookup:
   #

@@ -1,5 +1,5 @@
 class TournamentMailer < ApplicationMailer
-  default from: 'contact@WeTennis.com'
+  default from: 'contact@wetennis.fr'
 
   # Subject can be set in your I18n file at config/locales/en.yml
   # with the following lookup:

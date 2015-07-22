@@ -108,15 +108,97 @@ class SubscriptionsController < ApplicationController
     end
   end
 
-  def new
+  def new #gérer tous les ages catégories d'inscription
 
-    # if @rankings.include? current_user.ranking
-    #    flash[:alert] = "plus de places dispos à ce classement "
-    #    redirect_to root_path
-    # else
+
     @subscription = Subscription.new(tournament_id: params[:tournament_id])
     @tournament = @subscription.tournament
       authorize @subscription
+
+# le 30 septembre il faut faire year.now - age
+
+    # if @tournament.category == "11 ans" && current_user.birthdate.year < 2004
+    #   flash[:notice] = "Vous n'avez pas l'age requis pour participer à ce tournoi"
+    #   redirect_to tournament_path(@tournament)
+    #   raise
+    # elsif @tournament.category == "12 ans" && current_user.birthdate.year < 2003
+    #   flash[:notice] = "Vous n'avez pas l'age requis pour participer à ce tournoi"
+    #   redirect_to tournament_path(@tournament)
+    #   raise
+    # elsif @tournament.category == "13 ans" && current_user.birthdate.year < 2002
+    #   flash[:notice] = "Vous n'avez pas l'age requis pour participer à ce tournoi"
+    #   redirect_to tournament_path(@tournament)
+    #   raise
+    # elsif @tournament.category == "14 ans" && current_user.birthdate.year < 2001
+    #   flash[:notice] = "Vous n'avez pas l'age requis pour participer à ce tournoi"
+    #   redirect_to tournament_path(@tournament)
+    #   raise
+    # elsif @tournament.category == "13-14 ans" && current_user.birthdate.year < 2001
+    #   flash[:notice] = "Vous n'avez pas l'age requis pour participer à ce tournoi"
+    #   redirect_to tournament_path(@tournament)
+    #   raise
+    # elsif @tournament.category == "15 ans" && current_user.birthdate.year < 2000
+    #   flash[:notice] = "Vous n'avez pas l'age requis pour participer à ce tournoi"
+    #   redirect_to tournament_path(@tournament)
+    #   raise
+    # elsif @tournament.category == "16 ans" && current_user.birthdate.year < 1999
+    #   flash[:notice] = "Vous n'avez pas l'age requis pour participer à ce tournoi"
+    #   redirect_to tournament_path(@tournament)
+    #   raise
+    # elsif @tournament.category == "15-16 ans" && current_user.birthdate.year < 1999
+    #   flash[:notice] = "Vous n'avez pas l'age requis pour participer à ce tournoi"
+    #   redirect_to tournament_path(@tournament)
+    #   raise
+    # elsif @tournament.category == "17 ans" && current_user.birthdate.year < 1998
+    #   flash[:notice] = "Vous n'avez pas l'age requis pour participer à ce tournoi"
+    #   redirect_to tournament_path(@tournament)
+    #   raise
+    # elsif @tournament.category == "18 ans" && current_user.birthdate.year < 1997
+    #   flash[:notice] = "Vous n'avez pas l'age requis pour participer à ce tournoi"
+    #   redirect_to tournament_path(@tournament)
+    #   raise
+    # elsif @tournament.category == "17-18 ans" && current_user.birthdate.year < 1997
+    #   flash[:notice] = "Vous n'avez pas l'age requis pour participer à ce tournoi"
+    #   redirect_to tournament_path(@tournament)
+    #   raise
+    # elsif @tournament.category == "35 ans" && current_user.birthdate.year > 1980
+    #   flash[:notice] = "Vous n'avez pas l'age requis pour participer à ce tournoi"
+    #   redirect_to tournament_path(@tournament)
+    #   raise
+    # elsif @tournament.category == "40 ans" && current_user.birthdate.year > 1975
+    #   flash[:notice] = "Vous n'avez pas l'age requis pour participer à ce tournoi"
+    #   redirect_to tournament_path(@tournament)
+    #   raise
+    # elsif @tournament.category == "45 ans" && current_user.birthdate.year > 1970
+    #   flash[:notice] = "Vous n'avez pas l'age requis pour participer à ce tournoi"
+    #   redirect_to tournament_path(@tournament)
+    #   raise
+    # elsif @tournament.category == "50 ans" && current_user.birthdate.year > 1965
+    #   flash[:notice] = "Vous n'avez pas l'age requis pour participer à ce tournoi"
+    #   redirect_to tournament_path(@tournament)
+    #   raise
+    # elsif @tournament.category == "55 ans" && current_user.birthdate.year > 1960
+    #   flash[:notice] = "Vous n'avez pas l'age requis pour participer à ce tournoi"
+    #   redirect_to tournament_path(@tournament)
+    #   raise
+    # elsif @tournament.category == "60 ans" && current_user.birthdate.year > 1955
+    #   flash[:notice] = "Vous n'avez pas l'age requis pour participer à ce tournoi"
+    #   redirect_to tournament_path(@tournament)
+    #   raise
+    # elsif @tournament.category == "65 ans" && current_user.birthdate.year > 1950
+    #   flash[:notice] = "Vous n'avez pas l'age requis pour participer à ce tournoi"
+    #   redirect_to tournament_path(@tournament)
+    #   raise
+    # elsif @tournament.category == "70 ans" && current_user.birthdate.year > 1945
+    #   flash[:notice] = "Vous n'avez pas l'age requis pour participer à ce tournoi"
+    #   redirect_to tournament_path(@tournament)
+    #   raise
+    # elsif @tournament.category == "75 ans" && current_user.birthdate.year > 1940
+    #   flash[:notice] = "Vous n'avez pas l'age requis pour participer à ce tournoi"
+    #   redirect_to tournament_path(@tournament)
+    #   raise
+    # else
+    # end
 
     if @subscription.tournament.total == false
       flash[:notice] = "Ce tournoi n'accepte plus d'inscrits à votre classement"

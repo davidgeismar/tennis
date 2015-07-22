@@ -14,7 +14,7 @@ class Tournament < ActiveRecord::Base
 
   extend Enumerize
   enumerize :genre, in: [:male, :female]
-  enumerize :category, in: ['seniors', '35 ans', '40 ans', '45 ans', '50 ans', '55 ans', '60 ans', '70 ans', '75 ans', '80 ans', '8 ans', '9 ans', '10 ans', '11 ans', '11-12 ans', '12 ans', '13 ans', '14 ans', '13-14 ans', '15 ans', '15-16 ans', '16 ans', '17 ans', '17-18 ans']
+  enumerize :category, in: ['8 ans', '9 ans', '10 ans', '11 ans', '12 ans', '13 ans', '14 ans', '13-14 ans', '15 ans', '15-16 ans', '16 ans', '17 ans', '17-18 ans', 'seniors', '35 ans', '40 ans', '45 ans', '50 ans', '55 ans', '60 ans', '70 ans', '75 ans', '80 ans']
   enumerize :min_ranking, in: ['NC', '40', '30/5', '30/4', '30/3', '30/2', '30/1', '30', '15/5', '15/4', '15/3', '15/2', '15/1', '15', '5/6', '4/6', '3/6', '2/6', '1/6', '0', '-2/6', '-4/6', '-15', '-30']
   enumerize :max_ranking, in: ['NC', '40', '30/5', '30/4', '30/3', '30/2', '30/1', '30', '15/5', '15/4', '15/3', '15/2', '15/1', '15', '5/6', '4/6', '3/6', '2/6', '1/6', '0', '-2/6', '-4/6', '-15', '-30']
   enumerize :nature, in: ['Simple']

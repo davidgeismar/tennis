@@ -13,7 +13,7 @@
         <%= f.input :telephone, label: "telephone", placeholder: "Merci de respeter le format suivant: +33602892813"%>
 
         <p><%= f.label :birthdate, 'Date de naissance' %></p>
-        <%= f.date_select :birthdate, {:include_blank => true, :default => nil, :use_month_names => ['Janv.','Fevr.', 'Mars', 'Avr.', 'Mai', 'Juin', 'Juil.', 'Août','Sept.', 'Oct.', 'Nov.', 'Déc.'], :order => [:day, :month, :year], :start_year => 1910, :end_year => 1995} %>
+        <%= f.date_select :birthdate, {:include_blank => true, :default => nil, :use_month_names => ['Janv.','Fevr.', 'Mars', 'Avr.', 'Mai', 'Juin', 'Juil.', 'Août','Sept.', 'Oct.', 'Nov.', 'Déc.'], :order => [:day, :month, :year], :start_year => 1910, :end_year => 2010} %>
         <%= f.input :club, label: "Votre club", placeholder: "TC Trouville" %>
          <%= f.input :genre, label: "Sexe" %>
         <%= f.input :ranking, label: "Classement" %>

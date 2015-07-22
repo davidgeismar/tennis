@@ -1,6 +1,7 @@
 <div class="banner">
   <div class="container padded ">
     <div class="col-md-5 col-md-offset-1 bigmarge">
+       <%= link_to "Retour", tournaments_path, class: "btn btn-default retour_tournament_show" %>
       <div class="panel panel-default">
         <div class="panel-heading">
           <h1><%= @tournament.name.upcase %></h1>

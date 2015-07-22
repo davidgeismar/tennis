@@ -1,14 +1,11 @@
 <div class="banner">
  <div class="container">
   <div class="row">
-
- <div class=" col-xs-offset-1 col-xs-10 bigmarge">
-        <div role="tabpanel" class="marge-bas">
-
-          <ul class="nav nav-tabs" role="tablist">
-            <li role="presentation"><a href="#tournois" aria-controls="tournois" role="tab" data-toggle="tab"><h1>Mes Tournois</h1></a></li>
-          </ul>
-
+   <div class=" col-xs-offset-1 col-xs-10 bigmarge">
+      <div role="tabpanel" class="marge-bas">
+        <ul class="nav nav-tabs" role="tablist">
+          <li role="presentation"><a href="#tournois" aria-controls="tournois" role="tab" data-toggle="tab"><h1>Mes Tournois</h1></a></li>
+        </ul>
         <div role="tabpanel" class="tab-pane card" id="tournois_judge">
          <table class="table table-hover">
             <tr>
@@ -35,12 +32,13 @@
                 <% end %>
             <% end %>
           </table>
-          </div>
-          </div>
         </div>
-
-
+      </div>
+   </div>
+   <div class="col-xs-1 bigmarge">
+    <%= link_to " + AJouter un tournoi", new_tournament_path, class: "btn btn-success ajouter_my_tournaments" %>
+   </div>
   </div>
 </div>
-</div>
+
 

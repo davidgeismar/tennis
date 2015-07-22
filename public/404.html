@@ -7,7 +7,8 @@
   <title>The page you were looking for doesn't exist (404)</title>
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <style>
-  body {
+
+ /* body {
     background-color: #EFEFEF;
     color: #2E2F30;
     text-align: center;
@@ -21,6 +22,11 @@
     margin: 4em auto 0;
   }
 
+  .banner {
+       background-image: image-url('background.jpg');
+       background-size: cover;
+       min-height: 700px;
+   }
   div.dialog > div {
     border: 1px solid #CCC;
     border-right-color: #999;
@@ -53,17 +59,23 @@
     border-top-color: #DADADA;
     color: #666;
     box-shadow: 0 3px 8px rgba(50, 50, 50, 0.17);
-  }
+  }*/
   </style>
 </head>
 
 <body>
-    <div class="dialog">
-    <div>
-      <h1>La page que vous recherchez n'existe pas.</h1>
-      <p>vous avez peut etre mal tapé l'addresse ou la page n'est peut etre plus au meme endroit</p>
+  <div class="banner">
+    <div class="container">
+      <div class="row">
+        <div class="dialog">
+          <div>
+            <h1>La page que vous recherchez n'existe pas.</h1>
+              <p>vous avez peut etre mal tapé l'addresse ou la page n'est peut etre plus au meme endroit</p>
+          </div>
+          <p>weTennis vous souhaite une bonne navigation</p>
+        </div>
+      </div>
     </div>
-    <p>weTennis vous souhaite une bonne navigation</p>
   </div>
 </body>
 </html>
