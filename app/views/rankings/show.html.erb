@@ -275,14 +275,25 @@
   <% content_for(:after_js) do %>
      <script type="text/javascript">
      $(document).ready(function(){
-        $('').bootstrapSwitch();
+        $('input:checkbox').bootstrapSwitch();
 
       });
     $(document).ready(function(){
+      $(".bootstrap-switch-wrapper").on("click", function(){
+        if ($(this).hasClass("bootstrap-switch-on"))
+            {
 
-      $("input:checkbox.boolean").on('click', function(event){
-        $(this).parent().parent().parent().parent().submit();
+              var checkbox = $(this).children().children().last().attr('checked', true);
+              checkbox.parent().parent().parent().parent().parent().parent().submit();
+            }
+
+        else {
+               var checkbox = $(this).children().children().last().attr('checked', false);
+               checkbox.parent().parent().parent().parent().parent().parent().submit();
+
+             }
       });
+
     });
 
      </script>

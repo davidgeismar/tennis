@@ -309,7 +309,7 @@
   end
 
   def tournament_params
-    params.require(:tournament).permit(:genre, :category, :amount, :starts_on, :ends_on, :address, :club_organisateur, :name, :city, :lat, :long, :homologation_number, :max_ranking, :min_ranking, :nature, :postcode, :young_fare,:NC, :quarante, :trentecinq, :trentequatre, :trentetrois, :trentedeux, :trenteun, :trente, :quinzecinq, :quinzequatre, :quinzetrois, :quinzedeux, :quinzeun, :quinze, :cinqsix, :quatresix, :troissix, :deuxsix, :unsix, :zero, :moinsdeuxsix, :moinsquatresix, :moinsquinze, :moinstrente )
+    params.require(:tournament).permit(:genre, :category, :amount, :starts_on, :ends_on, :address, :club_organisateur, :name, :city, :lat, :long, :homologation_number, :max_ranking, :min_ranking, :nature, :postcode, :young_fare, :total, :NC, :quarante, :trentecinq, :trentequatre, :trentetrois, :trentedeux, :trenteun, :trente, :quinzecinq, :quinzequatre, :quinzetrois, :quinzedeux, :quinzeun, :quinze, :cinqsix, :quatresix, :troissix, :deuxsix, :unsix, :zero, :moinsdeuxsix, :moinsquatresix, :moinsquinze, :moinstrente )
   end
 
 
