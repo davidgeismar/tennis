@@ -5,10 +5,11 @@
           <div class= "row tournamentcard bigmarge">
             <div class= "col-xs-12">
               <h2><%= link_to tournament.name, tournament_path(tournament)%></h2>
-              <h5><%= tournament.city%></h5>
+              <h5><%= tournament.city.upcase%></h5>
+              <h5><%= tournament.postcode%></h5>
               <h5><%= tournament.address%></h5>
-              <h5><%= tournament.genre%></h5>
-              <h5><%= tournament.category%></h5>
+              <h5><%= tournament.genre.text%></h5>
+              <h5><%= tournament.category.capitalize%></h5>
               <h5><%= tournament.starts_on.strftime("%d/%m/%Y")%> - <%= tournament.ends_on.strftime("%d/%m/%Y")%></h5>
             </div>
           </div>

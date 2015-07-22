@@ -13,6 +13,7 @@
          <table class="table table-hover">
             <tr>
               <th>Compétition</th>
+              <th>Catégorie</th>
               <th>Date de début</th>
               <th>Statut</th>
             </tr>
@@ -20,12 +21,14 @@
                 <%if tournament.accepted?%>
                   <tr class= "text-left">
                    <td><h4><%= link_to tournament.name, user_tournament_path(current_user, tournament), class: "link-neutral" %></h4></td>
+                   <td><h5><%= tournament.category.capitalize %></h5></td>
                    <td><h5><%= tournament.starts_on.strftime("%d/%m/%Y") %></h5></td>
                    <td><h5>Tournoi Validé</h5></td>
                   </tr>
                 <%else%>
                   <tr class= "text-left">
                    <td><h4><%= tournament.name %></h4></td>
+                   <td><h5><%= tournament.category %></h5></td>
                    <td><h5><%= tournament.starts_on.strftime("%d/%m/%Y") %></h5></td>
                    <td><h5><%= "En attente de validation" %></h5></td>
                   </tr>
