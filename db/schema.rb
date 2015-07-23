@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150721092758) do
+ActiveRecord::Schema.define(version: 20150723172437) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -183,6 +183,8 @@ ActiveRecord::Schema.define(version: 20150721092758) do
     t.boolean  "moinstrente",         default: true
     t.boolean  "quarante",            default: true
     t.boolean  "total",               default: true
+    t.string   "iban"
+    t.string   "bic"
   end
 
   add_index "tournaments", ["user_id"], name: "index_tournaments_on_user_id", using: :btree
