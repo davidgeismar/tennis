@@ -42,8 +42,14 @@
                 <td class="first-name"><%= subscription.user.first_name%></td>
                 <td><%= subscription.user.last_name%></td>
                 <td><%= subscription.user.licence_number%></td>
-
-                <%if subscription.status == "pending" %>
+                <!-- si le player a été added manuellement il n'y a pas l'option confirmed mais l'option !confirmed! seulement dans le select -->
+                <%if subscription.status == "pending" && subscription.user.invitation_token?%>
+                  <td>
+                    <%= form_for [@tournament, subscription] do |f| %>
+                      <%= f.select :status, subscription_status_options_player_added_manualy, class: "form-control subscription-status" %>
+                    <%end%>
+                  </td>
+                <%elsif subscription.status == "pending"%>
                   <td>
                     <%= form_for [@tournament, subscription] do |f| %>
                       <%= f.select :status, subscription_status_options, class: "form-control subscription-status" %>

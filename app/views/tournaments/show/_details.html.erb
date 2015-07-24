@@ -16,8 +16,20 @@
             <p>Nature de la compétition: <strong><%= @tournament.nature %></strong></p>
             <p>Catégorie: <strong><%= @tournament.category %></strong></p>
             <p>Frais d'inscription: <strong><%= @tournament.amount %> €</strong></p>
-            <p>IBAN: <strong><% i = @tournament.iban %><%= i[0..2] + "************" %> </strong></p>
-            <p>BIC: <strong><%= @tournament.bic%></strong></p>
+            <p>IBAN: <strong>
+
+              <% if @tournament.iban? %>
+                <% i = @tournament.iban %><%= i[0..2] + "************" %></p>
+              <% else %>
+              <% end -%>
+               </strong>
+            <p>BIC: <strong>
+              <% if @tournament.bic? %>
+                <%= @tournament.bic%>
+              <% else %>
+              <% end -%>
+              </strong>
+              </p>
               <%= link_to "Edit", edit_user_tournament_path(current_user, @tournament), class:'btn btn-warning' %>
                <%= link_to "Gérer ce tournoi", tournament_subscriptions_path(@tournament), class:'btn btn-success' %>
           </div>
