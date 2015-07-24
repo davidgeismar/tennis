@@ -2,7 +2,7 @@
   <div class="container">
     <div class="panel panel-default bigmarge">
       <div class="panel-heading">
-        <h3 class="text-center"> Le statut de votre convocation du <%= @convocation.date.strftime("%d/%m/%Y") %> à <%= @convocation.hour.strftime("%Hh%M") %> est actuellement: <br> <%=@convocation.status_text.upcase%></h3>
+        <h3 class="text-center"> Le statut de votre convocation du <%= @convocation.date.strftime("%d/%m/%Y") %> à <%= @convocation.hour.strftime("%Hh%M") %> pour <%= @convocation.subscription.tournament.name %> est actuellement: <br> <%=@convocation.status_text.upcase%></h3>
       </div>
     </div>
     <div class="row text-center">

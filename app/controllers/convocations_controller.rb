@@ -42,8 +42,10 @@
       @notification.convocation = @convocation
       @notification.content = "#{@convocation.subscription.user.full_name} confirme sa participation le #{@convocation.date.strftime("le %d/%m/%Y")} à #{@convocation.hour.strftime(" à %Hh%M")}"
       @notification.save
+      flash[:notice] = "Le statut de cette convocation est à présent : CONFIRMÉ"
       redirect_to mes_tournois_path
     else
+      flash[:alert] = "Vous venez d'indiquer au juge arbitre que vous abandonnez la compétition"
       redirect_to mes_tournois_path
     end
   end
