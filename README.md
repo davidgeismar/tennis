@@ -7,7 +7,7 @@ versionned by git (for security reasons). If you've just cloned this
 repo, ask a colleague for his `application.yml` file over a secure channel.
 
 
-## Gettings started
+## Getting started
 
     $ git clone
     $ bundle install
