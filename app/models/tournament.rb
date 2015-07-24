@@ -35,8 +35,16 @@ class Tournament < ActiveRecord::Base
   validates :homologation_number, presence: true, format:{
         with: /2015\d{11}/,
         message: "Le format de votre numéro d'homologation doit être du type 201532920076013"
-    }, on: :create
+    }
   validate :start_date_before_end_date
+  validates :iban, format: {
+        with: /\A[a-zA-Z]{2}\d{2}\s*(\w{4}\s*){2,7}\w{1,4}\s*\z/,
+        message: 'Le format de votre IBAN doit être du type FR70 3000 2005 5000 0015 7845 Z02'
+    }
+  validates :bic, format: {
+        with: /([a-zA-Z]{4}[a-zA-Z]{2}[a-zA-Z0-9]{2}([a-zA-Z0-9]{3})?)/,
+        message: 'Le format de votre BIC doit être du type AXABFRPP  '
+    }
 
 
   private
