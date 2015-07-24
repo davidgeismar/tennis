@@ -1,14 +1,21 @@
-<h2><%= t('.resend_confirmation_instructions', :default => 'Resend confirmation instructions') %></h2>
+<div class="banner padded text-center">
+  <div class="container">
+    <div class="row">
+      <div class="col-xs-offset-3 col-xs-6 col-sm-offset-3 col-sm-6 text-center">
 
-<%= form_for(resource, :as => resource_name, :url => confirmation_path(resource_name), :html => { :method => :post }) do |f| %>
-  <%= devise_error_messages! %>
+          <h2 class="confirmation_instruction"><%= t('.resend_confirmation_instructions', :default => 'Resend confirmation instructions') %></h2>
 
-  <div><%= f.label :email %><br />
-  <%= f.email_field :email %></div>
+          <%= form_for(resource, :as => resource_name, :url => confirmation_path(resource_name), :html => { :method => :post }) do |f| %>
+            <%= devise_error_messages! %>
 
-  <div><%= f.submit t('.resend_confirmation_instructions', :default => 'Resend confirmation instructions') %></div>
-<% end %>
+           <div class="form-group">
+              <%= f.label :email %><br />
+              <%= f.email_field :email, class: "form-control" %>
+           </div>
 
-<%= render "devise/shared/links" %>
-
-
+            <div><%= f.submit t('.resend_confirmation_instructions', :default => 'Resend confirmation instructions'), class: "btn-resend"  %></div>
+          <% end %>
+      </div>
+    </div>
+  </div>
+</div>

@@ -55,7 +55,7 @@ fr:
         didnt_receive_unlock_instructions?: "Vous n'avez pas reçu de email de déverrouillage de votre compte ?"
     confirmations:
       new:
-        resend_confirmation_instructions: "Renvoyer le email de confirmation"
+        resend_confirmation_instructions: "Renvoyer l'email de confirmation"
     mailer:
       confirmation_instructions:
         welcome: "Bienvenu(e) sur WeTennis"
