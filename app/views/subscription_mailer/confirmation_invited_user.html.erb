@@ -1,11 +1,7 @@
-<div style="text-align:center"><%= image_tag "logo.png"%></div>
-<div style="text-align:center">
+
 <h1>WeTennis : Vous avez été ajouté au tournoi <%=@subscription.tournament.name%></h1>
 
 <p>Bonjour <%=@subscription.user.name%>,</p>
  <p>Vous avez été ajouté au tournoi <strong><%=@subscription.tournament.name%></strong> du <%=@subscription.tournament.starts_on.strftime("%d/%m/%Y") %> au <%=@subscription.tournament.ends_on.strftime("%d/%m/%Y") %> par <strong><%=@subscription.tournament.user.full_name%>, juge arbitre du tournoi <%=@subscription.tournament.name%></strong> </p>
  <p>Le juge-arbitre doit encore confirmer votre inscription au tournoi.<br> Vous recevrez la confirmation ou le refus par e-mail dans les plus brefs délais.
 </p>
-<p> @ bientôt sur les courts !</p>
-<p>L'équipe WeTennis</p>
-</div>
