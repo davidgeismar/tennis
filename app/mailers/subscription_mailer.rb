@@ -22,6 +22,11 @@ class SubscriptionMailer < ApplicationMailer
     mail to: @subscription.user.email, subject: "Inscription Confirmée"
   end
 
+  def confirmed_warning(subscription)
+    @subscription = subscription
+    mail to: @subscription.user.email, subject: "Inscription Confirmée mais non réglée"
+  end
+
   def refused(subscription)
     @subscription = subscription
     mail to: @subscription.user.email, subject: "Inscription Refusée"

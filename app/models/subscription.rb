@@ -31,6 +31,8 @@ class Subscription < ActiveRecord::Base
       SubscriptionMailer.confirmed(self).deliver
     elsif self.status == "refused" && self.exported == false
       SubscriptionMailer.refused(self).deliver
+    elsif self.status == "confirmed_warning" && self.exported == false
+      SubscriptionMailer.confirmed_warning(self).deliver
     end
   end
 end
