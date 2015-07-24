@@ -281,18 +281,14 @@
       });
     $(document).ready(function(){
       $(".bootstrap-switch-wrapper").on("click", function(){
-        if ($(this).hasClass("bootstrap-switch-on"))
-            {
-
-              var checkbox = $(this).children().children().last().attr('checked', true);
-              checkbox.parent().parent().parent().parent().parent().parent().submit();
-            }
-
+        if ($(this).hasClass("bootstrap-switch-on")) {
+          $(this).children().children().last().attr('checked', true);
+        }
         else {
-               var checkbox = $(this).children().children().last().attr('checked', false);
-               checkbox.parent().parent().parent().parent().parent().parent().submit();
+          $(this).children().children().last().attr('checked', false);
+        }
 
-             }
+        $(this).parents("form:first").submit();
       });
 
     });

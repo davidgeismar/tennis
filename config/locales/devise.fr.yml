@@ -58,7 +58,7 @@ fr:
         resend_confirmation_instructions: "Renvoyer le email de confirmation"
     mailer:
       confirmation_instructions:
-        welcome: "Bienvenu(e)"
+        welcome: "Bienvenu(e) sur WeTennis"
         you_can_confirm_your_account_through_the_link_below: "Vous pouvez confirmer votre compte en cliquant sur le lien ci-dessous"
         confirm_my_account: "Confirmer mon compte"
       reset_password_instructions:

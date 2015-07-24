@@ -1,8 +1,9 @@
-<h1>Bonjour <%= @convocation.subscription.user.name %></h1>
+<div style="text-align:center"><img src="../assets/images/logo.png" alt=""></div>
+<div style="text-align:center">
+<h1>Bonjour <%= @convocation.subscription.user.full_name %></h1>
 
-<p>
-  Vous êtes convoqué au tournoi <%= @convocation.subscription.tournament.name.upcase%> pour le <%= @convocation.date.strftime("%d/%m/%Y") %> à <%= @convocation.hour.strftime("%Hh%M") %>.
-
-  Merci de vous connectez au plus vite sur tennis-match.com afin de répondre à cette convocation. <br>
-  L'équipe WeTennis <br>
-</p>
+<p> Vous êtes convoqué au tournoi <%= @convocation.subscription.tournament.name.upcase%> pour le <%= @convocation.date.strftime("%d/%m/%Y") %> à <%= @convocation.hour.strftime("%Hh%M") %>. </p>
+  <p>
+  Merci de vous connectez au plus vite sur wetennis.fr afin de répondre à cette convocation.</p>
+  <p>L'équipe WeTennis</p>
+</div>

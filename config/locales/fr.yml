@@ -135,6 +135,7 @@ fr:
         cancelled: W.O
     subscription:
       status:
+        confirmed_warning: "!Confirmé!"
         pending: En attente
         confirmed: Confirmé
         refused: Refusé
