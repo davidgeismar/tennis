@@ -5,6 +5,7 @@ class CreateNotifications < ActiveRecord::Migration
       t.string :content
       t.timestamps null: false
     end
-    add_foreign_key :subscriptions, :users
+
+    add_foreign_key :notifications, :users
   end
 end
