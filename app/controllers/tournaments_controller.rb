@@ -1,6 +1,5 @@
  class TournamentsController < ApplicationController
-  before_filter :set_tournament, only: [:update, :edit, :show, :registrate_card]
-  # skip_after_action :verify_authorized, only: [:new]
+  before_action :set_tournament, only: [:update, :edit, :show, :registrate_card]
 
   def index
     @tournaments = policy_scope(Tournament)

@@ -1,5 +1,5 @@
 class AeiExportsController < ApplicationController
-  before_filter :set_tournament
+  before_action :set_tournament
 
   def create
     @subscription_ids = params[:subscription_ids_export].split(',')
