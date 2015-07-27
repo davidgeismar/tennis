@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-# wetennis
-=======
 # WeTennis
->>>>>>> 99842a8f6f68c1c0e7ac7935beb5887a5983bb20
 
 ## Configuration
 
