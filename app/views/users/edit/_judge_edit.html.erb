@@ -18,13 +18,11 @@
           <%= f.input :telephone %>
           <%= f.input :licence_number, label: "Numéro de Licence" %>
           <p><%= f.label :birthdate, 'Date de naissance' %></p>
-        <%= f.date_select :birthdate, {:include_blank => true, :default => nil, :use_month_names => ['Janv.','Fevr.', 'Mars', 'Avr.', 'Mai', 'Juin', 'Juil.', 'Août','Sept.', 'Oct.', 'Nov.', 'Déc.'], :order => [:day, :month, :year], :start_year => 1910, :end_year => 2010} %>
-
-          <%= f.input :iban, label: "Votre Iban", placeholder: "FR70 3000 2005 5000 0015 7845 Z02" %>
-          <%= f.input :bic, label: "Votre bic", placeholder: "AXABFRPP"%>
+          <%= f.date_select :birthdate, {:include_blank => true, :default => nil, :use_month_names => ['Janv.','Fevr.', 'Mars', 'Avr.', 'Mai', 'Juin', 'Juil.', 'Août','Sept.', 'Oct.', 'Nov.', 'Déc.'], :order => [:day, :month, :year], :start_year => 1910, :end_year => 2010} %>
+          <%= f.input :iban, label: "Votre IBAN", placeholder: "FR70 3000 2005 5000 0015 7845 Z02" %>
+          <%= f.input :bic, label: "Votre BIC", placeholder: "AXABFRPP"%>
           <%= f.input :address, label: "Votre addresse" %>
           <%= f.button :submit, "Valider", class: "btn-success" %>
-
         <% end %>
       </div>
     </div>
