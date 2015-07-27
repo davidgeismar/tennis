@@ -1,5 +1,5 @@
 class PlayerInvitationsController < ApplicationController
-  before_filter :set_tournament
+  before_action :set_tournament
 
   def new
   end
