@@ -1,8 +1,51 @@
 class Tournament < ActiveRecord::Base
-  has_many :transfers
+  extend Enumerize
+
+  enumerize :category,    in: ['8 ans', '9 ans', '10 ans', '11 ans', '12 ans', '13 ans', '14 ans', '13-14 ans', '15 ans', '15-16 ans', '16 ans', '17 ans', '17-18 ans', 'seniors', '35 ans', '40 ans', '45 ans', '50 ans', '55 ans', '60 ans', '70 ans', '75 ans', '80 ans']
+  enumerize :genre,       in: [:male, :female]
+  enumerize :max_ranking, in: ['NC', '40', '30/5', '30/4', '30/3', '30/2', '30/1', '30', '15/5', '15/4', '15/3', '15/2', '15/1', '15', '5/6', '4/6', '3/6', '2/6', '1/6', '0', '-2/6', '-4/6', '-15', '-30']
+  enumerize :min_ranking, in: ['NC', '40', '30/5', '30/4', '30/3', '30/2', '30/1', '30', '15/5', '15/4', '15/3', '15/2', '15/1', '15', '5/6', '4/6', '3/6', '2/6', '1/6', '0', '-2/6', '-4/6', '-15', '-30']
+  enumerize :nature,      in: ['Simple']
+
   geocoded_by :address_tour
-  after_validation :geocode, if: :address_tour_changed?
-  after_save :send_email_if_accepted, if: :accepted_changed?
+
+  belongs_to :user
+
+  has_many :notifications, dependent: :destroy
+  has_many :subscriptions, dependent: :destroy
+  has_many :transfers
+
+  validates :postcode,            presence: { message: "Merci d'indiquer un code postal valide" }
+  validates :genre,               presence: { message: "Merci d'indiquer le genre" }
+  validates :category,            presence: { message: "Merci d'indiquer la catégorie" }
+  validates :starts_on,           presence: { message: "Merci d'indiquer la date de début" }
+  validates :ends_on,             presence: { message: "Merci d'indiquer la date de fin" }
+  validates :amount,              presence: { message: "Merci d'indiquer le montant des frais d'inscription" }
+  validates :city,                presence: { message: "Merci d'indiquer la ville où a lieu le tournoi" }
+  validates :address,             presence: { message: "Merci d'indiquer l'addresse des installations" }
+  validates :name,                presence: { message: "Merci d'indiquer le nom de la compétition" }
+  validates :club_organisateur,   presence: { message: "Merci d'indiquer le club organisateur" }
+
+  validates :homologation_number, presence: true, format:{
+      with:     /2015\d{11}/,
+      message:  "Le format de votre numéro d'homologation doit être du type 201532920076013"
+    }
+
+  validates :iban, presence: true, format: {
+      with:     /\A[a-zA-Z]{2}\d{2}\s*(\w{4}\s*){2,7}\w{1,4}\s*\z/,
+      message:  'Le format de votre IBAN doit être du type FR70 3000 2005 5000 0015 7845 Z02'
+    }
+
+  validates :bic, presence: true, format: {
+      with:     /([a-zA-Z]{4}[a-zA-Z]{2}[a-zA-Z0-9]{2}([a-zA-Z0-9]{3})?)/,
+      message:  'Le format de votre BIC doit être du type AXABFRPP  '
+    }
+
+  validate :start_date_before_end_date
+
+  after_validation  :geocode,                 if: :address_tour_changed?
+  after_save        :send_email_if_accepted,  if: :accepted_changed?
+
 
   def address_tour
     "#{address} #{city}"
@@ -12,48 +55,11 @@ class Tournament < ActiveRecord::Base
     address_changed? || city_changed?
   end
 
-  extend Enumerize
-  enumerize :genre, in: [:male, :female]
-  enumerize :category, in: ['8 ans', '9 ans', '10 ans', '11 ans', '12 ans', '13 ans', '14 ans', '13-14 ans', '15 ans', '15-16 ans', '16 ans', '17 ans', '17-18 ans', 'seniors', '35 ans', '40 ans', '45 ans', '50 ans', '55 ans', '60 ans', '70 ans', '75 ans', '80 ans']
-  enumerize :min_ranking, in: ['NC', '40', '30/5', '30/4', '30/3', '30/2', '30/1', '30', '15/5', '15/4', '15/3', '15/2', '15/1', '15', '5/6', '4/6', '3/6', '2/6', '1/6', '0', '-2/6', '-4/6', '-15', '-30']
-  enumerize :max_ranking, in: ['NC', '40', '30/5', '30/4', '30/3', '30/2', '30/1', '30', '15/5', '15/4', '15/3', '15/2', '15/1', '15', '5/6', '4/6', '3/6', '2/6', '1/6', '0', '-2/6', '-4/6', '-15', '-30']
-  enumerize :nature, in: ['Simple']
-  belongs_to :user
-  has_many :notifications, dependent: :destroy
-  has_many :subscriptions, dependent: :destroy
-
-  validates :postcode, presence:  { message: "Merci d'indiquer un code postal valide" }
-  validates :genre, presence:  { message: "Merci d'indiquer le genre" }
-  validates :category, presence: { message: "Merci d'indiquer la catégorie" }
-  validates :starts_on, presence: { message: "Merci d'indiquer la date de début" }
-  validates :ends_on, presence: { message: "Merci d'indiquer la date de fin" }
-  validates :amount, presence: { message: "Merci d'indiquer le montant des frais d'inscription" }
-  validates :city, presence: { message: "Merci d'indiquer la ville où a lieu le tournoi" }
-  validates :address, presence: { message: "Merci d'indiquer l'addresse des installations" }
-  validates :name, presence: { message: "Merci d'indiquer le nom de la compétition" }
-  validates :club_organisateur, presence: { message: "Merci d'indiquer le club organisateur" }
-  validates :homologation_number, presence: true, format:{
-        with: /2015\d{11}/,
-        message: "Le format de votre numéro d'homologation doit être du type 201532920076013"
-    }
-  validate :start_date_before_end_date
-  validates :iban, presence: true, format: {
-        with: /\A[a-zA-Z]{2}\d{2}\s*(\w{4}\s*){2,7}\w{1,4}\s*\z/,
-        message: 'Le format de votre IBAN doit être du type FR70 3000 2005 5000 0015 7845 Z02'
-    }
-  validates :bic, presence: true, format: {
-        with: /([a-zA-Z]{4}[a-zA-Z]{2}[a-zA-Z0-9]{2}([a-zA-Z0-9]{3})?)/,
-        message: 'Le format de votre BIC doit être du type AXABFRPP  '
-    }
-
-
   private
-
 
   def send_email_if_accepted
     if self.accepted
-      @notification = Notification.new(user_id: self.user.id, content: "#{self.name.upcase} a été accepté par l'équipe WeTennis.", tournament_id: self.id)
-      @notification.save
+      notification = Notification.create(user_id: self.user.id, content: "#{self.name.upcase} a été accepté par l'équipe WeTennis.", tournament_id: self.id)
       TournamentMailer.accepted(self).deliver
     end
   end
@@ -64,5 +70,3 @@ class Tournament < ActiveRecord::Base
     end
   end
 end
-
-
