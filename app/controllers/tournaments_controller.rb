@@ -18,22 +18,18 @@
   end
 
   def new #Iam creating mangopay wallet and user here
+    @tournament = Tournament.new
+    authorize @tournament
 
-     @tournament = Tournament.new
-      authorize @tournament
-
-    if current_user.first_name.blank? || current_user.last_name.blank? || current_user.licence_number.blank? || current_user.telephone.blank? || current_user.birthdate.blank? || current_user.iban.blank? || current_user.bic.blank? || current_user.address.blank?
+    if !current_user.profile_complete?
        flash[:alert] = "Vous devez d'abord remplir" + "<a href=#{user_path(current_user)} class='profil_link'>" + "votre profil" + "</a>"  + "entièrement pour pouvoir ajouter votre tournoi"
       redirect_to root_path
-
-    elsif current_user.accepted.blank?
-
+    elsif !current_user.accepted
       flash[:alert] = "Votre compte Juge Arbitre doit d'abord avoir été accepté par l'équipe WeTennis avant de pouvoir ajouter un tournoi. Assurez vous d'avoir bien rempli intégralement" + "<a href=#{user_path(current_user)} class='profil_link'>" + "votre profil" + "</a>" + "afin d'avoir une réponse rapide."
       redirect_to root_path
     else
       create_mangopay_natural_user_and_wallet
       create_mangopay_bank_account
-
     end
   end
 
@@ -79,14 +75,11 @@
     arrayinf11 = ['9 ans', '9-10ans', '10 ans']
     ranking_array = ['NC', '40', '30/5', '30/4', '30/3', '30/2', '30/1', '30', '15/5', '15/4', '15/3', '15/2', '15/1', '15', '5/6', '4/6', '3/6', '2/6', '1/6', '0', '-2/6', '-4/6', '-15', '-30']
 
-
     user_ranking_index = ranking_array.index(current_user.ranking)
     tournament_max_ranking_index = ranking_array.index(@tournament.max_ranking)
     tournament_min_ranking_index = ranking_array.index(@tournament.min_ranking)
 
-
-
-    if current_user.first_name.blank? || current_user.last_name.blank? || current_user.licence_number.blank? || current_user.telephone.blank? || current_user.birthdate.blank? || current_user.club.blank? || current_user.genre.blank?
+    if !current_user.profile_complete?
       flash[:alert] = "Vous devez d'abord remplir" + "<a href=#{user_path(current_user)}>" + "votre profil" + "</a>" + "entièrement avant de pouvoir vous inscrire à ce tournoi"
       redirect_to tournament_path(@tournament)
 

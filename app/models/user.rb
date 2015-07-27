@@ -105,6 +105,30 @@ class User < ActiveRecord::Base
    licence_without_white_space = licence_number.split.join
    return licence_without_white_space[0...-1]
   end
+
+  def profile_complete?
+    base_fields_complete = (first_name.present? &&
+      last_name.present? &&
+      telephone.present? &&
+      birthdate.present? &&
+      licence_number.present?
+    )
+
+    if judge
+      return base_fields_complete && (
+          iban.present?  &&
+          bic.present?   &&
+          address.present?
+        )
+    else
+      return base_fields_complete && (
+          genre.present? &&
+          club.present?  &&
+          ranking.present?
+        )
+    end
+  end
+
   # MangoPay
   def create_mangopay_natural_user_and_wallet
     natural_user = MangoPay::NaturalUser.create(self.mangopay_user_attributes)

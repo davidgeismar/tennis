@@ -17,10 +17,7 @@ class ApplicationController < ActionController::Base
   protected
 
    def after_sign_in_path_for(user)
-    if user.judge == false && (current_user.first_name.blank? || current_user.last_name.blank? || current_user.telephone.blank? || current_user.birthdate.blank? || current_user.licence_number.blank? || current_user.genre.blank? || current_user.club.blank? || current_user.ranking.blank?)
-      stored_location_for(user) || user_path(current_user)
-
-    elsif user.judge && (current_user.first_name.blank? || current_user.last_name.blank? || current_user.telephone.blank? || current_user.birthdate.blank? || current_user.licence_number.blank? || current_user.iban.blank? || current_user.bic.blank? || current_user.address.blank?)
+    if !user.profile_complete?
       stored_location_for(user) || user_path(current_user)
     elsif user.judge == false
       stored_location_for(user) || tournaments_path
