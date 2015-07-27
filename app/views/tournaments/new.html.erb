@@ -18,7 +18,7 @@
            <%= t.input :nature, label: "Nature de l'épreuve" %>
           <%= t.input :min_ranking, label: 'Classement minimum' %>
           <%= t.input :max_ranking, label: 'Classement maximum' %>
-          <%= t.input :amount, label: "Frais d'inscription" %>
+          <%= t.input :amount, label: "Frais d'inscription", input_html: { min: '0' } %>
           <%= t.input :young_fare, label: "Tarif Jeune" %>
           <%= t.input :club_organisateur, label: "Club Organisateur" %>
           <%= t.input :iban, label: "IBAN" %>
