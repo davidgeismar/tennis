@@ -23,6 +23,7 @@
           <%= f.input :bic, label: "Votre BIC", placeholder: "AXABFRPP"%>
           <%= f.input :address, label: "Votre addresse" %>
           <%= f.button :submit, "Valider", class: "btn-success" %>
+          <%= link_to "Annuler", user_path(current_user), class: "btn btn-default" %>
         <% end %>
       </div>
     </div>
