@@ -1,0 +1,14 @@
+= content_for(:title) do
+  'WeTennis
+
+= content_for(:description) do
+  'Organisez simplement vos trounois de tennis. WeTennis est la première plate-forme de gestion pour les juges arbitre
+
+- if current_user.nil?
+  = render 'pages/partials/not_connected'
+- elsif current_user.judge?
+  div class="banner"
+    = render 'pages/partials/judge_connected'
+- else
+    div class="banner"
+      =render 'pages/partials/connected'

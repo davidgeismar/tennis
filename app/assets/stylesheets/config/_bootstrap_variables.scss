@@ -1,8 +1,3 @@
-/* -------------------------------------
- * Bootstrap sass variable
- * (see http://getbootstrap.com/customize/#less-variables)
- * ------------------------------------- */
-
 // Typography and background
 $font-family-sans-serif:  $base-font;
 $body-bg:                 lighten(#000, 93.5%);
@@ -17,16 +12,47 @@ $brand-info:      $yellow;
 $brand-danger:    $red;
 $brand-warning:   $orange;
 
+
+
 // General radius (for buttons, inputs, popover...)
 $border-radius-base:  2px;
-$border-radius-large: 2px;
+$border-radius-large: 4px;
 $border-radius-small: 2px;
+
+
 
 // Links style
 $link-hover-decoration: none;
 $link-hover-color: black;
 $link-color: white;
 
+
+
 // Grid padding
 $grid-gutter-width: 0 ;
 
+
+
+$navbar-color: rgba(255, 255, 255, .85);
+// $navbar-hover-color: white;
+
+$navbar-font-family: $navbar-font;
+$navbar-font-size: 14px;
+$navbar-text-transform: capitalize;
+$navbar-font-weight: $font-weight-light;
+$navbar-letter-spacing: 1.5px;
+$navbar-font-family: $navbar-font;
+$navbar-bg: $green-dark;
+
+$navbar-height: 50px;
+$navbar-vertical-padding: 10px;
+$navbar-horizontal-padding: 20px;
+$navbar-border-bottom-width: 0px;
+
+$navbar-btn-height: 40px;
+$navbar-btn-horizontal-padding: 10px;
+$navbar-btn-radius: 2px;
+
+$navbar-profile-radius: 50%;
+$navbar-profile-border-color: white;
+$navbar-profile-border-width: 1px;

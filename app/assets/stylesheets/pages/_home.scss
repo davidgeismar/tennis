@@ -76,7 +76,6 @@ input[type="file"]::-webkit-file-upload-button {
 .main {
   background-image: image-url('background.jpg');
   background-size: cover;
-
 }
 
 .raquette {
@@ -158,6 +157,7 @@ input[type="file"]::-webkit-file-upload-button {
 .black {
   color: black;
 }
+
 #tournament {
   background: none;
   border: none;
@@ -170,31 +170,9 @@ input[type="file"]::-webkit-file-upload-button {
     outline: none;
   }
 
-.tt-dataset-0 {
-  height: 700px;
-}
-
-  &::-webkit-input-placeholder {
-     color: rgb(200, 200, 200);
+  .tt-dataset-0 {
+    height: 700px;
   }
-  &:-moz-placeholder {
-    color: rgb(200, 200, 200);
-
-  }
-
-  &::-moz-placeholder {
-    color: rgb(200, 200, 200);
-
-
-
-  }
-  &:-ms-input-placeholder {
-    color: rgb(200, 200, 200);
-
-  }
-
-
-
 }
 
 

@@ -1,4 +1,3 @@
-// Graphical variables
 @import "config/variables";
 @import "config/colors";
 @import "config/bootstrap_variables";
@@ -7,15 +6,19 @@
 @import "bootstrap";
 @import "font-awesome-sprockets";
 @import "font-awesome";
-@import 'bootstrap-datepicker3';
+@import "bootstrap-datepicker3";
 @import "bootstrap3-switch";
 
-
 // Your CSS
-@import "layout/index";
-@import "components/index";
+@import "components/button";
+@import "components/forms";
+
+@import "layout/base";
+@import "layout/utilities";
+@import "layout/footer";
+@import "layout/navbar";
+@import "layout/flashes";
+
 @import "pages/index";
 @import "vendor/index";
 @import "devise/devise";
-
-// *= require jquery.dataTables
