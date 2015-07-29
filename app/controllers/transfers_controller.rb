@@ -1,5 +1,6 @@
 class TransfersController < ApplicationController
-skip_after_action :verify_authorized
+  skip_after_action :verify_authorized
+
 # transfers have a credited_user_id and a author_id stored in json "archive"
 #subscription is created here at the end of the method
   def create
@@ -14,8 +15,8 @@ skip_after_action :verify_authorized
       @payin = MangoPay::PayIn::Card::Direct.create({
         "Tag" => "Payment Carte Bancaire",
         "CardType" => "CB_VISA_MASTERCARD",
-        "AuthorId" => player.mangopay_natural_user_id,
-        "CreditedUserId" => judge.mangopay_natural_user_id,
+        "AuthorId" => player.mangopay_user_id,
+        "CreditedUserId" => judge.mangopay_user_id,
         "DebitedFunds" => {
           "Currency" => "EUR",
           "Amount" => new_price.to_i*100
@@ -36,8 +37,8 @@ skip_after_action :verify_authorized
   #     @preauthorize = MangoPay::PreAuthorization.create({
   #       "Tag" => "Payment Carte Bancaire",
   #       "CardType" => "CB_VISA_MASTERCARD",
-  #       "AuthorId" => player.mangopay_natural_user_id,
-  #       "CreditedUserId" => judge.mangopay_natural_user_id,
+  #       "AuthorId" => player.mangopay_user_id,
+  #       "CreditedUserId" => judge.mangopay_user_id,
   #       "DebitedFunds" => {
   #         "Currency" => "EUR",
   #         "Amount" => new_price.to_i*100

@@ -20,7 +20,9 @@
           <%= t.input :max_ranking, label: 'Classement maximum' %>
           <%= t.input :amount, label: "Frais d'inscription", input_html: { min: '0' } %>
           <%= t.input :young_fare, label: "Tarif Jeune" %>
-          <%= t.input :club_organisateur, label: "Club Organisateur" %>
+          <h4>Club organisateur</h4>
+          <%= t.input :club_organisateur, label: "Nom" %>
+          <%= t.input :club_email, label: "Email" %>
           <%= t.input :iban, label: "IBAN" %>
           <%= t.input :bic, label: "BIC" %>
           <%= t.button :submit, value: "Soumettre ce tournoi à validation",  class: "btn-primary marge-bas" %>

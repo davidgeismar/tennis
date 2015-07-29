@@ -1,10 +1,9 @@
 class SubscriptionsController < ApplicationController
   skip_after_action :verify_authorized, only: [:mytournaments]
 
-
   def mytournaments
-
     @subscriptions = Subscription.where(user_id: current_user)
+
     if @subscriptions.blank? && current_user.judge == false
       flash[:notice] = "Vous ne vous êtes pas encore inscrit à un tournoi."
     end
@@ -109,96 +108,11 @@ class SubscriptionsController < ApplicationController
   end
 
   def new #gérer tous les ages catégories d'inscription
-
-
-    @subscription = Subscription.new(tournament_id: params[:tournament_id])
-    @tournament = @subscription.tournament
-      authorize @subscription
+    @tournament   = Tournament.find(params[:tournament_id])
+    @subscription = @tounament.subscriptions.build
+    authorize @subscription
 
 # le 30 septembre il faut faire year.now - age
-
-    # if @tournament.category == "11 ans" && current_user.birthdate.year < 2004
-    #   flash[:notice] = "Vous n'avez pas l'age requis pour participer à ce tournoi"
-    #   redirect_to tournament_path(@tournament)
-    #   raise
-    # elsif @tournament.category == "12 ans" && current_user.birthdate.year < 2003
-    #   flash[:notice] = "Vous n'avez pas l'age requis pour participer à ce tournoi"
-    #   redirect_to tournament_path(@tournament)
-    #   raise
-    # elsif @tournament.category == "13 ans" && current_user.birthdate.year < 2002
-    #   flash[:notice] = "Vous n'avez pas l'age requis pour participer à ce tournoi"
-    #   redirect_to tournament_path(@tournament)
-    #   raise
-    # elsif @tournament.category == "14 ans" && current_user.birthdate.year < 2001
-    #   flash[:notice] = "Vous n'avez pas l'age requis pour participer à ce tournoi"
-    #   redirect_to tournament_path(@tournament)
-    #   raise
-    # elsif @tournament.category == "13-14 ans" && current_user.birthdate.year < 2001
-    #   flash[:notice] = "Vous n'avez pas l'age requis pour participer à ce tournoi"
-    #   redirect_to tournament_path(@tournament)
-    #   raise
-    # elsif @tournament.category == "15 ans" && current_user.birthdate.year < 2000
-    #   flash[:notice] = "Vous n'avez pas l'age requis pour participer à ce tournoi"
-    #   redirect_to tournament_path(@tournament)
-    #   raise
-    # elsif @tournament.category == "16 ans" && current_user.birthdate.year < 1999
-    #   flash[:notice] = "Vous n'avez pas l'age requis pour participer à ce tournoi"
-    #   redirect_to tournament_path(@tournament)
-    #   raise
-    # elsif @tournament.category == "15-16 ans" && current_user.birthdate.year < 1999
-    #   flash[:notice] = "Vous n'avez pas l'age requis pour participer à ce tournoi"
-    #   redirect_to tournament_path(@tournament)
-    #   raise
-    # elsif @tournament.category == "17 ans" && current_user.birthdate.year < 1998
-    #   flash[:notice] = "Vous n'avez pas l'age requis pour participer à ce tournoi"
-    #   redirect_to tournament_path(@tournament)
-    #   raise
-    # elsif @tournament.category == "18 ans" && current_user.birthdate.year < 1997
-    #   flash[:notice] = "Vous n'avez pas l'age requis pour participer à ce tournoi"
-    #   redirect_to tournament_path(@tournament)
-    #   raise
-    # elsif @tournament.category == "17-18 ans" && current_user.birthdate.year < 1997
-    #   flash[:notice] = "Vous n'avez pas l'age requis pour participer à ce tournoi"
-    #   redirect_to tournament_path(@tournament)
-    #   raise
-    # elsif @tournament.category == "35 ans" && current_user.birthdate.year > 1980
-    #   flash[:notice] = "Vous n'avez pas l'age requis pour participer à ce tournoi"
-    #   redirect_to tournament_path(@tournament)
-    #   raise
-    # elsif @tournament.category == "40 ans" && current_user.birthdate.year > 1975
-    #   flash[:notice] = "Vous n'avez pas l'age requis pour participer à ce tournoi"
-    #   redirect_to tournament_path(@tournament)
-    #   raise
-    # elsif @tournament.category == "45 ans" && current_user.birthdate.year > 1970
-    #   flash[:notice] = "Vous n'avez pas l'age requis pour participer à ce tournoi"
-    #   redirect_to tournament_path(@tournament)
-    #   raise
-    # elsif @tournament.category == "50 ans" && current_user.birthdate.year > 1965
-    #   flash[:notice] = "Vous n'avez pas l'age requis pour participer à ce tournoi"
-    #   redirect_to tournament_path(@tournament)
-    #   raise
-    # elsif @tournament.category == "55 ans" && current_user.birthdate.year > 1960
-    #   flash[:notice] = "Vous n'avez pas l'age requis pour participer à ce tournoi"
-    #   redirect_to tournament_path(@tournament)
-    #   raise
-    # elsif @tournament.category == "60 ans" && current_user.birthdate.year > 1955
-    #   flash[:notice] = "Vous n'avez pas l'age requis pour participer à ce tournoi"
-    #   redirect_to tournament_path(@tournament)
-    #   raise
-    # elsif @tournament.category == "65 ans" && current_user.birthdate.year > 1950
-    #   flash[:notice] = "Vous n'avez pas l'age requis pour participer à ce tournoi"
-    #   redirect_to tournament_path(@tournament)
-    #   raise
-    # elsif @tournament.category == "70 ans" && current_user.birthdate.year > 1945
-    #   flash[:notice] = "Vous n'avez pas l'age requis pour participer à ce tournoi"
-    #   redirect_to tournament_path(@tournament)
-    #   raise
-    # elsif @tournament.category == "75 ans" && current_user.birthdate.year > 1940
-    #   flash[:notice] = "Vous n'avez pas l'age requis pour participer à ce tournoi"
-    #   redirect_to tournament_path(@tournament)
-    #   raise
-    # else
-    # end
 
     if @subscription.tournament.total == false
       flash[:notice] = "Ce tournoi n'accepte plus d'inscrits à votre classement"
@@ -238,44 +152,43 @@ class SubscriptionsController < ApplicationController
       redirect_to tournament_path(@tournament)
     elsif current_user.ranking == "15/2" && @subscription.tournament.quinzedeux == false
       flash[:notice] = "Ce tournoi n'accepte plus d'inscrits à votre classement"
-          redirect_to tournament_path(@tournament)
+      redirect_to tournament_path(@tournament)
     elsif current_user.ranking == "15/1" && @subscription.tournament.quinzeun == false
       flash[:notice] = "Ce tournoi n'accepte plus d'inscrits à votre classement"
-          redirect_to tournament_path(@tournament)
+      redirect_to tournament_path(@tournament)
     elsif current_user.ranking == "15" && @subscription.tournament.quinze == false
       flash[:notice] = "Ce tournoi n'accepte plus d'inscrits à votre classement"
-          redirect_to tournament_path(@tournament)
+      redirect_to tournament_path(@tournament)
     elsif current_user.ranking == "5/6" && @subscription.tournament.cinqsix == false
       flash[:notice] = "Ce tournoi n'accepte plus d'inscrits à votre classement"
-          redirect_to tournament_path(@tournament)
+      redirect_to tournament_path(@tournament)
     elsif current_user.ranking == "4/6" && @subscription.tournament.quatresix == false
       flash[:notice] = "Ce tournoi n'accepte plus d'inscrits à votre classement"
-          redirect_to tournament_path(@tournament)
+      redirect_to tournament_path(@tournament)
     elsif current_user.ranking == "3/6" && @subscription.tournament.troissix == false
       flash[:notice] = "Ce tournoi n'accepte plus d'inscrits à votre classement"
-          redirect_to tournament_path(@tournament)
+      redirect_to tournament_path(@tournament)
     elsif current_user.ranking == "2/6" && @subscription.tournament.deuxsix == false
       flash[:notice] = "Ce tournoi n'accepte plus d'inscrits à votre classement"
-          redirect_to tournament_path(@tournament)
+      redirect_to tournament_path(@tournament)
     elsif current_user.ranking == "1/6" && @subscription.tournament.unsix == false
       flash[:notice] = "Ce tournoi n'accepte plus d'inscrits à votre classement"
-          redirect_to tournament_path(@tournament)
+      redirect_to tournament_path(@tournament)
     elsif current_user.ranking == "0" && @subscription.tournament.zero == false
       flash[:notice] = "Ce tournoi n'accepte plus d'inscrits à votre classement"
-          redirect_to tournament_path(@tournament)
+      redirect_to tournament_path(@tournament)
     elsif current_user.ranking == "-2/6" && @subscription.tournament.moinsdeuxsix == false
       flash[:notice] = "Ce tournoi n'accepte plus d'inscrits à votre classement"
-          redirect_to tournament_path(@tournament)
+      redirect_to tournament_path(@tournament)
     elsif current_user.ranking == "-4/6" && @subscription.tournament.moinsquatresix == false
       flash[:notice] = "Ce tournoi n'accepte plus d'inscrits à votre classement"
-          redirect_to tournament_path(@tournament)
+      redirect_to tournament_path(@tournament)
     elsif current_user.ranking == "-15" && @subscription.tournament.moinsquize == false
       flash[:notice] = "Ce tournoi n'accepte plus d'inscrits à votre classement"
-          redirect_to tournament_path(@tournament)
+      redirect_to tournament_path(@tournament)
     elsif current_user.ranking == "-30" && @subscription.tournament.moinstrente == false
       flash[:notice] = "Ce tournoi n'accepte plus d'inscrits à votre classement"
       redirect_to tournament_path(@tournament)
-    else
     end
   end
 
@@ -313,7 +226,7 @@ class SubscriptionsController < ApplicationController
 
       kyc_document = MangoPay::KycDocument.create(natural_user["Id"],{Type: "IDENTITY_PROOF", Tag: "Driving Licence"})
 
-      self.mangopay_natural_user_id = natural_user["Id"]
+      self.mangopay_user_id = natural_user["Id"]
       self.wallet_id = wallet["Id"]
       self.kyc_document_id = kyc_document["Id"]
       self.save
@@ -324,8 +237,8 @@ class SubscriptionsController < ApplicationController
       MangoPay::PayIn::Card::Direct.create({
           "Tag" => "Payment Carte Bancaire",
           "CardType" => "CB_VISA_MASTERCARD",
-          "AuthorId" => current_user.mangopay_natural_user_id,
-          "CreditedUderId" => current_user.mangopay_natural_user_id,
+          "AuthorId" => current_user.mangopay_user_id,
+          "CreditedUderId" => current_user.mangopay_user_id,
           "DebitedFunds" => {
             "Currency" => "EUR",
             "Amount" => amount.to_i*100
@@ -361,7 +274,7 @@ class SubscriptionsController < ApplicationController
       # subscription_id ???
       {
         'Tag' => "payout",
-        'AuthorId' => @subscription.user.mangopay_natural_user_id,
+        'AuthorId' => @subscription.user.mangopay_user_id,
         'DebitedFunds' => {
           Currency: "EUR",
           Amount: @subscription.tournament.amount*100*0.7
@@ -377,9 +290,9 @@ class SubscriptionsController < ApplicationController
     end
 
     def mangopay_refund
-      @transfer = @subscription.tournament.transfers.where("archive ->> 'AuthorId' = ?", "#{@subscription.user.mangopay_natural_user_id}").first()
+      @transfer = @subscription.tournament.transfers.where("archive ->> 'AuthorId' = ?", "#{@subscription.user.mangopay_user_id}").first()
       MangoPay::PayIn.refund(@transfer.mangopay_transaction_id,{
-          "AuthorId" => @subscription.user.mangopay_natural_user_id,
+          "AuthorId" => @subscription.user.mangopay_user_id,
         })
     end
 

@@ -12,10 +12,10 @@ class UsersController < ApplicationController
 
   def update
     authorize @user
+
     if @user.update(user_params)
       redirect_to user_path(current_user)
     else
-
       render 'edit'
     end
   end
@@ -30,7 +30,26 @@ class UsersController < ApplicationController
   private
 
   def user_params
-    params.require(:user).permit(:first_name, :last_name, :name, :licence_number, :genre, :email, :ranking, :judge_number, :telephone, :picture, :licencepicture, :certifmedpicture, :card_id, :birthdate, :club, :iban, :bic, :address, :login_aei, :password_aei)
+    params.require(:user).permit(
+      :address,
+      :birthdate,
+      :card_id,
+      :certifmedpicture,
+      :club,
+      :email,
+      :first_name,
+      :genre,
+      :judge_number,
+      :last_name,
+      :licence_number,
+      :licencepicture,
+      :login_aei,
+      :name,
+      :password_aei,
+      :picture,
+      :ranking,
+      :telephone
+    )
   end
 
   def card_params
