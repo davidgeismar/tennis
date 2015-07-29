@@ -2,6 +2,8 @@
 
 <%= I18n.t("devise.mailer.invitation_instructions.someone_invited_you", url: root_url) %>
 
-<%= link_to I18n.t("devise.mailer.invitation_instructions.accept"), accept_invitation_url(@resource, :invitation_token => @token) %>
+Pour accepter L'invitation, merci de suivre le lien ci-dessous:
+
+ <%= accept_invitation_url(@resource, :invitation_token => @token) %>
 
 <%= I18n.t("devise.mailer.invitation_instructions.ignore").html_safe %>
