@@ -1,0 +1,8 @@
+ <% require 'devise/version' %>
+
+ <%= t('.greeting', :recipient => @resource.email, :default => "Welcome #{@resource.email}!") %>
+
+  Merci pour votre inscription sur le site Wetennis
+  Rendez vous à l'adresse suivante pour confirmer votre compte :
+   <%= confirmation_url(@resource, :confirmation_token => (Devise::VERSION.start_with?('3.') ? @token : @resource.confirmation_token)) %>
+

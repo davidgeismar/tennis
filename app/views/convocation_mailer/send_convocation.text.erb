@@ -1,0 +1,6 @@
+Bonjour <%= @convocation.subscription.user.full_name %>
+
+ Vous êtes convoqué au tournoi <%= @convocation.subscription.tournament.name.upcase%> pour le <%= @convocation.date.strftime("%d/%m/%Y") %> à <%= @convocation.hour.strftime("%Hh%M") %>.
+ L'addresse du tournoi est <%=@convocation.subscription.tournament.address%> <%=@convocation.subscription.tournament.postcode%> <%=@convocation.subscription.tournament.city%>
+
+  Merci de vous connectez au plus vite sur wetennis.fr afin de répondre à cette convocation.
