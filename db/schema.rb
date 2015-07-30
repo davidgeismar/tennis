@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150727233755) do
+ActiveRecord::Schema.define(version: 20150730201206) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -130,6 +130,7 @@ ActiveRecord::Schema.define(version: 20150727233755) do
     t.datetime "created_at",                        null: false
     t.datetime "updated_at",                        null: false
     t.boolean  "exported",      default: false
+    t.boolean  "funds_sent",    default: false
   end
 
   add_index "subscriptions", ["tournament_id"], name: "index_subscriptions_on_tournament_id", using: :btree
@@ -188,6 +189,7 @@ ActiveRecord::Schema.define(version: 20150727233755) do
     t.string   "mangopay_user_id"
     t.string   "mangopay_wallet_id"
     t.string   "mangopay_bank_account_id"
+    t.boolean  "funds_received",           default: false
   end
 
   add_index "tournaments", ["user_id"], name: "index_tournaments_on_user_id", using: :btree

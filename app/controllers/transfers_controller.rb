@@ -5,21 +5,12 @@ class TransfersController < ApplicationController
   # subscription is created here at the end of the method
   # is called when user pays for tournament
   def create
-    tournament = Tournament.find(params[:tournament_id])
-    transfer   = tournament.transfers.create(status: 'pending', cgv: true, category: 'payin')
-
     current_user.update(mangopay_card_id: params[:card_id])
 
-    service = MangoPayments::Subscriptions::CreatePayinService.new(current_user, tournament.amount)
-    payin   = service.call
+    tournament  = Tournament.find(params[:tournament_id])
+    service     = MangoPayments::Subscriptions::CreatePayinService.new(current_user, tournament)
 
-    transfer.archive                  = payin
-    transfer.mangopay_transaction_id  = payin["Id"]
-
-    if payin['Status'] == 'SUCCEEDED'
-      transfer.status = 'success'
-      transfer.save
-
+    if service.call
       subscription = Subscription.create(user: current_user, tournament: tournament)
 
       notification = Notification.create(
@@ -30,9 +21,6 @@ class TransfersController < ApplicationController
 
       redirect_to new_subscription_disponibility_path(subscription)
     else
-      transfer.status = 'failed'
-      transfer.save
-
       flash[:alert] = 'Un problème est survenu lors du paiement. Merci de bien vouloir réessayer plus tard.'
       redirect_to root_path
     end

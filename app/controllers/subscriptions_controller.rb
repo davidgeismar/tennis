@@ -34,18 +34,7 @@ class SubscriptionsController < ApplicationController
     redirect_to tournament_subscriptions_path(@subscription.tournament)
   end
 
-  # method must trigger mangopay_payout on each subscription as soon as the tournament is completed
-  def global_payout
-    if @tournament.payment_option = true
-      @tournament.subscriptions.where(status: confirmed).each do |subscription|
-        mangopay_payout_global
-      end
-    end
-  end
-
-  # pas possible de faire un refund car payout déjà éxécuté
   # pas possible de créer un nouveau transfert ! il faudrait demander le numéro de carte du JA
-  # seul solution faire les payout 2 jours après la fin du tournoi
   # et bien faire des mangopay_refund
   def accept # accept_player
     @subscription = Subscription.find(params[:id])
@@ -97,7 +86,6 @@ class SubscriptionsController < ApplicationController
       mangopay_refund
       redirect_to tournament_subscriptions_path(@subscription.tournament)
     else
-      # mangopay_payout pas de payout à la confirmation sinon pas possible de rembourser le joueur
       @notification = Notification.new
       @notification.user = @subscription.user
       @notification.content = "Votre inscription à #{@subscription.tournament.name} a été confirmé"
@@ -326,56 +314,23 @@ class SubscriptionsController < ApplicationController
 
   private
 
-    def age_when_tournament_starts
-      tournament_starting_date = @subscription.tournament.starts_on
-      tournament_starting_date.year - current_user.birthdate.year
-    end
+  def age_when_tournament_starts
+    tournament_starting_date = @subscription.tournament.starts_on
+    tournament_starting_date.year - current_user.birthdate.year
+  end
 
-    def mangopay_payout
-      payout = MangoPay::PayOut::BankWire.create(payout_attributes)
-      transfer = Transfer.create(:status => payout["Status"], :category => "payout", :mangopay_transaction_id => payout["Id"].to_i, :archive => payout, :tournament_id => @subscription.tournament)
-      if payout["Status"] == 'CREATED'
-        transfer.status = "payout"
-        transfer.save
-      elsif payout["Status"] == 'SUCCEEDED'
-        transfer.status = 'succeeded'
-        transfer.save
-      end
-    end
+  def mangopay_refund
+    @transfer = @subscription.tournament.transfers.where("archive ->> 'AuthorId' = ?", "#{@subscription.user.mangopay_user_id}").first()
+    MangoPay::PayIn.refund(@transfer.mangopay_transaction_id,{
+        "AuthorId" => @subscription.user.mangopay_user_id,
+      })
+  end
 
+  def set_subscription
+    @subscription.find(params[:id])
+  end
 
-    def payout_attributes
-
-      # subscription_id ???
-      {
-        'Tag' => "payout",
-        'AuthorId' => @subscription.user.mangopay_user_id,
-        'DebitedFunds' => {
-          Currency: "EUR",
-          Amount: @subscription.tournament.amount*100*0.7
-        },
-        'Fees' => {
-          Currency: "EUR",
-          Amount: "0"
-        },
-        'DebitedWalletId' => @subscription.user.wallet_id,
-        'BankAccountId' => @subscription.tournament.user.bank_account_id,
-        'BankWireRef' => "Virement WeTennis"
-      }
-    end
-
-    def mangopay_refund
-      @transfer = @subscription.tournament.transfers.where("archive ->> 'AuthorId' = ?", "#{@subscription.user.mangopay_user_id}").first()
-      MangoPay::PayIn.refund(@transfer.mangopay_transaction_id,{
-          "AuthorId" => @subscription.user.mangopay_user_id,
-        })
-    end
-
-    def set_subscription
-      @subscription.find(params[:id])
-    end
-    def subscription_params
-      params.require(:subscription).permit(:status, :disponibilities)
-    end
-
+  def subscription_params
+    params.require(:subscription).permit(:status, :disponibilities)
+  end
 end

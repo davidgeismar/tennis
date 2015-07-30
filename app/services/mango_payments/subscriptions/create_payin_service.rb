@@ -1,15 +1,16 @@
 module MangoPayments
   module Subscriptions
     class CreatePayinService
-      def initialize(user, amount)
-        @user   = user
-        @amount = amount
+      def initialize(user, tournament)
+        @tournament = tournament
+        @user       = user
       end
 
       def call
-        amount_cents = @amount * 100
+        amount_cents  = @tournament.amount * 100
+        transfer      = @tournament.transfers.create(status: 'pending', cgv: true, category: 'payin')
 
-        return MangoPay::PayIn::Card::Direct.create(
+        transaction   = MangoPay::PayIn::Card::Direct.create(
           AuthorId:             @user.mangopay_user_id,
           CardId:               @user.mangopay_card_id,
           CardType:             'CB_VISA_MASTERCARD',
@@ -19,6 +20,14 @@ module MangoPayments
           Fees:                 { Currency: 'EUR', Amount: 0 },             # TODO: change this.
           SecureModeReturnURL:  'https://wetennis.fr'
         )
+
+        transfer.update(
+          archive:                  transaction,
+          mangopay_transaction_id:  transaction['Id'],
+          status:                   (transaction['Status'] == 'SUCCEEDED' ? 'success' : 'failed')
+        )
+
+        return transfer.status == 'success'
       end
     end
   end

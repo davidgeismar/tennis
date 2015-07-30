@@ -11,6 +11,7 @@ class Subscription < ActiveRecord::Base
   belongs_to :tournament
 
   has_one :disponibility, dependent: :destroy
+
   has_many :convocations, dependent: :destroy
 
   validates :user_id, presence: true, uniqueness: { scope: :tournament,

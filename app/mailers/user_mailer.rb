@@ -1,6 +1,5 @@
-class UserMailer < ActionMailer::Base
+class UserMailer < ApplicationMailer
   default from: 'contact@wetennis.fr'
-
 
   def welcome(user)
     @user = user  # Instance variable => available in view
