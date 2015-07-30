@@ -315,10 +315,7 @@ class SubscriptionsController < ApplicationController
   end
 
   def mangopay_refund
-    @transfer = @subscription.tournament.transfers.where("archive ->> 'AuthorId' = ?", "#{@subscription.user.mangopay_user_id}").first()
-    MangoPay::PayIn.refund(@transfer.mangopay_transaction_id,{
-        "AuthorId" => @subscription.user.mangopay_user_id,
-      })
+    MangoPayments::Subscriptions::CreateRefundService.new(@subscription).call
   end
 
   def set_subscription

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150730201206) do
+ActiveRecord::Schema.define(version: 20150730210937) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -126,11 +126,12 @@ ActiveRecord::Schema.define(version: 20150730201206) do
   create_table "subscriptions", force: :cascade do |t|
     t.integer  "user_id"
     t.integer  "tournament_id"
-    t.string   "status",        default: "pending"
-    t.datetime "created_at",                        null: false
-    t.datetime "updated_at",                        null: false
-    t.boolean  "exported",      default: false
-    t.boolean  "funds_sent",    default: false
+    t.string   "status",            default: "pending"
+    t.datetime "created_at",                            null: false
+    t.datetime "updated_at",                            null: false
+    t.boolean  "exported",          default: false
+    t.boolean  "funds_sent",        default: false
+    t.string   "mangopay_payin_id"
   end
 
   add_index "subscriptions", ["tournament_id"], name: "index_subscriptions_on_tournament_id", using: :btree

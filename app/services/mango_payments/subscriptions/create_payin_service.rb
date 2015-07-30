@@ -1,9 +1,10 @@
 module MangoPayments
   module Subscriptions
     class CreatePayinService
-      def initialize(user, tournament)
-        @tournament = tournament
-        @user       = user
+      def initialize(subscription)
+        @subscription = subscription
+        @tournament   = subscription.tournament
+        @user         = subscription.user
       end
 
       def call
@@ -26,6 +27,8 @@ module MangoPayments
           mangopay_transaction_id:  transaction['Id'],
           status:                   (transaction['Status'] == 'SUCCEEDED' ? 'success' : 'failed')
         )
+
+        @subscription.mangopay_payin_id = transaction['Id']
 
         return transfer.status == 'success'
       end

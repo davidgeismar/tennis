@@ -15,14 +15,14 @@ namespace :tournaments do
         end
       end
 
-      payout_service = MangoPayments::Subscriptions::CreateTransferService.new(tournament, subscriptions)
+      payout_service = MangoPayments::Tournaments::CreatePayoutService.new(tournament)
 
       if subscription_error_ids.size > 0
         TechMailer.payout_error(tournament, subscription_error_ids).deliver_now
       elsif payout_service.call
         notification = Notification.create(
           user:       tournament.user,
-          content:    'Fonds envoyés sur le compte bancaire du tournois.',
+          content:    "Fonds envoyés sur le compte bancaire du tournois #{tournament.name}",
           tournament: tournament
         )
       else

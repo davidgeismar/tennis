@@ -7,8 +7,9 @@ class TransfersController < ApplicationController
   def create
     current_user.update(mangopay_card_id: params[:card_id])
 
-    tournament  = Tournament.find(params[:tournament_id])
-    service     = MangoPayments::Subscriptions::CreatePayinService.new(current_user, tournament)
+    tournament    = Tournament.find(params[:tournament_id])
+    subscription  = Subscription.new(user: current_user, tournament: tournament)
+    service       = MangoPayments::Subscriptions::CreatePayinService.new(subscription)
 
     if service.call
       subscription = Subscription.create(user: current_user, tournament: tournament)

@@ -43,8 +43,8 @@ Rails.application.routes.draw do
 
   resources :subscriptions, only: [] do
     member do
-      post 'refund'
       post 'accept'
+      post 'refund'
       post 'refuse'
     end
 
