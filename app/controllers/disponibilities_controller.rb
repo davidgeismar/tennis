@@ -13,12 +13,11 @@ class DisponibilitiesController < ApplicationController
     authorize @disponibility
 
     if @disponibility.save
-      redirect_to root_path
+      redirect_to mes_tournois_path
       flash[:notice] = "Vos disponibilités ont bien été enregistrées"
     else
       render 'new'
     end
-
   end
 
   def show
