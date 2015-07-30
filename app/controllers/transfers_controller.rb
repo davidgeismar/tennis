@@ -23,7 +23,10 @@ class TransfersController < ApplicationController
       redirect_to new_subscription_disponibility_path(subscription)
     else
       flash[:alert] = 'Un problème est survenu lors du paiement. Merci de bien vouloir réessayer plus tard.'
-      redirect_to root_path
+      redirect_to tournament_path(tournament)
     end
+  rescue MangoPay::ResponseError => e
+    flash[:alert] = "Nous ne parvenons pas à procéder à votre inscription. Veuillez renouveler votre demande. Si le problème persiste, veuillez contacter le service client [#{e.code}]."
+    redirect_to tournament_path(tournament)
   end
 end

@@ -241,39 +241,33 @@ class SubscriptionsController < ApplicationController
     #mangopay refund en cas de subscription.status = refused
     @subscription = Subscription.find(params[:id])
     authorize @subscription
+
+    if subscription_params[:status] == "canceled" ||
+      (subscription_params[:status] == "refused" && @subscription.user.invitation_token.blank?)
+      mangopay_refund
+    end
+
     @subscription.update(subscription_params)
 
-    if @subscription.status == "refused" && @subscription.user.invitation_token.blank?
-      mangopay_refund
-      @notification = Notification.new
-      @notification.user = @subscription.user
-      @notification.content = "Votre inscription à #{@subscription.tournament.name} a été refusé"
-      @notification.save
-      redirect_to tournament_subscriptions_path(@subscription.tournament)
-    elsif @subscription.status == "refused" && @subscription.user.invitation_token
-      @notification = Notification.new
-      @notification.user = @subscription.user
-      @notification.content = "Votre inscription à #{@subscription.tournament.name} a été refusé"
-      @notification.save
-      redirect_to tournament_subscriptions_path(@subscription.tournament)
-    elsif @subscription.status == "canceled"
-      mangopay_refund
-      redirect_to tournament_subscriptions_path(@subscription.tournament)
-    else
-      @notification = Notification.new
-      @notification.user = @subscription.user
-      @notification.content = "Votre inscription à #{@subscription.tournament.name} a été confirmé"
-      @notification.save
-      redirect_to tournament_subscriptions_path(@subscription.tournament)
+    if @subscription.status == "refused"
+      @subscription.user.notifications.create(content: "Votre inscription à #{@subscription.tournament.name} a été refusée")
+    elsif @subscription.status == "confirmed"
+      @subscription.user.notifications.create(content: "Votre inscription à #{@subscription.tournament.name} a été confirmée")
     end
+
+    redirect_to tournament_subscriptions_path(@subscription.tournament)
+  rescue MangoPay::ResponseError => e
+    flash[:alert] = "Nous ne parvenons pas à mettre à jour l'inscription. Veuillez renouveler votre demande. Si le problème persiste, veuillez contacter le service client [#{e.code}]."
+    redirect_to tournament_subscriptions_path(@subscription.tournament)
   end
 
   # pas possible de créer un nouveau transfert ! il faudrait demander le numéro de carte du JA
   # et bien faire des mangopay_refund
   def accept # accept_player
     @subscription = Subscription.find(params[:id])
-    @subscription.status = "confirmed_warning"
     authorize @subscription
+
+    @subscription.status = "confirmed_warning"
     @subscription.save
 
     redirect_to tournament_subscriptions_path(@subscription.tournament)
@@ -281,10 +275,12 @@ class SubscriptionsController < ApplicationController
 
   def refund
     @subscription = Subscription.find(params[:id])
+    authorize @subscription
+
     if mangopay_refund
       @subscription.status = "refused"
-      authorize @subscription
       @subscription.save
+
       @notification = Notification.new
       @notification.user = @subscription.user
       @notification.content = "Nous avons le regret de vous apprendre que le juge arbitre de #{@subscription.tournament.name} a finalement annulé votre inscription."
@@ -295,15 +291,19 @@ class SubscriptionsController < ApplicationController
       redirect_to tournament_subscriptions_path(@subscription.tournament)
       flash[:warning] = "Le remboursement n'a pas pu etre effectué. Merci de réessayer plus tard"
     end
+  rescue MangoPay::ResponseError => e
+    flash[:alert] = "Nous ne parvenons pas à mettre à jour l'inscription. Veuillez renouveler votre demande. Si le problème persiste, veuillez contacter le service client [#{e.code}]."
+    redirect_to tournament_subscriptions_path(@subscription.tournament)
   end
 
   def refuse # refus_without_remboursement
     @subscription = Subscription.find(params[:id])
     authorize @subscription
+
     @subscription.status = "refused"
     @subscription.save
 
-    flash[:notice] = "Vous avez bien désinscrit #{@subscription.user.full_name}. Celui-ci ne participe plus au tournoi"
+    flash[:notice] = "Vous avez bien désinscrit #{@subscription.user.full_name}. Celui-ci ne participe plus au tournoi."
     redirect_to tournament_subscriptions_path(@subscription.tournament)
   end
 
