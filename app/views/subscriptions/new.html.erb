@@ -72,7 +72,7 @@
 
           Le règlement des achats s’effectue par carte bancaire.  <br>
         </div>
-        <%= form_tag tournament_transfers_path(@tournament), method: :post, id: 'payment_form' do %>
+        <%= form_tag tournament_subscriptions_path(@tournament), method: :post, id: 'payment_form' do %>
           <input type="checkbox" name="CGV" id="CGV">
           <label for="CGV"><strong>J'ai lu et j'accepte les CGV</strong></label>
         <% end %>

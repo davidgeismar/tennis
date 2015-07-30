@@ -25,15 +25,11 @@ class TournamentPolicy < ApplicationPolicy
     user && record.user == user
   end
 
-  def  update_rankings?
+  def update_rankings?
     user && record.user == user
   end
 
   def find?
-    true
-  end
-
-  def registrate_card?
     true
   end
 end

@@ -1,6 +1,6 @@
 namespace :tournaments do
-  desc "Tranfers subscription fees from player wallets to tournament wallet for finished tournaments"
-  task transfer_subcription_fees: :environment do
+  desc "Tranfers subscription funds from player wallets to tournament wallet for past tournaments"
+  task transfer_funds: :environment do
     subscription_error_ids  = []
     past_tournaments        = Tournament.where(funds_received: false).where('ends_on < :date', date: Date.today)
 

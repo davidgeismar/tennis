@@ -28,9 +28,13 @@ module MangoPayments
           status:                   (transaction['Status'] == 'SUCCEEDED' ? 'success' : 'failed')
         )
 
-        @subscription.mangopay_payin_id = transaction['Id']
 
-        return transfer.status == 'success'
+        if transfer.status == 'success'
+          @subscription.mangopay_payin_id = transaction['Id']
+          @subscription.save
+        else
+          false
+        end
       end
     end
   end

@@ -23,8 +23,6 @@ Rails.application.routes.draw do
   # tournaments
 
   resources :tournaments, only: [:index, :show, :new, :create, :update] do
-    post :registrate_card, on: :member
-
     resource  :aei_export,          only: [:create]
     resource  :rankings,            only: [:show]
 
@@ -51,9 +49,6 @@ Rails.application.routes.draw do
     resources :convocations,    only: [:new, :create] # JA
     resources :disponibilities, only: [:new, :create, :edit, :update, :show]
   end
-
-  # MANGOPAY transfers
-  resources :transfers, only: [:create]
 
   # notifs
   resource :notification_update, only: [:create]

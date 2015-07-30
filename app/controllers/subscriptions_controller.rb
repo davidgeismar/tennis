@@ -24,10 +24,22 @@ class SubscriptionsController < ApplicationController
     authorize @subscription
   end
 
-  def new #gérer tous les ages catégories d'inscription
+  def new #gérer tous les ages catégories d'inscription #creating mangopay user and wallet for payer #checking category here
     @tournament   = Tournament.find(params[:tournament_id])
-    @subscription = @tounament.subscriptions.build
+    @subscription = @tournament.subscriptions.build
     authorize @subscription
+
+    arrayminor = ['9 ans', '9-10ans', '10 ans', '11 ans', '11-12 ans', '12 ans', '13-14 ans', '15-16 ans', '17-18 ans']
+    arrayinf18 = ['9 ans', '9-10ans', '10 ans', '11 ans', '11-12 ans', '12 ans', '13-14 ans', '15-16 ans']
+    arrayinf16 = ['9 ans', '9-10ans', '10 ans', '11 ans', '11-12 ans', '12 ans', '13-14 ans']
+    arrayinf14 = ['9 ans', '9-10ans', '10 ans', '11 ans', '11-12 ans', '12 ans']
+    arrayinf12 = ['9 ans', '9-10ans', '10 ans', '11 ans']
+    arrayinf11 = ['9 ans', '9-10ans', '10 ans']
+    ranking_array = ['NC', '40', '30/5', '30/4', '30/3', '30/2', '30/1', '30', '15/5', '15/4', '15/3', '15/2', '15/1', '15', '5/6', '4/6', '3/6', '2/6', '1/6', '0', '-2/6', '-4/6', '-15', '-30']
+
+    user_ranking_index = ranking_array.index(current_user.ranking)
+    tournament_max_ranking_index = ranking_array.index(@tournament.max_ranking)
+    tournament_min_ranking_index = ranking_array.index(@tournament.min_ranking)
 
     # le 30 septembre il faut faire year.now - age
     if @subscription.tournament.total == false
@@ -106,24 +118,6 @@ class SubscriptionsController < ApplicationController
       flash[:notice] = "Ce tournoi n'accepte plus d'inscrits à votre classement"
       redirect_to tournament_path(@tournament)
     end
-  end
-
-  def create
-    @tournament   = Tournament.find(params[:tournament_id])
-    @subscription = @tournament.subscriptions.build
-    authorize @subscription
-
-    arrayminor = ['9 ans', '9-10ans', '10 ans', '11 ans', '11-12 ans', '12 ans', '13-14 ans', '15-16 ans', '17-18 ans']
-    arrayinf18 = ['9 ans', '9-10ans', '10 ans', '11 ans', '11-12 ans', '12 ans', '13-14 ans', '15-16 ans']
-    arrayinf16 = ['9 ans', '9-10ans', '10 ans', '11 ans', '11-12 ans', '12 ans', '13-14 ans']
-    arrayinf14 = ['9 ans', '9-10ans', '10 ans', '11 ans', '11-12 ans', '12 ans']
-    arrayinf12 = ['9 ans', '9-10ans', '10 ans', '11 ans']
-    arrayinf11 = ['9 ans', '9-10ans', '10 ans']
-    ranking_array = ['NC', '40', '30/5', '30/4', '30/3', '30/2', '30/1', '30', '15/5', '15/4', '15/3', '15/2', '15/1', '15', '5/6', '4/6', '3/6', '2/6', '1/6', '0', '-2/6', '-4/6', '-15', '-30']
-
-    user_ranking_index = ranking_array.index(current_user.ranking)
-    tournament_max_ranking_index = ranking_array.index(@tournament.max_ranking)
-    tournament_min_ranking_index = ranking_array.index(@tournament.min_ranking)
 
     if !current_user.profile_complete?
       flash[:alert] = "Vous devez d'abord remplir" + "<a href=#{user_path(current_user)}>" + "votre profil" + "</a>" + "entièrement avant de pouvoir vous inscrire à ce tournoi"
@@ -224,17 +218,43 @@ class SubscriptionsController < ApplicationController
     elsif @tournament.category == "75 ans" && current_user.birthdate.year > 1940
       flash[:notice] = "Vous n'avez pas l'age requis pour participer à ce tournoi"
       redirect_to tournament_path(@tournament)
-
     else
-      unless current_user.mangopay_user_id && current_user.mangopay_wallet_id
+      unless current_user.mangopay_user_id
         MangoPayments::Users::CreateNaturalUserService.new(current_user).call
         MangoPayments::Users::CreateWalletService.new(current_user).call
       end
 
-      @card = MangoPayments::Users::CreateCardRegistrationService.new(current_user).call
-
-      render :new
+      @card         = MangoPayments::Users::CreateCardRegistrationService.new(current_user).call
+      @subscription = @tournament.subscriptions.build
     end
+  rescue MangoPay::ResponseError => e
+    flash[:alert] = "Nous ne parvenons pas à procéder à votre inscription. Veuillez renouveler votre demande. Si le problème persiste, veuillez contacter le service client [#{e.code}]."
+    redirect_to tournament_path(@tournament)
+  end
+
+  def create
+    current_user.update(mangopay_card_id: params[:card_id])
+
+    tournament    = Tournament.find(params[:tournament_id])
+    subscription  = Subscription.new(user: current_user, tournament: tournament)
+    service       = MangoPayments::Subscriptions::CreatePayinService.new(subscription)
+    authorize subscription
+
+    if service.call
+      notification = Notification.create(
+        user:       subscription.tournament.user,
+        content:    "#{subscription.user.full_name} a demandé à s'inscrire à #{subscription.tournament.name}",
+        tournament: subscription.tournament
+      )
+
+      redirect_to new_subscription_disponibility_path(subscription)
+    else
+      flash[:alert] = 'Un problème est survenu lors du paiement. Merci de bien vouloir réessayer plus tard.'
+      redirect_to tournament_path(tournament)
+    end
+  rescue MangoPay::ResponseError => e
+    flash[:alert] = "Nous ne parvenons pas à procéder à votre inscription. Veuillez renouveler votre demande. Si le problème persiste, veuillez contacter le service client [#{e.code}]."
+    redirect_to tournament_path(tournament)
   end
 
   def update
