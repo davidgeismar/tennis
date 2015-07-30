@@ -13,10 +13,6 @@ class TournamentPolicy < ApplicationPolicy
    user
   end
 
-  def registrate_card?
-    user
-  end
-
   def show?
     user && record.accepted? || record.user == user
   end

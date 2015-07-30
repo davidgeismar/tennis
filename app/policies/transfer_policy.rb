@@ -8,9 +8,4 @@ class TransferPolicy < ApplicationPolicy
   def create?
     true
   end
-
-  def mangopay_return?
-    true
-  end
-
 end

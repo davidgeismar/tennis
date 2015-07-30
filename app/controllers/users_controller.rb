@@ -20,20 +20,12 @@ class UsersController < ApplicationController
     end
   end
 
-  # called when user pays for subscription
-  def update_card
-    authorize @user
-    @user.update(card_params)
-    render nothing: true
-  end
-
   private
 
   def user_params
     params.require(:user).permit(
       :address,
       :birthdate,
-      :card_id,
       :certifmedpicture,
       :club,
       :email,
@@ -50,10 +42,6 @@ class UsersController < ApplicationController
       :ranking,
       :telephone
     )
-  end
-
-  def card_params
-    params.require(:user).permit(:card_id)
   end
 
   def set_user

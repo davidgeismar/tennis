@@ -38,6 +38,7 @@ Rails.application.routes.draw do
   post 'tournaments/:tournament_id/updaterankings',               to: "tournaments#update_rankings",  as: "updaterankings"
 
   # subscriptions
+
   get "mestournois", to: "subscriptions#mytournaments", as: "mes_tournois"
 
   resources :subscriptions, only: [] do
@@ -52,15 +53,8 @@ Rails.application.routes.draw do
   end
 
   # MANGOPAY transfers
-
-  resources :transfers, only: [] do
-    get :mangopay_return, on: :collection
-  end
-
-  # resources :card, only: [:update] POST params[:card_id] ?
-  patch 'registercard/:id', to:"users#update_card", as: "register"
+  resources :transfers, only: [:create]
 
   # notifs
-
   resource :notification_update, only: [:create]
 end

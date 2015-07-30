@@ -72,20 +72,21 @@
 
           Le règlement des achats s’effectue par carte bancaire.  <br>
         </div>
-        <form action="">
-        <input type="checkbox" name="CGV" id="CGV"> <strong>J'ai lu et j'accepte les CGV</strong>
-        </form>
+        <%= form_tag tournament_transfers_path(@tournament), method: :post, id: 'payment_form' do %>
+          <input type="checkbox" name="CGV" id="CGV">
+          <label for="CGV"><strong>J'ai lu et j'accepte les CGV</strong></label>
+        <% end %>
         <div class="col-xs-12">
           <p><strong>En cliquant sur payer, je valide mon inscription à <%= @subscription.tournament.name %> du <%= @subscription.tournament.starts_on.strftime("%d/%m/%Y") %> au <%= @subscription.tournament.ends_on.strftime("%d/%m/%Y")%>. Je ne serai débité que si mon inscription au tournoi est validé par le Juge arbitre</strong> </p>
         </div>
         <div class="col-xs-12">
           <button class= "btn-primary" id="process" onclick="javascript:registerCardDemo();">Payer <%=@subscription.tournament.amount%> € </button>
         </div>
-          <%= image_tag "mangopay_logos.png", id: "mangopay"%>
         <div class="col-xs-12">
           <div id="error-cgv" class="text-center"></div>
            <div id="result" class="text-center"></div>
         </div>
+        <%= image_tag "mangopay_logos.png", id: "mangopay"%>
         <div class="col-xs-12">
           <div class="row-spacer">
           </div>
@@ -96,102 +97,64 @@
 <br>
 <br>
 
-<!--
-<br>
-<div class="col-xs-10 col-xs-offset-2 col-sm-6 col-sm-offset-4 col-md-offset-3 col-md-6 text-center msg-mango">
-  <p>
-      <div id="result"></div>
-  </p>
-</div>
-
-<br>
-<br>
-<div class="vertical-spacer">
-
-</div>
-</div>
-<div class="vertical-spacer"> -->
-
-
-
-
-
-
 <% content_for(:after_js) do %>
-<script type="text/javascript" >
+  <script type="text/javascript" >
+    function registerCardDemo() {
+      if ($('#CGV').prop('checked')) {
+        var resultDiv         = document.getElementById("result");
+        resultDiv.innerHTML   = "Vérification...";
+        resultDiv.style.color = "black";
 
-        function registerCardDemo() {
+        $('#error-cgv').html('');
 
-          if ($('#CGV').prop('checked'))
-            {
-                  var resultDiv = document.getElementById("result");
-                  resultDiv.innerHTML = "Vérification...";
-                  resultDiv.style.color = "black";
+        // Card register data prepared on the server
+        var cardRegisterData = {
+          cardRegistrationURL:  "<%= @card['CardRegistrationURL'] %>",
+          preregistrationData:  "<%= @card['PreregistrationData'] %>",
+          accessKey:            "<%= @card['AccessKey'] %>",
+          Id:                   "<%= @card['Id'] %>"
+        }
 
-                    // Card register data prepared on the server
-                  var cardRegisterData = {
-                      cardRegistrationURL: "<%= params[:card_registration_url] %>",
-                      preregistrationData: "<%= params[:preregistration_data] %>",
-                      accessKey: "<%= params[:access_key] %>",
-                      Id: "<%= params[:card_registration_id] %>"
-                  };
+        // Card data collected from the user
+        var cardData = {
+          cardNumber:         $("#card_number").val(),
+          cardExpirationDate: $("#card_expiration_date").val().replace('/',''),
+          cardCvx:            $("#card_cvx").val(),
+          cardType:           $("#card_type").val()
+        }
 
-                   // Card data collected from the user
-                  var cardData = {
-                       cardNumber: document.getElementById("card_number").value,
-                       cardExpirationDate: document.getElementById("card_expiration_date").value.replace('/',''),
-                       cardCvx: document.getElementById("card_cvx").value,
-                       cardType: document.getElementById("card_type").value
-                  };
+        // Set MangoPay API base URL and Client ID
+        mangoPay.cardRegistration.baseURL   = "<%= ENV['MONGOPAY_API_URL'] %>";
+        mangoPay.cardRegistration.clientId  = "<%= ENV['MANGOPAY_CLIENT_ID'] %>";
 
-              // Set MangoPay API base URL and Client ID
+        // Initialize the CardRegistration Kit
+        mangoPay.cardRegistration.init(cardRegisterData);
 
-                  mangoPay.cardRegistration.baseURL = "<%= ENV['MANGOPAY_PRODUCTION'] == 'true' ? 'https://api.mangopay.com' : 'https://api.sandbox.mangopay.com' %>";
-                  mangoPay.cardRegistration.clientId = "<%= ENV['MANGOPAY_PRODUCTION'] == 'true' ? 'WeTennis' : 'davidgeismar' %>";
+        // Register card
+        mangoPay.cardRegistration.registerCard(cardData,
+          function(res) {
+            var message = '<strong>Votre carte a été vérifiée ' + res.CardId + '.<br /> </strong>';
+            message    += '<strong>Le paiement est en cours</strong>';
+            resultDiv.innerHTML   = message;
+            resultDiv.style.color = "green";
 
-               // Initialize the CardRegistration Kit
-                  mangoPay.cardRegistration.init(cardRegisterData);
+            var form = $('#payment_form');
+            form.find('button').prop('disabled', true);
+            form.append($('<input type="hidden" name="card_id" />').val(res.CardId));
+            form.get(0).submit();
+          },
+          function(res) {
+            var message = "<strong>Votre carte n'a pas été débitée.</strong><br />";
+            message    += '<strong>' +res.ResultMessage + '<br /> Code : ' + res.ResultCode + '</strong>' ;
 
-                  // Register card
-                  mangoPay.cardRegistration.registerCard(cardData,
-                      function(res) {
-                          var message = '<strong>' +'Votre carte a été vérifiée ' + res.CardId + '.<br /> </strong>';
-                          message += '<strong>' +'Le paiement est en cours' + '</strong>';
-                          resultDiv.innerHTML = message;
-                          resultDiv.style.color = "green";
-                          $.ajax({
-                            type:"patch",
-                            dataType: "script",
-                            url: "<%=j register_path(current_user)%>",
-                            data: {
-                              user: {
-                                card_id: res.CardId
-                              }
-                            },
-                            success: function() {$.ajax({
-                                type:"post",
-                                dataType: "script",
-                                url: "<%=j tournament_transfers_path(params[:tournament_id])%>",
-                              });
-                            }
-                          });
-                        },
-                      function(res) {
-                          var message = "<strong>Votre carte n'a pas été débitée.</strong><br />";
-                          message += '<strong>' +res.ResultMessage + '<br />' +' Code : ' + res.ResultCode + '</strong>' ;
-                          resultDiv.innerHTML = message;
-                          resultDiv.style.color = "black";
-                      }
-                  );
-              }
-
-
-        else
-          {
-            $('#error-cgv').append('<p> <strong> Acceptez les CGV de WeTennis pour procéder au paiement </strong></p>');
+            resultDiv.innerHTML   = message;
+            resultDiv.style.color = "black";
           }
+        );
+      }
+      else {
+        $('#error-cgv').html('<p><strong>Veuillez accepter les CGV de WeTennis pour procéder au paiement</strong></p>');
+      }
     }
-
-</script>
-
-<% end -%>
+  </script>
+<% end %>

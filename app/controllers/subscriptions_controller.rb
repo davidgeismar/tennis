@@ -34,7 +34,7 @@ class SubscriptionsController < ApplicationController
     redirect_to tournament_subscriptions_path(@subscription.tournament)
   end
 
-# method must trigger mangopay_payout on each subscription as soon as the tournament is completed
+  # method must trigger mangopay_payout on each subscription as soon as the tournament is completed
   def global_payout
     if @tournament.payment_option = true
       @tournament.subscriptions.where(status: confirmed).each do |subscription|
@@ -47,7 +47,6 @@ class SubscriptionsController < ApplicationController
   # pas possible de créer un nouveau transfert ! il faudrait demander le numéro de carte du JA
   # seul solution faire les payout 2 jours après la fin du tournoi
   # et bien faire des mangopay_refund
-
   def accept # accept_player
     @subscription = Subscription.find(params[:id])
     @subscription.status = "confirmed_warning"
@@ -76,11 +75,11 @@ class SubscriptionsController < ApplicationController
   end
 
   def update
-
-#mangopay refund en cas de subscription.status = refused
+    #mangopay refund en cas de subscription.status = refused
     @subscription = Subscription.find(params[:id])
     authorize @subscription
     @subscription.update(subscription_params)
+
     if @subscription.status == "refused" && @subscription.user.invitation_token.blank?
       mangopay_refund
       @notification = Notification.new
@@ -112,8 +111,7 @@ class SubscriptionsController < ApplicationController
     @subscription = @tounament.subscriptions.build
     authorize @subscription
 
-# le 30 septembre il faut faire year.now - age
-
+    # le 30 septembre il faut faire year.now - age
     if @subscription.tournament.total == false
       flash[:notice] = "Ce tournoi n'accepte plus d'inscrits à votre classement"
       redirect_to tournament_path(@tournament)
@@ -192,6 +190,135 @@ class SubscriptionsController < ApplicationController
     end
   end
 
+  def create
+    @tournament   = Tournament.find(params[:tournament_id])
+    @subscription = @tournament.subscriptions.build
+    authorize @subscription
+
+    arrayminor = ['9 ans', '9-10ans', '10 ans', '11 ans', '11-12 ans', '12 ans', '13-14 ans', '15-16 ans', '17-18 ans']
+    arrayinf18 = ['9 ans', '9-10ans', '10 ans', '11 ans', '11-12 ans', '12 ans', '13-14 ans', '15-16 ans']
+    arrayinf16 = ['9 ans', '9-10ans', '10 ans', '11 ans', '11-12 ans', '12 ans', '13-14 ans']
+    arrayinf14 = ['9 ans', '9-10ans', '10 ans', '11 ans', '11-12 ans', '12 ans']
+    arrayinf12 = ['9 ans', '9-10ans', '10 ans', '11 ans']
+    arrayinf11 = ['9 ans', '9-10ans', '10 ans']
+    ranking_array = ['NC', '40', '30/5', '30/4', '30/3', '30/2', '30/1', '30', '15/5', '15/4', '15/3', '15/2', '15/1', '15', '5/6', '4/6', '3/6', '2/6', '1/6', '0', '-2/6', '-4/6', '-15', '-30']
+
+    user_ranking_index = ranking_array.index(current_user.ranking)
+    tournament_max_ranking_index = ranking_array.index(@tournament.max_ranking)
+    tournament_min_ranking_index = ranking_array.index(@tournament.min_ranking)
+
+    if !current_user.profile_complete?
+      flash[:alert] = "Vous devez d'abord remplir" + "<a href=#{user_path(current_user)}>" + "votre profil" + "</a>" + "entièrement avant de pouvoir vous inscrire à ce tournoi"
+      redirect_to tournament_path(@tournament)
+
+    # elsif user_ranking_index < tournament_min_ranking_index
+    #   flash[:alert] = "Vous n'avez pas le classement requis pour vous inscrire dans ce tournoi"
+    #   redirect_to tournament_path(@tournament)
+
+    # elsif user_ranking_index > tournament_max_ranking_index
+    #   flash[:alert] = "Vous n'avez pas le classement requis pour vous inscrire dans ce tournoi"
+    #   redirect_to tournament_path(@tournament)
+
+    elsif current_user.subscriptions.where(tournament: @tournament) != []
+      flash[:alert] = "Vous êtes déjà inscrit à ce tournoi"
+      redirect_to tournament_path(@tournament)
+
+    elsif current_user.genre != @tournament.genre
+      flash[:alert] = "Ce tournoi n'est pas mixte. Vous ne pouvez pas vous inscrire."
+      redirect_to tournament_path(@tournament)
+
+    elsif @tournament.category == "11 ans" && current_user.birthdate.year < 2004
+      flash[:notice] = "Vous n'avez pas l'age requis pour participer à ce tournoi"
+      redirect_to tournament_path(@tournament)
+
+    elsif @tournament.category == "12 ans" && current_user.birthdate.year < 2003
+      flash[:notice] = "Vous n'avez pas l'age requis pour participer à ce tournoi"
+      redirect_to tournament_path(@tournament)
+
+    elsif @tournament.category == "13 ans" && current_user.birthdate.year < 2002
+      flash[:notice] = "Vous n'avez pas l'age requis pour participer à ce tournoi"
+      redirect_to tournament_path(@tournament)
+
+    elsif @tournament.category == "14 ans" && current_user.birthdate.year < 2001
+      flash[:notice] = "Vous n'avez pas l'age requis pour participer à ce tournoi"
+      redirect_to tournament_path(@tournament)
+
+    elsif @tournament.category == "13-14 ans" && current_user.birthdate.year < 2001
+      flash[:notice] = "Vous n'avez pas l'age requis pour participer à ce tournoi"
+      redirect_to tournament_path(@tournament)
+
+    elsif @tournament.category == "15 ans" && current_user.birthdate.year < 2000
+      flash[:notice] = "Vous n'avez pas l'age requis pour participer à ce tournoi"
+      redirect_to tournament_path(@tournament)
+
+    elsif @tournament.category == "16 ans" && current_user.birthdate.year < 1999
+      flash[:notice] = "Vous n'avez pas l'age requis pour participer à ce tournoi"
+      redirect_to tournament_path(@tournament)
+
+    elsif @tournament.category == "15-16 ans" && current_user.birthdate.year < 1999
+      flash[:notice] = "Vous n'avez pas l'age requis pour participer à ce tournoi"
+      redirect_to tournament_path(@tournament)
+
+    elsif @tournament.category == "17 ans" && current_user.birthdate.year < 1998
+      flash[:notice] = "Vous n'avez pas l'age requis pour participer à ce tournoi"
+      redirect_to tournament_path(@tournament)
+
+    elsif @tournament.category == "18 ans" && current_user.birthdate.year < 1997
+      flash[:notice] = "Vous n'avez pas l'age requis pour participer à ce tournoi"
+      redirect_to tournament_path(@tournament)
+
+    elsif @tournament.category == "17-18 ans" && current_user.birthdate.year < 1997
+      flash[:notice] = "Vous n'avez pas l'age requis pour participer à ce tournoi"
+      redirect_to tournament_path(@tournament)
+
+    elsif @tournament.category == "35 ans" && current_user.birthdate.year > 1980
+      flash[:notice] = "Vous n'avez pas l'age requis pour participer à ce tournoi"
+      redirect_to tournament_path(@tournament)
+
+    elsif @tournament.category == "40 ans" && current_user.birthdate.year > 1975
+      flash[:notice] = "Vous n'avez pas l'age requis pour participer à ce tournoi"
+      redirect_to tournament_path(@tournament)
+
+    elsif @tournament.category == "45 ans" && current_user.birthdate.year > 1970
+      flash[:notice] = "Vous n'avez pas l'age requis pour participer à ce tournoi"
+      redirect_to tournament_path(@tournament)
+
+    elsif @tournament.category == "50 ans" && current_user.birthdate.year > 1965
+      flash[:notice] = "Vous n'avez pas l'age requis pour participer à ce tournoi"
+      redirect_to tournament_path(@tournament)
+
+    elsif @tournament.category == "55 ans" && current_user.birthdate.year > 1960
+      flash[:notice] = "Vous n'avez pas l'age requis pour participer à ce tournoi"
+      redirect_to tournament_path(@tournament)
+
+    elsif @tournament.category == "60 ans" && current_user.birthdate.year > 1955
+      flash[:notice] = "Vous n'avez pas l'age requis pour participer à ce tournoi"
+      redirect_to tournament_path(@tournament)
+
+    elsif @tournament.category == "65 ans" && current_user.birthdate.year > 1950
+      flash[:notice] = "Vous n'avez pas l'age requis pour participer à ce tournoi"
+      redirect_to tournament_path(@tournament)
+
+    elsif @tournament.category == "70 ans" && current_user.birthdate.year > 1945
+      flash[:notice] = "Vous n'avez pas l'age requis pour participer à ce tournoi"
+      redirect_to tournament_path(@tournament)
+
+    elsif @tournament.category == "75 ans" && current_user.birthdate.year > 1940
+      flash[:notice] = "Vous n'avez pas l'age requis pour participer à ce tournoi"
+      redirect_to tournament_path(@tournament)
+
+    else
+      unless current_user.mangopay_user_id && current_user.mangopay_wallet_id
+        MangoPayments::Users::CreateNaturalUserService.new(current_user).call
+        MangoPayments::Users::CreateWalletService.new(current_user).call
+      end
+
+      @card = MangoPayments::Users::CreateCardRegistrationService.new(current_user).call
+
+      render :new
+    end
+  end
+
   def show
     @subscription = Subscription.find(params[:id])
     authorize @subscription
@@ -203,58 +330,6 @@ class SubscriptionsController < ApplicationController
       tournament_starting_date = @subscription.tournament.starts_on
       tournament_starting_date.year - current_user.birthdate.year
     end
-
-     def mangopay_user_attributes
-      {
-        'Email' => current_user.email,
-        'FirstName' => current_user.first_name,
-        'LastName' => current_user.last_name,  # TODO: Change this! Add 2 columns on users table.
-        'Birthday' => current_user.birthday.to_i,  # TODO: Change this! Add 1 column on users table
-        'Nationality' => 'FR',  # TODO: change this!
-        'CountryOfResidence' => 'FR' # TODO: change this!
-      }
-    end
-    def create_mangopay_natural_user_and_wallet
-      natural_user = MangoPay::NaturalUser.create(mangopay_user_attributes)
-
-
-      wallet = MangoPay::Wallet.create({
-        Owners: [natural_user["Id"]],
-        Description: "My first wallet",
-        Currency: "EUR",
-        })
-
-      kyc_document = MangoPay::KycDocument.create(natural_user["Id"],{Type: "IDENTITY_PROOF", Tag: "Driving Licence"})
-
-      self.mangopay_user_id = natural_user["Id"]
-      self.wallet_id = wallet["Id"]
-      self.kyc_document_id = kyc_document["Id"]
-      self.save
-    end
-
-    def mangopay_payin
-
-      MangoPay::PayIn::Card::Direct.create({
-          "Tag" => "Payment Carte Bancaire",
-          "CardType" => "CB_VISA_MASTERCARD",
-          "AuthorId" => current_user.mangopay_user_id,
-          "CreditedUderId" => current_user.mangopay_user_id,
-          "DebitedFunds" => {
-            "Currency" => "EUR",
-            "Amount" => amount.to_i*100
-          },
-          "Fees" => {
-            "Currency" => "EUR",
-            "Amount" => 0
-          },
-          "CreditedWalletID" => current_user.wallet_id,
-          "SecureModeReturnURL" => mangopay_return_transfers_url(booking_id: params[:booking_id]),
-          "CardId" => current_user.card_id,
-          "Culture" => "FR",
-          "SecureMode" => "DEFAULT"
-        })
-    end
-
 
     def mangopay_payout
       payout = MangoPay::PayOut::BankWire.create(payout_attributes)

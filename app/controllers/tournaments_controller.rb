@@ -1,5 +1,5 @@
  class TournamentsController < ApplicationController
-  before_action :set_tournament,  only: [:update, :edit, :show, :registrate_card]
+  before_action :set_tournament,  only: [:update, :edit, :show]
   before_action :check_profile,   only: [:new, :create]
 
   def index
@@ -174,28 +174,15 @@
       redirect_to tournament_path(@tournament)
 
     else
-      redirect_to new_tournament_subscription_path(@tournament)
+      unless current_user.mangopay_user_id
+        MangoPayments::Users::CreateNaturalUserService.new(current_user).call
+        MangoPayments::Users::CreateWalletService.new(current_user).call
+      end
 
-    # elsif current_user.mangopay_user_id.blank?
-    #   create_mangopay_natural_user_and_wallet
-    #   card = MangoPay::CardRegistration.create({UserId: current_user.mangopay_user_id, Currency:"EUR"})
+      @card         = MangoPayments::Users::CreateCardRegistrationService.new(current_user).call
+      @subscription = @tournament.subscriptions.build
 
-    #   redirect_to new_tournament_subscription_path(
-    #     access_key: card["AccessKey"],
-    #     preregistration_data: card["PreregistrationData"],
-    #     card_registration_url: card["CardRegistrationURL"],
-    #     card_registration_id: card["Id"],
-    #     tournament_id: params[:tournament_id])
-
-    # else
-    #   card = MangoPay::CardRegistration.create({UserId: current_user.mangopay_user_id, Currency:"EUR"})
-
-    #   redirect_to new_tournament_subscription_path(
-    #     access_key: card["AccessKey"],
-    #     preregistration_data: card["PreregistrationData"],
-    #     card_registration_url: card["CardRegistrationURL"],
-    #     card_registration_id: card["Id"],
-    #     tournament_id: params[:tournament_id])
+      render 'subscriptions/new'
     end
   end
 

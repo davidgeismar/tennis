@@ -261,6 +261,7 @@ ActiveRecord::Schema.define(version: 20150727233755) do
     t.boolean  "accepted",                      default: false
     t.string   "confirmation_token"
     t.string   "unconfirmed_email"
+    t.integer  "mangopay_card_id"
     t.string   "mangopay_user_id"
     t.string   "mangopay_wallet_id"
   end
