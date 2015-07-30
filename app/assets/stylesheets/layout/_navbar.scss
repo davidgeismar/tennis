@@ -1,202 +1,219 @@
-.adjust {
-  margin-top: -15px
-}
-.notif {
-  position: relative;
-  top: 14px;
-}
-.notifstyling{
-  border-bottom: solid 1px;
-  margin-left: 0px !important;
-  background-color: rgb(246, 247, 248);
+.navbar {
+  padding: 10px 0;
 }
 
-#notimenu {
-  margin-top: 17px;
-  min-width: 400px
+.navbar-logo--img {
+  float: left;
+  max-height: 60px;
+  margin-top: -20px;
 }
-.noti_bubble {
-  z-index: 1;
-  position:absolute;    /* This breaks the div from the normal HTML document. */
-  padding:1px 2px 1px 2px;
-  background-color:red; /* you could use a background image if you'd like as well */
-  color:white;
-  font-weight:bold;
-  font-size:1.3em;
 
-  margin-left: 140px;
-  border-radius: 30px;
-  box-shadow: 1px 1px 1px gray;
-  margin-top: -16px;
+.navbar-logo--text {
+  float: left;
+  font-weight: $font-weight-bolder;
+  letter-spacing: -2px;
+}
+
+.img-avatar{
+  height: 45px;
+  width: 45px;
+  background-size: cover;
+  border-radius: 50%;
+  display: inline-block;
+  background-position: center center;
 }
 
 
-.userpic {
-  margin-top: -10px;
-}
+// .adjust {
+//   margin-top: -15px
+// }
+// .notif {
+//   position: relative;
+//   top: 14px;
+// }
+// .notifstyling{
+//   border-bottom: solid 1px;
+//   margin-left: 0px !important;
+//   background-color: rgb(246, 247, 248);
+// }
 
-#card_number {
-  margin-bottom: 10px;
-}
-#card_cvx {
-  margin-bottom: 10px;
-}
-.navbar-collapse {
-  margin:auto;
-  padding-top: 1em;
-}
+// #notimenu {
+//   margin-top: 17px;
+//   min-width: 400px
+// }
+// .js-navbar-nofification {
+//   z-index: 1;
+//   position:absolute;    /* This breaks the div from the normal HTML document. */
+//   padding:1px 2px 1px 2px;
+//   background-color:red; /* you could use a background image if you'd like as well */
+//   color:white;
+//   font-weight:bold;
+//   font-size:1.3em;
 
-@media (max-width: 750px) {
-  .navbar-collapse {
-    margin-top: -9px;
-    background-color: rgb(159, 183, 156);
-  }
-
-  .adjust {
-    text-align: center;
-  }
-  .dropdown {
-    text-align : center;
-  }
-
-  #dropdownMenu1 {
-  // text-align: center;
-  margin-bottom: 30px
-}
-#tournamentbtn {
-  text-align: center;
-  margin-bottom: 30px
-}
-}
-.navbar li {
-  margin-left: 45px;
-}
-.navbar-right {
-  width:500px;
-}
-.badge {
-  position: relative;
-  bottom: 60px;
-  background-color: white;
-  color: black;
-  border-radius: 50%
-}
-
-.navbar-wagon {
-  min-height: 70px;
-  background: $navbar-bg;
-  font-family: $navbar-font-family;
-  font-size: $navbar-font-size;
-  text-transform: $navbar-text-transform;
-  font-weight: $navbar-font-weight;
-  letter-spacing: $navbar-letter-spacing;
-  padding-left: $navbar-horizontal-padding;
-  padding-right: $navbar-horizontal-padding;
-  border-bottom: 1px solid #8BA388;
-  min-height: 0;
-  transition: background 0.4s ease;
-  margin-bottom: 0px;
-
-  .navbar-nav > li > a,
-  .navbar-nav > .open > a,
-  .navbar-nav > li > a:focus,
-  .navbar-nav > .open > a:focus {
-    outline: none;
-    line-height: $navbar-height;
-    padding-top: $navbar-vertical-padding;
-    padding-bottom: $navbar-vertical-padding;
-    color: white;
-
-  }
-
-  .notifcontent {
-    color: black;
-    &:hover {
-      color: blue;
-    }
-  }
+//   margin-left: 140px;
+//   border-radius: 30px;
+//   box-shadow: 1px 1px 1px gray;
+//   margin-top: -16px;
+// }
 
 
-  .navbar-brand,
-  .navbar-brand:hover {
-    outline: none;
-    padding-top: $navbar-vertical-padding;
-    padding-bottom: $navbar-vertical-padding;
-  }
+// .userpic {
+//   margin-top: -10px;
+// }
 
-  .navbar-nav > li > a.btn {
-    line-height: $navbar-btn-height;
-    padding: 0 $navbar-btn-horizontal-padding;
-    border-radius: $navbar-btn-radius;
-    font-weight: bold;
-    font-size: 12px;
-    &:hover{
-     background-color: rgb(50, 183, 150) ;
+// #card_number {
+//   margin-bottom: 10px;
+// }
+// #card_cvx {
+//   margin-bottom: 10px;
+// }
+// .navbar-collapse {
+//   margin:auto;
+//   padding-top: 1em;
+// }
 
-   }
- }
+// @media (max-width: 750px) {
+//   .navbar-collapse {
+//     margin-top: -9px;
+//     background-color: rgb(159, 183, 156);
+//   }
 
- .navbar-brand img, .navbar-brand svg {
-    height: $navbar-height;
-    padding: 0px;
-    opacity: .85;
+//   .adjust {
+//     text-align: center;
+//   }
+//   .dropdown {
+//     text-align : center;
+//   }
 
-    &:hover {
-     opacity: 1;
-   }
-  }
+//   #dropdownMenu1 {
+//   // text-align: center;
+//   margin-bottom: 30px
+// }
+// #tournamentbtn {
+//   text-align: center;
+//   margin-bottom: 30px
+// }
+// }
+// .navbar li {
+//   margin-left: 45px;
+// }
+// .navbar-right {
+//   width:500px;
+// }
+// .badge {
+//   position: relative;
+//   bottom: 60px;
+//   background-color: white;
+//   color: black;
+//   border-radius: 50%
+// }
 
-  .img-avatar{
-    height: 45px;
-    width: 45px;
-    background-size: cover;
-    border-radius: 50%;
-    display: inline-block;
-    background-position: center center;
-  }
+// .navbar-wagon {
+//   min-height: 70px;
+//   background: $navbar-bg;
+//   font-family: $navbar-font-family;
+//   font-size: $navbar-font-size;
+//   text-transform: $navbar-text-transform;
+//   font-weight: $navbar-font-weight;
+//   letter-spacing: $navbar-letter-spacing;
+//   padding-left: $navbar-horizontal-padding;
+//   padding-right: $navbar-horizontal-padding;
+//   border-bottom: 1px solid #8BA388;
+//   min-height: 0;
+//   transition: background 0.4s ease;
+//   margin-bottom: 0px;
 
-  .navbar-toggle {
-    width: 45px;
-  }
+//   .navbar-nav > li > a,
+//   .navbar-nav > .open > a,
+//   .navbar-nav > li > a:focus,
+//   .navbar-nav > .open > a:focus {
+//     outline: none;
+//     line-height: $navbar-height;
+//     padding-top: $navbar-vertical-padding;
+//     padding-bottom: $navbar-vertical-padding;
+//     color: white;
 
-  .navbar-nav > li > .dropdown-menu{
-    border-radius: 0;
-  }
+//   }
 
-  .navbar-nav > li > .dropdown-menu:before {
-    position: absolute;
-    height: 10px;
-    width: 10px;
-    content: "\00a0";
-    display: block;
-    left: 88%;
-    margin-left: -5px;
-    top: -5px;
-    transform: rotate(45deg);
-    border-top: 1px solid #A89C93;
-    border-left: 1px solid #A89C93;
-    z-index: -1;
-  }
-}
+//   .notifcontent {
+//     color: black;
+//     &:hover {
+//       color: blue;
+//     }
+//   }
 
-/* -------------------------------------
-* Navbar profile picture
-* ------------------------------------- */
 
-@media screen and (max-width: 768px) {
-  .navbar-wagon {
-    .navbar-brand img, .navbar-brand svg {
-      height: 50px;
-    }
-    .navbar-brand, .navbar-brand:hover {
-      display: block;
-      padding-top: 0;
-      padding-bottom: 0;
-    }
-  }
-}
+//   .navbar-brand,
+//   .navbar-brand:hover {
+//     outline: none;
+//     padding-top: $navbar-vertical-padding;
+//     padding-bottom: $navbar-vertical-padding;
+//   }
 
-.img {
-  margin-left: 28px;
-  margin-top: -6px
-}
+//   .navbar-nav > li > a.btn {
+//     line-height: $navbar-btn-height;
+//     padding: 0 $navbar-btn-horizontal-padding;
+//     border-radius: $navbar-btn-radius;
+//     font-weight: bold;
+//     font-size: 12px;
+//     &:hover{
+//      background-color: rgb(50, 183, 150) ;
+
+//    }
+//  }
+
+//  .navbar-brand img, .navbar-brand svg {
+//     height: $navbar-height;
+//     padding: 0px;
+//     opacity: .85;
+
+//     &:hover {
+//      opacity: 1;
+//    }
+//   }
+
+//   .navbar-toggle {
+//     width: 45px;
+//   }
+
+//   .navbar-nav > li > .dropdown-menu{
+//     border-radius: 0;
+//   }
+
+//   .navbar-nav > li > .dropdown-menu:before {
+//     position: absolute;
+//     height: 10px;
+//     width: 10px;
+//     content: "\00a0";
+//     display: block;
+//     left: 88%;
+//     margin-left: -5px;
+//     top: -5px;
+//     transform: rotate(45deg);
+//     border-top: 1px solid #A89C93;
+//     border-left: 1px solid #A89C93;
+//     z-index: -1;
+//   }
+// }
+
+// /* -------------------------------------
+// * Navbar profile picture
+// * ------------------------------------- */
+
+// @media screen and (max-width: 768px) {
+//   .navbar-wagon {
+//     .navbar-brand img, .navbar-brand svg {
+//       height: 50px;
+//     }
+//     .navbar-brand, .navbar-brand:hover {
+//       display: block;
+//       padding-top: 0;
+//       padding-bottom: 0;
+//     }
+//   }
+// }
+
+// .img {
+//   margin-left: 28px;
+//   margin-top: -6px
+// }

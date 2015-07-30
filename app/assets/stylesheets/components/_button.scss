@@ -1,3 +1,10 @@
+.btn {
+  border: none;
+  font-weight: $font-weight-bold;
+  text-transform: uppercase;
+  text-shadow: 0 1px 0 rgba($black, 0.2);
+}
+
 .btn-subscribe {
   width: 100%;
   font-size: 14px;

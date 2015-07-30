@@ -36,12 +36,11 @@ $grid-gutter-width: 0 ;
 $navbar-color: rgba(255, 255, 255, .85);
 // $navbar-hover-color: white;
 
-$navbar-font-family: $navbar-font;
 $navbar-font-size: 14px;
 $navbar-text-transform: capitalize;
 $navbar-font-weight: $font-weight-light;
 $navbar-letter-spacing: 1.5px;
-$navbar-font-family: $navbar-font;
+$navbar-font-family: $base-font;
 $navbar-bg: $green-dark;
 
 $navbar-height: 50px;
@@ -56,3 +55,8 @@ $navbar-btn-radius: 2px;
 $navbar-profile-radius: 50%;
 $navbar-profile-border-color: white;
 $navbar-profile-border-width: 1px;
+
+
+
+$alert-border-radius: 0;
+$alert-link-font-weight: $font-weight-bold;
