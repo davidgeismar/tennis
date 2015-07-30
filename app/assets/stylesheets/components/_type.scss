@@ -6,3 +6,8 @@ hr {
       border-color: white;
   }
 }
+
+
+::selection {
+  text-shadow: none;
+}

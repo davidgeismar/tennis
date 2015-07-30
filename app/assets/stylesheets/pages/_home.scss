@@ -1,6 +1,6 @@
 .homepage {
   display: flex;
-  height: 100vh;
+  height: 90vh;
   align-items: center;
 
   .is-connected {
@@ -87,16 +87,6 @@ height: 20px;
 
 .raquette {
   height: 400px;
-}
-.centre {
-     position: absolute;
-     margin: auto;
-     top: 0;
-     right: 0;
-     bottom: 0;
-     left: 0;
-     width: 200px;
-     height: 200px;
 }
 .selima {
   background-color: rgba(0, 0, 0, 0.3);
