@@ -4,8 +4,10 @@
 
   def index
     @tournaments = policy_scope(Tournament)
-    if @tournaments.blank?
-     render 'pages/partials/_no_tournaments'
+    if @tournaments.blank? && current_user.judge?
+      render 'pages/partials/_no_tournaments_judge'
+    elsif @tournaments.blank?
+      render 'pages/partials/_no_tournaments'
     end
   end
 
