@@ -1,6 +1,52 @@
 ActiveAdmin.register Tournament do
+  permit_params :accepted,
+                :address,
+                :amount,
+                :bic,
+                :category,
+                :cinqsix,
+                :city,
+                :club_email,
+                :club_organisateur,
+                :deuxsix,
+                :ends_on,
+                :genre,
+                :homologation_number,
+                :iban,
+                :latitude,
+                :longitude,
+                :max_ranking,
+                :min_ranking,
+                :moinsdeuxsix,
+                :moinsquatresix,
+                :moinsquinze,
+                :moinstrente,
+                :name,
+                :nature,
+                :NC,
+                :postcode,
+                :quarante,
+                :quatresix,
+                :quinze,
+                :quinzecinq,
+                :quinzedeux,
+                :quinzequatre,
+                :quinzetrois,
+                :quinzeun,
+                :starts_on,
+                :total,
+                :trente,
+                :trentecinq,
+                :trentedeux,
+                :trentequatre,
+                :trentetrois,
+                :trenteun,
+                :troissix,
+                :unsix,
+                :user_id,
+                :young_fare,
+                :zero
 
- permit_params :accepted, :genre, :category, :amount, :starts_on, :ends_on, :city, :user_id, :address, :name, :club_organisateur, :latitude, :longitude, :homologation_number, :max_ranking, :min_ranking, :nature, :postcode, :young_fare, :NC, :quarante, :trentecinq, :trentequatre, :trentetrois, :trentedeux, :trenteun, :trente, :quinzecinq, :quinzequatre, :quinzetrois, :quinzedeux, :quinzeun, :quinze, :cinqsix, :quatresix, :troissix, :deuxsix, :unsix, :zero, :moinsdeuxsix, :moinsquatresix, :moinsquinze, :moinstrente, :total, :iban, :bic
   # See permitted parameters documentation:
   # https://github.com/activeadmin/activeadmin/blob/master/docs/2-resource-customization.md#setting-up-strong-parameters
   #
@@ -13,7 +59,4 @@ ActiveAdmin.register Tournament do
   #   permitted << :other if resource.something?
   #   permitted
   # end
-
-
-
 end

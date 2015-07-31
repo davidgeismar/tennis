@@ -11,11 +11,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150724090844) do
+ActiveRecord::Schema.define(version: 20150730210937) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
-  enable_extension "hstore"
 
   create_table "active_admin_comments", force: :cascade do |t|
     t.string   "namespace"
@@ -127,10 +126,12 @@ ActiveRecord::Schema.define(version: 20150724090844) do
   create_table "subscriptions", force: :cascade do |t|
     t.integer  "user_id"
     t.integer  "tournament_id"
-    t.string   "status",        default: "pending"
-    t.datetime "created_at",                        null: false
-    t.datetime "updated_at",                        null: false
-    t.boolean  "exported",      default: false
+    t.string   "status",            default: "pending"
+    t.datetime "created_at",                            null: false
+    t.datetime "updated_at",                            null: false
+    t.boolean  "exported",          default: false
+    t.boolean  "funds_sent",        default: false
+    t.string   "mangopay_payin_id"
   end
 
   add_index "subscriptions", ["tournament_id"], name: "index_subscriptions_on_tournament_id", using: :btree
@@ -144,8 +145,8 @@ ActiveRecord::Schema.define(version: 20150724090844) do
     t.integer  "amount"
     t.date     "starts_on"
     t.date     "ends_on"
-    t.datetime "created_at",                             null: false
-    t.datetime "updated_at",                             null: false
+    t.datetime "created_at",                                  null: false
+    t.datetime "updated_at",                                  null: false
     t.string   "address"
     t.string   "city"
     t.string   "name"
@@ -155,36 +156,41 @@ ActiveRecord::Schema.define(version: 20150724090844) do
     t.string   "homologation_number"
     t.string   "min_ranking"
     t.string   "max_ranking"
-    t.string   "nature",              default: "single"
+    t.string   "nature",                   default: "single"
     t.string   "postcode"
     t.integer  "young_fare"
-    t.boolean  "NC",                  default: true
-    t.boolean  "trentecinq",          default: true
-    t.boolean  "trentequatre",        default: true
-    t.boolean  "trentetrois",         default: true
-    t.boolean  "trentedeux",          default: true
-    t.boolean  "trenteun",            default: true
-    t.boolean  "trente",              default: true
-    t.boolean  "quinzecinq",          default: true
-    t.boolean  "quinzequatre",        default: true
-    t.boolean  "quinzetrois",         default: true
-    t.boolean  "quinzedeux",          default: true
-    t.boolean  "quinzeun",            default: true
-    t.boolean  "quinze",              default: true
-    t.boolean  "cinqsix",             default: true
-    t.boolean  "quatresix",           default: true
-    t.boolean  "troissix",            default: true
-    t.boolean  "deuxsix",             default: true
-    t.boolean  "unsix",               default: true
-    t.boolean  "zero",                default: true
-    t.boolean  "moinsdeuxsix",        default: true
-    t.boolean  "moinsquatresix",      default: true
-    t.boolean  "moinsquinze",         default: true
-    t.boolean  "moinstrente",         default: true
-    t.boolean  "quarante",            default: true
-    t.boolean  "total",               default: true
+    t.boolean  "NC",                       default: true
+    t.boolean  "trentecinq",               default: true
+    t.boolean  "trentequatre",             default: true
+    t.boolean  "trentetrois",              default: true
+    t.boolean  "trentedeux",               default: true
+    t.boolean  "trenteun",                 default: true
+    t.boolean  "trente",                   default: true
+    t.boolean  "quinzecinq",               default: true
+    t.boolean  "quinzequatre",             default: true
+    t.boolean  "quinzetrois",              default: true
+    t.boolean  "quinzedeux",               default: true
+    t.boolean  "quinzeun",                 default: true
+    t.boolean  "quinze",                   default: true
+    t.boolean  "cinqsix",                  default: true
+    t.boolean  "quatresix",                default: true
+    t.boolean  "troissix",                 default: true
+    t.boolean  "deuxsix",                  default: true
+    t.boolean  "unsix",                    default: true
+    t.boolean  "zero",                     default: true
+    t.boolean  "moinsdeuxsix",             default: true
+    t.boolean  "moinsquatresix",           default: true
+    t.boolean  "moinsquinze",              default: true
+    t.boolean  "moinstrente",              default: true
+    t.boolean  "quarante",                 default: true
+    t.boolean  "total",                    default: true
     t.string   "iban"
     t.string   "bic"
+    t.string   "club_email"
+    t.string   "mangopay_user_id"
+    t.string   "mangopay_wallet_id"
+    t.string   "mangopay_bank_account_id"
+    t.boolean  "funds_received",           default: false
   end
 
   add_index "tournaments", ["user_id"], name: "index_tournaments_on_user_id", using: :btree
@@ -250,22 +256,17 @@ ActiveRecord::Schema.define(version: 20150724090844) do
     t.string   "certifmedpicture_content_type"
     t.integer  "certifmedpicture_file_size"
     t.datetime "certifmedpicture_updated_at"
-    t.integer  "client_id"
-    t.integer  "mangopay_natural_user_id"
-    t.integer  "wallet_id"
-    t.integer  "kyc_document_id"
-    t.integer  "card_id"
     t.datetime "birthdate"
-    t.string   "iban"
-    t.string   "bic"
     t.string   "address"
-    t.integer  "bank_account_id"
     t.string   "club"
     t.string   "login_aei"
     t.string   "password_aei"
     t.boolean  "accepted",                      default: false
     t.string   "confirmation_token"
     t.string   "unconfirmed_email"
+    t.integer  "mangopay_card_id"
+    t.string   "mangopay_user_id"
+    t.string   "mangopay_wallet_id"
   end
 
   add_index "users", ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true, using: :btree
@@ -277,8 +278,8 @@ ActiveRecord::Schema.define(version: 20150724090844) do
 
   add_foreign_key "convocations", "subscriptions"
   add_foreign_key "disponibilities", "subscriptions"
+  add_foreign_key "notifications", "users"
   add_foreign_key "subscriptions", "tournaments"
-  add_foreign_key "subscriptions", "users"
   add_foreign_key "subscriptions", "users"
   add_foreign_key "tournaments", "users"
 end

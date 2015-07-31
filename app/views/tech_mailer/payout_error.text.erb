@@ -1,0 +1,9 @@
+Tournoi : <%= @tournament.name %> - <%= tourmanent_url(@tournament) %>
+
+<% if @subscription_error_ids.present? %>
+Transferts sur inscriptions : NOK
+IDs inscriptions : <%= @subscription_error_ids.join(', ') %>
+<% else %>
+Transferts sur inscriptions : OK
+Payout : NOK
+<% end %>

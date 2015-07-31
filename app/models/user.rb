@@ -35,16 +35,6 @@ class User < ActiveRecord::Base
       message:  'Le format de votre numéro de licence doit être du type 0930613K'
     }, on: :update
 
-  validates :iban, format: {
-      with:     /\A[a-zA-Z]{2}\d{2}\s*(\w{4}\s*){2,7}\w{1,4}\s*\z/,
-      message:  'Le format de votre IBAN doit être du type FR70 3000 2005 5000 0015 7845 Z02'
-    }, allow_blank: true, on: :update
-
-  validates :bic, format: {
-      with:     /([a-zA-Z]{4}[a-zA-Z]{2}[a-zA-Z0-9]{2}([a-zA-Z0-9]{3})?)/,
-      message:  'Le format de votre BIC doit être du type AXABFRPP'
-    }, allow_blank: true, on: :update
-
   validates :telephone, format: {
       with:     /\A(\+33)[1-9]([-. ]?[0-9]{2}){4}\z/,
       message:  'Le format de votre numéro doit être du type +33602385414'
@@ -115,48 +105,10 @@ class User < ActiveRecord::Base
     )
 
     if judge
-      return base_fields_complete && (
-          iban.present?  &&
-          bic.present?   &&
-          address.present?
-        )
+      return base_fields_complete && address.present?
     else
-      return base_fields_complete && (
-          genre.present? &&
-          club.present?  &&
-          ranking.present?
-        )
+      return base_fields_complete && genre.present? && club.present? && ranking.present?
     end
-  end
-
-  # MangoPay
-  def create_mangopay_natural_user_and_wallet
-    natural_user = MangoPay::NaturalUser.create(self.mangopay_user_attributes)
-
-    wallet = MangoPay::Wallet.create(
-      Owners:       [natural_user["Id"]],
-      Description:  "My first wallet",
-      Currency:     "EUR"
-    )
-
-    kyc_document = MangoPay::KycDocument.create(natural_user["Id"],{Type: "IDENTITY_PROOF", Tag: "Driving Licence"})
-
-    self.mangopay_natural_user_id = natural_user["Id"]
-    self.wallet_id                = wallet["Id"]
-    self.kyc_document_id          = kyc_document["Id"]
-
-    self.save
-  end
-
-   def mangopay_user_attributes
-    {
-      'Email'               => self.email,
-      'FirstName'           => self.first_name,
-      'LastName'            => self.last_name,  # TODO: Change this! Add 2 columns on users table.
-      'Birthday'            => self.date_of_birth.to_i,  # TODO: Change this! Add 1 column on users table
-      'Nationality'         => 'FR',  # TODO: change this!
-      'CountryOfResidence'  => 'FR' # TODO: change this!
-    }
   end
 
   private

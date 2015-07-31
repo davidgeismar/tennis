@@ -23,8 +23,6 @@ Rails.application.routes.draw do
   # tournaments
 
   resources :tournaments, only: [:index, :show, :new, :create, :update] do
-    post :registrate_card, on: :member
-
     resource  :aei_export,          only: [:create]
     resource  :rankings,            only: [:show]
 
@@ -38,12 +36,13 @@ Rails.application.routes.draw do
   post 'tournaments/:tournament_id/updaterankings',               to: "tournaments#update_rankings",  as: "updaterankings"
 
   # subscriptions
+
   get "mestournois", to: "subscriptions#mytournaments", as: "mes_tournois"
 
   resources :subscriptions, only: [] do
     member do
-      post 'refund'
       post 'accept'
+      post 'refund'
       post 'refuse'
     end
 
@@ -51,16 +50,6 @@ Rails.application.routes.draw do
     resources :disponibilities, only: [:new, :create, :edit, :update, :show]
   end
 
-  # MANGOPAY transfers
-
-  resources :transfers, only: [] do
-    get :mangopay_return, on: :collection
-  end
-
-  # resources :card, only: [:update] POST params[:card_id] ?
-  patch 'registercard/:id', to:"users#update_card", as: "register"
-
   # notifs
-
   resource :notification_update, only: [:create]
 end

@@ -4,6 +4,10 @@ development:
   AWS_SECRET_ACCESS_KEY: ""
   FB_ID: ""
   FB_SECRET: ""
+  MANGOPAY_API_URL: "https://api.sandbox.mangopay.com"
+  MANGOPAY_CLIENT_ID: ""
+  MANGOPAY_CLIENT_PASSPHRASE: ""
+  MANGOPAY_PRODUCTION: "false"
   TRELLO_MEMBER_TOKEN: ""
   TRELLO_PUBLIC_KEY: ""
   TWILIO_FROM: ""
@@ -19,12 +23,10 @@ production:
   FB_ID: ""
   FB_SECRET: ""
   HOST: ""
+  MANGOPAY_API_URL: "https://api.mangopay.com"
+  MANGOPAY_CLIENT_ID: ""
+  MANGOPAY_CLIENT_PASSPHRASE: ""
+  MANGOPAY_PRODUCTION: "true"
   TWILIO_FROM: ""
   TWILIO_SID: ""
   TWILIO_TOKEN: ""
-
-  # configuration (not required if Rails generator fired as above)
-
-  # MANGOPAY_PRODUCTION: false
-  # MANGOPAY_CLIENT_ID: ""
-  # MANGOPAY_CLIENT_PASSPHRASE: ""

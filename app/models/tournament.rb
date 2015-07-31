@@ -11,9 +11,9 @@ class Tournament < ActiveRecord::Base
 
   belongs_to :user
 
-  has_many :notifications, dependent: :destroy
-  has_many :subscriptions, dependent: :destroy
-  has_many :transfers
+  has_many :notifications,  dependent: :destroy
+  has_many :subscriptions,  dependent: :destroy
+  has_many :transfers,      dependent: :destroy
 
   validates :postcode,            presence: { message: "Merci d'indiquer un code postal valide" }
   validates :genre,               presence: { message: "Merci d'indiquer le genre" }
@@ -24,6 +24,7 @@ class Tournament < ActiveRecord::Base
   validates :city,                presence: { message: "Merci d'indiquer la ville où a lieu le tournoi" }
   validates :address,             presence: { message: "Merci d'indiquer l'addresse des installations" }
   validates :name,                presence: { message: "Merci d'indiquer le nom de la compétition" }
+  validates :club_email,          presence: { message: "Merci d'indiquer l'email du club organisateur" }
   validates :club_organisateur,   presence: { message: "Merci d'indiquer le club organisateur" }
 
   validates :homologation_number, presence: true, format:{

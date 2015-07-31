@@ -20,7 +20,9 @@
            <%= t.input :max_ranking, label: 'Classement minimum' %>
           <%= t.input :max_ranking, label: 'Classement maximum' %>
           <%= t.input :amount, label: "Frais d'inscription" %>
+          <h4>Club organisateur</h4>
           <%= t.input :club_organisateur, label: "Club Organisateur" %>
+          <%= t.input :club_email, label: "Email" %>
           <%= t.button :submit, value: "Soumettre ce tournoi à validation",  class: "btn-primary marge-bas" %>
         <% end %>
     </div>
