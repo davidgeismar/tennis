@@ -1,20 +1,10 @@
-// Your footer style
- #contact {
-  padding: 20px;
-  color: white;
-//   padding-top: 60px;
-//   bottom: 0;
-//   width: 100%;
-   position: relative;
-//   transition: background 0.4s ease;
+.l-footer {
+  padding: 40px;
+  color: $white;
   background-color: $black;
-}
 
-#à_propos {
-  margin-top: 30px;
-}
-
-.icones {
-  font-size: 3em;
-  margin: 20px;
+  a {
+    display: block;
+    padding: 10px;
+  }
 }

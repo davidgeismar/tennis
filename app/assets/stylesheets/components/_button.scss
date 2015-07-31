@@ -1,3 +1,10 @@
+.btn {
+  border: none;
+  font-weight: $font-weight-bolder;
+  text-transform: uppercase;
+  text-shadow: 0 1px 0 rgba($black, 0.2);
+}
+
 .btn-subscribe {
   width: 100%;
   font-size: 14px;
@@ -32,4 +39,11 @@
   font-size: 12px;
   right: 15px;
   padding-right: 0px;
+}
+
+#bouton-inscription {
+  margin-top: 30px;
+  padding: 10px;
+  width: 200px;
+  font-size: 2em;
 }

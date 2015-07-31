@@ -18,10 +18,6 @@
   background: $blue;
   color: white;
 }
-.bg-yellow {
-  background: $yellow;
-  color: white;
-}
 .bg-orange {
   background: $orange;
   color: white;
@@ -68,8 +64,4 @@
   &:after {
     right: 0
   }
-}
-#nav {
-  margin-left: 22px;
-  color: white;
 }

@@ -1,0 +1,13 @@
+hr {
+  border-width: 3px;
+  max-width: 50px;
+
+  &.light {
+      border-color: white;
+  }
+}
+
+
+::selection {
+  text-shadow: none;
+}

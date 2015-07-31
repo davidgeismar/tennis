@@ -1,3 +1,16 @@
+.homepage {
+  display: flex;
+  height: 90vh;
+  align-items: center;
+
+  .is-connected {
+    margin: auto;
+    text-align: center;
+  }
+}
+
+
+
   // disponibility/new
 .retour_tournament_show {
   margin-top: -100px;
@@ -34,13 +47,7 @@ height: 20px;
   margin-right: auto;
 }
 
-#CGV {
-  margin: 15px;
-}
 
-input[type="file"]::-webkit-file-upload-button {
-              cursor: pointer;
-            }
 #error-cgv {
   color: rgb(169, 68, 76);
   margin-top: 10px;
@@ -76,21 +83,10 @@ input[type="file"]::-webkit-file-upload-button {
 .main {
   background-image: image-url('background.jpg');
   background-size: cover;
-
 }
 
 .raquette {
   height: 400px;
-}
-.centre {
-     position: absolute;
-     margin: auto;
-     top: 0;
-     right: 0;
-     bottom: 0;
-     left: 0;
-     width: 200px;
-     height: 200px;
 }
 .selima {
   background-color: rgba(0, 0, 0, 0.3);
@@ -115,21 +111,6 @@ input[type="file"]::-webkit-file-upload-button {
   background-size: cover;
 
 }
-
-#bouton-inscription {
-  margin-top: 30px;
-  padding: 10px;
-  width: 200px;
-  font-size: 2em;
-}
-
-
-#alert {
-  z-index: 3;
-  position: absolute;
-  margin-top: 80px;
-}
-
 
 .search {
   padding: 100px 20px;
@@ -158,6 +139,7 @@ input[type="file"]::-webkit-file-upload-button {
 .black {
   color: black;
 }
+
 #tournament {
   background: none;
   border: none;
@@ -170,31 +152,9 @@ input[type="file"]::-webkit-file-upload-button {
     outline: none;
   }
 
-.tt-dataset-0 {
-  height: 700px;
-}
-
-  &::-webkit-input-placeholder {
-     color: rgb(200, 200, 200);
+  .tt-dataset-0 {
+    height: 700px;
   }
-  &:-moz-placeholder {
-    color: rgb(200, 200, 200);
-
-  }
-
-  &::-moz-placeholder {
-    color: rgb(200, 200, 200);
-
-
-
-  }
-  &:-ms-input-placeholder {
-    color: rgb(200, 200, 200);
-
-  }
-
-
-
 }
 
 
