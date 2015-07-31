@@ -2,6 +2,8 @@
   <div class="banner">
     <div class="container text-center">
         <% @tournaments.each do |tournament| %>
+       <% if Time.now.utc.to_date > tournament.ends_on %>
+       <% else %>
           <div class= "row tournamentcard bigmarge">
             <div class= "col-xs-12">
               <h2><%= link_to tournament.name, tournament_path(tournament)%></h2>
@@ -13,6 +15,7 @@
               <h5><%= tournament.starts_on.strftime("%d/%m/%Y")%> - <%= tournament.ends_on.strftime("%d/%m/%Y")%></h5>
             </div>
           </div>
+          <% end -%>
         <%end%>
     </div>
   </div>
