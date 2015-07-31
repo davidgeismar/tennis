@@ -9,6 +9,11 @@
   end
 
   def show
+    @subscriptions = current_user.subscriptions
+    @tournaments = []
+    @subscriptions.each do |subscription|
+      @tournaments << subscription.tournament
+    end
     @markers = Gmaps4rails.build_markers(@tournament) do |tournament, marker|
       marker.lat tournament.latitude
       marker.lng tournament.longitude

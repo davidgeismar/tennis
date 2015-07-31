@@ -15,8 +15,11 @@
           <p>Catégorie: <strong><%= @tournament.category %></strong></p>
           <p>Addresse des installations: <strong><%= @tournament.address %></strong></p>
           <p>Frais d'inscription: <strong><%= @tournament.amount %> €</strong></p>
-
-          <%= link_to "S'inscrire", registrate_card_tournament_path(tournament_id: @tournament), class: 'btn btn-warning', method: :post %>
+          <% if @tournaments.include?(@tournament) %>
+          <% elsif Time.now.utc.to_date > @tournament.ends_on%>
+          <% else %>
+            <%= link_to "S'inscrire", registrate_card_tournament_path(tournament_id: @tournament), class: 'btn btn-warning', method: :post %>
+          <% end -%>
         </div>
       </div>
     </div>
