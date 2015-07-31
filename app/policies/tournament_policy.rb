@@ -18,7 +18,7 @@ class TournamentPolicy < ApplicationPolicy
   end
 
   def show?
-    user && record.accepted? || record.user == user
+    user && record.accepted? && record.user == user
   end
 
   def create?
