@@ -3,7 +3,7 @@
       <div class= "row tournamentcard bigmarge">
         <div class= "col-xs-12">
           <h1> Il n'y a pas encore de tournois référencés sur WeTennis</h1>
-          <p>Vous pouvez d'ors et déjà remplir votre <%=   link_to "profil", user_path(current_user) %>, afin d'être prêt à vous inscrire le jour J.</p>
+          <p>Vous pouvez d'ors et déjà<%= link_to " référencer votre tournoi !",  new_tournament_path(current_user)%></p>
         </div>
       </div>
     </div>

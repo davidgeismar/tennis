@@ -1,15 +1,16 @@
 <div class="banner">
   <div class="container padded">
-      <div class="col-xs-12 col-md-offset-5 col-md-5 bigmarge">
+      <div class="col-xs-12 col-md-offset-4 col-md-5 bigmarge">
         <h3> Merci d'indiquer vos disponibilités pour <%=@subscription.tournament.name%>  </h3>
         <%=simple_form_for [@subscription, @disponibility] do |f|%>
         <%= f.error_notification %>
 
-        <%= f.input :week  %>
-
-
+        <%= f.input :monday %>
+        <%= f.input :tuesday  %>
+        <%= f.input :wednesday  %>
+        <%= f.input :thursday  %>
+        <%= f.input :friday  %>
         <%= f.input :saturday  %>
-
         <%= f.input :sunday  %>
        <%= f.button :submit, "Valider", class: "btn btn-success" %>
         <%end%>
