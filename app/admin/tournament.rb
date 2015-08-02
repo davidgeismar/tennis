@@ -10,6 +10,7 @@ ActiveAdmin.register Tournament do
                 :club_organisateur,
                 :deuxsix,
                 :ends_on,
+                :funds_received,
                 :genre,
                 :homologation_number,
                 :iban,
