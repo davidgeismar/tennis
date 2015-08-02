@@ -1,0 +1,31 @@
+doctype html
+html class="no-js" lang="fr"
+  head prefix="og: http://ogp.me/ns# dc: http://purl.org/dc/terms/"
+    title
+      = yield(:title) || 'WeTennis'
+    meta name="description" content="#{(yield(:description) || "").squish}"
+
+    meta charset="utf-8"
+    meta name="viewport" content="width=device-width, initial-scale=1.0"
+    meta content="IE=edge" http-equiv="X-UA-Compatible"
+
+    = stylesheet_link_tag :application, media: 'all'
+    = stylesheet_link_tag 'https://fonts.googleapis.com/css?family=Open+Sans:400,300,700|Montserrat:400,700'
+    = favicon_link_tag
+    = yield(:stylesheets)
+    = csrf_meta_tags
+    = render 'shared/favicon'
+
+  body
+    = render 'shared/navbar'
+    = render 'shared/flashes'
+
+    = yield
+
+    = render 'shared/footer'
+
+    = javascript_include_tag 'https://maps.google.com/maps/api/js?sensor=false'
+    = javascript_include_tag 'https://google-maps-utility-library-v3.googlecode.com/svn/tags/markerclustererplus/2.0.14/src/markerclusterer_packed.js'
+    = javascript_include_tag :application
+
+    = yield(:after_js)
