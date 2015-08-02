@@ -9,7 +9,7 @@ fr:
       # When using html, text and mark won't be used.
       # html: '<abbr title="required">*</abbr>'
     error_notification:
-      default_message: "Certains champs posent problèmes:"
+      default_message: "Certains champs posent problème"
     # Examples
     # labels:
     #   defaults:
