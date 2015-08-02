@@ -241,6 +241,8 @@ class SubscriptionsController < ApplicationController
     authorize subscription
 
     if service.call
+      SubscriptionMailer.confirmation(subscription).deliver
+
       notification = Notification.create(
         user:       subscription.tournament.user,
         content:    "#{subscription.user.full_name} a demandé à s'inscrire à #{subscription.tournament.name}",
@@ -258,7 +260,6 @@ class SubscriptionsController < ApplicationController
   end
 
   def update
-    #mangopay refund en cas de subscription.status = refused
     @subscription = Subscription.find(params[:id])
     authorize @subscription
 
@@ -273,6 +274,17 @@ class SubscriptionsController < ApplicationController
       @subscription.user.notifications.create(content: "Votre inscription à #{@subscription.tournament.name} a été refusée")
     elsif @subscription.status == "confirmed"
       @subscription.user.notifications.create(content: "Votre inscription à #{@subscription.tournament.name} a été confirmée")
+    end
+
+    unless @subscription.exported
+      case @subscription.status
+      when "confirmed"
+        SubscriptionMailer.confirmed(@subscription).deliver
+      when "refused"
+        SubscriptionMailer.refused(@subscription).deliver
+      when "confirmed_warning"
+        SubscriptionMailer.confirmed_warning(@subscription).deliver
+      end
     end
 
     redirect_to tournament_subscriptions_path(@subscription.tournament)
@@ -290,6 +302,10 @@ class SubscriptionsController < ApplicationController
     @subscription.status = "confirmed_warning"
     @subscription.save
 
+    unless @subscription.exported
+      SubscriptionMailer.confirmed_warning(@subscription).deliver
+    end
+
     redirect_to tournament_subscriptions_path(@subscription.tournament)
   end
 
@@ -301,9 +317,15 @@ class SubscriptionsController < ApplicationController
       @subscription.status = "refused"
       @subscription.save
 
-      @notification = Notification.new
-      @notification.user = @subscription.user
-      @notification.content = "Nous avons le regret de vous apprendre que le juge arbitre de #{@subscription.tournament.name} a finalement annulé votre inscription."
+      unless @subscription.exported
+        SubscriptionMailer.refused(@subscription).deliver
+      end
+
+      @notification = Notification.create(
+        user:     @subscription.user,
+        content:  "Nous avons le regret de vous apprendre que le juge arbitre de #{@subscription.tournament.name} a finalement annulé votre inscription."
+      )
+
       #insérer mailer
       redirect_to tournament_subscriptions_path(@subscription.tournament)
       flash[:notice] = "Vous avez bien procédé au remboursement de #{@subscription.user.full_name}. Celui-ci ne participe plus au tournoi"
@@ -322,6 +344,10 @@ class SubscriptionsController < ApplicationController
 
     @subscription.status = "refused"
     @subscription.save
+
+    unless @subscription.exported
+      SubscriptionMailer.refused(@subscription).deliver
+    end
 
     flash[:notice] = "Vous avez bien désinscrit #{@subscription.user.full_name}. Celui-ci ne participe plus au tournoi."
     redirect_to tournament_subscriptions_path(@subscription.tournament)
