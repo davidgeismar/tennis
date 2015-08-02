@@ -1,0 +1,17 @@
+div class="banner"
+  div class="homepage"
+    div class="is-connected"
+
+      div class="panel panel-default"
+        div class="panel-heading"
+          h2 = t('.sign_up', default: 'Inscription Juge-arbitre')
+        div class="panel-body"
+          p
+            em> Référencez vos tournois
+            '&
+            em convoquez vos joueurs par email
+          = simple_form_for(@user, url: user_registration_path) do |f|
+            = f.input :email, required: true, autofocus: true, placeholder: 'arbitre@wetennis.fr', label: 'Email'
+            = f.input :password, required: true, placeholder: '••••••'
+            = f.input :judge, as: :hidden
+            = f.button :submit, t('.sign_up', default: 'Inscription'), class: 'btn btn-subscribe btn-primary'

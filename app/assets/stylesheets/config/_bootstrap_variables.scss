@@ -22,14 +22,14 @@ $border-radius-small: 2px;
 
 
 // Links style
-$link-hover-decoration: none;
-$link-hover-color: black;
-$link-color: white;
+$link-hover-decoration: uppercase;
+$link-hover-color: $green-dark;
+$link-color: $green;
 
 
 
 // Grid padding
-$grid-gutter-width: 0 ;
+$grid-gutter-width: 20px;
 
 
 
