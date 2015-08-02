@@ -18,8 +18,6 @@
                     <h4>Telephone</h4>
                     <h4>Numéro de licence</h4>
                     <h4>Date de naissance</h4>
-                    <h4>IBAN</h4>
-                    <h4>BIC</h4>
                     <h4>Addresse</h4>
                     <h4><%= link_to "Modifier mon profil", edit_user_path, class:"btn btn-warning modifier-profil", id: "modif-prof"  %></h4>
                     <h4><%= link_to "Ajouter un tournoi",  new_user_tournament_path(current_user), class: "btn btn-success modifier-profil", id: "modif-prof"  %></h4>
@@ -62,21 +60,6 @@
                           <br>
                        <%else%>
                           <%= @user.birthdate.strftime("%d/%m/%Y") %>
-                        <% end -%>
-                    </h4>
-                     <h4>
-                      <%if @user.iban.blank?%>
-                          <br>
-                       <%else%>
-                          <% i = @user.iban %>
-                          <%= i[0..2] + "************" %>
-                        <% end -%>
-                    </h4>
-                    <h4>
-                      <%if @user.bic.blank?%>
-                          <br>
-                       <%else%>
-                          <%= @user.bic %>
                         <% end -%>
                     </h4>
                     <h4>
