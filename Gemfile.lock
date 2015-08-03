@@ -389,6 +389,3 @@ DEPENDENCIES
   twilio-ruby (~> 3.12)
   uglifier (~> 2.7.0)
   unicode_utils (~> 1.4.0)
-
-BUNDLED WITH
-   1.10.5
