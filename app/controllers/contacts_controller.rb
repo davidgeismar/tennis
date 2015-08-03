@@ -6,10 +6,14 @@ class ContactsController < ApplicationController
 
   def create
     @contact = Contact.new(contact_params)
+
     if @contact.save
-      redirect_to root_path
+      ContactMailer.send_message_to_wetennis(@contact).deliver
+      ContactMailer.confirmation_email(@contact).deliver
+
       flash[:notice] = "Votre message a bien été envoyé à l'équipe WeTennis, nous vous contacterons dans les plus brefs délais !"
 
+      redirect_to root_path
 
         # me = Trello::Member.find("david_geismar")
 

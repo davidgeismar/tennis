@@ -5,9 +5,8 @@ class PlayerInvitationsController < ApplicationController
   end
 
   def create
-    User.invite!(email: params[:email], name: "#{params[:first_name]} #{params[:last_name]}")
+    @user = User.invite!(email: params[:email], name: "#{params[:first_name]} #{params[:last_name]}")
 
-    @user = User.find_by(email: params[:email])
     @user.first_name      = params[:first_name]
     @user.last_name       = params[:last_name]
     @user.licence_number  = params[:licence_number]
@@ -16,6 +15,7 @@ class PlayerInvitationsController < ApplicationController
     @subscription = Subscription.new(user: @user, tournament: @tournament)
 
     if @subscription.save
+      SubscriptionMailer.confirmation_invited_user(@subscription).deliver
       redirect_to tournament_subscriptions_path(@tournament)
     else
       render :new
