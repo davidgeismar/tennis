@@ -10,3 +10,10 @@
 :-ms-input-placeholder {
   color: rgb(200, 200, 200);
 }
+
+abbr[title], abbr[data-original-title] {
+  border-bottom: 0px;
+  float: right;
+  margin-left: 5px;
+  color: $gray-light;
+}

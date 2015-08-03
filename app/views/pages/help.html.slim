@@ -1,0 +1,45 @@
+= content_for(:title) do
+  'Aide
+
+= content_for(:description) do
+  'Aide & FAQ de WeTennis est la première plate-forme pour gérer les match de tennis
+
+div class="container"
+  div class="row"
+    div class="col-md-10 col-md-offset-1"
+      markdown:
+        # FAQ
+
+        Bienvenue dans l’aide de WeTennis.
+        C’est ici que vous trouverez les réponses à toutes vos questions.
+
+        ## Première visite
+
+        Sur WeTennis il y a 2 types de profils : __Participant__ et __juge arbitre__.
+
+
+      div class="row"
+        div class="col-md-6"
+          = image_tag 'static/tennis-player.jpg', alt: 'Joueurs de tennis inscrits à l’application de gestion de match', class: 'img-responsive'
+          h3
+            'David & Julien
+            small joueurs de tennis
+          markdown:
+            Il sont inscrits sur WeTennis pour jouer ensemble et __trouver des matchs de tennis__.
+
+        div class="col-md-6"
+          = image_tag 'static/tennis-judge.jpg', alt: 'Juge arbitre organise ses match', class: 'img-responsive'
+          h3
+            'Olivier
+            small juge arbitre
+          markdown:
+            Olivier est très occupé, il cherche un moyen d’__organiser facilement ses tournois__ de tennis.
+
+
+      markdown:
+        ## Paiement
+
+        - Quels sont les modes de paiement proposés ?
+        ...
+
+= render 'shared/footer'

@@ -1,0 +1,19 @@
+div class="banner"
+  div class="homepage"
+    div class="is-connected"
+
+      div class="panel panel-default"
+        div class="panel-heading"
+          h2 = t('.sign_up', default: 'Sign up as Player')
+        div class="panel-body"
+          = simple_form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f|
+            = f.error_notification
+            = f.input :email, required: true, autofocus: true, placeholder: 'joueur@wetennis.fr', label: 'Email'
+            = f.input :password, required: true, placeholder: '••••••'
+
+            = f.button :submit, t('.sign_up', default: 'Sign up'), class: 'btn-subscribe btn-warning'
+
+      p class="separator-text" ou
+      - if devise_mapping.omniauthable?
+        - resource_class.omniauth_providers.each do |provider|
+          = link_to t('.sign_in_with_provider', :provider => provider.to_s.titleize, :default => "Inscription avec #{provider.to_s.titleize}"), omniauth_authorize_path(resource_name, provider), class: "btn-subscribe-#{provider} btn-subscribe"

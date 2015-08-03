@@ -11,3 +11,32 @@ hr {
 ::selection {
   text-shadow: none;
 }
+
+a {
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+.separator-text {
+  display: block;
+  text-align: center;
+  position: relative;
+  font-size: 16px;
+  padding: 10px 0;
+  margin: 20px 0;
+  color: white;
+
+  &:after, &:before {
+    content: "";
+    position: absolute;
+    display: block;
+    width: 40%;
+    top: 20px;
+    border-bottom: solid 2px;
+  }
+
+  &:after {
+    right: 0
+  }
+}

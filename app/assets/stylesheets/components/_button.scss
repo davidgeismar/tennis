@@ -18,32 +18,10 @@
   &-facebook {
     background-color: #3b5998;
     color: #f2f2f2;
-    padding: 13px;
     text-align: center;
+    &:hover,
+    &:focus {
+      color: $white;
+    }
   }
-
-  &-facebook1 {
-    background-color: #3b5998;
-    color: #f2f2f2;
-    padding: 13px;
-    text-align: center;
-    margin-top: 20px;
-  }
-}
-.forgot_password {
-  float: right;
-  position: absolute;
-  top: 305px;
-  padding: 4px;
-  color: #bababa;
-  font-size: 12px;
-  right: 15px;
-  padding-right: 0px;
-}
-
-#bouton-inscription {
-  margin-top: 30px;
-  padding: 10px;
-  width: 200px;
-  font-size: 2em;
 }

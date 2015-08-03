@@ -7,162 +7,16 @@
     margin: auto;
     text-align: center;
   }
+  label {
+    float: left;
+  }
 }
 
-
-
-  // disponibility/new
-.retour_tournament_show {
-  margin-top: -100px;
-  margin-left: -150px;
-}
-.profil_link {
-  color: blue;
-  margin: 5px;
-}
-
-.logo_btn {
-  height: 40px;
-}
-#indiquer_dispo {
-  line-height: 40px;
-}
-.bigmarge_stats {
-  margin-top: 100px;
-}
-.fleche_subscription_index {
-    height: 20px;
-  margin-right: 10px;
-}
-.enveloppe_notif {
-height: 20px;
-  margin: 5px;
-}
-.tournamentcard {
-  width: 300px;
-  background-color: rgba(0, 0, 0, 0.3);
-  margin-top: 10px;
-  margin-bottom: 10px;
-  margin-left: auto;
-  margin-right: auto;
-}
-
-
-#error-cgv {
-  color: rgb(169, 68, 76);
-  margin-top: 10px;
-}
-#scrollable-content {
-  height: 180px;
-  overflow: auto;
-  background-color: white;
-  // width: 550px;
-  padding: 10px;
-}
-#paiement {
-  margin-bottom: 10px;
-}
-.paymentcard {
-  background-color: rgba(0, 0, 0, 0.3);
-  padding: 10px;
-}
-.bigmarge {
-  margin-top:100px;
-}
-.bg-white {
-  background-color: white;
-}
-
-.banner {
+.banner,
+.main,
+.banner-tournament {
   background-image: image-url('background.jpg');
   background-size: cover;
   min-height: 700px;
 
-}
-
-.main {
-  background-image: image-url('background.jpg');
-  background-size: cover;
-}
-
-.raquette {
-  height: 400px;
-}
-.selima {
-  background-color: rgba(0, 0, 0, 0.3);
-}
-.marge-bas {
-  margin-bottom: 50px;
-}
-.margin {
-  margin: 50px;
-}
-
-
-
-.add-tournament {
- margin-top: 250px;
- margin-left: 400px;
- padding: 15px;
-}
-
-.banner-tournament {
-  background-image: image-url('background.jpg');
-  background-size: cover;
-
-}
-
-.search {
-  padding: 100px 20px;
-}
-
-
-#punchline {
-  margin-top: 200px;
-}
-
-#searching-tournament {
-  margin-top: 100px;
-  color: white;
-  margin-bottom: 40px;
-  font-size: 66px;
-  text-shadow: 0px 2px 3px rgb(161, 161, 161);
-}
-
-#tournament {
-  width: 500px;
-  padding-top: 30px;
-  height: 50px;
-
-}
-
-.black {
-  color: black;
-}
-
-#tournament {
-  background: none;
-  border: none;
-  border-bottom: 2px solid white;
-  font-size: 20px;
-  background: white;
-  padding: 5px;
-
-  &:focus {
-    outline: none;
-  }
-
-  .tt-dataset-0 {
-    height: 700px;
-  }
-}
-
-
-
-.user_profile {
-  margin-top: 150px;
-}
-
-.marge {
-  margin: 100px 100px 70px 100px;
 }

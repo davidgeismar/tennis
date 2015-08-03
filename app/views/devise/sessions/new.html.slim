@@ -1,18 +1,17 @@
-div class="banner padded text-center"
-  div class="container"
-    div class="row"
-      div class="col-xs-offset-3 col-xs-6 col-sm-offset-3 col-sm-6 text-center"
+div class="banner"
+  div class="homepage"
+    div class="is-connected"
 
+      div class="panel panel-default"
+        div class="panel-heading"
+          h2 = t('.sign_in', default: 'Sign in')
+        div class="panel-body"
+          = simple_form_for(resource, as: resource_name, url: session_path(resource_name)) do |f|
+            = f.input :email, required: true, autofocus: true, placeholder: 'membre@wetennis.fr', label: 'Email'
+            = f.input :password, required: true, placeholder: '••••••'
+            = f.input :remember_me, as: :boolean if devise_mapping.rememberable?
+            br
+            br
+            = f.button :submit, t('.sign_in', default: 'Sign in'), class: 'btn-subscribe btn-warning'
 
-        h2 class="connexion"
-          = t('.sign_in', default: 'Sign in')
-
-        = simple_form_for(resource, as: resource_name, url: session_path(resource_name)) do |f|
-            = f.input :email, required: false, autofocus: true, placeholder: "email", label:false
-            = f.input :password, required: false, placeholder: "mot de passe", label:false
-            div class="text-left"
-              = f.input :remember_me, as: :boolean if devise_mapping.rememberable?
-              = f.button :submit, t('.sign_in', default: 'Sign in'), class: 'btn-subscribe'
-        p class="or" or
-
-        = render 'devise/shared/links'
+      = render 'devise/shared/links'
