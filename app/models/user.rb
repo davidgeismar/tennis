@@ -40,7 +40,7 @@ class User < ActiveRecord::Base
       message:  'Le format de votre numéro doit être du type +33602385414'
     }, allow_blank: true, on: :update
 
-  after_create :send_welcome_email, unless: :invitation_token
+  # after_create :send_welcome_email, unless: :invitation_token
 
   def self.find_for_facebook_oauth(auth)
     user    = where(email: auth.info.email).first
@@ -113,11 +113,11 @@ class User < ActiveRecord::Base
 
   private
 
-  def send_welcome_email
-    if self.judge?
-      UserMailer.welcome_judge(self).deliver
-    else
-      UserMailer.welcome(self).deliver
-    end
-  end
+  # def send_welcome_email
+  #   if self.judge?
+  #     UserMailer.welcome_judge(self).deliver
+  #   else
+  #     UserMailer.welcome(self).deliver
+  #   end
+  # end
 end
