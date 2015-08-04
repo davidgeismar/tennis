@@ -1,0 +1,43 @@
+div class="container"
+  div class="row"
+    div class="col-xs-12"
+
+      h1 class="emperor" Mes Tournois
+      table class="table table-hover"
+        thead
+          tr
+            th Compétition
+            th Catégorie
+            th Statut de votre inscription
+            th Date de votre convocation
+            th Statut de votre convocation
+            th Répondre à cette convocation
+            th Disponibilités
+        tbody
+        - @subscriptions.each do |subscription|
+          tr
+            td = subscription.tournament.name
+            td = subscription.tournament.category
+            td = subscription.status_text
+            td
+              - unless subscription.convocations.size == 0
+                 = subscription.convocations.last.date.strftime("Le %d/%m/%Y")
+                 = subscription.convocations.last.hour.strftime(" à %Hh%M")
+
+
+            td
+              - unless subscription.convocations.size == 0
+                = subscription.convocations.last.status_text
+
+            td
+              - unless subscription.convocations.size == 0
+                - if subscription.convocations.last.status == "pending"
+                    = render 'users/show/button_repondre', subscription: subscription
+                - else
+                   = render 'users/show/button_modifier', subscription: subscription
+
+            td
+              - if subscription.disponibility.blank?
+                 = link_to 'Indiquer', new_subscription_disponibility_path(subscription, subscription.disponibility), class: 'btn btn-success'
+              - else
+                 = link_to 'Changer', edit_subscription_disponibility_path(subscription, subscription.disponibility), class: 'btn btn-warning'

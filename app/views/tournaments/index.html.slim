@@ -1,0 +1,25 @@
+div class="container"
+  div class="row"
+    div class="col-xs-12"
+      h1 class="emperor" Recherche de tournois
+
+      div class="row"
+        - @tournaments.each do |tournament|
+          div class="col-md-4"
+            div class="panel panel-default"
+              div class="panel-heading"
+                h2
+                  = tournament.name
+                  br
+                  small = tournament.city.upcase
+              div class="panel-body"
+                p
+                  'Du
+                  strong> = tournament.starts_on.strftime("%d/%m/%Y")
+                  'au
+                  strong = tournament.ends_on.strftime("%d/%m/%Y")
+                ul
+                  li = tournament.genre.text
+                  li = tournament.category.capitalize
+              div class="panel-footer"
+                = link_to 'En savoir plus', tournament_path(tournament), class: 'btn btn-primary'
