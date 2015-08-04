@@ -1,10 +1,10 @@
 class Tournament < ActiveRecord::Base
   extend Enumerize
 
-  enumerize :category,    in: ['8 ans', '9 ans', '10 ans', '11 ans', '12 ans', '13 ans', '14 ans', '13-14 ans', '15 ans', '15-16 ans', '16 ans', '17 ans', '17-18 ans', 'seniors', '35 ans', '40 ans', '45 ans', '50 ans', '55 ans', '60 ans', '70 ans', '75 ans', '80 ans']
-  enumerize :genre,       in: [:male, :female]
-  enumerize :max_ranking, in: ['NC', '40', '30/5', '30/4', '30/3', '30/2', '30/1', '30', '15/5', '15/4', '15/3', '15/2', '15/1', '15', '5/6', '4/6', '3/6', '2/6', '1/6', '0', '-2/6', '-4/6', '-15', '-30']
-  enumerize :min_ranking, in: ['NC', '40', '30/5', '30/4', '30/3', '30/2', '30/1', '30', '15/5', '15/4', '15/3', '15/2', '15/1', '15', '5/6', '4/6', '3/6', '2/6', '1/6', '0', '-2/6', '-4/6', '-15', '-30']
+  enumerize :category,    in: Settings.enumerize.categories
+  enumerize :genre,       in: Settings.enumerize.genre
+  enumerize :max_ranking, in: Settings.enumerize.ranking
+  enumerize :min_ranking, in: Settings.enumerize.ranking
   enumerize :nature,      in: ['Simple']
 
   geocoded_by :address_tour
@@ -54,6 +54,46 @@ class Tournament < ActiveRecord::Base
 
   def address_tour_changed?
     address_changed? || city_changed?
+  end
+
+  def open_for_birthdate?(user_birthdate)
+    birth_year        = user_birthdate.year
+    user_age          = Date.today.year - birth_year
+
+    check_settings    = Settings.tournament_category_checks
+    real_age          = check_settings.real_age[category]
+    exact_tennis_age  = check_settings.exact_tennis_age[category]
+    range_tennis_age  = check_settings.range_tennis_age[category]
+    senior_tennis_age = check_settings.senior_tennis_age[category]
+
+    return false if user_age <= 7
+    return false if real_age          && real_age != user_age
+    return false if exact_tennis_age  && (tennis_year - exact_tennis_age) != birth_year
+    return false if range_tennis_age  && (tennis_year - range_tennis_age) != birth_year && (tennis_year - range_tennis_age - 1) != birth_year
+    return false if senior_tennis_age && (tennis_year - senior_tennis_age) < birth_year
+
+    true
+  end
+
+  def open_for_genre?(user_genre)
+    self.genre == user_genre
+  end
+
+  def open_for_ranking?(user_ranking)
+    ranking_field_name = Settings.user_tournament_ranking_matching[user_ranking]
+    ranking_acceptance = self[ranking_field_name]
+
+    (total && ranking_acceptance) == true
+  end
+
+  def tennis_year
+    year = ends_on.year
+
+    if ends_on.month >= 9
+      year += 1
+    end
+
+    year
   end
 
   private

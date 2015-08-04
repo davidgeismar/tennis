@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150730210937) do
+ActiveRecord::Schema.define(version: 20150804192407) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -257,7 +257,7 @@ ActiveRecord::Schema.define(version: 20150730210937) do
     t.integer  "certifmedpicture_file_size"
     t.datetime "certifmedpicture_updated_at"
     t.integer  "mangopay_card_id"
-    t.datetime "birthdate"
+    t.date     "birthdate"
     t.string   "address"
     t.string   "club"
     t.string   "login_aei"
