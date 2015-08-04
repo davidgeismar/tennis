@@ -4,7 +4,7 @@ class TournamentPolicy < ApplicationPolicy
 
       scope.all
       .where(accepted: true)
-      .where("ends_on < ?", Time.now.utc.to_date)
+      .where("ends_on >= :today", today: Date.today)
     end
   end
 
