@@ -12,6 +12,10 @@
   end
 
   def show
+    if Time.now.utc.to_date > @tournament.ends_on
+      flash[:alert] = "Le tournoi que vous cherchez est terminé."
+      redirect_to root_path
+    end
     @markers = Gmaps4rails.build_markers(@tournament) do |tournament, marker|
       marker.lat tournament.latitude
       marker.lng tournament.longitude

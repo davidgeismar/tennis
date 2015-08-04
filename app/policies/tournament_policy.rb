@@ -1,7 +1,10 @@
 class TournamentPolicy < ApplicationPolicy
   class Scope < Scope
     def resolve
-      scope.all.where(accepted: true)
+
+      scope.all
+      .where(accepted: true)
+      .where("ends_on >= :today", today: Date.today)
     end
   end
 

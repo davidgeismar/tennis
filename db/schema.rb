@@ -256,6 +256,7 @@ ActiveRecord::Schema.define(version: 20150730210937) do
     t.string   "certifmedpicture_content_type"
     t.integer  "certifmedpicture_file_size"
     t.datetime "certifmedpicture_updated_at"
+    t.integer  "mangopay_card_id"
     t.datetime "birthdate"
     t.string   "address"
     t.string   "club"
@@ -264,7 +265,6 @@ ActiveRecord::Schema.define(version: 20150730210937) do
     t.boolean  "accepted",                      default: false
     t.string   "confirmation_token"
     t.string   "unconfirmed_email"
-    t.integer  "mangopay_card_id"
     t.string   "mangopay_user_id"
     t.string   "mangopay_wallet_id"
   end
