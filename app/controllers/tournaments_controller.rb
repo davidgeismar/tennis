@@ -3,6 +3,7 @@
   before_action :check_profile,   only: [:new, :create]
 
   def index
+
     @tournaments = policy_scope(Tournament)
     if @tournaments.blank? && current_user.judge?
       render 'pages/partials/_no_tournaments_judge'
