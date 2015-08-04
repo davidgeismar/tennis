@@ -3,25 +3,27 @@
     <div style="text-align:center">
       <p><%= t('.greeting', :recipient => @resource.email, :default => "Welcome #{@resource.email}!") %></p>
 
-   <%if @resource.judge?%>
-      <p> Merci pour votre inscription sur le site Wetennis </p>
-     <p>Vous venez de créer un compte Juge-Arbitre sur wetennis.fr.</p>
-      <p><%= t('.instruction', :default => "You can confirm your account email through the link below:") %></p>
-      <p><%= link_to t('.action', :default => "Confirm my account"),
-               confirmation_url(@resource, :confirmation_token => (Devise::VERSION.start_with?('3.') ? @token : @resource.confirmation_token)) %></p>
+       <%if @resource.judge?%>
+          <p> Merci pour votre inscription sur le site Wetennis </p>
+         <p>Vous venez de créer un compte Juge-Arbitre sur wetennis.fr.</p>
+          <p><%= t('.instruction', :default => "You can confirm your account email through the link below:") %></p>
+          <p><%= link_to t('.action', :default => "Confirm my account"),
+                   confirmation_url(@resource, :confirmation_token => (Devise::VERSION.start_with?('3.') ? @token : @resource.confirmation_token)) %></p>
 
-      <p>Nous vous remercions pour votre confiance. <br> Après avoir confirmé votre email, vous pouvez commencer votre naviguation sur le site en éditant votre profil.</p>
+          <p>Nous vous remercions pour votre confiance. <br> Après avoir confirmé votre email, vous pouvez commencer votre naviguation sur le site en éditant votre profil.</p>
 
-      <p><strong>Il est nécessaire de remplir votre profil intégralement pour pouvoir créer et référencer un tournoi sur le site. Votre profil devra également être validé par notre équipe afin de nous assurer que vous êtes habilité à organiser un tournoi de tennis officiel.</strong></p><br>
-  <%else%>
-     <p> Merci pour votre inscription sur le site Wetennis </p>
-      <p><%= t('.instruction', :default => "You can confirm your account email through the link below:") %></p>
-      <p><%= link_to t('.action', :default => "Confirm my account"),
-               confirmation_url(@resource, :confirmation_token => (Devise::VERSION.start_with?('3.') ? @token : @resource.confirmation_token)) %></p>
+          <p><strong>Il est nécessaire de remplir votre profil intégralement pour pouvoir créer et référencer un tournoi sur le site. Votre profil devra également être validé par notre équipe afin de nous assurer que vous êtes habilité à organiser un tournoi de tennis officiel.</strong></p><br>
+      <%else%>
+         <p> Merci pour votre inscription sur le site Wetennis </p>
+          <p><%= t('.instruction', :default => "You can confirm your account email through the link below:") %></p>
+          <p><%= link_to t('.action', :default => "Confirm my account"),
+                   confirmation_url(@resource, :confirmation_token => (Devise::VERSION.start_with?('3.') ? @token : @resource.confirmation_token)) %></p>
 
-      <p>Nous vous remercions pour votre confiance. <br> Après avoir confirmé votre email, vous pouvez commencer votre naviguation sur le site en éditant votre profil.</p>
+          <p>Nous vous remercions pour votre confiance. <br> Après avoir confirmé votre email, vous pouvez commencer votre naviguation sur le site en éditant votre profil.</p>
 
-      <p><strong>Il est nécessaire de remplir votre profil pour pouvoir vous inscrire à un tournoi.</strong></p><br>
-  <% end -%>
+          <p><strong>Il est nécessaire de remplir votre profil pour pouvoir vous inscrire à un tournoi.</strong></p><br>
+      <% end -%>
+      <p> @ bientôt sur les courts !</p>
+      <p>L'équipe WeTennis</p>
 
     </div>
