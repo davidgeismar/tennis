@@ -39,11 +39,12 @@
     if @tournament.save && service.call
       redirect_to tournament_path(@tournament)
     else
-      render 'new'
+      render :new
     end
   rescue MangoPay::ResponseError => e
-    flash[:alert] = "L'IBAN ou le BIC que vous avez fourni n'est pas valide. Veuillez vérifier les informations fournies. Si le problème persiste n'hésitez pas à contacter l'équipe WeTennis."
-    redirect_to new_tournament_path
+    @tournament.destroy
+    flash.now[:alert] = "L'IBAN ou le BIC que vous avez fourni n'est pas valide. Veuillez vérifier les informations fournies. Si le problème persiste n'hésitez pas à contacter l'équipe WeTennis."
+    render :new
   end
 
   def edit
