@@ -10,7 +10,7 @@ module MangoPayments
           Email:              @user.email,
           FirstName:          @user.first_name,
           LastName:           @user.last_name,
-          Birthday:           @user.birthdate.to_i,
+          Birthday:           @user.birthdate.to_time.to_i,
           Nationality:        'FR', # TODO: change this.
           CountryOfResidence: 'FR'  # TODO: change this.
         )
