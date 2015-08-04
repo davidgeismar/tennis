@@ -1,11 +1,13 @@
+i class="fa fa-envelope"
+
 - if current_user.notifications.where(read: false).count > 0
   div class="js-navbar-nofification"
     = current_user.notifications.where(read: false).count
-  button class="btn btn-default dropdown-toggle notif adjust" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true"
-    Notifications
+  button class="btn btn-default dropdown-toggle" type="button" id="js-dropdown-menu" data-toggle="dropdown" aria-expanded="true"
+    'Notifications
     span class="caret"
 
-ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1" id="notimenu"
+ul class="dropdown-menu" role="menu" aria-labelledby="js-dropdown-menu"
   - if current_user.notifications.where(read: false) == []
     li
       'Vous n’avez pas de nouvelles notifications
@@ -15,20 +17,20 @@ ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1" id="notimen
         li
           strong
             - if notification.convocation && notification.user.judge == false
-              = link_to image_tag('lettre.svg', class: 'enveloppe_notif') + notification.content,  edit_convocation_path(notification.convocation), class: 'notifcontent'
+              = link_to image_tag('lettre.svg') + notification.content,  edit_convocation_path(notification.convocation)
             - elsif notification.convocation && notification.user.judge == true && notification.convocation.messages.blank?
-              = link_to notification.content,  tournament_subscriptions_path(notification.convocation.subscription.tournament), class: 'notifcontent'
+              = link_to notification.content,  tournament_subscriptions_path(notification.convocation.subscription.tournament)
             - elsif notification.convocation && notification.user.judge == true && notification.convocation.messages
-              = link_to notification.content, convocation_messages_path(notification.convocation), class: 'notifcontent'
+              = link_to notification.content, convocation_messages_path(notification.convocation)
             - elsif notification.tournament
-              = link_to notification.content, tournament_subscriptions_path(notification.tournament), class: 'notifcontent'
+              = link_to notification.content, tournament_subscriptions_path(notification.tournament)
             - else
               = notification.content
 
 = content_for :after_js do
   javascript:
     $(document).ready(function() {
-      $("#dropdownMenu1").on('click', function(event){
+      $("#js-dropdown-menu").on('click', function(event){
         $.ajax({
           url: "#{notification_update_path}",
           type: "POST",

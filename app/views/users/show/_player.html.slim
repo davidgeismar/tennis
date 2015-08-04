@@ -20,8 +20,10 @@ div class="container"
           = render 'users/edit/player_infos'
 
         div role="tabpanel" class="tab-pane" id="compte"
-          ul class="list-inline"
-            li = link_to 'Éditer mon compte', edit_user_registration_path, class: 'btn btn-warning'
+          div class="panel panel-default"
+            div class="panel-heading"
+              p Vos informations de contact
+          = link_to 'Éditer mon compte', edit_user_registration_path, class: 'btn btn-warning'
 
         div role="tabpanel" class="tab-pane" id="licence"
           - if @user.licencepicture_content_type == nil

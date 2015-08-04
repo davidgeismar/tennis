@@ -14,9 +14,7 @@ nav class="navbar navbar-default navbar-fixed-top" role="navigation"
       ul class="nav navbar-nav"
         - if user_signed_in?
           li
-            = link_to 'Tournois', mes_tournois_path
-          li
-            = link_to 'Recherche', tournaments_path
+            = link_to 'Mes tournois', mes_tournois_path
         - else
           li
             = link_to 'Juge Arbitre ?', judge_path
@@ -26,6 +24,8 @@ nav class="navbar navbar-default navbar-fixed-top" role="navigation"
 
       ul class="nav navbar-nav navbar-right"
         - if user_signed_in?
+          li
+            = link_to 'Recherche', tournaments_path, class: 'btn btn-xs btn-success'
           li class="hidden-xs"
             - if current_user.picture_file_size == nil
               = image_tag 'default_user_image.png', class: 'navbar-avatar'
@@ -38,14 +38,15 @@ nav class="navbar navbar-default navbar-fixed-top" role="navigation"
               = link_to 'Personnaliser mon profil', user_path(current_user), title: 'Mon profil'
           li
             = link_to destroy_user_session_path, method: :delete do
-              i class="fa fa-lg fa-fw fa-power-off"
-              = t '.sign_out', default: 'Déconnexion'
+              i class="fa fa-lg fa-fw fa-power-off hidden-xs"
+              span class="visible-xs"
+                = t '.sign_out', default: 'Déconnexion'
         - else
           li
             = link_to t('.sign_up', default: 'Inscription'), new_user_registration_path, class: 'btn btn-warning'
           li
             = link_to t('.sign_in', default: 'Connexion'), new_user_session_path, class: 'btn btn-success'
 
-/ THIS IS THE DANGER ZONE
-/ - if user_signed_in?
-/   = render 'shared/navbar_notification'
+
+- if user_signed_in?
+  = render 'shared/navbar_notification'
