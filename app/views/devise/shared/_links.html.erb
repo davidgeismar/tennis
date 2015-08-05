@@ -1,8 +1,4 @@
 <div class="devise-links">
-  <%- if controller_name != 'sessions' %>
-    <%= link_to t(".sign_in", :default => "Sign in"), new_session_path(resource_name), class:"btn btn-default btn-connection" %><br />
-  <% end -%>
-
   <%- if devise_mapping.recoverable? && controller_name != 'passwords' %>
     <%= link_to t(".forgot_your_password", :default => "oublié?"), new_password_path(resource_name), class:'forgot_password' %><br />
   <% end -%>

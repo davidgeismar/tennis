@@ -15,7 +15,7 @@ module MangoPayments
           LegalRepresentativeLastName:            @judge.last_name,
           LegalRepresentativeAdress:              @judge.address,
           LegalRepresentativeEmail:               @judge.email,
-          LegalRepresentativeBirthday:            @judge.birthdate,
+          LegalRepresentativeBirthday:            @judge.birthdate.to_time.to_i,
           LegalRepresentativeNationality:         'FR', # TODO: change this.
           LegalRepresentativeCountryOfResidence:  'FR'  # TODO: change this.
         )
