@@ -129,7 +129,7 @@ ActiveRecord::Schema.define(version: 20150804214523) do
     t.string   "status",            default: "pending"
     t.datetime "created_at",                            null: false
     t.datetime "updated_at",                            null: false
-    t.string   "exported",          default: "failure"
+    t.boolean  "exported",          default: false
     t.boolean  "funds_sent",        default: false
     t.string   "mangopay_payin_id"
   end
