@@ -24,6 +24,9 @@ nav class="navbar navbar-default navbar-fixed-top" role="navigation"
 
       ul class="nav navbar-nav navbar-right"
         - if user_signed_in?
+          - if current_user.judge?
+            li
+              = link_to 'Ajouter un tournoi',  new_user_tournament_path(current_user), class: 'btn btn-warning'
           li
             = link_to 'Recherche', tournaments_path, class: 'btn btn-xs btn-success'
           li class="hidden-xs"
