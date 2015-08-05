@@ -14,17 +14,17 @@ div class="container"
 
         ## Première visite
 
-        Sur WeTennis il y a 2 types de profils : __Participant__ et __juge arbitre__.
+        Sur WeTennis il y a 2 types de profils : __Joueur__ et __Juge-Arbitre__.
 
 
       div class="row"
         div class="col-md-6"
           = image_tag 'static/tennis-player.jpg', alt: 'Joueurs de tennis inscrits à l’application de gestion de match', class: 'img-responsive'
           h3
-            'David & Julien
+            'David (1/6) & Julien (-15)
             small joueurs de tennis
           markdown:
-            Il sont inscrits sur WeTennis pour jouer ensemble et __trouver des matchs de tennis__.
+            Grâce à WeTennis ils peuvent enfin __s’inscrire aux tournois de tennis__ en un clic. WeTennis leur permet également de __gérer leurs convocations__ aux différents tournois et d'envoyer un message au juge arbitre en cas d'indisponibilité.
 
         div class="col-md-6"
           = image_tag 'static/tennis-judge.jpg', alt: 'Juge arbitre organise ses match', class: 'img-responsive'
@@ -33,12 +33,13 @@ div class="container"
             small juge arbitre
           markdown:
             Olivier est très occupé, il cherche un moyen d’__organiser facilement ses tournois__ de tennis.
+            Avec WeTennis, ses ennuis sont terminés ! Il peut gérer toutes ses inscriptions, ses paiements et ses remboursements.
 
 
       markdown:
         ## Paiement
 
-        - Quels sont les modes de paiement proposés ?
-        ...
+        - Sur WeTennis tout se passe en ligne ! Vous renseignez vos informations bancaires au moment du paiement des frais d'inscription puis la demande d'inscription est automatiquement envoyée au juge-arbitre du tournoi. Tant que le juge-arbitre de la compétition n'a pas accepté ou refusé votre inscription, vous êtes sur liste d'attente. Si le juge-arbitre ne peut finalement pas vous inclure dans le tableau et que vous êtes refusé, vos frais d'inscription vous sont remboursés.
+
 
 = render 'shared/footer'
