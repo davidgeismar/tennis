@@ -81,6 +81,7 @@ class ConvocationsController < ApplicationController
       convocation = Convocation.new(date: params[:date], hour: params[:hour], subscription: subscription)
 
       if convocation.save && convocation.subscription.user.telephone
+        ConvocationMailer.send_convocation(convocation).deliver
         @notification = Notification.create(
           user:         subscription.user,
           convocation:  convocation,
@@ -106,6 +107,7 @@ class ConvocationsController < ApplicationController
           flash[:notice] = "Vos convocations ont bien été envoyées"
         end
       elsif convocation.save
+        ConvocationMailer.send_convocation(convocation).deliver
         @notification = Notification.create(
           user:         convocation.subscription.user,
           convocation:  convocation,
