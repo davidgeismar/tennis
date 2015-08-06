@@ -15,7 +15,7 @@ class ConvocationsController < ApplicationController
 
       @notification = Notification.create(
         user:     @convocation.subscription.user,
-        content:  "Vous êtes convoqué à #{@convocation.subscription.tournament.name} le #{@convocation.date.strftime("le %d/%m/%Y")} à #{@convocation.hour.strftime(" à %Hh%M")}"
+        content:  "Vous êtes convoqué(e) à #{@convocation.subscription.tournament.name} le #{@convocation.date.strftime("le %d/%m/%Y")} à #{@convocation.hour.strftime(" à %Hh%M")}"
       )
 
       redirect_to tournament_subscriptions_path(@subscription.tournament)
@@ -86,7 +86,7 @@ class ConvocationsController < ApplicationController
         @notification = Notification.create(
           user:         subscription.user,
           convocation:  convocation,
-          content:      "Vous êtes convoqué à #{convocation.subscription.tournament.name} le #{convocation.date.strftime("%d/%m/%Y")} à #{convocation.hour.strftime(" à %Hh%M")}"
+          content:      "Vous êtes convoqué(e) à #{convocation.subscription.tournament.name} le #{convocation.date.strftime("%d/%m/%Y")} à #{convocation.hour.strftime(" à %Hh%M")}"
         )
 
         if @subscriptions.count == 1
@@ -104,7 +104,7 @@ class ConvocationsController < ApplicationController
             client.account.sms.messages.create(
               from: ENV['TWILIO_FROM'],
               to:   convocation.subscription.user.telephone,
-              body: "Vous etes convoque  #{convocation.date.strftime("le %d/%m/%Y")} #{convocation.hour.strftime(" à %Hh%M")} pour le tournoi #{convocation.subscription.tournament.name} "
+              body: "Vous etes convoqué(e)  #{convocation.date.strftime("le %d/%m/%Y")} #{convocation.hour.strftime(" à %Hh%M")} pour le tournoi #{convocation.subscription.tournament.name} "
             )
           rescue Twilio::REST::RequestError
             # on error, sms won't be sent.. deal
