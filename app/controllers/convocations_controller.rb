@@ -80,44 +80,35 @@ class ConvocationsController < ApplicationController
     @subscriptions.each do |subscription|
       convocation = Convocation.new(date: params[:date], hour: params[:hour], subscription: subscription)
 
-      if convocation.save && convocation.subscription.user.telephone
+      if convocation.save
         ConvocationMailer.send_convocation(convocation).deliver
+
         @notification = Notification.create(
           user:         subscription.user,
           convocation:  convocation,
           content:      "Vous êtes convoqué à #{convocation.subscription.tournament.name} le #{convocation.date.strftime("%d/%m/%Y")} à #{convocation.hour.strftime(" à %Hh%M")}"
         )
 
-        begin
-          client = Twilio::REST::Client.new(ENV['TWILIO_SID'], ENV['TWILIO_TOKEN'])
-
-          # Create and send an SMS message
-          client.account.sms.messages.create(
-            from: ENV['TWILIO_FROM'],
-            to:   convocation.subscription.user.telephone,
-            body: "Vous etes convoque  #{convocation.date.strftime("le %d/%m/%Y")} #{convocation.hour.strftime(" à %Hh%M")} pour le tournoi #{convocation.subscription.tournament.name} "
-          )
-        rescue Twilio::REST::RequestError
-          # on error, sms won't be sent.. deal
-        end
-
         if @subscriptions.count == 1
          flash[:notice] = "Votre convocation a bien été envoyée"
         else
           flash[:notice] = "Vos convocations ont bien été envoyées"
         end
-      elsif convocation.save
-        ConvocationMailer.send_convocation(convocation).deliver
-        @notification = Notification.create(
-          user:         convocation.subscription.user,
-          convocation:  convocation,
-          content:      "Vous êtes convoqué à #{convocation.subscription.tournament.name} le #{convocation.date.strftime("%d/%m/%Y")} à #{convocation.hour.strftime(" à %Hh%M")}"
-        )
 
-        if @subscriptions.count == 1
-         flash[:notice] = "Votre convocation a bien été envoyée"
-        else
-          flash[:notice] = "Vos convocations ont bien été envoyées"
+
+        if convocation.subscription.user.telephone
+          begin
+            client = Twilio::REST::Client.new(ENV['TWILIO_SID'], ENV['TWILIO_TOKEN'])
+
+            # Create and send an SMS message
+            client.account.sms.messages.create(
+              from: ENV['TWILIO_FROM'],
+              to:   convocation.subscription.user.telephone,
+              body: "Vous etes convoque  #{convocation.date.strftime("le %d/%m/%Y")} #{convocation.hour.strftime(" à %Hh%M")} pour le tournoi #{convocation.subscription.tournament.name} "
+            )
+          rescue Twilio::REST::RequestError
+            # on error, sms won't be sent.. deal
+          end
         end
       else
         flash[:warning] = "Un problème est survenu veuillez réessayer d'envoyer votre convocation"
