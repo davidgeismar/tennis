@@ -40,6 +40,7 @@ gem "simple_form",                "~> 3.1.0"
 gem "slim",                       "~> 3.0.6"
 gem "uglifier",                   "~> 2.7.0"
 gem "unicode_utils",              "~> 1.4.0"
+gem "twilio-ruby",                "~> 3.12"
 
 group :development, :test do
   gem "annotate"
@@ -50,7 +51,6 @@ group :development, :test do
   gem "pry-rails"
   gem "quiet_assets"
   gem "spring"
-  gem "twilio-ruby", "~> 3.12"
 end
 
 group :production do
