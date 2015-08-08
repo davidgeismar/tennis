@@ -55,7 +55,11 @@
     authorize @tournament
     @tournament.update(tournament_params)
     @tournament.accepted = false
-    @tournament.save
+    if @tournament.save
+    redirect_to tournament_path(@tournament)
+    else
+      render :edit
+    end
   end
 
   def update_rankings

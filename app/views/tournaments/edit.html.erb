@@ -6,6 +6,7 @@
   <div class="container">
       <div class= "col-xs-12 col-md-6 col-md-offset-3">
         <%= simple_form_for @tournament do |t| %>
+          <%= t.error_notification %>
           <%= t.input :homologation_number, label: "Numéro d'homologation" %>
           <%= t.input :name, label: 'Nom de la Compétition' %>
           <%= t.input :city, label: 'Ville' %>

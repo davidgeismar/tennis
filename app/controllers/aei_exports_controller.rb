@@ -91,11 +91,14 @@ class AeiExportsController < ApplicationController
                   end
 
                   # selecting each players found throught the form
+                  #https://aei.app.fft.fr/ei/joueurRecherche.do
                   form.field_with(:name => 'dispatch').value = "selectionner"
                   # inscription page
                   page = form.submit
                   body = page.body
                   html_body = Nokogiri::HTML(body)
+                  # puts html_body
+
                   form = agent.page.forms.first
 
                   numbers = (0...total_subscriptions)
@@ -120,15 +123,19 @@ class AeiExportsController < ApplicationController
                     category_title      = tr.search('td')[1].text
                     tournament_category = "#{@tournament.genre}_#{@tournament.category}"
                     aei_tournament_cat  = I18n.t("aei.tournament_category.#{tournament_category}")
-
                     if aei_tournament_cat == category_title
+
                       checkbox.check
 
                       # submitting inscription
                       form.field_with(:name => 'dispatch').value = "inscrire"
-                      form.submit
+                      page = form.submit
+                      body = page.body
+                      html_body = Nokogiri::HTML(body)
+                      puts html_body
                     end
                   end
+                  puts html_body.search('li').text
                   slice_stats = checking_export(subscription_array)
                   stats[:success] += slice_stats[:success]
                   stats[:failure] += slice_stats[:failure]

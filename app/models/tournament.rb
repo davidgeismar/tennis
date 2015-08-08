@@ -27,10 +27,10 @@ class Tournament < ActiveRecord::Base
   validates :club_email,          presence: { message: "Merci d'indiquer l'email du club organisateur" }
   validates :club_organisateur,   presence: { message: "Merci d'indiquer le club organisateur" }
 
-  validates :homologation_number, presence: true, format:{
-      with:     /2015\d{11}/,
-      message:  "Le format de votre numéro d'homologation doit être du type 201532920076013"
-    }
+  # validates :homologation_number, presence: true, format:{
+  #     with:     /2015\d{11}/,
+  #     message:  "Le format de votre numéro d'homologation doit être du type 201532920076013"
+  #   }
 
   validates :iban, presence: true, format: {
       with:     /\A[a-zA-Z]{2}\d{2}\s*(\w{4}\s*){2,7}\w{1,4}\s*\z/,
