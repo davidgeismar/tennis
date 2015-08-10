@@ -14,38 +14,43 @@ nav class="navbar navbar-default navbar-fixed-top" role="navigation"
       ul class="nav navbar-nav"
         - if user_signed_in?
           li
-            = link_to 'Tournois', mes_tournois_path
-          li
-            = link_to 'Recherche', tournaments_path
+            = link_to 'Mes tournois', mes_tournois_path
+          li class="navbar-notifiation"
+            = link_to page_path('notifications') do
+              'Nofifications
+              - if current_user.notifications.where(read: false).count > 0
+                span = current_user.notifications.where(read: false).count
         - else
           li
             = link_to 'Juge Arbitre ?', judge_path
         li
           = link_to 'Aide', page_path('help')
 
-
       ul class="nav navbar-nav navbar-right"
         - if user_signed_in?
+          - if current_user.judge?
+            li
+              = link_to 'Ajouter un tournoi',  new_user_tournament_path(current_user), class: 'btn btn-warning'
+          li
+            = link_to 'Recherche', tournaments_path, class: 'btn btn-xs btn-success'
+
           li class="hidden-xs"
             - if current_user.picture_file_size == nil
               = image_tag 'default_user_image.png', class: 'navbar-avatar'
             - else
               div style="background-image:url(#{image_path(current_user.picture)}" class="navbar-avatar"
           li
-            - if current_user.first_name? && current_user.last_name?
-              = link_to current_user.first_name + ' ' + current_user.last_name, user_path(current_user), title: 'Mon profil'
+            - if current_user.first_name?
+              = link_to current_user.first_name, user_path(current_user), title: 'Mon profil'
             - else
               = link_to 'Personnaliser mon profil', user_path(current_user), title: 'Mon profil'
           li
             = link_to destroy_user_session_path, method: :delete do
-              i class="fa fa-lg fa-fw fa-power-off"
-              = t '.sign_out', default: 'Déconnexion'
+              i class="fa fa-lg fa-fw fa-power-off hidden-xs"
+              span class="visible-xs"
+                = t '.sign_out', default: 'Déconnexion'
         - else
           li
             = link_to t('.sign_up', default: 'Inscription'), new_user_registration_path, class: 'btn btn-warning'
           li
             = link_to t('.sign_in', default: 'Connexion'), new_user_session_path, class: 'btn btn-success'
-
-/ THIS IS THE DANGER ZONE
-/ - if user_signed_in?
-/   = render 'shared/navbar_notification'

@@ -39,4 +39,23 @@
   background-size: cover;
   border-radius: 100%;
   background-position: center center;
+  margin-left: 40px;
+}
+
+.navbar-notifiation {
+  position: relative;
+  span {
+    color: $white;
+    background-color: $red;
+    border-radius: 100%;
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 16px;
+    height: 16px;
+    font-size: 12px;
+    display: block;
+    text-align: center;
+    line-height: 120%;
+  }
 }

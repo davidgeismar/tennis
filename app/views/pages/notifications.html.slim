@@ -1,0 +1,46 @@
+= content_for(:title) do
+  'Notifications
+
+div class="container"
+  div class="row"
+    div class="col-md-12"
+      h1 class="emperor" Notifications
+
+      - if current_user.notifications.where(read: false) == []
+        p Vous n’avez pas de nouvelles notifications
+      - else
+        div class="js-notifications--content"
+          = link_to 'Marquer comme lues', '#', class: 'btn btn-default', id: 'js-notifications--readall'
+          hr
+          - current_user.notifications.each do |notification|
+            ul
+              - if notification.read == false
+                li
+                  - if notification.convocation && notification.user.judge == false
+                    = link_to edit_convocation_path(notification.convocation) do
+                      i> class="fa fa-envelope"
+                      = notification.content
+                  - elsif notification.convocation && notification.user.judge == true && notification.convocation.messages.blank?
+                    = link_to notification.content,  tournament_subscriptions_path(notification.convocation.subscription.tournament)
+                  - elsif notification.convocation && notification.user.judge == true && notification.convocation.messages
+                    = link_to notification.content, convocation_messages_path(notification.convocation)
+                  - elsif notification.tournament
+                    = link_to notification.content, tournament_subscriptions_path(notification.tournament)
+                  - else
+                    => notification.content
+                    span.text-light = notification.updated_at.strftime('%d/%m/%Y')
+
+= content_for :after_js do
+  javascript:
+    $(document).ready(function() {
+      $('#js-notifications--readall').on('click', function(event){
+        event.preventDefault();
+        $.ajax({
+          url: "#{notification_update_path}",
+          type: "POST",
+          success: function() {
+            $(".js-notifications--content").slideUp('fast');
+          }
+        });
+      });
+    });
