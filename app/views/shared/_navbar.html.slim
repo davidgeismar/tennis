@@ -43,7 +43,7 @@ nav class="navbar navbar-default navbar-fixed-top" role="navigation"
             - if current_user.first_name?
               = link_to current_user.first_name, user_path(current_user), title: 'Mon profil'
             - else
-              = link_to 'Personnaliser mon profil', user_path(current_user), title: 'Mon profil'
+              = link_to 'Profil', user_path(current_user), title: 'Mon profil'
           li
             = link_to destroy_user_session_path, method: :delete do
               i class="fa fa-lg fa-fw fa-power-off hidden-xs"

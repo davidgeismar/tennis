@@ -148,7 +148,7 @@
 
                 <% if subscription.convocations.last && subscription.convocations.last.messages != [] %>
                 <td>
-                  <%=link_to "+1", convocation_messages_path(subscription.convocations.last), class: "btn btn-success" %>
+                  <%=link_to "+1", convocation_messages_path(subscription.convocations.last), class: "btn btn-success message" %>
                 </td>
                 <%else%>
                   <td></td>
@@ -229,8 +229,17 @@ $(document).ready(function() {
   })
 })
 
-
-
+$(document).ready(function() {
+ $(".message").on('click', function(event){
+        $.ajax({
+          url: ,
+          type: "PATCH",
+          success: function() {
+            $(".js-navbar-nofification").hide();
+          }
+        });
+      });
+})
 
 
 $(document).ready( function () {

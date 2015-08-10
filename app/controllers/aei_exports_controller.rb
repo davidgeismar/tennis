@@ -112,17 +112,22 @@ class AeiExportsController < ApplicationController
                     end
                   end
 
-                  # need to code which category I have to select by checking the TM tournament category
-                  # if @tournament.category = "senior"
-                  # check xpath with text senior
-                  # .parent.form.checkbox...
+                  # selecting the right category to subscribe the player into
                   form.checkboxes.each do |checkbox|
                     td = checkbox.node.parent
                     tr = td.parent
 
-                    category_title      = tr.search('td')[1].text
+                    # category_nature can be SM or SD
+                    category_nature      = tr.search('td')[2].text
+                    # category_age is the actual category
+                    category_age         = tr.search('td')[3].text
                     tournament_category = "#{@tournament.genre}_#{@tournament.category}"
-                    aei_tournament_cat  = I18n.t("aei.tournament_category.#{tournament_category}")
+                    aei_category_nature = I18n.t("aei.tournament_nature.#{category_nature}")
+                    aei_category_age    = I18n.t("aei.tournament_age_category.#{category_age}")
+
+                    raise
+                    # aei_tournament_cat  =
+                    # I18n.t("aei.tournament_category.#{tournament_category}")
                     if aei_tournament_cat == category_title
 
                       checkbox.check
@@ -133,9 +138,10 @@ class AeiExportsController < ApplicationController
                       body = page.body
                       html_body = Nokogiri::HTML(body)
                       puts html_body
+                      puts html_body.search('li').text
                     end
                   end
-                  puts html_body.search('li').text
+
                   slice_stats = checking_export(subscription_array)
                   stats[:success] += slice_stats[:success]
                   stats[:failure] += slice_stats[:failure]

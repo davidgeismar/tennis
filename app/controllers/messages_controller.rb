@@ -29,6 +29,10 @@ class MessagesController < ApplicationController
     end
   end
 
+  def update
+     @message.update(message_params)
+  end
+
   def contact
     @message = Message.new
   end
@@ -41,6 +45,6 @@ class MessagesController < ApplicationController
   private
 
   def message_params
-    params.require(:message).permit(:content)
+    params.require(:message).permit(:content, :read)
   end
 end
