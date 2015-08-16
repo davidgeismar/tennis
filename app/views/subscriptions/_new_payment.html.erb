@@ -1,0 +1,61 @@
+<% content_for(:after_js) do %>
+  <script type="text/javascript" >
+    function registerCardDemo() {
+      if ($('#js-CGV').prop('checked')) {
+        $('#js-error-cgv').addClass('hide');
+
+        var resultDiv         = $("#js-result");
+        resultDiv.innerHTML   = "Vérification...";
+        resultDiv.addClass('alert-info');
+
+        // Card register data prepared on the server
+        var cardRegisterData = {
+          cardRegistrationURL:  "<%= @card['CardRegistrationURL'] %>",
+          preregistrationData:  "<%= @card['PreregistrationData'] %>",
+          accessKey:            "<%= @card['AccessKey'] %>",
+          Id:                   "<%= @card['Id'] %>"
+        }
+
+        // Card data collected from the user
+        var cardData = {
+          cardNumber:         $("#card_number").val(),
+          cardExpirationDate: $("#card_expiration_date").val().replace('/',''),
+          cardCvx:            $("#card_cvx").val(),
+          cardType:           $("#card_type").val()
+        }
+
+        // Set MangoPay API base URL and Client ID
+        mangoPay.cardRegistration.baseURL   = "<%= ENV['MANGOPAY_API_URL'] %>";
+        mangoPay.cardRegistration.clientId  = "<%= ENV['MANGOPAY_CLIENT_ID'] %>";
+
+        // Initialize the CardRegistration Kit
+        mangoPay.cardRegistration.init(cardRegisterData);
+
+        // Register card
+        mangoPay.cardRegistration.registerCard(cardData,
+          function(res) {
+            var message = '<strong>Votre carte a été vérifiée ' + res.CardId + '.<br /> </strong>';
+            message    += '<strong>Le paiement est en cours</strong>';
+            resultDiv.innerHTML   = message;
+            resultDiv.addClass('alert-success');
+
+            var form = $('#payment_form');
+            form.find('button').prop('disabled', true);
+            form.append($('<input type="hidden" name="card_id" />').val(res.CardId));
+            form.get(0).submit();
+          },
+          function(res) {
+            var message = "<strong>Votre carte n'a pas été débitée.</strong><br />";
+            message    += '<strong>' +res.ResultMessage + '<br /> Code : ' + res.ResultCode + '</strong>' ;
+
+            resultDiv.innerHTML   = message;
+            resultDiv.addClass('alert-warning');
+          }
+        );
+      }
+      else {
+        $('#js-error-cgv').removeClass('hide');
+      }
+    }
+  </script>
+<% end %>
