@@ -30,7 +30,7 @@ class SubscriptionsController < ApplicationController
     authorize @subscription
 
     unless tournament_available_for_user?
-      redirect_to tournament_path(@tournament)
+      return redirect_to tournament_path(@tournament)
     end
 
     unless current_user.mangopay_user_id
