@@ -6,7 +6,7 @@
 
         var resultDiv         = $("#js-result");
         resultDiv.innerHTML   = "Vérification...";
-        resultDiv.addClass('alert-info');
+        resultDiv.removeClass().addClass('alert alert-info');
 
         // Card register data prepared on the server
         var cardRegisterData = {
@@ -34,10 +34,10 @@
         // Register card
         mangoPay.cardRegistration.registerCard(cardData,
           function(res) {
-            var message = '<strong>Votre carte a été vérifiée ' + res.CardId + '.<br /> </strong>';
+            var message = '<strong>Votre carte a été vérifiée ' + res.CardId + ' </strong>.<br />';
             message    += '<strong>Le paiement est en cours</strong>';
             resultDiv.innerHTML   = message;
-            resultDiv.addClass('alert-success');
+            resultDiv.removeClass().addClass('alert alert-success');
 
             var form = $('#payment_form');
             form.find('button').prop('disabled', true);
@@ -49,7 +49,7 @@
             message    += '<strong>' +res.ResultMessage + '<br /> Code : ' + res.ResultCode + '</strong>' ;
 
             resultDiv.innerHTML   = message;
-            resultDiv.addClass('alert-warning');
+            resultDiv.removeClass().addClass('alert alert-warning');
           }
         );
       }
