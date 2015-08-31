@@ -20,3 +20,11 @@
   min-height: 700px;
 
 }
+
+.subscription_status {
+  color : white;
+   &:hover,
+   &:focus {
+      color: $white;
+    }
+}
