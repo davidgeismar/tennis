@@ -86,6 +86,10 @@ class Tournament < ActiveRecord::Base
     (total && ranking_acceptance) == true
   end
 
+  def passed?
+    self.ends_on < Date.today
+  end
+
   def tennis_year
     year = ends_on.year
 

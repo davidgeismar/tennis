@@ -2,6 +2,14 @@ class SubscriptionsController < ApplicationController
   skip_after_action :verify_authorized, only: [:mytournaments]
 
   def mytournaments
+    @tournaments = current_user.tournaments
+    @passed_tournaments = []
+    @tournaments.each do |tournament|
+      if tournament.passed?
+        @passed_tournaments << tournament
+      end
+    end
+
     @subscriptions = Subscription.where(user_id: current_user)
 
     if @subscriptions.blank? && current_user.judge == false

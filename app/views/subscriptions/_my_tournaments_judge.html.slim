@@ -10,15 +10,19 @@ div class="container"
           th Catégorie
           th Date de début
           th Statut
+
+        tr
+         - unless @passed_tournaments.empty?
+            = link_to 'Tournois passés', passed_tournaments_path(current_user), class: 'btn btn-danger'
         - current_user.tournaments.each do |tournament|
           tr
-            - if tournament.accepted?
+            - if tournament.accepted && tournament.ends_on > Date.today
                td
                 = link_to tournament.name, user_tournament_path(current_user, tournament)
                td = tournament.category.capitalize
                td = tournament.starts_on.strftime('%d/%m/%Y')
                td Tournoi Validé
-            - else
+            - elsif tournament.ends_on > Date.today
                td = tournament.name
                td = tournament.category
                td = tournament.starts_on.strftime('%d/%m/%Y')

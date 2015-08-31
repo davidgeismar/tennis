@@ -70,6 +70,19 @@
     render nothing: true
   end
 
+  def passed_tournaments
+    @passed_tournaments = TournamentPolicy::Scope.new(current_user, Tournament).passed
+    authorize @passed_tournaments
+    # @passed_tournaments = []
+    # current_user.tournaments.each do |tournament|
+    #   if tournament.passed?
+    #     @passed_tournaments << tournament
+    #   end
+    # end
+    # authorize @passed_tournaments
+    # TournamentPolicy::Scope.new(current_user, Tournament).passed
+  end
+
   private
 
   def check_profile
