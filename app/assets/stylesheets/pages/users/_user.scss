@@ -44,6 +44,33 @@
   margin-top: 5px;
 }
 
+@media screen and (max-width: 988px) {
+  #fileName1 {
+    float: left;
+    margin-left: 40px;
+    color: green;
+    margin-top: -20px;
+}
+
+
+#fileName2 {
+  float: left;
+  margin-left: 40px;
+  color: green;
+  margin-top: -20px;
+}
+
+
+#fileName3 {
+  float: left;
+  margin-left: 40px;
+  color: green;
+  margin-top: -20px;
+}
+
+}
+
+
 #myFileInput1 {
   cursor: pointer;
 }
