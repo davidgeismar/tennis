@@ -1,0 +1,81 @@
+/ <div class="banner padded">
+/   <div class="container">
+/     <div class="row">
+/       <div class="col-xs-6 col-xs-offset-3 bigmarge">
+/         = simple_form_for(@user) do |f|
+/           = f.error_notification
+/           <p>
+/             = f.label :picture, label: "Photo"
+/             <div class="upload-file-container">
+
+/               = f.file_field :picture, id: "myFileInput4"
+/             <span id="fileName4"></span>
+/             </div>
+/           </p>
+/           = f.input :first_name, label: "Prénom"
+/           = f.input :last_name, label: "Nom"
+/           = f.input :email, label: "email"
+/           = f.input :telephone
+/           = f.input :licence_number, label: "Numéro de Licence"
+/           <p>= f.label :birthdate, 'Date de naissance' </p>
+/           = f.date_select :birthdate, {:include_blank => true, :default => nil, :use_month_names => ['Janv.','Fevr.', 'Mars', 'Avr.', 'Mai', 'Juin', 'Juil.', 'Août','Sept.', 'Oct.', 'Nov.', 'Déc.'], :order => [:day, :month, :year], :start_year => 1910, :end_year => 2010}
+/           = f.input :address, label: "Votre addresse"
+/           = f.button :submit, "Valider", class: "btn-success"
+/           = link_to "Annuler", user_path(current_user), class: "btn btn-default"
+/          end
+/       </div>
+/     </div>
+/   </div>
+/ </div>
+
+
+
+
+/  content_for(:after_js) do %>
+/ <script>
+/   $(document).ready(function(){
+/       realInputField = $('#myFileInput4')
+/       realInputField.change(function() {
+/         $('#fileName4').append( "<i class='fa fa-check'></i>" )
+/       });
+/    });
+/ </script>
+/ <% end -%>
+
+div class="banner padded"
+  div class="container"
+    div class="row"
+      h1 class= "text-center emperor" Modifier mon profil
+      div class="col-xs-6 col-xs-offset-3 bigmarge"
+         div class="panel panel-default"
+           div class= "panel-heading"
+             h4 Informations Juge-Arbitre
+           div class= "panel-body"
+               = simple_form_for(@user) do |f|
+                = f.error_notification
+                = f.input :first_name, label: "Prénom"
+                = f.input :last_name, label: "Nom"
+                = f.label :birthdate, 'Date de naissance'
+                = f.date_select :birthdate, {:include_blank => true, :default => nil, :use_month_names => ['Janv.','Fevr.', 'Mars', 'Avr.', 'Mai', 'Juin', 'Juil.', 'Août','Sept.', 'Oct.', 'Nov.', 'Déc.'], :order => [:day, :month, :year], :start_year => 1910, :end_year => 2010}
+                div class= "form-group"
+                  = f.label :picture, label: "Photo"
+                  div class="upload-file-container"
+                    span id="fileName4"
+                    = f.file_field :picture, id: "myFileInput4", class: "form-control"
+                = f.input :email, label: "email"
+                = f.input :telephone
+                = f.input :licence_number, label: "Numéro de Licence"
+                = f.input :address, label: "Votre addresse"
+
+                = f.button :submit, "Valider", class: "btn-success"
+                = link_to "Annuler", user_path(current_user), class: "btn btn-default"
+
+= content_for :after_js do
+  javascript:
+     $(document).ready(function(){
+        realInputField = $('#myFileInput4')
+        realInputField.change(function() {
+          $('#fileName4').append( "<i class='fa fa-check'></i>" )
+        });
+      });
+
