@@ -12,7 +12,7 @@ class PlayerInvitationsController < ApplicationController
     elsif params[:last_name] == ""
       @errors << "Merci de préciser le nom du licencié"
       render :new and return
-    elsif (params[:licence_number] =~ /\d{7}\D{1}/).nil?
+    elsif (params[:licence_number].delete(' ') =~ /\d{7}\D{1}/).nil?
       @errors << "Merci de préciser un numéro de licence valide"
       render :new and return
     else
@@ -20,7 +20,8 @@ class PlayerInvitationsController < ApplicationController
       @user = User.invite!(email: params[:email], name: "#{params[:first_name]} #{params[:last_name]}")
       @user.first_name      = params[:first_name]
       @user.last_name       = params[:last_name]
-      @user.licence_number  = params[:licence_number]
+      @user.licence_number  = params[:licence_number].delete(' ')
+      raise
       @user.save
       @subscription = Subscription.new(user: @user, tournament: @tournament)
       if @subscription.save
