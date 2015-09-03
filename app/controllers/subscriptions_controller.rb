@@ -35,6 +35,8 @@ class SubscriptionsController < ApplicationController
   def new
     @tournament   = Tournament.find(params[:tournament_id])
     @subscription = @tournament.subscriptions.build
+    @total_amount = @subscription.tournament.amount + (10*@subscription.tournament.amount/100)
+
     authorize @subscription
 
     unless tournament_available_for_user?

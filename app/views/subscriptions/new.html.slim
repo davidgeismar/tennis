@@ -11,7 +11,7 @@ div class="container"
             '€
         - else
           strong
-            = @subscription.tournament.amount
+            = @total_amount
             '€
 
 
@@ -40,6 +40,8 @@ div class="container"
           p
             'En cliquant sur payer, je valide mon inscription à
             strong> = @subscription.tournament.name
+            'dans la catégorie
+            strong> = @subscription.tournament.category
             'du
             strong> = @subscription.tournament.starts_on.strftime("%d/%m/%Y")
             'au
