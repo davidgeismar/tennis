@@ -17,7 +17,7 @@ class ConvocationsController < ApplicationController
         user:     @convocation.subscription.user,
         content:  "Vous êtes convoqué(e) à #{@convocation.subscription.tournament.name} le #{@convocation.date.strftime("le %d/%m/%Y")} à #{@convocation.hour.strftime(" à %Hh%M")}"
       )
-
+      flash[:notice] = "Votre convocation a bien été envoyée"
       redirect_to tournament_subscriptions_path(@subscription.tournament)
     else
       render :new

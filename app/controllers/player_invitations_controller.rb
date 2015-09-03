@@ -21,7 +21,6 @@ class PlayerInvitationsController < ApplicationController
       @user.first_name      = params[:first_name]
       @user.last_name       = params[:last_name]
       @user.licence_number  = params[:licence_number].delete(' ')
-      raise
       @user.save
       @subscription = Subscription.new(user: @user, tournament: @tournament)
       if @subscription.save

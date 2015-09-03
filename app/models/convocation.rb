@@ -6,7 +6,7 @@ class Convocation < ActiveRecord::Base
 
   has_many    :messages
 
-  validates :date,            presence: true
-  validates :hour,            presence: true
+  validates :date,            presence: { message: "Veuillez remplir la date de la convocation" }, on: :create
+  validates :hour,            presence: { message: "Veuillez remplir l'heure de votre convocation" }, on: :create
   validates :subscription_id, presence: true
 end
