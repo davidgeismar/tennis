@@ -205,6 +205,9 @@ class SubscriptionsController < ApplicationController
     elsif @tournament.open_for_ranking?(current_user.ranking) == false
       flash[:alert] = "Ce tournoi n'accepte plus d'inscrits à votre classement"
       return false
+    elsif @tournament.in_ranking_range(current_user.ranking, @tournament) == false
+      flash[:alert] = "Vous n'avez pas le classement requis pour participer à ce tournoi"
+      return false
     elsif @tournament.open_for_genre?(current_user.genre) == false
       flash[:alert] = "Ce tournoi n'est pas mixte. Vous ne pouvez pas vous inscrire"
       return false

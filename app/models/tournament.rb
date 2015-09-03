@@ -86,6 +86,17 @@ class Tournament < ActiveRecord::Base
     (total && ranking_acceptance) == true
   end
 
+  def in_ranking_range(user_ranking, tournament)
+    ranking_value = Settings.user_ranking_value[user_ranking]
+    tournament_max_ranking_value = Settings.user_ranking_value[tournament.max_ranking]
+    tournament_min_ranking_value = Settings.user_ranking_value[tournament.min_ranking]
+    if tournament_max_ranking_value >= ranking_value && ranking_value >= tournament_min_ranking_value
+      return true
+    else
+      return false
+    end
+  end
+
   def passed?
     self.ends_on < Date.today
   end
