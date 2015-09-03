@@ -31,7 +31,7 @@ class User < ActiveRecord::Base
   validates :last_name,   presence: { message: 'Veuillez remplir votre nom' },    on: :update
 
   validates :licence_number, format: {
-      with:     /\d{7}\D{1}/,
+      with:     /\A\d{7}\D{1}\z/,
       message:  'Le format de votre numéro de licence doit être du type 0930613K'
     }, on: :update
 
