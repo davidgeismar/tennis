@@ -5,20 +5,31 @@ class PlayerInvitationsController < ApplicationController
   end
 
   def create
-    @user = User.invite!(email: params[:email], name: "#{params[:first_name]} #{params[:last_name]}")
-
-    @user.first_name      = params[:first_name]
-    @user.last_name       = params[:last_name]
-    @user.licence_number  = params[:licence_number]
-    @user.save
-
-    @subscription = Subscription.new(user: @user, tournament: @tournament)
-
-    if @subscription.save
-      SubscriptionMailer.confirmation_invited_user(@subscription).deliver
-      redirect_to tournament_subscriptions_path(@tournament)
+    @errors = []
+    if params[:first_name] == ""
+      @errors << "Merci de préciser le prénom du licencié"
+      render :new and return
+    elsif params[:last_name] == ""
+      @errors << "Merci de préciser le nom du licencié"
+      render :new and return
+    elsif (params[:licence_number].delete(' ') =~ /\d{7}\D{1}/).nil?
+      @errors << "Merci de préciser un numéro de licence valide"
+      render :new and return
     else
-      render :new
+      # email must be present in the parameter hash if it is not invitation is not sent
+      @user = User.invite!(email: params[:email], name: "#{params[:first_name]} #{params[:last_name]}")
+      @user.first_name      = params[:first_name]
+      @user.last_name       = params[:last_name]
+      @user.licence_number  = params[:licence_number].delete(' ')
+      raise
+      @user.save
+      @subscription = Subscription.new(user: @user, tournament: @tournament)
+      if @subscription.save
+        SubscriptionMailer.confirmation_invited_user(@subscription).deliver
+        redirect_to tournament_subscriptions_path(@tournament)
+      else
+        render :new
+      end
     end
   end
 
