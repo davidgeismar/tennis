@@ -97,13 +97,14 @@ class AeiExportsController < ApplicationController
                   page = form.submit
                   body = page.body
                   html_body = Nokogiri::HTML(body)
+
                   # puts html_body
 
                   form = agent.page.forms.first
 
                   numbers = (0...total_subscriptions)
 
-                  # checking all checkboxes for players
+                  # checking all checkboxes for players = selecting all players before selecting category in which subscribing them
                   numbers.each do |number|
                     checkbox = form.checkbox_with(:name => 'pp_ino_selection['+ number.to_s + ']')
 
@@ -113,26 +114,50 @@ class AeiExportsController < ApplicationController
                   end
 
                   # selecting the right category to subscribe the player into
+                  # we are actually selecting all checkboxes from the page so we also have the checkbox that are related to the players
+                  # checkbox for players have name pp_ino_selection whereas checkbox for category have epr_iid_selection name
                   form.checkboxes.each do |checkbox|
                     td = checkbox.node.parent
                     tr = td.parent
-
+                    # crosschecking category_title with category_nature and category_age
+                    # category_title is given by the JA
+                    category_title      = tr.search('td')[1].text
                     # category_nature can be SM or SD
-                    category_nature      = tr.search('td')[2].text
+                    category_nature      = tr.search('td')[2].text.strip
                     # category_age is the actual category
                     category_age         = tr.search('td')[3].text
                     tournament_category = "#{@tournament.genre}_#{@tournament.category}"
+
+                    # i18n terminology for each
+                    aei_tournament_category  = I18n.t("aei.tournament_category.#{tournament_category}")
                     aei_category_nature = I18n.t("aei.tournament_nature.#{category_nature}")
                     aei_category_age    = I18n.t("aei.tournament_age_category.#{category_age}")
 
-                    raise
+
                     # aei_tournament_cat  =
                     # I18n.t("aei.tournament_category.#{tournament_category}")
-                    if aei_tournament_cat == category_title
+
+                    if aei_tournament_category == category_title
+                      raise
 
                       checkbox.check
 
                       # submitting inscription
+                      form.field_with(:name => 'dispatch').value = "inscrire"
+                      page = form.submit
+                      body = page.body
+                      html_body = Nokogiri::HTML(body)
+                      puts html_body
+                      puts html_body.search('li').text
+
+
+                    elsif category_nature.present? && category_age.present? && aei_category_nature + ' ' + aei_category_age == aei_tournament_category
+                       checkbox.check
+
+
+                      #enters but doesnt work
+                      # submitting inscription
+
                       form.field_with(:name => 'dispatch').value = "inscrire"
                       page = form.submit
                       body = page.body
@@ -166,7 +191,7 @@ class AeiExportsController < ApplicationController
       failure_full_names = stats[:failure].map { |subscription| subscription.user.full_name }.join(', ')
 
 
-      flash[:notice]  = "Vous avez exporté #{stats[:success].size} avec succès"
+      flash[:notice]  = "Vous avez exporté #{stats[:success].size} licencié(s) avec succès"
 
       if failure_full_names.present?
 
