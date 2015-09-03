@@ -93,13 +93,10 @@
                   </div>
                   <%elsif subscription.status == "confirmed_warning"%>
                   <td>
-                  <div class="btn btn-success">
+                  <div class="btn btn-success" data-toggle="tooltip" data-placement="top" title="!confirmé! signifie que le joueur a bien été confirmé dans la compétition mais que son paiement n'a pas été pris en compte via WeTennis. Vous devrez donc encaissez le joueur le jour de sa première convocation.">
                     <a href="#" data-target="#confirme_without" data-toggle="modal" class="subscription_status" class="confirm!">
                       !Confirmé!
                     </a>
-                  </div>
-                  <div id="parent">
-                    <div id="popup_subscription_index" style="display:none" class="small"><strong>!confirmé!</strong> signifie que le joueur a bien été confirmé dans la compétition mais que son paiement n'a pas été pris en compte via WeTennis. <strong>Vous devrez donc encaissez le joueur le jour de sa première convocation.</strong></div>
                   </div>
                   <div class="modal fade" id="confirme_without">
                     <div class="modal-dialog mymodal">
@@ -295,17 +292,8 @@ function toggle(source) {
   $('#select_players').val(subscriptionIds);
   $('#subscription_ids_export').val(subscriptionIds);
 }
-
 $(document).ready( function () {
-  var e = document.getElementById('confirm!');
-  e.onmouseover = function() {
-    document.getElementById('popup_subscription_index').style.display = 'block';
-    document.getElementById('popup_subscription_index');
-  }
-  e.onmouseout = function() {
-    document.getElementById('popup_subscription_index').style.display = 'none';
-  }
-});
-
+  $('[data-toggle="tooltip"]').tooltip()
+})
 </script>
 <% end %>

@@ -18,7 +18,10 @@ div class="container"
           tr
             td = subscription.tournament.name
             td = subscription.tournament.category
-            td = subscription.status_text
+            - if subscription.status == "confirmed_warning"
+                td data-toggle="tooltip" data-placement="left" title="!confirmé! signifie que vous avez bien été confirmé dans la compétition mais que votre paiement n'a pas été effectué via WeTennis. Vous devrez donc payer les frais d'inscription le jour de votre première convocation." = subscription.status_text
+            - else
+                td = subscription.status_text
             td
               - unless subscription.convocations.size == 0
                  = subscription.convocations.last.date.strftime("Le %d/%m/%Y")
@@ -41,3 +44,11 @@ div class="container"
                  = link_to 'Indiquer', new_subscription_disponibility_path(subscription, subscription.disponibility), class: 'btn btn-success'
               - else
                  = link_to 'Changer', edit_subscription_disponibility_path(subscription, subscription.disponibility), class: 'btn btn-warning'
+
+
+= content_for :after_js do
+  javascript:
+    $(document).ready(function(){
+      $('[data-toggle="tooltip"]').tooltip()
+    });
+
