@@ -1,0 +1,32 @@
+
+
+div class="banner"
+  div class='container padded'
+    div class="row"
+      div class="col-sm-6 col-sm-offset-3"
+        div class="panel panel-default"
+          div class= "panel-heading"
+            h4 CONVOCATION
+
+          div class= "panel-body"
+            = form_tag subscription_convocations_path(@subscription) do ||
+              div class="form-group"
+                = label_tag :convocation_date, "Date"
+                = text_field_tag "convocation[date]", nil, required: true, class: "form-control datepicker"
+
+              div class="form-group"
+                = label_tag :convocation_hour, "Heure de la convocation"
+                = time_field_tag "convocation[hour]", nil, required: true, class: 'form-control'
+
+              = submit_tag "Envoyer la convocation", class: "btn btn-primary"
+
+
+= content_for :after_js do
+  javascript:
+      $(document).ready(function(){
+        $('.datepicker').datepicker({
+           format: 'dd/mm/yyyy',
+           language: 'fr',
+           startDate: '-1d'
+        });
+      });
