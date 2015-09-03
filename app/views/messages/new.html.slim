@@ -17,6 +17,6 @@ div class="banner"
           div class= "panel-body"
             = simple_form_for([@convocation, @message], :url => convocation_messages_path(@convocation)) do |f|
                 = f.error_notification
-                = f.text_area :content, class:  "message-box", placeholder: "ex: le jeudi de 17h à 22h"
+                = f.text_area :content, class:  "message-box", placeholder: "ex: le jeudi de 17h à 22h", required: true
                 br
                    = f.button :submit, "Envoyer", class: "btn btn-success"
