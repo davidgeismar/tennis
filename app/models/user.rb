@@ -88,7 +88,7 @@ class User < ActiveRecord::Base
     end
   end
 
-  def licence_number_custom
+  def licence_number_custom #licence number without last character
    licence_without_white_space = licence_number.split.join
    return licence_without_white_space[0...-1]
   end

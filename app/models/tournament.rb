@@ -29,7 +29,7 @@ class Tournament < ActiveRecord::Base
 
   # validates :homologation_number, presence: true, format:{
   #     with:     /2015\d{11}/,
-  #     message:  "Le format de votre numéro d'homologation doit être du type 201532920076013"
+  #     message:  "Le format de votre numéro d'homologation doit être du type 201532920076013. Merci de ne pas entrer la lettre du début."
   #   }
 
   validates :iban, presence: true, format: {
