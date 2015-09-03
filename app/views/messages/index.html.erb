@@ -4,7 +4,7 @@
       <div class="col-xs-12 bigmarge">
          <div class="panel panel-default">
           <div class="panel-heading">
-            <h2 class="marge"><%= @convocation.subscription.user.first_name%> <%= @convocation.subscription.user.last_name%> a refusé la convocation que vous lui avez proposé le <%= @convocation.date.strftime("le %d/%m/%Y") %> à <%= @convocation.hour.strftime(" à %Hh%M")%></h2>
+            <h4 class="marge"><%= @convocation.subscription.user.first_name%> <%= @convocation.subscription.user.last_name%> a refusé la convocation que vous lui avez proposé pour <%= @convocation.date.strftime("le %d/%m/%Y") %> <%= @convocation.hour.strftime(" à %Hh%M")%></h2>
 
             <p class="marge-bas"><strong>Ci dessous vous trouverez les disponibilités de <%= @convocation.subscription.user.first_name%> <%= @convocation.subscription.user.last_name%></strong></p>
                </div>
@@ -18,7 +18,7 @@
         <div class="panel panel-default">
 
           <div class="panel-heading">
-            <div class="user-picture" style='background-image:url(<%= image_path @convocation.subscription.user.picture.url(:medium) %>)'>
+            <div class="user-picture center" style='background-image:url(<%= image_path @convocation.subscription.user.picture.url(:medium) %>)'>
             </div>
             Message de <%= @convocation.subscription.user.first_name%> <%= @convocation.subscription.user.last_name%>
           </div>
@@ -34,15 +34,7 @@
     </div>
   </div>
 </div>
-<%= content_for :after_js do %>
-<script>
 
-  function yo(){
-    alert("yo");
-  }
-
-</script>
-<% end %>
 
 
 
