@@ -95,11 +95,11 @@
                   <td>
                   <div class="btn btn-success">
                     <a href="#" data-target="#confirme_without" data-toggle="modal" class="subscription_status" id="confirm!">
-                      'Confirmé !
+                      !Confirmé!
                     </a>
                   </div>
                   <div id="parent">
-                    <div id="popup_subscription_index" style="display: none"><strong>!CONFIRME!</strong> signifie que le joueur a bien été confirmé dans la compétition mais que son paiement n'a pas été pris en compte via WeTennis. <strong>Vous devrez donc encaissez le joueur le jour de sa première convocation.</strong></div>
+                    <div id="popup_subscription_index" style="display:none" class="small"><strong>!confirmé!</strong> signifie que le joueur a bien été confirmé dans la compétition mais que son paiement n'a pas été pris en compte via WeTennis. <strong>Vous devrez donc encaissez le joueur le jour de sa première convocation.</strong></div>
                   </div>
                   <div class="modal fade" id="confirme_without">
                     <div class="modal-dialog mymodal">
@@ -214,11 +214,17 @@
 
         <%= form_tag tournament_aei_export_path(@tournament) do %>
           <%= hidden_field_tag :subscription_ids_export %>
-          <%= label_tag :login_aei, "Identifiant AEI" %>
-          <%= text_field_tag(:login_aei) %>
-          <%= label_tag :password_aei, "Mot de passe AEI" %>
-          <%= text_field_tag(:password_aei) %>
-          <%= submit_tag "Exporter vos inscrits", id: "export", class: "btn btn-success margin"%>
+          <div class="form-group">
+            <%= label_tag :login_aei, "Identifiant AEI" %>
+            <%= text_field_tag :login_aei, nil, class: 'form-control' %>
+          </div>
+          <div class="form-group">
+            <%= label_tag :password_aei, "Mot de passe AEI" %>
+            <%= text_field_tag :password_aei, nil, class: 'form-control'%>
+          </div>
+          <div class="form-group">
+            <%= submit_tag "Exporter vos inscrits", id: "export", class: "btn btn-success margin form-control"%>
+          </div>
         <% end -%>
       </div>
       <div class="modal-footer">
@@ -242,18 +248,6 @@ $(document).ready(function() {
     $('#select_players').val(subscriptionIds);
     $('#subscription_ids_export').val(subscriptionIds);
   })
-})
-
-$(document).ready(function() {
- $(".message").on('click', function(event){
-        $.ajax({
-          url: ,
-          type: "PATCH",
-          success: function() {
-            $(".js-navbar-nofification").hide();
-          }
-        });
-      });
 })
 
 
@@ -306,6 +300,7 @@ $(document).ready( function () {
   var e = document.getElementById('confirm!');
   e.onmouseover = function() {
     document.getElementById('popup_subscription_index').style.display = 'block';
+    document.getElementById('popup_subscription_index');
   }
   e.onmouseout = function() {
     document.getElementById('popup_subscription_index').style.display = 'none';
