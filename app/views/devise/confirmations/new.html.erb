@@ -2,19 +2,25 @@
   <div class="container">
     <div class="row">
       <div class="col-xs-offset-3 col-xs-6 col-sm-offset-3 col-sm-6 text-center">
-
-          <h2 class="confirmation_instruction"><%= t('.resend_confirmation_instructions', :default => 'Resend confirmation instructions') %></h2>
-
-          <%= form_for(resource, :as => resource_name, :url => confirmation_path(resource_name), :html => { :method => :post }) do |f| %>
-            <%= devise_error_messages! %>
-
-           <div class="form-group">
-              <%= f.label :email %><br />
-              <%= f.email_field :email, class: "form-control" %>
-           </div>
-
-            <div><%= f.submit t('.resend_confirmation_instructions', :default => 'Resend confirmation instructions'), class: "btn-resend"  %></div>
+        <div class="panel panel-default">
+          <div class= "panel-heading">
+            <h4 class="confirmation_instruction"><%= t('.resend_confirmation_instructions', :default => 'Resend confirmation instructions') %></h4>
+          </div>
+          <div class= "panel-body">
+            <%= form_for(resource, :as => resource_name, :url => confirmation_path(resource_name), :html => { :method => :post }) do |f| %>
+            <div class="text-danger">
+              <%= devise_error_messages! %>
+            </div>
+             <div class="form-group">
+                <%= f.label :email %><br />
+                <%= f.email_field :email, class: "form-control" %>
+             </div>
+          </div>
+          <div class="panel-footer">
+           <%= f.submit t('.resend_confirmation_instructions', :default => 'Resend confirmation instructions'), class: "btn-resend btn-success"  %>
+          </div>
           <% end %>
+        </div>
       </div>
     </div>
   </div>
