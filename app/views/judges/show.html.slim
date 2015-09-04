@@ -9,7 +9,7 @@ div class="banner"
           p
             em> Référencez vos tournois
             '&
-            em convoquez vos joueurs par email
+            em convoquez vos joueurs par email et sms
           = simple_form_for(@user, url: user_registration_path) do |f|
             = f.input :email, required: true, autofocus: true, placeholder: 'arbitre@wetennis.fr', label: 'Email'
             = f.input :password, required: true, placeholder: '••••••'
