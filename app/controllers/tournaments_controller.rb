@@ -34,8 +34,8 @@
     @tournament.homologation_number = params[:tournament][:homologation_number].split.join
     authorize @tournament
 
-    service = MangoPayments::Tournaments::SetupService.new(@tournament)
 
+    service = MangoPayments::Tournaments::SetupService.new(@tournament)
     if @tournament.save && service.call
       redirect_to tournament_path(@tournament)
     else
