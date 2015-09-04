@@ -44,6 +44,7 @@ class Tournament < ActiveRecord::Base
     }
 
   validate :start_date_before_end_date
+  validate :min_ranking_inferior_to_max_ranking
 
   after_validation  :geocode,                 if: :address_tour_changed?
   after_save        :send_email_if_accepted,  if: :accepted_changed?
@@ -124,6 +125,13 @@ class Tournament < ActiveRecord::Base
   def start_date_before_end_date
     if starts_on && ends_on && starts_on > ends_on
       errors.add(:starts_on, "Veuillez choisir une date de début avant la date de fin du tournoi")
+    end
+  end
+  def min_ranking_inferior_to_max_ranking
+    tournament_max_ranking_value = Settings.user_ranking_value[max_ranking]
+    tournament_min_ranking_value = Settings.user_ranking_value[min_ranking]
+    if min_ranking && max_ranking && tournament_min_ranking_value >= tournament_max_ranking_value
+      errors.add(:max_ranking, "Veuillez choisir un classement maximum supérieur au classement minimum")
     end
   end
 end
