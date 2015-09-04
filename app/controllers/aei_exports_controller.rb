@@ -49,8 +49,8 @@ class AeiExportsController < ApplicationController
             links.each do |a|
             # try with 2015 32 92 0076 not working why ?
 
-              # if a.text.split.join ==  @tournament.homologation_number.split.join && !homologation_number_found
-              if a.text.split.join == "201532920419" && !homologation_number_found
+            # pour l'export en test il faut continuer avec le numéro de test 2015 32 92 0419
+              if a.text.split.join == @tournament.homologation_number && !homologation_number_found
                 homologation_number_found = true
 
                 a = a.parent.previous.previous

@@ -12,7 +12,7 @@ class PlayerInvitationsController < ApplicationController
     elsif params[:last_name] == ""
       @errors << "Merci de préciser le nom du licencié"
       render :new and return
-    elsif (params[:licence_number].delete(' ') =~ /\d{7}\D{1}/).nil?
+    elsif (params[:licence_number].delete(' ') =~ /\A\d{7}\D{1}\z/).nil?
       @errors << "Merci de préciser un numéro de licence valide"
       render :new and return
     else
