@@ -6,9 +6,6 @@ div class="container"
           a href="#profil" aria-controls="profil" role="tab" data-toggle="tab"
             strong Profil
         li role="presentation"
-          a href="#compte" aria-controls="compte" role="tab" data-toggle="tab"
-            strong Compte
-        li role="presentation"
           a href="#licence" aria-controls="licence" role="tab" data-toggle="tab"
             strong Licence
         li role="presentation"
@@ -17,25 +14,18 @@ div class="container"
 
       div class="tab-content"
         div role="tabpanel" class="tab-pane active" id="profil"
-          = render 'users/edit/player_infos'
-
-        div role="tabpanel" class="tab-pane" id="compte"
-          div class="panel panel-default"
-            div class="panel-heading"
-              p Vos informations de contact
-          = link_to 'Éditer mon compte', edit_user_registration_path, class: 'btn btn-warning'
+          = render 'users/edit/player_infos_judge'
 
         div role="tabpanel" class="tab-pane" id="licence"
           - if @user.licencepicture_content_type
             div id="licence_picture"
               = render 'users/edit/licence_picture'
           - else
-            div id="licence_picture"
-              = render 'users/edit/player_upload_licence_btn'
+
 
         div role="tabpanel" class="tab-pane" id="certif"
           - if @user.certifmedpicture_content_type
             div id="licence_picture"
               = render 'users/edit/certif_picture'
           - else
-              = render 'users/edit/player_upload_certif_btn'
+
