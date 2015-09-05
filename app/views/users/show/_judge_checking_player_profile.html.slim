@@ -17,15 +17,15 @@ div class="container"
           = render 'users/edit/player_infos_judge'
 
         div role="tabpanel" class="tab-pane" id="licence"
-          - if @user.licencepicture_content_type == nil
-            = render 'users/edit/licence_picture'
-          - else
+          - if @user.licencepicture_content_type
             div id="licence_picture"
               = render 'users/edit/licence_picture'
+          - else
+
 
         div role="tabpanel" class="tab-pane" id="certif"
           - if @user.certifmedpicture_content_type
             div id="licence_picture"
               = render 'users/edit/certif_picture'
           - else
-              = render 'users/edit/certif_picture'
+

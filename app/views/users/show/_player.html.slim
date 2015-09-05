@@ -26,11 +26,12 @@ div class="container"
           = link_to 'Éditer mon compte', edit_user_registration_path, class: 'btn btn-warning'
 
         div role="tabpanel" class="tab-pane" id="licence"
-          - if @user.licencepicture_content_type == nil
-            = render 'users/edit/player_upload_licence_btn'
-          - else
+          - if @user.licencepicture_content_type
             div id="licence_picture"
               = render 'users/edit/licence_picture'
+          - else
+            div id="licence_picture"
+              = render 'users/edit/player_upload_licence_btn'
 
         div role="tabpanel" class="tab-pane" id="certif"
           - if @user.certifmedpicture_content_type
