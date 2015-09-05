@@ -22,10 +22,10 @@ class MessagesController < ApplicationController
 
     if @message.save
       redirect_to user_path(current_user)
-      flash[:alert] = "Votre message a bien été envoyé, vous recevrez une nouvelle convocation ou un appel du JA d'ici peu."
+      flash[:notice] = "Votre message a bien été envoyé, vous recevrez une nouvelle convocation ou un appel du JA d'ici peu."
     else
       render :new
-      flash[:warning] = "Un problème est survenu veuillez réessayer d'envoyer votre message"
+      flash[:alert] = "Un problème est survenu veuillez réessayer d'envoyer votre message"
     end
   end
 
@@ -40,6 +40,10 @@ class MessagesController < ApplicationController
   def index
     @convocation  = Convocation.find(params[:convocation_id])
     @messages     = @convocation.messages.all
+    @messages.each do |message|
+      message.read = true
+      message.save
+    end
   end
 
   private
