@@ -98,6 +98,8 @@ class User < ActiveRecord::Base
       last_name.present? &&
       telephone.present? &&
       birthdate.present? &&
+      licencepicture_file_size.present? &&
+      certifmedpicture_file_size.present? &&
       licence_number.present?
     )
 
