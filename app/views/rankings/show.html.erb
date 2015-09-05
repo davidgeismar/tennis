@@ -1,11 +1,10 @@
-  <div class="banner">
-    <div class="container text-center">
-
-
-<%=link_to "Retour à la gestion du tournoi", tournament_subscriptions_path(@tournament), class: "btn btn-default bigmarge_stats"%>
-            <table id="example" class="table table-hover card display dataTable bigmarge_stats">
+<div class="banner">
+  <div class="container text-center">
+    <%=link_to "Retour à la gestion du tournoi", tournament_subscriptions_path(@tournament), class: "btn btn-warning global bigmarge_stats"%>
+    <div class="panel panel-default">
+      <table id="example" class="table table-hover card display dataTable bigmarge_stats">
         <thead>
-          <tr>
+          <tr class= "bgrey">
             <th class="text-center">Classements </th>
             <th class="text-center">Nombre de joueurs</th>
             <th >Bloquer les inscriptions</th>
@@ -259,19 +258,12 @@
               <% end %>
             </td>
           </tr>
-
-       </tbody>
-</table>
-
-
-
-
-
-
-              </div>
-          </div>
+        </tbody>
+      </table>
     </div>
   </div>
+</div>
+
 
   <% content_for(:after_js) do %>
      <script type="text/javascript">
