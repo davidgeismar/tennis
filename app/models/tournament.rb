@@ -28,10 +28,10 @@ class Tournament < ActiveRecord::Base
   validates :club_organisateur,   presence: { message: "Merci d'indiquer le club organisateur" }
 
   # rajouter uniqueness: true
-  validates :homologation_number, presence: true, format:{
-      with:     /\A2015\d{11}\z/,
-      message:  "Le format de votre numéro d'homologation doit être du type 201532920076013. Merci de ne pas entrer la lettre du début."
-    }
+  # validates :homologation_number, presence: true, format:{
+  #     with:     /\A2015\d{11}\z/,
+  #     message:  "Le format de votre numéro d'homologation doit être du type 201532920076013. Merci de ne pas entrer la lettre du début."
+  #   }
 
   validates :iban, presence: true, format: {
       with:     /\A[a-zA-Z]{2}\d{2}\s*(\w{4}\s*){2,7}\w{1,4}\s*\z/,
@@ -84,7 +84,6 @@ class Tournament < ActiveRecord::Base
   def open_for_ranking?(user_ranking)
     ranking_field_name = Settings.user_tournament_ranking_matching[user_ranking]
     ranking_acceptance = self[ranking_field_name]
-
     (total && ranking_acceptance) == true
   end
 

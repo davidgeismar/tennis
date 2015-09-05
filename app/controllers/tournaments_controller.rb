@@ -56,7 +56,7 @@
     @tournament.update(tournament_params)
     @tournament.accepted = false
     if @tournament.save
-    redirect_to tournament_path(@tournament)
+      redirect_to tournament_path(@tournament)
     else
       render :edit
     end
