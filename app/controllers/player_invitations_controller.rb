@@ -5,6 +5,10 @@ class PlayerInvitationsController < ApplicationController
   end
 
   def create
+    emails_in_tournament = []
+    @tournament.subscriptions.each do |subscription|
+      emails_in_tournament << subscription.user.email
+    end
     @errors = []
     if params[:first_name] == ""
       @errors << "Merci de préciser le prénom du licencié"
@@ -15,6 +19,10 @@ class PlayerInvitationsController < ApplicationController
     elsif (params[:licence_number].delete(' ') =~ /\A\d{7}\D{1}\z/).nil?
       @errors << "Merci de préciser un numéro de licence valide"
       render :new and return
+    # if user est déjà inscrit au tournoi
+    elsif emails_in_tournament.include?(params[:email])
+      flash[:alert] = "Ce licencié a déjà été ajouté au tournoi. Merci de vérifier votre liste de joueur"
+      redirect_to tournament_subscriptions_path(@tournament)
       #if user n'est pas déjà inscrit sur wetennis
     elsif User.find_by_email(params[:email]).nil?
       # email must be present in the parameter hash if it is not invitation is not sent
@@ -32,6 +40,7 @@ class PlayerInvitationsController < ApplicationController
           # n'arrivera pas car toute les erreurs sont déjà géré
           render :new
         end
+
     else
         #mail proposant au user de s'inscrire au tournoi via wetennis
         PlayerInvitationsMailer.send_invitation(@tournament, params[:email]).deliver

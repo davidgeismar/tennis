@@ -151,8 +151,7 @@
               <%else%>
                 <td></td>
               <% end %>
-
-              <% if subscription.convocations.last && subscription.convocations.last.messages != [] %>
+              <% if subscription.convocations.last && subscription.convocations.last.messages.last && !subscription.convocations.last.messages.last.read  %>
               <td>
                 <%=link_to "+1", convocation_messages_path(subscription.convocations.last), class: "btn btn-success message" %>
               </td>

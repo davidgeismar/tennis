@@ -5,6 +5,7 @@ class Licenciefft < ActiveRecord::Base
     form = agent.page.forms.first
     # filling out form for clubs by region
     codeclubs = []
+    #club numbers in select
     numbers = (1..38).to_a
     numbers.each do |number|
       form.field_with(:name => 'codeLigue').options[1].select
@@ -15,8 +16,11 @@ class Licenciefft < ActiveRecord::Base
           links = html_body.css('.list').xpath("//table/tbody/tr/td[2]/a[1]")
           links.each do |link|
             purelink = link['href']
+            # codeclub is in the link
             purelink[/codeClub=([^&]*)/].gsub('codeClub=', '')
+            # adding codeclub to array
             codeclubs << purelink[/codeClub=([^&]*)/].gsub('codeClub=', '')
+            # clicking on page suivante
             page = lien.click
           end
       end
