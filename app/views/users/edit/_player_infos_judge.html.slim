@@ -25,12 +25,6 @@ div class="row"
                   <br>
                 - else
                   = @user.birthdate.strftime("%d/%m/%Y")
-              dt Sexe
-              dd
-                - if @user.genre.nil? || @user.genre.blank?
-                  <br>
-                - else
-                  = @user.genre.text
 
             dl class="dl-horizontal"
               dt Email
@@ -47,18 +41,12 @@ div class="row"
                   = @user.telephone
 
             dl class="dl-horizontal"
-              dt Club
+              dt Addresse
               dd
-                - if @user.club.nil? || @user.club.blank?
+                - if @user.address.nil? || @user.address.blank?
                   <br>
                 - else
-                  = @user.club
-              dt Classement
-              dd
-                - if @user.ranking.nil? || @user.ranking.blank?
-                  <br>
-                - else
-                  = @user.ranking
+                  = @user.address
               dt Numéro de licence
               dd
                 - if @user.licence_number.nil? || @user.licence_number.blank?
