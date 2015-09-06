@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150809195954) do
+ActiveRecord::Schema.define(version: 20150905181040) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -192,6 +192,7 @@ ActiveRecord::Schema.define(version: 20150809195954) do
     t.string   "mangopay_wallet_id"
     t.string   "mangopay_bank_account_id"
     t.boolean  "funds_received",           default: false
+    t.integer  "club_fare"
   end
 
   add_index "tournaments", ["user_id"], name: "index_tournaments_on_user_id", using: :btree
