@@ -10,8 +10,8 @@ div class="banner padded"
              = simple_form_for @user do |f|
               = f.error_notification
 
-              = f.input :first_name, label: "Prénom"
-              = f.input :last_name, label: "Nom"
+              = f.input :first_name, label: "Prénom (tel qu'il apparait sur votre licence)"
+              = f.input :last_name, label: "Nom (tel qu'il apparait sur votre licence)"
               div class= "form-group"
                 = f.label :birthdate, 'Date de naissance'
                 br

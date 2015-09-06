@@ -27,10 +27,10 @@ div class="container"
 
         div role="tabpanel" class="tab-pane" id="licence"
           - if @user.licencepicture_content_type
-            div id="licence_picture"
+            div
               = render 'users/edit/licence_picture'
           - else
-            div id="licence_picture"
+            div
               = render 'users/edit/player_upload_licence_btn'
 
         div role="tabpanel" class="tab-pane" id="certif"
