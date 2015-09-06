@@ -71,7 +71,7 @@ div class="container"
         div class="col-xs-12 col-sm-4"
           button class= "btn btn-primary btn-lg" onclick="javascript:registerCardDemo();"
             'Payer
-            = @subscription.tournament.amount
+            = @total_amount
             '€
         div class="col-xs-12 col-sm-8"
           = image_tag 'mangopay_logos.png', id: 'mangopay', class: 'img-responsive'

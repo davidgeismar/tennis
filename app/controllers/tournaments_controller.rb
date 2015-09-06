@@ -145,7 +145,8 @@
       :troissix,
       :unsix,
       :young_fare,
-      :zero
+      :zero,
+      :club_fare
     )
   end
 end
