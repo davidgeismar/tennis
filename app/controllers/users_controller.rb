@@ -39,7 +39,9 @@ class UsersController < ApplicationController
       :password_aei,
       :picture,
       :ranking,
-      :telephone
+      :telephone,
+      :sms_forfait,
+      :sms_quantity
     )
   end
 

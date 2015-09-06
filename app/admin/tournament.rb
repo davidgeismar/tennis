@@ -46,7 +46,8 @@ ActiveAdmin.register Tournament do
                 :unsix,
                 :user_id,
                 :young_fare,
-                :zero
+                :zero,
+                :club_fare
 
   # See permitted parameters documentation:
   # https://github.com/activeadmin/activeadmin/blob/master/docs/2-resource-customization.md#setting-up-strong-parameters

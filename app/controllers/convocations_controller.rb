@@ -5,7 +5,7 @@ class ConvocationsController < ApplicationController
     @convocation = Convocation.new
     authorize @convocation
   end
-
+  # attention coder le sms system pour create
   def create
     @convocation = @subscription.convocations.build(convocation_params)
     authorize @convocation
@@ -72,7 +72,9 @@ class ConvocationsController < ApplicationController
 
   # coder un système d'alert box si les dispos d'un joueur ne matchent pas avec la convoc
   def multiple_create
+
     @tournament = Tournament.find(params[:tournament_id])
+    judge = @tournament.user
     @subscription_ids = params[:subscription_ids].split
     @subscriptions = Subscription.where(id: @subscription_ids)
     custom_authorize ConvocationMultiPolicy, @subscriptions
@@ -95,8 +97,7 @@ class ConvocationsController < ApplicationController
           flash[:notice] = "Vos convocations ont bien été envoyées"
         end
 
-
-        if convocation.subscription.user.telephone
+        if convocation.subscription.user.telephone && judge.sms_forfait && judge.sms_quantity > 0
           begin
             client = Twilio::REST::Client.new(ENV['TWILIO_SID'], ENV['TWILIO_TOKEN'])
 
@@ -106,6 +107,9 @@ class ConvocationsController < ApplicationController
               to:   convocation.subscription.user.telephone,
               body: "Vous etes convoqué(e)  #{convocation.date.strftime("le %d/%m/%Y")} #{convocation.hour.strftime(" à %Hh%M")} pour le tournoi #{convocation.subscription.tournament.name} "
             )
+            sms_credit = judge.sms_quantity - 1
+            judge.sms_quantity = sms_credit
+            judge.save
           rescue Twilio::REST::RequestError
             # on error, sms won't be sent.. deal
           end
