@@ -19,18 +19,20 @@ div class="row"
                   <br>
                 - else
                   = @user.last_name
-              dt Date de naissance
-              dd
-                - if @user.birthdate.nil? || @user.birthdate.blank?
-                  <br>
-                - else
-                  = @user.birthdate.strftime("%d/%m/%Y")
-              dt Sexe
-              dd
-                - if @user.genre.nil? || @user.genre.blank?
-                  <br>
-                - else
-                  = @user.genre.text
+
+              - unless @user.judge
+                dt Date de naissance
+                dd
+                  - if @user.birthdate.nil? || @user.birthdate.blank?
+                    <br>
+                  - else
+                    = @user.birthdate.strftime("%d/%m/%Y")
+                dt Sexe
+                dd
+                  - if @user.genre.nil? || @user.genre.blank?
+                    <br>
+                  - else
+                    = @user.genre.text
 
             dl class="dl-horizontal"
               dt Email
@@ -46,19 +48,20 @@ div class="row"
                 - else
                   = @user.telephone
 
-            dl class="dl-horizontal"
-              dt Club
-              dd
-                - if @user.club.nil? || @user.club.blank?
-                  <br>
-                - else
-                  = @user.club
-              dt Classement
-              dd
-                - if @user.ranking.nil? || @user.ranking.blank?
-                  <br>
-                - else
-                  = @user.ranking
+              - unless @user.judge
+                dl class="dl-horizontal"
+                  dt Club
+                  dd
+                    - if @user.club.nil? || @user.club.blank?
+                      <br>
+                    - else
+                      = @user.club
+                  dt Classement
+                  dd
+                    - if @user.ranking.nil? || @user.ranking.blank?
+                      <br>
+                    - else
+                      = @user.ranking
               dt Numéro de licence
               dd
                 - if @user.licence_number.nil? || @user.licence_number.blank?

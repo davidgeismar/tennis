@@ -11,10 +11,10 @@ div class="container"
 
       div class="tab-content"
         div role="tabpanel" class="tab-pane active" id="profil"
-          = render 'users/edit/player_infos_judge'
+          = render 'users/edit/player_infos'
 
         div role="tabpanel" class="tab-pane" id="compte"
           div class="panel panel-default"
             div class="panel-heading"
               p Vos informations de contact
-          = link_to 'Éditer mon compte', edit_user_registration_path, class: 'btn btn-warning'
+            = link_to 'Éditer mon compte', edit_user_registration_path, class: 'btn btn-warning'

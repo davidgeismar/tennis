@@ -47,6 +47,12 @@ div class="row"
                   <br>
                 - else
                   = @user.address
+              dt Classement
+              dd
+                - if @user.ranking.nil? || @user.ranking.blank?
+                  <br>
+                - else
+                  = @user.ranking
               dt Numéro de licence
               dd
                 - if @user.licence_number.nil? || @user.licence_number.blank?
@@ -57,5 +63,4 @@ div class="row"
 
           div class="col-md-4"
             div class="user-picture" style="background-image:url(#{image_path @user.picture.url(:medium)}"
-
 
