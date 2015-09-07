@@ -20,15 +20,24 @@ div class="container"
                     = link_to edit_convocation_path(notification.convocation) do
                       i> class="fa fa-envelope"
                       = notification.content
+                      '
+                      span.text-light = notification.created_at.strftime('%d/%m/%Y')
                   - elsif notification.convocation && notification.user.judge == true && notification.convocation.messages.blank?
                     = link_to notification.content,  tournament_subscriptions_path(notification.convocation.subscription.tournament)
+                    '
+                    span.text-light = notification.created_at.strftime('%d/%m/%Y')
                   - elsif notification.convocation && notification.user.judge == true && notification.convocation.messages
                     = link_to notification.content, convocation_messages_path(notification.convocation)
+                    '
+                    span.text-light = notification.created_at.strftime('%d/%m/%Y')
                   - elsif notification.tournament
                     = link_to notification.content, tournament_subscriptions_path(notification.tournament)
+                    '
+                    span.text-light = notification.created_at.strftime('%d/%m/%Y')
                   - else
                     => notification.content
-                    span.text-light = notification.updated_at.strftime('%d/%m/%Y')
+                    '
+                    span.text-light = notification.created_at.strftime('%d/%m/%Y')
 
 = content_for :after_js do
   javascript:
