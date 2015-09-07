@@ -122,6 +122,14 @@ GEM
       devise (>= 3.2.0)
     domain_name (0.5.24)
       unf (>= 0.0.5, < 1.0.0)
+    elasticsearch (1.0.6)
+      elasticsearch-api (= 1.0.6)
+      elasticsearch-transport (= 1.0.6)
+    elasticsearch-api (1.0.6)
+      multi_json
+    elasticsearch-transport (1.0.6)
+      faraday
+      multi_json
     enumerize (0.10.1)
       activesupport (>= 3.2)
     erubis (2.7.0)
@@ -298,6 +306,10 @@ GEM
       sprockets (>= 2.8, < 4.0)
       sprockets-rails (>= 2.0, < 4.0)
       tilt (~> 1.1)
+    searchkick (0.8.7)
+      activemodel
+      elasticsearch (>= 1)
+      hashie
     simple_form (3.1.0)
       actionpack (~> 4.0)
       activemodel (~> 4.0)
@@ -377,6 +389,7 @@ DEPENDENCIES
   redcarpet (~> 3.3.1)
   ruby-trello (~> 1.2.1)
   sass-rails (~> 5.0)
+  searchkick
   simple_form (~> 3.1.0)
   slim (~> 3.0.6)
   spring

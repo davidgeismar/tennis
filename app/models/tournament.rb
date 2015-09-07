@@ -1,4 +1,5 @@
 class Tournament < ActiveRecord::Base
+  searchkick
   extend Enumerize
 
   enumerize :category,    in: Settings.enumerize.categories
