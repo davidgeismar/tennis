@@ -52,7 +52,7 @@
               <%end%>
               <td class="first-name"><%= subscription.user.first_name%></td>
               <td><%= subscription.user.last_name%></td>
-              <td><%= subscription.user.licence_number%></td>
+              <td data-toggle="tooltip" data-placement="top" title=" #{subscription.user.ranking}"><%= subscription.user.licence_number%></td>
               <!-- si le player a été added manuellement il n'y a pas l'option confirmed mais l'option !confirmed! seulement dans le select -->
               <%if subscription.status == "pending" && subscription.user.invitation_token?%>
                 <td>
@@ -93,7 +93,7 @@
                   </div>
                   <%elsif subscription.status == "confirmed_warning"%>
                   <td>
-                  <div class="btn btn-success" data-toggle="tooltip" data-placement="top" title="!confirmé! signifie que le joueur a bien été confirmé dans la compétition mais que son paiement n'a pas été pris en compte via WeTennis. Vous devrez donc encaissez le joueur le jour de sa première convocation.">
+                  <div class="btn btn-success" data-toggle="tooltip" data-placement="top" title="Ce joueur doit payer le jour de sa première convocation">
                     <a href="#" data-target="#confirme_without" data-toggle="modal" class="subscription_status" class="confirm!">
                       !Confirmé!
                     </a>
@@ -143,24 +143,27 @@
                 </td>
               <% end %>
 
-              <td><%=link_to "Profil", user_path(subscription.user), class: 'btn btn-primary' %></td>
+              <td><%=link_to "Profil", user_path(subscription.user), class: 'btn btn-primary', title: "tel : #{subscription.user.telephone}", "data-toggle"=> "tooltip", "data-placement" => "top" %></td>
 
 
               <% if subscription.convocations.last %>
-                <td><%= subscription.convocations.last.status_text %></td>
+                <td>
+                  <%= subscription.convocations.last.date.strftime('le %d/%m/%Y')%>
+                  <%= subscription.convocations.last.hour.strftime('à %Hh%M')%>
+                  <%= subscription.convocations.last.status_text %></td>
               <%else%>
                 <td></td>
               <% end %>
               <% if subscription.convocations.last && subscription.convocations.last.messages.last && !subscription.convocations.last.messages.last.read  %>
               <td>
-                <%=link_to "+1", convocation_messages_path(subscription.convocations.last), class: "btn btn-success message" %>
+                <%=link_to "+1", convocation_messages_path(subscription.convocations.last), class: "btn btn-success message", "data-toggle"=>"tooltip", "data-placement"=>"top", title: " #{subscription.convocations.last.messages.last.content}" %>
               </td>
               <%else%>
                 <td></td>
               <% end %>
               <% if subscription.disponibility %>
                 <td>
-                  <%= link_to image_tag("fleche_bleufonce.svg"), subscription_disponibility_path(subscription, subscription.disponibility), class: "fleche_subscription" %>
+                  <%= link_to image_tag("fleche_bleufonce.svg"), subscription_disponibility_path(subscription, subscription.disponibility), class: "fleche_subscription", title: " L: #{subscription.disponibility.monday} Ma: #{subscription.disponibility.tuesday} Me: #{subscription.disponibility.wednesday} Je: #{subscription.disponibility.thursday} Ve: #{subscription.disponibility.friday} Sam: #{subscription.disponibility.saturday} Dim: #{subscription.disponibility.sunday} ", "data-toggle"=> "tooltip", "data-placement" => "top" %>
                 </td>
               <% else %>
                 <td>Non renseignées</td>

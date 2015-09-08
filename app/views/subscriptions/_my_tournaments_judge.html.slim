@@ -4,10 +4,11 @@ div class="container"
 
       h1 class="emperor" Mes Tournois
 
-      table class="table table-hover"
+      table class="table table-hover table-striped"
         tr
           th Compétition
           th Catégorie
+          th Nombre d'inscrits
           th Date de début
           th Statut
 
@@ -20,10 +21,12 @@ div class="container"
                td
                 = link_to tournament.name, user_tournament_path(current_user, tournament)
                td = tournament.category.capitalize
+               td = tournament.subscriptions.count
                td = tournament.starts_on.strftime('%d/%m/%Y')
                td Tournoi Validé
             - elsif tournament.ends_on > Date.today
                td = tournament.name
-               td = tournament.category
+               td = tournament.category.capitalize
+               td = tournament.subscriptions.count
                td = tournament.starts_on.strftime('%d/%m/%Y')
                td En attente de validation

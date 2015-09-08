@@ -32,7 +32,7 @@
           <a href="#" data-target="#accepted" data-toggle="modal" class="btn btn-success convocation-answer">Accepter la convocation</a>
         </div>
         <div class="col-xs-12">
-          <a href="#" data-target="#refused" data-toggle="modal" class="btn btn-warning convocation-answer">Refuser la convocation</a>
+          <a href="#" data-target="#refused" data-toggle="modal" class="btn btn-warning convocation-answer">Envoyer un message au JA</a>
         </div>
       </div>
     <% end -%>
@@ -63,13 +63,13 @@
     <div class="modal-dialog mymodal">
       <div class="modal-content text-center">
         <div class="modal-header">
-          <h4 class="modal-title">Refuser cette convocation</h4>
-          <p>En refusant la convocation vous indiquez au juge arbitre que la date et/ou l'heure de la convocation ne vous convienne pas. Vous pouvez appeler le juge arbitre  au <strong><%= @convocation.subscription.tournament.user.telephone %> </strong>pour qu'il vous propose un nouveau jour/horaire </p>
+          <h4 class="modal-title">Demander au juge-arbitre une autre convocation ?</h4>
+          <p>Vous vous apprétez à indiquer au juge-arbitre que la présente convocation ne vous convient pas. Attention, il se peut que le juge-arbitre ne puisse pas vous convoquez à une autre date/heure. Vous pouvez appeler le juge arbitre  au <strong><%= @convocation.subscription.tournament.user.telephone %> </strong>.  </p>
         </div>
         <div class="modal-body">
           <%= simple_form_for @convocation do |f| %>
            <%= hidden_field_tag 'convocation[status]', :refused %>
-           <%= f.button :submit, "Refuser", class: "btn-warning convocation-answer" %>
+           <%= f.button :submit, "Envoyer un message au JA", class: "btn-warning convocation-answer" %>
            <% end %>
         </div>
       </div><!-- /.modal-content -->
