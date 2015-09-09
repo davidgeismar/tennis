@@ -18,13 +18,13 @@ div class="container"
           tr
             - if tournament.accepted && tournament.ends_on > Date.today
                td
-                  i class="fa fa-plus" role="button" data-toggle="collapse" href="#collapseExample" aria-expanded="false" aria-controls="collapseExample"
+                  i class="fa fa-plus" role="button" data-toggle="collapse" href="##{tournament.id}" aria-expanded="false" aria-controls="#{tournament.id}"
                   = link_to tournament.name, user_tournament_path(current_user, tournament)
                   - if tournament.competitions
-                     ul class="collapse" id="collapseExample"
+                     ul class="collapse" id="#{tournament.id}"
                       - tournament.competitions.each do |competition|
                         li
-                          = link_to (competition.category + ' ' + competition.genre + ' (' + competition.subscriptions.count.to_s + ')'),  tournament_competition_path(tournament, competition)
+                          = link_to (competition.category + ' ' + competition.genre.text + ' (' + competition.subscriptions.count.to_s + ')'),  tournament_competition_path(tournament, competition)
                td = tournament.subscriptions.count
                td = tournament.starts_on.strftime('%d/%m/%Y')
                td Tournoi Validé

@@ -78,11 +78,5 @@ class Tournament < ActiveRecord::Base
       errors.add(:starts_on, "Veuillez choisir une date de début avant la date de fin du tournoi")
     end
   end
-  # def min_ranking_inferior_to_max_ranking
-  #   tournament_max_ranking_value = Settings.user_ranking_value[max_ranking]
-  #   tournament_min_ranking_value = Settings.user_ranking_value[min_ranking]
-  #   if min_ranking && max_ranking && tournament_min_ranking_value >= tournament_max_ranking_value
-  #     errors.add(:max_ranking, "Veuillez choisir un classement maximum supérieur au classement minimum")
-  #   end
-  # end
+
 end

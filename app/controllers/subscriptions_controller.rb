@@ -71,7 +71,7 @@ class SubscriptionsController < ApplicationController
 
       notification = Notification.create(
         user:       subscription.competition.tournament.user,
-        content:    "#{subscription.user.full_name} a demandé à s'inscrire à #{subscription.tournament.name}",
+        content:    "#{subscription.user.full_name} a demandé à s'inscrire à #{subscription.competition.tournament.name} dans la catégorie #{subscription.competition.category} ",
         tournament: subscription.competition.tournament
       )
 

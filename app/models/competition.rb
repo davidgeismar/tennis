@@ -11,9 +11,10 @@ class Competition < ActiveRecord::Base
   has_many :transfers,      dependent: :destroy
 
 
-  validates :category,            presence: { message: "Merci d'indiquer une catégorie de l'épreuve" }
+  validates :category,            presence: { message: "Merci d'indiquer la catégorie de l'épreuve" }
   validates :nature,              presence: { message: "Merci d'indiquer la nature de l'épreuve" }
   validates :genre,               presence: { message: "Merci d'indiquer le genre de l'épreuve" }
+  validate :min_ranking_inferior_to_max_ranking
 
   def in_ranking_range(user_ranking, competition)
     ranking_value = Settings.user_ranking_value[user_ranking]
@@ -52,5 +53,12 @@ class Competition < ActiveRecord::Base
     return false if senior_tennis_age && (tennis_year - senior_tennis_age) < birth_year
 
     true
+  end
+  def min_ranking_inferior_to_max_ranking
+    competition_max_ranking_value = Settings.user_ranking_value[max_ranking]
+    competition_min_ranking_value = Settings.user_ranking_value[min_ranking]
+    if min_ranking && max_ranking && competition_min_ranking_value >= competition_max_ranking_value
+      errors.add(:max_ranking, "Veuillez choisir un classement maximum supérieur au classement minimum")
+    end
   end
 end

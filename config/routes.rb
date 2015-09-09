@@ -21,21 +21,16 @@ Rails.application.routes.draw do
   end
 
   # tournaments
-  resources :tournaments do
+  resources :tournaments, only: [:index, :show, :new, :create, :update] do
     resources :competitions
   end
 
-  resources :competitions do
-    resources :subscriptions
+  resources :competitions, only: [:index, :show, :new, :create, :update] do
+    resources :transfers,           only: [:create]
+    resources :subscriptions,       only: [:new, :show, :create, :index, :update]
     resources :player_invitations,  only: [:new, :create]
     resource  :rankings,            only: [:show]
     resource  :aei_export,          only: [:create]
-  end
-
-  resources :tournaments, only: [:index, :show, :new, :create, :update] do
-    resources :player_invitations,  only: [:new, :create]
-    resources :subscriptions,       only: [:new, :show, :create, :index, :update]
-    resources :transfers,           only: [:create]
   end
 
   post 'competitions/:competition_id/convocations/multiple_new',    to: "convocations#multiple_new",    as: "multiple_new"
