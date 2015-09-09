@@ -2,16 +2,20 @@
   <div class="container">
     <div class="panel panel-default bigmarge">
       <div class="panel-heading">
-        <h3 class="text-center"> Le statut de votre convocation du <%= @convocation.date.strftime("%d/%m/%Y") %> à <%= @convocation.hour.strftime("%Hh%M") %> pour <%= @convocation.subscription.competition.tournament.name %> dans la catégorie <%= @convocation.subscription.competition.category %> est actuellement: <br> <%=@convocation.status_text.upcase%></h3>
+        <p> Le statut de la convocation de <%=@convocation.subscription.user.full_name %> du <%= @convocation.date.strftime("%d/%m/%Y") %> à <%= @convocation.hour.strftime("%Hh%M") %> pour <%= @convocation.subscription.competition.tournament.name %> dans la catégorie <%= @convocation.subscription.competition.category %> est actuellement: <strong> <%=@convocation.status_text.upcase%></strong>
       </div>
     </div>
     <% if @convocation.status == "refused" %>
       <div class="row text-center">
         <div class="col-xs-12">
-          <a href="#" data-target="#accepted" data-toggle="modal" class="btn btn-success convocation-answer">Accepter la convocation</a>
-        </div>
-        <div class="col-xs-12">
-          <a href="#" data-target="#cancelled" data-toggle="modal" class="btn btn-danger convocation-answer">W.O</a>
+          <div class="panel panel-default">
+            <div class="panel-heading">Forcer ce joueur à accepter la convocation ou le mettre WO</div>
+            <div class="panel-body">
+              <a href="#" data-target="#accepted" data-toggle="modal" class="btn btn-success convocation-answer">Accepter la convocation</a>
+
+              <a href="#" data-target="#cancelled" data-toggle="modal" class="btn btn-danger convocation-answer">W.O</a>
+            </div>
+          </div>
         </div>
       </div>
     <% elsif @convocation.status == "accepted" %>

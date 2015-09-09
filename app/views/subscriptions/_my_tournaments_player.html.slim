@@ -10,8 +10,8 @@ div class="container"
             th Cat.
             th Statut inscription
             th Date convoc.
-            th Statut convoc.
-            th Répondre à cette convocation
+            / th Statut convoc.
+            th Réponse convoc.
             th Dispos
         tbody
         - @subscriptions.each do |subscription|
@@ -26,11 +26,6 @@ div class="container"
               - unless subscription.convocations.size == 0
                  = subscription.convocations.last.date.strftime("Le %d/%m/%Y")
                  = subscription.convocations.last.hour.strftime(" à %Hh%M")
-
-
-            td
-              - unless subscription.convocations.size == 0
-                = subscription.convocations.last.status_text
 
             td
               - unless subscription.convocations.size == 0

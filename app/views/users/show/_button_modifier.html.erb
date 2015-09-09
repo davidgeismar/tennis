@@ -1,1 +1,2 @@
-<%=link_to "Modifier cette convocation !", edit_convocation_path(subscription.convocations.last), class: "btn btn-warning"%>
+
+<strong><%= subscription.convocations.last.status.text %></strong>

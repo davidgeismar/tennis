@@ -1,5 +1,6 @@
 class ConvocationsController < ApplicationController
   before_action :find_subscription, except: [:multiple_new, :multiple_create]
+  before_action :set_competition, only: [:multiple_new, :multiple_create]
 
   def new
     @convocation = Convocation.new
@@ -36,7 +37,7 @@ class ConvocationsController < ApplicationController
       @notification = Notification.create(
         user:         @convocation.subscription.competition.tournament.user,
         convocation:  @convocation,
-        content:      "#{@convocation.subscription.user.full_name} n'est pas disponible à la date de votre convoncation"
+        content:      "#{@convocation.subscription.user.full_name} n'est pas disponible #{@convocation.date.strftime("le %d/%m/%Y")}#{@convocation.hour.strftime(" à %Hh%M")} pour #{@convocation.subscription.competition.name} dans la catégorie #{@convocation.subscription.competition.category}"
       )
 
       redirect_to new_convocation_message_path(@convocation)
@@ -44,7 +45,7 @@ class ConvocationsController < ApplicationController
       @notification = Notification.create(
         user:         @convocation.subscription.competition.tournament.user,
         convocation:  @convocation,
-        content:      "#{@convocation.subscription.user.full_name} confirme sa participation #{@convocation.date.strftime("le %d/%m/%Y")}#{@convocation.hour.strftime(" à %Hh%M")} dans la catégorie #{@convocation.subscription.competition.category} "
+        content:      "#{@convocation.subscription.user.full_name} confirme sa participation #{@convocation.date.strftime("le %d/%m/%Y")}#{@convocation.hour.strftime(" à %Hh%M")} dans la catégorie #{@convocation.subscription.competition.category}"
       )
 
       flash[:notice] = "Le statut de cette convocation est à présent : CONFIRMÉ"
@@ -56,7 +57,6 @@ class ConvocationsController < ApplicationController
   end
 
   def multiple_new
-    @competition       = Competition.find(params[:competition_id])
     @subscription_ids = params[:select_players].split(',') # ["27", "38", "37", "35"]
     @subscriptions    = Subscription.where(id: @subscription_ids) # array of subscriptions
 
@@ -64,7 +64,7 @@ class ConvocationsController < ApplicationController
 
     if @subscriptions.blank?
       flash[:alert] = "Vous n'avez sélectionné aucun joueur"
-      redirect_to tournament_subscriptions_path(@tournament)
+      redirect_to competition_subscriptions_path(@competition)
     else
       @player_names = @subscriptions.map { |subscription| subscription.user.full_name }
     end
@@ -74,7 +74,6 @@ class ConvocationsController < ApplicationController
   def multiple_create
 
     # @tournament = Tournament.find(params[:tournament_id])
-    @competition = Competition.find(params[:competition_id])
     judge = @competition.tournament.user
     @subscription_ids = params[:subscription_ids].split
     @subscriptions = Subscription.where(id: @subscription_ids)
@@ -127,10 +126,14 @@ class ConvocationsController < ApplicationController
 
   def convocation_params
     if current_user.judge?
-      params.require(:convocation).permit(:hour, :date)
+      params.require(:convocation).permit(:hour, :date, :status)
     else
       params.require(:convocation).permit(:status)
     end
+  end
+
+  def set_competition
+    @competition = Competition.find(params[:competition_id])
   end
 
   def find_subscription
