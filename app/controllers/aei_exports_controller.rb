@@ -1,13 +1,13 @@
 class AeiExportsController < ApplicationController
-  before_action :set_tournament
+  before_action :set_competition
 
   def create
     @subscription_ids = params[:subscription_ids_export].split(',')
-    @tournament = Tournament.find(params[:tournament_id])
-    authorize @tournament
+    @tournament = @competition.tournament
+    authorize @competition
 
     if @subscription_ids.blank?
-      redirect_to tournament_subscriptions_path(params[:tournament_id])
+      redirect_to competition_subscriptions_path(params[:competition_id])
       flash[:alert] = "Vous n'avez sélectionner aucun joueur à exporter"
     else
       #put all selected subcriptions in [@subscriptions_selected]
@@ -126,18 +126,18 @@ class AeiExportsController < ApplicationController
                     category_nature      = tr.search('td')[2].text.strip
                     # category_age is the actual category
                     category_age         = tr.search('td')[3].text
-                    tournament_category = "#{@tournament.genre}_#{@tournament.category}"
+                    competition_category = "#{@competition.genre}_#{@competition.category}"
 
                     # i18n terminology for each
-                    aei_tournament_category  = I18n.t("aei.tournament_category.#{tournament_category}")
-                    aei_category_nature = I18n.t("aei.tournament_nature.#{category_nature}")
-                    aei_category_age    = I18n.t("aei.tournament_age_category.#{category_age}")
+                    aei_competition_category  = I18n.t("aei.competition_category.#{competition_category}")
+                    aei_category_nature = I18n.t("aei.competition_nature.#{category_nature}")
+                    aei_category_age    = I18n.t("aei.competition_age_category.#{category_age}")
 
 
                     # aei_tournament_cat  =
                     # I18n.t("aei.tournament_category.#{tournament_category}")
 
-                    if aei_tournament_category == category_title
+                    if aei_competition_category == category_title
                       raise
 
                       checkbox.check
@@ -151,7 +151,7 @@ class AeiExportsController < ApplicationController
                       puts html_body.search('li').text
 
 
-                    elsif category_nature.present? && category_age.present? && aei_category_nature + ' ' + aei_category_age == aei_tournament_category
+                    elsif category_nature.present? && category_age.present? && aei_category_nature + ' ' + aei_category_age == aei_competition_category
                        checkbox.check
 
 
@@ -198,7 +198,7 @@ class AeiExportsController < ApplicationController
         flash[:alert]   = "#{failure_full_names} n'ont pas pu être exportés. Merci de vous connecter sur AEI pour procéder à l'inscription manuelle"
       end
 
-      redirect_to tournament_subscriptions_path(@tournament)
+      redirect_to competition_subscriptions_path(@competition)
     end
   end
 
@@ -282,8 +282,8 @@ class AeiExportsController < ApplicationController
     end
   end
 
-  def set_tournament
-    @tournament = Tournament.find(params[:tournament_id])
-    custom_authorize AEIExportPolicy, @tournament
+  def set_competition
+    @competition = Competition.find(params[:competition_id])
+    custom_authorize AEIExportPolicy, @competition
   end
 end

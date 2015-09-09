@@ -29,12 +29,10 @@ Rails.application.routes.draw do
     resources :subscriptions
     resources :player_invitations,  only: [:new, :create]
     resource  :rankings,            only: [:show]
+    resource  :aei_export,          only: [:create]
   end
 
   resources :tournaments, only: [:index, :show, :new, :create, :update] do
-    resource  :aei_export,          only: [:create]
-
-
     resources :player_invitations,  only: [:new, :create]
     resources :subscriptions,       only: [:new, :show, :create, :index, :update]
     resources :transfers,           only: [:create]

@@ -25,15 +25,15 @@
     <table id="example" class="table table-hover card display dataTable table_judge_tournoi">
         <thead>
           <tr>
-           <th>Exporté</th>
-           <th><input type="checkbox" onClick="toggle(this)" />Sélectionner tout</th>
+           <th>AEI</th>
+           <th><input type="checkbox" onClick="toggle(this)"/>Sel.</th>
            <th>Prénom</th>
            <th>Nom</th>
-           <th>Licence</th>
-           <th>Inscription</th>
+           <th>Lic.</th>
+           <th>Inscr.</th>
            <th class="text-center">Profil</th>
            <th>Convocation en cours</th>
-           <th>Messages</th>
+           <th>Mess.</th>
            <th>Dispos</th>
           </tr>
         </thead>
@@ -53,7 +53,7 @@
               <%end%>
               <td class="first-name"><%= subscription.user.first_name%></td>
               <td><%= subscription.user.last_name%></td>
-              <td data-toggle="tooltip" data-placement="top" title=" #{subscription.user.ranking}"><%= subscription.user.licence_number%></td>
+              <td data-toggle="tooltip" data-placement="top" title="<%=subscription.user.ranking%>"><%= subscription.user.licence_number%></td>
               <!-- si le player a été added manuellement il n'y a pas l'option confirmed mais l'option !confirmed! seulement dans le select -->
               <%if subscription.status == "pending" && subscription.user.invitation_token?%>
                 <td>
@@ -212,7 +212,7 @@
       </div>
       <div class="modal-body">
 
-        <%= form_tag tournament_aei_export_path(@tournament) do %>
+        <%= form_tag competition_aei_export_path(@competition) do %>
           <%= hidden_field_tag :subscription_ids_export %>
           <div class="form-group">
             <%= label_tag :login_aei, "Identifiant AEI" %>
