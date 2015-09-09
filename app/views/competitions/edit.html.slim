@@ -1,17 +1,18 @@
+
 div class="banner-tournament"
   div class= "container"
-    h1 class= "text-center emperor" Editer cette épreuve
-    div class="col-xs-6 col-xs-offset-3 bigmarge"
-      div class="panel panel-default"
-        div class= "panel-heading"
-          h4 Informations Epreuve
-        div class= "panel-body"
-          = simple_form_for [@tournament, @competition] do |t|
-              = t.error_notification
-              = t.input :category, label: "Catégorie de l'épreuve"
-              = t.input :genre, label: 'Sexe'
-              = t.input :nature, label: "Nature de l'épreuve"
-              = t.input :min_ranking, label: "Classement minimum"
-              = t.input :max_ranking, label: 'Classement maximum'
-        div class= "panel-footer"
-              = t.button :submit, value: "Modifier l'épreuve",  class: "btn-primary marge-bas"
+    h1 class= "text-center emperor" id= "formulaire-tournoi" Modifier cette épreuve
+    = simple_form_for [@tournament, @competition] do |t|
+       = t.error_notification
+       div class= "col-md-offset-3 col-md-6"
+         div class="panel panel-default"
+           div class= "panel-heading"
+             h4 Informations Compétition
+           div class= "panel-body"
+               = t.input :category, label: "Catégorie de l'épreuve"
+               = t.input :genre, label: 'Sexe'
+               = t.input :nature, label: "Nature de l'épreuve"
+               = t.input :min_ranking, label: "Classement minimum"
+               = t.input :max_ranking, label: 'Classement maximum'
+           div class= "panel-footer"
+               = t.button :submit, value: "Modifier l'épreuve", class: "btn-primary marge-bas"

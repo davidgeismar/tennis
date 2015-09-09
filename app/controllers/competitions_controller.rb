@@ -34,10 +34,11 @@ class CompetitionsController < ApplicationController
     authorize(@competition)
   end
 
-  def uptdate
+  def update
     authorize @competition
     @competition.update(competition_params)
     if @competition.save
+      flash[:notice] = "Votre épreuve a bien été modifiée"
       redirect_to competition_subscriptions_path(@competition)
     else
       render :edit

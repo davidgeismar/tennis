@@ -22,7 +22,7 @@ div class="banner-tournament"
                   - if @competition.min_ranking.blank?
                     <br>
                   - else
-                    = @competition.max_ranking
+                    = @competition.min_ranking
                 dt Classement max
                 dd
                   - if @competition.max_ranking.blank?
