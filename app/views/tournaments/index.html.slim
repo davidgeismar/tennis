@@ -19,5 +19,9 @@ div class="container"
                   strong> = tournament.starts_on.strftime("%d/%m/%Y")
                   'au
                   strong = tournament.ends_on.strftime("%d/%m/%Y")
+                ul
+                - tournament.competitions.each do |competition|
+                  li
+                    = competition.category + ' ' + competition.genre.text
               div class="panel-footer"
                 = link_to 'En savoir plus', tournament_path(tournament), class: 'btn btn-primary'
