@@ -6,7 +6,7 @@ module MangoPayments
       end
 
       def call
-        transfer    = @subscription.tournament.transfers.create(status: 'pending', cgv: true, category: 'refund')
+        transfer    = @subscription.competition.transfers.create(status: 'pending', cgv: true, category: 'refund')
         transaction = MangoPay::PayIn.refund(@subscription.mangopay_payin_id, { AuthorId: @subscription.user.mangopay_user_id })
 
         transfer.update(

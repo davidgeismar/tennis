@@ -1,0 +1,13 @@
+div class="banner-tournament"
+  div class= "container"
+    h1 class= "text-center emperor" id= "formulaire-tournoi" Choisissez la catégorie
+
+    div class= "col-md-offset-3 col-md-6"
+      div class="panel panel-default"
+        div class="panel-heading"
+          h4 Catégories disponibles
+        div class="panel-body"
+          ul
+          - @competitions.each do |competition|
+            li
+              = link_to (competition.category + " " + competition.genre),  new_competition_subscription_path(competition)

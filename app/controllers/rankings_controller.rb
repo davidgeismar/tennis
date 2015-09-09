@@ -2,9 +2,9 @@ class RankingsController < ApplicationController
 
 
   def show
-    @tournament     = Tournament.find(params[:tournament_id])
-    @subscriptions  = @tournament.subscriptions.joins(:user)
+    @competition     = Competition.find(params[:competition_id])
+    @subscriptions  = @competition.subscriptions.joins(:user)
 
-    custom_authorize(RankingPolicy, @tournament)
+    custom_authorize(RankingPolicy, @competition)
   end
 end

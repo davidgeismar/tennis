@@ -2,7 +2,7 @@
   <div class="container">
     <div class="panel panel-default bigmarge">
       <div class="panel-heading">
-        <h3 class="text-center"> Le statut de votre convocation du <%= @convocation.date.strftime("%d/%m/%Y") %> à <%= @convocation.hour.strftime("%Hh%M") %> pour <%= @convocation.subscription.tournament.name %> est actuellement: <br> <%=@convocation.status_text.upcase%></h3>
+        <h3 class="text-center"> Le statut de votre convocation du <%= @convocation.date.strftime("%d/%m/%Y") %> à <%= @convocation.hour.strftime("%Hh%M") %> pour <%= @convocation.subscription.competition.tournament.name %> dans la catégorie <%= @convocation.subscription.competition.category %> est actuellement: <br> <%=@convocation.status_text.upcase%></h3>
       </div>
     </div>
     <% if @convocation.status == "refused" %>
@@ -44,7 +44,7 @@
       <div class="modal-content text-center">
         <div class="modal-header">
           <h4 class="modal-title">Confirmer cette convocation</h4>
-           <p>Vous vous engagez à être présent le <strong> <%= @convocation.date.strftime("%d/%m/%Y") %> </strong> à <strong>   <%= @convocation.hour.strftime("%Hh%M") %></strong> au <strong><%= @convocation.subscription.tournament.address %> </strong></p>
+           <p>Vous vous engagez à être présent le <strong> <%= @convocation.date.strftime("%d/%m/%Y") %> </strong> à <strong>   <%= @convocation.hour.strftime("%Hh%M") %></strong> au <strong><%= @convocation.subscription.competition.tournament.address %> </strong></p>
         </div>
         <div class="modal-body">
           <%= simple_form_for @convocation do |f| %>
@@ -64,7 +64,7 @@
       <div class="modal-content text-center">
         <div class="modal-header">
           <h4 class="modal-title">Demander au juge-arbitre une autre convocation ?</h4>
-          <p>Vous vous apprétez à indiquer au juge-arbitre que la présente convocation ne vous convient pas. Attention, il se peut que le juge-arbitre ne puisse pas vous convoquez à une autre date/heure. Vous pouvez appeler le juge arbitre  au <strong><%= @convocation.subscription.tournament.user.telephone %> </strong>.  </p>
+          <p>Vous vous apprétez à indiquer au juge-arbitre que la présente convocation ne vous convient pas. Attention, il se peut que le juge-arbitre ne puisse pas vous convoquez à une autre date/heure. Vous pouvez appeler le juge arbitre  au <strong><%= @convocation.subscription.competition.tournament.user.telephone %> </strong>.  </p>
         </div>
         <div class="modal-body">
           <%= simple_form_for @convocation do |f| %>

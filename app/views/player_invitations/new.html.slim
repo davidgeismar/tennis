@@ -14,7 +14,7 @@ div class= "banner adding_manually"
             - @errors.each do |error|
               li
                 = error
-        = form_tag tournament_player_invitations_path(@tournament) do ||
+        = form_tag competition_player_invitations_path(@competition) do ||
           div class="form-group"
             = label_tag :first_name, "Prénom"
             = text_field_tag :first_name, nil, class: "form-control", required: true

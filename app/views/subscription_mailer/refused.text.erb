@@ -2,7 +2,7 @@
 Wetennis : demande d'inscription refusée
 
  Bonjour <%=@subscription.user.first_name.capitalize%>,
- Votre demande d'inscription au tournoi <%=@subscription.tournament.name%> du <%=@subscription.tournament.starts_on.strftime("%d/%m/%Y") %> au <%=@subscription.tournament.ends_on.strftime("%d/%m/%Y") %> a été refusée par le juge arbitre en raison d'un manque de place disponibles.
+ Votre demande d'inscription au tournoi <%=@subscription.competition.tournament.name%> dans la catégorie <%=@subscription.competition.category%> du <%=@subscription.competition.tournament.starts_on.strftime("%d/%m/%Y") %> au <%=@subscription.competition.tournament.ends_on.strftime("%d/%m/%Y") %> a été refusée par le juge arbitre en raison d'un manque de place disponibles.
  N'hésitez pas à vous inscrire à d'autres tournois sur WeTennis!
 
  @ bientôt sur les courts !

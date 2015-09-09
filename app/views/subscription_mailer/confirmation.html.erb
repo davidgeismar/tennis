@@ -4,8 +4,8 @@
 
 <p>
  Bonjour <%=@subscription.user.first_name.capitalize%>, <br>
- Votre demande d'inscription au tournoi <strong><%=@subscription.tournament.name%></strong> du <%=@subscription.tournament.starts_on.strftime("%d/%m/%Y") %> au <%=@subscription.tournament.ends_on.strftime("%d/%m/%Y") %> a bien été prise en compte.</p>
+ Votre demande d'inscription au tournoi <strong><%=@subscription.competition.tournament.name%> dans la catégorie <%=@subscription.competition.category%></strong> du <%=@subscription.competition.tournament.starts_on.strftime("%d/%m/%Y") %> au <%=@subscription.competition.tournament.ends_on.strftime("%d/%m/%Y") %> a bien été prise en compte.</p>
  <p>Votre inscription est sur liste d'attente jusqu'à validation officielle du juge-arbitre.</p>
-<p>Si jamais votre inscription est finalement refusée pour <%=@subscription.tournament.name%>, votre carte ne sera pas débitée.</p>
+<p>Si jamais votre inscription est finalement refusée pour <%=@subscription.competition.tournament.name%>, votre carte ne sera pas débitée.</p>
 
 

@@ -19,14 +19,21 @@ div class="row"
                   <br>
                 - else
                   = @user.last_name
+              dt Date de naissance
+              dd
+                - if @user.address.nil? || @user.address.blank?
+                  <br>
+                - else
+                  = @user.address
+              dt Date de naissance
+              dd
+                - if @user.birthdate.nil? || @user.birthdate.blank?
+                  <br>
+                - else
+                  = @user.birthdate.strftime("%d/%m/%Y")
 
               - unless @user.judge
-                dt Date de naissance
-                dd
-                  - if @user.birthdate.nil? || @user.birthdate.blank?
-                    <br>
-                  - else
-                    = @user.birthdate.strftime("%d/%m/%Y")
+
                 dt Sexe
                 dd
                   - if @user.genre.nil? || @user.genre.blank?

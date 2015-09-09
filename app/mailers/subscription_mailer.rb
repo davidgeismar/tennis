@@ -14,7 +14,7 @@ class SubscriptionMailer < ApplicationMailer
 
   def confirmation_invited_user(subscription)
     @subscription = subscription
-    mail to: @subscription.user.email, subject: "#{@subscription.tournament.user.full_name}, juge-arbitre de #{@subscription.tournament.name} vous a ajouté au Tournoi"
+    mail to: @subscription.user.email, subject: "#{@subscription.competition.tournament.user.full_name}, juge-arbitre de #{@subscription.tournament.name} vous a ajouté au Tournoi"
   end
 
   def confirmed(subscription)

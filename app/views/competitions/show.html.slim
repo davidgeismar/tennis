@@ -1,0 +1,38 @@
+div class="banner-tournament"
+  div class= "container"
+    h1 class= "text-center emperor" id= "formulaire-tournoi"
+      = @competition.category
+
+    div class= "col-md-offset-3 col-md-6"
+      div class="panel panel-default"
+        div class= "panel-heading"
+          h4 Détails de l'épreuve
+        div class= "panel-body"
+          div class="row"
+            div class="col-md-8"
+              dl class="dl-horizontal"
+                dt Sexe
+                dd
+                  = @competition.genre.text
+                dt Nature épreuve
+                dd
+                  = @competition.nature
+                dt Classement min
+                dd
+                  - if @competition.min_ranking.blank?
+                    <br>
+                  - else
+                    = @competition.max_ranking
+                dt Classement max
+                dd
+                  - if @competition.max_ranking.blank?
+                    <br>
+                  - else
+                    = @competition.max_ranking
+
+
+        div class= "panel-footer"
+          = link_to 'Modifier cette épreuve',  edit_tournament_competition_path(@competition.tournament, @competition), class: 'btn btn-warning'
+          = link_to 'Gérer cette épreuve',
+             competition_subscriptions_path(@competition), class: 'btn btn-success'
+

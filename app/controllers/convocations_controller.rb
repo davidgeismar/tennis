@@ -15,10 +15,10 @@ class ConvocationsController < ApplicationController
 
       @notification = Notification.create(
         user:     @convocation.subscription.user,
-        content:  "Vous êtes convoqué(e) à #{@convocation.subscription.tournament.name} le #{@convocation.date.strftime("le %d/%m/%Y")} à #{@convocation.hour.strftime(" à %Hh%M")}"
+        content:  "Vous êtes convoqué(e) à #{@convocation.subscription.competition.tournament.name} dans la catégorie #{@convocation.subscription.competition.category} #{@convocation.date.strftime("le %d/%m/%Y")}#{@convocation.hour.strftime(" à %Hh%M")}"
       )
       flash[:notice] = "Votre convocation a bien été envoyée"
-      redirect_to tournament_subscriptions_path(@subscription.tournament)
+      redirect_to competition_subscriptions_path(@subscription.competition)
     else
       render :new
     end
@@ -34,7 +34,7 @@ class ConvocationsController < ApplicationController
 
     if @convocation.status == "refused"
       @notification = Notification.create(
-        user:         @convocation.subscription.tournament.user,
+        user:         @convocation.subscription.competition.tournament.user,
         convocation:  @convocation,
         content:      "#{@convocation.subscription.user.full_name} n'est pas disponible à la date de votre convoncation"
       )
@@ -42,9 +42,9 @@ class ConvocationsController < ApplicationController
       redirect_to new_convocation_message_path(@convocation)
     elsif @convocation.status == "confirmed"
       @notification = Notification.create(
-        user:         @convocation.subscription.tournament.user,
+        user:         @convocation.subscription.competition.tournament.user,
         convocation:  @convocation,
-        content:      "#{@convocation.subscription.user.full_name} confirme sa participation le #{@convocation.date.strftime("le %d/%m/%Y")} à #{@convocation.hour.strftime(" à %Hh%M")}"
+        content:      "#{@convocation.subscription.user.full_name} confirme sa participation #{@convocation.date.strftime("le %d/%m/%Y")}#{@convocation.hour.strftime(" à %Hh%M")} dans la catégorie #{@convocation.subscription.competition.category} "
       )
 
       flash[:notice] = "Le statut de cette convocation est à présent : CONFIRMÉ"
@@ -56,7 +56,7 @@ class ConvocationsController < ApplicationController
   end
 
   def multiple_new
-    @tournament       = Tournament.find(params[:tournament_id])
+    @competition       = Competition.find(params[:competition_id])
     @subscription_ids = params[:select_players].split(',') # ["27", "38", "37", "35"]
     @subscriptions    = Subscription.where(id: @subscription_ids) # array of subscriptions
 
@@ -73,8 +73,9 @@ class ConvocationsController < ApplicationController
   # coder un système d'alert box si les dispos d'un joueur ne matchent pas avec la convoc
   def multiple_create
 
-    @tournament = Tournament.find(params[:tournament_id])
-    judge = @tournament.user
+    # @tournament = Tournament.find(params[:tournament_id])
+    @competition = Competition.find(params[:competition_id])
+    judge = @competition.tournament.user
     @subscription_ids = params[:subscription_ids].split
     @subscriptions = Subscription.where(id: @subscription_ids)
     custom_authorize ConvocationMultiPolicy, @subscriptions
@@ -88,7 +89,7 @@ class ConvocationsController < ApplicationController
         @notification = Notification.create(
           user:         subscription.user,
           convocation:  convocation,
-          content:      "Vous êtes convoqué(e) à #{convocation.subscription.tournament.name} le #{convocation.date.strftime("%d/%m/%Y")} à #{convocation.hour.strftime(" à %Hh%M")}"
+          content:      "Vous êtes convoqué(e) à #{convocation.subscription.competition.tournament.name} dans la catégorie #{convocation.subscription.competition.category} le #{convocation.date.strftime("%d/%m/%Y")}#{convocation.hour.strftime(" à %Hh%M")}"
         )
 
         if @subscriptions.count == 1
@@ -105,7 +106,7 @@ class ConvocationsController < ApplicationController
             client.account.sms.messages.create(
               from: ENV['TWILIO_FROM'],
               to:   convocation.subscription.user.telephone,
-              body: "Vous etes convoqué(e)  #{convocation.date.strftime("le %d/%m/%Y")} #{convocation.hour.strftime(" à %Hh%M")} pour le tournoi #{convocation.subscription.tournament.name} "
+              body: "Vous etes convoqué(e) #{convocation.date.strftime("le %d/%m/%Y")} #{convocation.hour.strftime(" à %Hh%M")} pour le tournoi #{convocation.subscription.competition.tournament.name} "
             )
             sms_credit = judge.sms_quantity - 1
             judge.sms_quantity = sms_credit
@@ -119,7 +120,7 @@ class ConvocationsController < ApplicationController
       end
     end
 
-    redirect_to tournament_subscriptions_path(@tournament)
+    redirect_to competition_subscriptions_path(@competition)
   end
 
   private

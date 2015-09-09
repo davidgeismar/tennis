@@ -62,14 +62,6 @@
     end
   end
 
-  def update_rankings
-    @tournament = Tournament.find(params[:tournament_id])
-    authorize @tournament
-    @tournament.update(tournament_params)
-    @tournament.save
-    render nothing: true
-  end
-
   def passed_tournaments
     @passed_tournaments = TournamentPolicy::Scope.new(current_user, Tournament).passed
     authorize @passed_tournaments
@@ -104,48 +96,21 @@
       :address,
       :amount,
       :bic,
-      :category,
       :cinqsix,
       :city,
       :club_email,
       :club_organisateur,
-      :deuxsix,
       :ends_on,
       :genre,
       :homologation_number,
       :iban,
       :lat,
       :long,
-      :max_ranking,
-      :min_ranking,
-      :moinsdeuxsix,
-      :moinsquatresix,
-      :moinsquinze,
-      :moinstrente,
       :name,
-      :nature,
       :NC,
       :postcode,
-      :quarante,
-      :quatresix,
-      :quinze,
-      :quinzecinq,
-      :quinzedeux,
-      :quinzequatre,
-      :quinzetrois,
-      :quinzeun,
       :starts_on,
-      :total,
-      :trente,
-      :trentecinq,
-      :trentedeux,
-      :trentequatre,
-      :trentetrois,
-      :trenteun,
-      :troissix,
-      :unsix,
       :young_fare,
-      :zero,
       :club_fare
     )
   end

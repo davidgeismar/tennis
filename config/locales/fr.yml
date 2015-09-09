@@ -167,6 +167,10 @@ fr:
         '-15':   '-15'
         '-30':   '-30'
         '-30':   '-30'
+    competition:
+      genre:
+        male: Homme
+        female: Femme
   views:
     pagination:
       first: "première"

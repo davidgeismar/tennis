@@ -3,11 +3,11 @@ class Subscription < ActiveRecord::Base
   enumerize :status, in: [:pending, :confirmed, :confirmed_warning, :refused]
 
   belongs_to :user
-  belongs_to :tournament
+  belongs_to :competition
 
   has_one :disponibility, dependent: :destroy
 
   has_many :convocations, dependent: :destroy
 
-  validates :user_id, presence: true, uniqueness: { scope: :tournament, message: "Vous etes déjà inscrit à ce tournoi" }
+  validates :user_id, presence: true, uniqueness: { scope: :competition, message: "Vous etes déjà inscrit à ce tournoi dans cette catégorie" }
 end

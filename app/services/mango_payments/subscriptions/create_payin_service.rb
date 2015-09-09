@@ -3,13 +3,14 @@ module MangoPayments
     class CreatePayinService
       def initialize(subscription)
         @subscription = subscription
-        @tournament   = subscription.tournament
+        @competition   = subscription.competition
+        @tournament = subscription.competition.tournament
         @user         = subscription.user
       end
 
       def call
         amount_cents  = @tournament.amount * 100
-        transfer      = @tournament.transfers.create(status: 'pending', cgv: true, category: 'payin')
+        transfer      = @competition.transfers.create(status: 'pending', cgv: true, category: 'payin')
 
         transaction   = MangoPay::PayIn::Card::Direct.create(
           AuthorId:             @user.mangopay_user_id,

@@ -81,10 +81,10 @@ user_ranking_value:
   "-2/6": 20
   "-4/6": 21
   "-15": 23
-  "-30": 24
+  "1ère série": 24
 
 
-user_tournament_ranking_matching:
+user_competition_ranking_matching:
   "NC": 'NC'
   "40": 'quarante'
   "30/5": 'trentecinq'

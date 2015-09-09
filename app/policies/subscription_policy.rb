@@ -6,15 +6,15 @@ class SubscriptionPolicy < ApplicationPolicy
   end
 
   def accept?
-    user && user == record.tournament.user
+    user && user == record.competition.tournament.user
   end
 
   def refus_without_remboursement?
-    user && user = record.tournament.user
+    user && user = record.competition.tournament.user
   end
 
   def refund?
-    user && user == record.tournament.user
+    user && user == record.competition.tournament.user
   end
 
   def refuse?
@@ -22,7 +22,7 @@ class SubscriptionPolicy < ApplicationPolicy
   end
 
   def show?
-    record.user == user || record.tournament.user == user
+    record.user == user || record.competition.tournament.user == user
   end
 
   def create?
@@ -34,6 +34,6 @@ class SubscriptionPolicy < ApplicationPolicy
   end
 
   def update?
-    record.tournament.user == user
+    record.competition.tournament.user == user
   end
 end

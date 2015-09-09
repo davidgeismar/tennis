@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150906213313) do
+ActiveRecord::Schema.define(version: 20150909092751) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -52,6 +52,44 @@ ActiveRecord::Schema.define(version: 20150906213313) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
+
+  create_table "competitions", force: :cascade do |t|
+    t.integer  "tournament_id"
+    t.string   "category"
+    t.string   "min_ranking"
+    t.string   "max_ranking"
+    t.string   "nature"
+    t.datetime "created_at",                    null: false
+    t.datetime "updated_at",                    null: false
+    t.string   "genre"
+    t.boolean  "quarante",       default: true
+    t.boolean  "NC",             default: true
+    t.boolean  "trentecinq",     default: true
+    t.boolean  "trentequatre",   default: true
+    t.boolean  "trentetrois",    default: true
+    t.boolean  "trentedeux",     default: true
+    t.boolean  "trenteun",       default: true
+    t.boolean  "trente",         default: true
+    t.boolean  "quinzecinq",     default: true
+    t.boolean  "quinzequatre",   default: true
+    t.boolean  "quinzetrois",    default: true
+    t.boolean  "quinzedeux",     default: true
+    t.boolean  "quinzeun",       default: true
+    t.boolean  "quinze",         default: true
+    t.boolean  "cinqsix",        default: true
+    t.boolean  "quatresix",      default: true
+    t.boolean  "troissix",       default: true
+    t.boolean  "deuxsix",        default: true
+    t.boolean  "unsix",          default: true
+    t.boolean  "zero",           default: true
+    t.boolean  "moinsdeuxsix",   default: true
+    t.boolean  "moinsquatresix", default: true
+    t.boolean  "moinsquinze",    default: true
+    t.boolean  "premiereserie",  default: true
+    t.boolean  "total",          default: true
+  end
+
+  add_index "competitions", ["tournament_id"], name: "index_competitions_on_tournament_id", using: :btree
 
   create_table "contacts", force: :cascade do |t|
     t.string   "email"
@@ -126,16 +164,16 @@ ActiveRecord::Schema.define(version: 20150906213313) do
 
   create_table "subscriptions", force: :cascade do |t|
     t.integer  "user_id"
-    t.integer  "tournament_id"
     t.string   "status",            default: "pending"
     t.datetime "created_at",                            null: false
     t.datetime "updated_at",                            null: false
     t.boolean  "exported",          default: false
     t.boolean  "funds_sent",        default: false
     t.string   "mangopay_payin_id"
+    t.integer  "competition_id"
   end
 
-  add_index "subscriptions", ["tournament_id"], name: "index_subscriptions_on_tournament_id", using: :btree
+  add_index "subscriptions", ["competition_id"], name: "index_subscriptions_on_competition_id", using: :btree
   add_index "subscriptions", ["user_id"], name: "index_subscriptions_on_user_id", using: :btree
 
   create_table "tournaments", force: :cascade do |t|
@@ -206,7 +244,10 @@ ActiveRecord::Schema.define(version: 20150906213313) do
     t.datetime "updated_at",                              null: false
     t.integer  "tournament_id"
     t.boolean  "cgv",                     default: false
+    t.integer  "competition_id"
   end
+
+  add_index "transfers", ["competition_id"], name: "index_transfers_on_competition_id", using: :btree
 
   create_table "users", force: :cascade do |t|
     t.string   "email",                         default: "",    null: false
@@ -280,10 +321,12 @@ ActiveRecord::Schema.define(version: 20150906213313) do
   add_index "users", ["invited_by_id"], name: "index_users_on_invited_by_id", using: :btree
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
 
+  add_foreign_key "competitions", "tournaments"
   add_foreign_key "convocations", "subscriptions"
   add_foreign_key "disponibilities", "subscriptions"
   add_foreign_key "notifications", "users"
-  add_foreign_key "subscriptions", "tournaments"
+  add_foreign_key "subscriptions", "competitions"
   add_foreign_key "subscriptions", "users"
   add_foreign_key "tournaments", "users"
+  add_foreign_key "transfers", "competitions"
 end

@@ -23,17 +23,20 @@ div class="container"
             dt Ville
             dd = @tournament.city
           dl class="dl-horizontal"
-            dt Sexe
-            dd = @tournament.genre.text
-            dt Catégorie
-            dd = @tournament.category
             dt Frais d’inscription
             dd
               = @tournament.amount
               '€
+          dl class= "dl-horizontal"
+            dt Catégories :
+            br
+            ul
+            - @tournament.competitions.each do |competition|
+              li
+                = competition.category + ' ' + competition.genre
 
       = link_to '← Retour', tournaments_path, class: 'btn btn-default'
-      = link_to 'S’inscrire', new_tournament_subscription_path(@tournament), class: 'btn btn-warning'
+      = link_to 'S’inscrire', tournament_competitions_path(@tournament), class: 'btn btn-warning'
 
     div class="col-md-7"
       = render 'tournaments/show/map_location'
