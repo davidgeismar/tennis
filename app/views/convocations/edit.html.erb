@@ -2,7 +2,11 @@
   <div class="container">
     <div class="panel panel-default bigmarge">
       <div class="panel-heading">
-        <p> Le statut de la convocation de <%=@convocation.subscription.user.full_name %> du <%= @convocation.date.strftime("%d/%m/%Y") %> à <%= @convocation.hour.strftime("%Hh%M") %> pour <%= @convocation.subscription.competition.tournament.name %> dans la catégorie <%= @convocation.subscription.competition.category %> est actuellement: <strong> <%=@convocation.status_text.upcase%></strong>
+      <%if current_user.judge?%>
+          <p> Le statut de la convocation de <%=@convocation.subscription.user.full_name %> du <%= @convocation.date.strftime("%d/%m/%Y") %> à <%= @convocation.hour.strftime("%Hh%M") %> pour <%= @convocation.subscription.competition.tournament.name %> dans la catégorie <%= @convocation.subscription.competition.category %> est actuellement: <strong> <%=@convocation.status_text.upcase%></strong><p>
+      <%else%>
+            <p> Le statut de votre convocation du <%= @convocation.date.strftime("%d/%m/%Y") %> à <%= @convocation.hour.strftime("%Hh%M") %> pour <%= @convocation.subscription.competition.tournament.name %> dans la catégorie <%= @convocation.subscription.competition.category %> est actuellement: <strong> <%=@convocation.status_text.upcase%></strong><p>
+      <% end -%>
       </div>
     </div>
     <% if @convocation.status == "refused" %>
@@ -48,12 +52,16 @@
       <div class="modal-content text-center">
         <div class="modal-header">
           <h4 class="modal-title">Confirmer cette convocation</h4>
-           <p>Vous vous engagez à être présent le <strong> <%= @convocation.date.strftime("%d/%m/%Y") %> </strong> à <strong>   <%= @convocation.hour.strftime("%Hh%M") %></strong> au <strong><%= @convocation.subscription.competition.tournament.address %> </strong></p>
+          <% if current_user.judge? %>
+            <p> En appuyant sur accepter vous notifiez au joueur qu'il n'a plus la possibilité de refuser cette convocation. Il devra soit accepter la convocation soit etre WO.</p>
+          <% else %>
+            <p>Vous vous engagez à être présent le <strong> <%= @convocation.date.strftime("%d/%m/%Y") %> </strong> à <strong>   <%= @convocation.hour.strftime("%Hh%M") %></strong> au <strong><%= @convocation.subscription.competition.tournament.address %> </strong></p>
+          <% end %>
         </div>
         <div class="modal-body">
           <%= simple_form_for @convocation do |f| %>
-          <%= hidden_field_tag 'convocation[status]', :confirmed %>
-          <%= f.button :submit, "Accepter", class: " btn btn-success convocation-answer" %>
+            <%= hidden_field_tag 'convocation[status]', :confirmed %>
+            <%= f.button :submit, "Accepter", class: " btn btn-success convocation-answer" %>
            <% end %>
 
         </div>

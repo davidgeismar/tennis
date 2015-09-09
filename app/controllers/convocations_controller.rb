@@ -37,10 +37,18 @@ class ConvocationsController < ApplicationController
       @notification = Notification.create(
         user:         @convocation.subscription.competition.tournament.user,
         convocation:  @convocation,
-        content:      "#{@convocation.subscription.user.full_name} n'est pas disponible #{@convocation.date.strftime("le %d/%m/%Y")}#{@convocation.hour.strftime(" à %Hh%M")} pour #{@convocation.subscription.competition.name} dans la catégorie #{@convocation.subscription.competition.category}"
+        content:      "#{@convocation.subscription.user.full_name} n'est pas disponible #{@convocation.date.strftime("le %d/%m/%Y")}#{@convocation.hour.strftime(" à %Hh%M")} pour #{@convocation.subscription.competition.tournament.name} dans la catégorie #{@convocation.subscription.competition.category}"
       )
 
       redirect_to new_convocation_message_path(@convocation)
+    elsif @convocation.status == "confirmed" && current_user.judge?
+      @notification = Notification.create(
+        user:         @convocation.subscription.user,
+        convocation:  @convocation,
+        content:      "#{@convocation.subscription.competition.tournament.user.full_name}, juge-arbitre de #{@convocation.subscription.competition.tournament.name}, ne peut pas vous proposer une autre date/horaire, il vous demande donc d'être présent le #{@convocation.date.strftime("le %d/%m/%Y")}#{@convocation.hour.strftime(" à %H%M")}"
+      )
+      flash[:notice] = "Le statut de cette convocation est à présent : CONFIRMÉ"
+      redirect_to
     elsif @convocation.status == "confirmed"
       @notification = Notification.create(
         user:         @convocation.subscription.competition.tournament.user,
@@ -49,7 +57,7 @@ class ConvocationsController < ApplicationController
       )
 
       flash[:notice] = "Le statut de cette convocation est à présent : CONFIRMÉ"
-      redirect_to mes_tournois_path
+      redirect_to competition_subscriptions_path(@convocation.subscription.competition)
     else
       flash[:alert] = "Vous venez d'indiquer au juge arbitre que vous abandonnez la compétition"
       redirect_to mes_tournois_path

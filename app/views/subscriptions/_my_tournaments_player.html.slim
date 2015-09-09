@@ -10,9 +10,9 @@ div class="container"
             th Cat.
             th Statut inscription
             th Date convoc.
-            / th Statut convoc.
             th Réponse convoc.
             th Dispos
+            th Num JA
         tbody
         - @subscriptions.each do |subscription|
           tr
@@ -39,6 +39,8 @@ div class="container"
                  = link_to 'Indiquer', new_subscription_disponibility_path(subscription, subscription.disponibility), class: 'btn btn-success'
               - else
                  = link_to 'Changer', edit_subscription_disponibility_path(subscription, subscription.disponibility), class: 'btn btn-warning'
+            td
+              = subscription.competition.tournament.user.telephone
 
 
 = content_for :after_js do
