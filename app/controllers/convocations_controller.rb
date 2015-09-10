@@ -58,6 +58,15 @@ class ConvocationsController < ApplicationController
 
       flash[:notice] = "Le statut de cette convocation est à présent : CONFIRMÉ"
       redirect_to competition_subscriptions_path(@convocation.subscription.competition)
+
+    elsif @convocation.status == "confirmed_by_judge"
+      @notification = Notification.create(
+        user:         @convocation.subscription.user,
+        convocation:  @convocation,
+        content:      "Le juge arbitre de #{@convocation.tournament.name} ne peut pas vous proposer un autre créneau pour votre convocation"
+      )
+      flash[:notice] = "La convocation a bien été confirmée"
+      redirect_to competition_subscriptions_path(@convocation.subscription.competition)
     else
       flash[:alert] = "Vous venez d'indiquer au juge arbitre que vous abandonnez la compétition"
       redirect_to mytournaments_path

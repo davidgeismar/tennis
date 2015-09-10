@@ -131,6 +131,7 @@ fr:
       status:
         pending: En attente
         confirmed: Confirmé
+        confirmed_by_judge: Confirmé par JA
         refused: Refusé
         cancelled: W.O
     competition:

@@ -27,10 +27,14 @@
             <% end %>
           </div>
         </div>
-        <p class="marge-bas"> <strong> Cliquer sur "Changer la convocation de ce joueur" pour envoyer une nouvelle convocation à <%= @convocation.subscription.user.full_name %> sinon appeler le au <%= @convocation.subscription.user.telephone %> pour lui expliquer la situation. </strong></p>
+        <p class="marge-bas"> <strong> Cliquer sur "Changer la convocation de ce joueur" pour envoyer une nouvelle convocation à <%= @convocation.subscription.user.full_name %> sinon appeler le au <%= @convocation.subscription.user.telephone %> pour lui expliquer la situation. Si vous cliquez sur "je n'ai plus de disponibilités", le joueur sera informé que vous ne pouvez pas lui proposer d'autres dates/horaires.</strong></p>
         <%=link_to "Lui proposer une nouvelle convocation", new_subscription_convocation_path(@convocation.subscription) , class: "btn btn-success marge-bas" %>
         <p><strong>OU</strong></p>
-         <%=link_to "Forcer la convocation actuelle", edit_convocation_path(@convocation) , class: "btn btn-danger marge-bas" %>
+          <%= simple_form_for @convocation do |f| %>
+            <%= hidden_field_tag 'convocation[status]', :confirmed_by_judge %>
+            <%= f.button :submit, "Je n'ai plus de disponibilités", class: " btn btn-danger" %>
+          <% end %>
+
       </div>
     </div>
   </div>
