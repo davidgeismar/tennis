@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150910101058) do
+ActiveRecord::Schema.define(version: 20150910132233) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -138,6 +138,22 @@ ActiveRecord::Schema.define(version: 20150910101058) do
     t.string   "full_name"
   end
 
+  create_table "mangopay_transactions", force: :cascade do |t|
+    t.string   "status"
+    t.integer  "mangopay_transaction_id"
+    t.string   "category"
+    t.json     "archive"
+    t.datetime "created_at",                              null: false
+    t.datetime "updated_at",                              null: false
+    t.boolean  "cgv",                     default: false
+    t.integer  "competition_id"
+    t.integer  "subscription_id"
+    t.integer  "tournament_id"
+  end
+
+  add_index "mangopay_transactions", ["competition_id"], name: "index_mangopay_transactions_on_competition_id", using: :btree
+  add_index "mangopay_transactions", ["subscription_id"], name: "index_mangopay_transactions_on_subscription_id", using: :btree
+
   create_table "messages", force: :cascade do |t|
     t.integer  "user_id"
     t.datetime "read_at"
@@ -171,9 +187,11 @@ ActiveRecord::Schema.define(version: 20150910101058) do
     t.boolean  "funds_sent",        default: false
     t.string   "mangopay_payin_id"
     t.integer  "competition_id"
+    t.string   "fare_type"
   end
 
   add_index "subscriptions", ["competition_id"], name: "index_subscriptions_on_competition_id", using: :btree
+  add_index "subscriptions", ["fare_type"], name: "index_subscriptions_on_fare_type", using: :btree
   add_index "subscriptions", ["user_id"], name: "index_subscriptions_on_user_id", using: :btree
 
   create_table "tournaments", force: :cascade do |t|
@@ -205,20 +223,6 @@ ActiveRecord::Schema.define(version: 20150910101058) do
   end
 
   add_index "tournaments", ["user_id"], name: "index_tournaments_on_user_id", using: :btree
-
-  create_table "transfers", force: :cascade do |t|
-    t.string   "status"
-    t.integer  "mangopay_transaction_id"
-    t.string   "category"
-    t.json     "archive"
-    t.datetime "created_at",                              null: false
-    t.datetime "updated_at",                              null: false
-    t.integer  "tournament_id"
-    t.boolean  "cgv",                     default: false
-    t.integer  "competition_id"
-  end
-
-  add_index "transfers", ["competition_id"], name: "index_transfers_on_competition_id", using: :btree
 
   create_table "users", force: :cascade do |t|
     t.string   "email",                         default: "",    null: false
@@ -295,9 +299,10 @@ ActiveRecord::Schema.define(version: 20150910101058) do
   add_foreign_key "competitions", "tournaments"
   add_foreign_key "convocations", "subscriptions"
   add_foreign_key "disponibilities", "subscriptions"
+  add_foreign_key "mangopay_transactions", "competitions"
+  add_foreign_key "mangopay_transactions", "subscriptions"
   add_foreign_key "notifications", "users"
   add_foreign_key "subscriptions", "competitions"
   add_foreign_key "subscriptions", "users"
   add_foreign_key "tournaments", "users"
-  add_foreign_key "transfers", "competitions"
 end

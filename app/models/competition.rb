@@ -7,9 +7,8 @@ class Competition < ActiveRecord::Base
   enumerize :nature,      in: ['Simple']
 
   belongs_to :tournament
-  has_many :subscriptions,  dependent: :destroy
-  has_many :transfers,      dependent: :destroy
 
+  has_many :subscriptions, dependent: :destroy
 
   validates :category,            presence: { message: "Merci d'indiquer la catégorie de l'épreuve" }
   validates :nature,              presence: { message: "Merci d'indiquer la nature de l'épreuve" }

@@ -4,6 +4,8 @@ class Tournament < ActiveRecord::Base
 
   belongs_to :user
 
+  has_one  :mangopay_transaction, dependent: :destroy
+
   has_many :notifications,  dependent: :destroy
   has_many :subscriptions,  through: :competitions
   has_many :competitions,   dependent: :destroy
@@ -78,5 +80,4 @@ class Tournament < ActiveRecord::Base
       errors.add(:starts_on, "Veuillez choisir une date de début avant la date de fin du tournoi")
     end
   end
-
 end

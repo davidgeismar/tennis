@@ -5,15 +5,9 @@ div class="container"
 
       p
         'Paiement de l’inscription pour un montant de
-        - if @subscription.tournament.young_fare && current_user.age < 18
-          strong
-            = @subscription.tournament.young_fare
-            '€
-        - else
-          strong
-            = @total_amount
-            '€
-
+        strong
+          = @total_amount
+          '€
 
       div class="row"
         div class="col-sm-6"

@@ -6,16 +6,16 @@ module MangoPayments
       end
 
       def call
-        transfer    = @subscription.competition.transfers.create(status: 'pending', cgv: true, category: 'refund')
-        transaction = MangoPay::PayIn.refund(@subscription.mangopay_payin_id, { AuthorId: @subscription.user.mangopay_user_id })
+        transaction       = @subscription.mangopay_transactions.create(status: 'pending', cgv: true, category: 'refund')
+        mango_transaction = MangoPay::PayIn.refund(@subscription.mangopay_payin_id, { AuthorId: @subscription.user.mangopay_user_id })
 
-        transfer.update(
-          archive:                  transaction,
-          mangopay_transaction_id:  transaction['Id'],
-          status:                   (transaction['Status'] == 'SUCCEEDED' ? 'success' : 'failed')
+        transaction.update(
+          archive:                  mango_transaction,
+          mangopay_transaction_id:  mango_transaction['Id'],
+          status:                   (mango_transaction['Status'] == 'SUCCEEDED' ? 'success' : 'failed')
         )
 
-        return transfer.status == 'success'
+        return transaction.status == 'success'
       end
     end
   end

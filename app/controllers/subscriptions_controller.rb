@@ -16,11 +16,12 @@ class SubscriptionsController < ApplicationController
   end
 
   def index
-    @rankings = ['NC', '40', '30/5', '30/4', '30/3', '30/2', '30/1', '30', '15/5', '15/4', '15/3', '15/2', '15/1', '15', '5/6', '4/6', '3/6', '2/6', '1/6', '0', '-2/6', '-4/6', '-15', '-30']
-    @user = current_user
+    @rankings       = ['NC', '40', '30/5', '30/4', '30/3', '30/2', '30/1', '30', '15/5', '15/4', '15/3', '15/2', '15/1', '15', '5/6', '4/6', '3/6', '2/6', '1/6', '0', '-2/6', '-4/6', '-15', '-30']
+    @user           = current_user
     @competition    = Competition.find(params[:competition_id])
-    @tournament = @competition.tournament
+    @tournament     = @competition.tournament
     @subscriptions  = @competition.subscriptions
+
     authorize @subscriptions
     policy_scope(@subscriptions)
   end
@@ -31,10 +32,17 @@ class SubscriptionsController < ApplicationController
   end
 
   def new
-    @competition   = Competition.find(params[:competition_id])
-    @tournament    = @competition.tournament
-    @subscription = @competition.subscriptions.build(competition: @competition)
-    @total_amount = @subscription.tournament.amount + (10*@subscription.tournament.amount/100)
+    @competition    = Competition.find(params[:competition_id])
+    @tournament     = @competition.tournament
+    @subscription   = @competition.subscriptions.build(competition: @competition)
+
+    if current_user.eligible_to_young_fare?
+      @total_amount = @tournament.young_fare
+    else
+      @total_amount = @tournament.amount
+    end
+
+    @total_amount  += (10 * @total_amount / 100)
 
     authorize @subscription
 
@@ -58,8 +66,9 @@ class SubscriptionsController < ApplicationController
     current_user.update(mangopay_card_id: params[:card_id])
 
     competition   = Competition.find(params[:competition_id])
+    fare_type     = current_user.eligible_for_young_fare? ? :fare : :standard
     tournament    = competition.tournament
-    subscription  = Subscription.new(user: current_user, competition: competition)
+    subscription  = Subscription.new(user: current_user, competition: competition, fare_type: fare_type)
     service       = MangoPayments::Subscriptions::CreatePayinService.new(subscription)
     authorize subscription
 

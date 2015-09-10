@@ -28,7 +28,7 @@ class PlayerInvitationsController < ApplicationController
         @user.last_name       = params[:last_name]
         @user.licence_number  = params[:licence_number].delete(' ')
         @user.save
-        @subscription = Subscription.new(user: @user, competition: @competition)
+        @subscription = Subscription.new(user: @user, competition: @competition, fare_type: :unknown)
         if @subscription.save
           SubscriptionMailer.confirmation_invited_user(@subscription).deliver
           flash[:notice] = "Ce licencié a bien été ajouté aux inscrits. N'oublié pas confirmer (ou de refuser) le statut de son inscription."
