@@ -16,20 +16,29 @@ div class="container"
             ul
               - if notification.read == false
                 li
-                  - if notification.convocation && notification.user.judge == false
+                  - if notification.convocation && notification.convocation.status == "pending" && !notification.user.judge
                     = link_to edit_convocation_path(notification.convocation) do
                       i> class="fa fa-envelope"
                       = notification.content
                       '
                       span.text-light = notification.created_at.strftime('%d/%m/%Y à %Hh%M')
-                  - elsif notification.convocation && notification.user.judge == true && notification.convocation.messages.blank?
+                  - elsif notification.convocation && notification.convocation.status == "confirmed_by_judge"  && !notification.user.judge
+                    = link_to mytournaments_path do
+                      i> class="fa fa-envelope"
+                      = notification.content
+                      '
+                      span.text-light = notification.created_at.strftime('%d/%m/%Y à %Hh%M')
+
+                  - elsif notification.convocation && notification.convocation.status == "confirmed" && notification.user.judge
                     = link_to notification.content,  competition_subscriptions_path(notification.convocation.subscription.competition)
                     '
                     span.text-light = notification.created_at.strftime('%d/%m/%Y à %Hh%M')
-                  - elsif notification.convocation && notification.user.judge == true && notification.convocation.messages
+
+                  - elsif notification.convocation && notification.user.judge? && notification.convocation.messages
                     = link_to notification.content, convocation_messages_path(notification.convocation)
                     '
                     span.text-light = notification.created_at.strftime('%d/%m/%Y à %Hh%M')
+
                   - elsif notification.tournament
                     = link_to notification.content, tournament_path(notification.tournament)
                     '

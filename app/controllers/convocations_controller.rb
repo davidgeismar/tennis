@@ -9,14 +9,34 @@ class ConvocationsController < ApplicationController
   # attention coder le sms system pour create
   def create
     @convocation = @subscription.convocations.build(convocation_params)
+    judge = @subscription.tournament.user
+
     authorize @convocation
 
     if @convocation.save
       ConvocationMailer.send_convocation(@convocation).deliver
 
+
+      if @convocation.subscription.user.telephone && judge.sms_forfait && judge.sms_quantity > 0
+        begin
+          client = Twilio::REST::Client.new(ENV['TWILIO_SID'], ENV['TWILIO_TOKEN'])
+          # Create and send an SMS message
+          client.account.sms.messages.create(
+            from: ENV['TWILIO_FROM'],
+            to:   convocation.subscription.user.telephone,
+            body: "Le juge-arbitre vous propose une nouvelle convocation #{convocation.date.strftime("le %d/%m/%Y")} #{convocation.hour.strftime(" à %Hh%M")} pour le tournoi #{convocation.subscription.tournament.name} dans la catégorie #{convocation.competition.category}. Num JA: #{convocation.subscription.tournament.user.telephone} Connectez vous sur www.wetennis.fr pour répondre à cette convocation. "
+          )
+          sms_credit = judge.sms_quantity - 1
+          judge.sms_quantity = sms_credit
+          judge.save
+        rescue Twilio::REST::RequestError
+          # on error, sms won't be sent.. deal
+        end
+      end
+
       @notification = Notification.create(
         user:     @convocation.subscription.user,
-        content:  "Vous êtes convoqué(e) à #{@convocation.subscription.tournament.name} dans la catégorie #{@convocation.subscription.competition.category} #{@convocation.date.strftime("le %d/%m/%Y")}#{@convocation.hour.strftime(" à %Hh%M")}"
+        content:  "Le juge-arbitre vous propose une nouvelle convocation #{convocation.date.strftime("le %d/%m/%Y")} #{convocation.hour.strftime(" à %Hh%M")} pour le tournoi #{convocation.subscription.tournament.name} dans la catégorie #{convocation.competition.category}"
       )
       flash[:notice] = "Votre convocation a bien été envoyée"
       redirect_to competition_subscriptions_path(@subscription.competition)
@@ -32,6 +52,7 @@ class ConvocationsController < ApplicationController
   def update
     authorize @convocation
     @convocation.update(convocation_params)
+    judge = @convocation.subscription.tournament.user
 
     if @convocation.status == "refused"
       @notification = Notification.create(
@@ -41,15 +62,9 @@ class ConvocationsController < ApplicationController
       )
 
       redirect_to new_convocation_message_path(@convocation)
-    elsif @convocation.status == "confirmed" && current_user.judge?
-      @notification = Notification.create(
-        user:         @convocation.subscription.user,
-        convocation:  @convocation,
-        content:      "#{@convocation.subscription.tournament.user.full_name}, juge-arbitre de #{@convocation.subscription.tournament.name}, ne peut pas vous proposer une autre date/horaire, il vous demande donc d'être présent le #{@convocation.date.strftime("le %d/%m/%Y")}#{@convocation.hour.strftime(" à %H%M")}"
-      )
-      flash[:notice] = "Le statut de cette convocation est à présent : CONFIRMÉ"
-      redirect_to
+
     elsif @convocation.status == "confirmed"
+      #notif
       @notification = Notification.create(
         user:         @convocation.subscription.tournament.user,
         convocation:  @convocation,
@@ -60,11 +75,31 @@ class ConvocationsController < ApplicationController
       redirect_to competition_subscriptions_path(@convocation.subscription.competition)
 
     elsif @convocation.status == "confirmed_by_judge"
+      #email
+      ConvocationMailer.convocation_confirmed_by_judge(@convocation).deliver
+      #notif
       @notification = Notification.create(
         user:         @convocation.subscription.user,
         convocation:  @convocation,
         content:      "Le juge arbitre de #{@convocation.tournament.name} ne peut pas vous proposer un autre créneau pour votre convocation"
       )
+      #sms
+      if @convocation.subscription.user.telephone && judge.sms_forfait && judge.sms_quantity > 0
+        begin
+          client = Twilio::REST::Client.new(ENV['TWILIO_SID'], ENV['TWILIO_TOKEN'])
+          # Create and send an SMS message
+          client.account.sms.messages.create(
+            from: ENV['TWILIO_FROM'],
+            to:   convocation.subscription.user.telephone,
+            body: "Le juge-arbitre ne peut pas vous proposer un autre créneau pour votre convocation #{convocation.date.strftime("le %d/%m/%Y")} #{convocation.hour.strftime(" à %Hh%M")} pour le tournoi #{convocation.subscription.tournament.name} dans la catégorie #{convocation.competition.category}. Num JA: #{convocation.subscription.tournament.user.telephone}. Si vous ne pouvez pas participer connectez vous sur www.wetennis.fr pour indiquer votre WO. "
+          )
+          sms_credit = judge.sms_quantity - 1
+          judge.sms_quantity = sms_credit
+          judge.save
+        rescue Twilio::REST::RequestError
+          # on error, sms won't be sent.. deal
+        end
+      end
       flash[:notice] = "La convocation a bien été confirmée"
       redirect_to competition_subscriptions_path(@convocation.subscription.competition)
     else
@@ -127,7 +162,7 @@ class ConvocationsController < ApplicationController
             client.account.sms.messages.create(
               from: ENV['TWILIO_FROM'],
               to:   convocation.subscription.user.telephone,
-              body: "Vous etes convoqué(e) #{convocation.date.strftime("le %d/%m/%Y")} #{convocation.hour.strftime(" à %Hh%M")} pour le tournoi #{convocation.subscription.tournament.name} "
+              body: "Vous etes convoqué(e) #{convocation.date.strftime("le %d/%m/%Y")} #{convocation.hour.strftime(" à %Hh%M")} pour le tournoi #{convocation.subscription.tournament.name} dans la catégorie #{convocation.competition.category}. Num JA: #{convocation.subscription.tournament.user.telephone} Connectez vous sur www.wetennis.fr pour répondre à cette convocation. "
             )
             sms_credit = judge.sms_quantity - 1
             judge.sms_quantity = sms_credit

@@ -11,7 +11,7 @@ module MangoPayments
         amount_cents  = amount * 100
         fees_cents    = ((amount * 0.1) * 100).to_i
         total_cents   = amount_cents + fees_cents
-        transaction   = @subscription.mangopay_transactions.create(status: 'pending', cgv: true, category: 'payin')
+        transaction   = @subscription.mangopay_transactions.new(status: 'pending', cgv: true, category: 'payin')
 
         mango_transaction   = MangoPay::PayIn::Card::Direct.create(
           AuthorId:             @user.mangopay_user_id,

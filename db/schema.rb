@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150910135853) do
+ActiveRecord::Schema.define(version: 20150910201857) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -157,8 +157,10 @@ ActiveRecord::Schema.define(version: 20150910135853) do
     t.boolean  "read",           default: false
     t.integer  "convocation_id"
     t.integer  "tournament_id"
+    t.integer  "competition_id"
   end
 
+  add_index "notifications", ["competition_id"], name: "index_notifications_on_competition_id", using: :btree
   add_index "notifications", ["user_id"], name: "index_notifications_on_user_id", using: :btree
 
   create_table "subscriptions", force: :cascade do |t|
@@ -284,6 +286,7 @@ ActiveRecord::Schema.define(version: 20150910135853) do
   add_foreign_key "disponibilities", "subscriptions"
   add_foreign_key "mangopay_transactions", "competitions"
   add_foreign_key "mangopay_transactions", "subscriptions"
+  add_foreign_key "notifications", "competitions"
   add_foreign_key "notifications", "users"
   add_foreign_key "subscriptions", "competitions"
   add_foreign_key "subscriptions", "users"

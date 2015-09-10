@@ -1,0 +1,7 @@
+<h1>Bonjour <%= @convocation.subscription.user.full_name %></h1>
+
+<p>Le Juge arbitre n'a plus de créneaux disponibles et n'a donc pas pu changer la date/l'horaire de votre convocation</p>
+<p> Vous êtes donc convoqué au tournoi <%= @convocation.subscription.tournament.name.upcase%> dans la catégorie <%= @convocation.subscription.competition.category %>  pour le <%= @convocation.date.strftime("%d/%m/%Y") %> à <%= @convocation.hour.strftime("%Hh%M") %>. </p>
+<p>L'addresse du tournoi est <strong><%=@convocation.subscription.tournament.address%> <%=@convocation.subscription.tournament.postcode%> <%=@convocation.subscription.tournament.city%></strong></p>
+<p>Tel JA :<%= @convocation.subscription.tournament.user.telephone %></p>
+<p>Si vous ne pouvez pas participer, merci de vous connectez au plus vite sur www.wetennis.fr afin d'indiquer votre WO.</p>
