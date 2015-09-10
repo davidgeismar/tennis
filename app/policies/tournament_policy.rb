@@ -5,12 +5,6 @@ class TournamentPolicy < ApplicationPolicy
       .where(accepted: true)
       .where("ends_on >= :today", today: Date.today)
     end
-
-    def passed
-      scope.all
-      .where(accepted: true)
-      .where("ends_on <= :today", today: Date.today)
-    end
   end
 
   def new?

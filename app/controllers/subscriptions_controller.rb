@@ -2,15 +2,12 @@ class SubscriptionsController < ApplicationController
   skip_after_action :verify_authorized, only: [:mytournaments]
 
   def mytournaments
-    @tournaments = current_user.tournaments
-    @passed_tournaments = []
-    @tournaments.each do |tournament|
-      if tournament.passed?
-        @passed_tournaments << tournament
-      end
-    end
+    # judge
+    @current_tournaments  = current_user.tournaments.current
+    @passed_tournaments   = current_user.tournaments.passed
 
-    @subscriptions = Subscription.where(user_id: current_user)
+    # player
+    @subscriptions        = current_user.subscriptions.current
 
     if @subscriptions.blank? && current_user.judge == false
       flash[:notice] = "Vous ne vous êtes pas encore inscrit à un tournoi."

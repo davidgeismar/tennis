@@ -11,4 +11,6 @@ class Subscription < ActiveRecord::Base
   has_many :convocations, dependent: :destroy
 
   validates :user_id, presence: true, uniqueness: { scope: :competition, message: "Vous etes déjà inscrit à ce tournoi dans cette catégorie" }
+
+  scope :current, -> { joins(competition: :tournament).where('tournaments.ends_on > :today', today: Date.today) }
 end

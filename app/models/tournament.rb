@@ -36,10 +36,11 @@ class Tournament < ActiveRecord::Base
 
   validate :start_date_before_end_date
 
-
   after_validation  :geocode,                 if: :address_tour_changed?
   after_save        :send_email_if_accepted,  if: :accepted_changed?
 
+  scope :current, -> { where('ends_on > :today', today: Date.today) }
+  scope :passed,  -> { where('ends_on < :today', today: Date.today) }
 
   def address_tour
     "#{address} #{city}"
