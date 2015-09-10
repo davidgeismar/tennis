@@ -1,6 +1,6 @@
 module MangoPayments
   module Subscriptions
-    class CreatePayinService
+    class CreatePayinService < MangoPayments::Subscriptions::BaseService
       def initialize(subscription)
         @subscription = subscription
         @tournament   = subscription.tournament
@@ -8,8 +8,9 @@ module MangoPayments
       end
 
       def call
-        amount        = compute_amount
         amount_cents  = amount * 100
+        fees_cents    = ((amount * 0.1) * 100).to_i
+        total_cents   = amount_cents + fees_cents
         transaction   = @subscription.mangopay_transactions.create(status: 'pending', cgv: true, category: 'payin')
 
         mango_transaction   = MangoPay::PayIn::Card::Direct.create(
@@ -18,8 +19,8 @@ module MangoPayments
           CardType:             'CB_VISA_MASTERCARD',
           CreditedUserId:       @user.mangopay_user_id,
           CreditedWalletId:     @user.mangopay_wallet_id,
-          DebitedFunds:         { Currency: 'EUR', Amount: amount_cents },
-          Fees:                 { Currency: 'EUR', Amount: 0 },
+          DebitedFunds:         { Currency: 'EUR', Amount: total_cents },
+          Fees:                 { Currency: 'EUR', Amount: fees_cents },
           SecureModeReturnURL:  'https://wetennis.fr'
         )
 
@@ -35,17 +36,6 @@ module MangoPayments
           @subscription.save
         else
           false
-        end
-      end
-
-      private
-
-      def compute_amount
-        case @subscription.fare_type
-        when 'standard'
-          @tournament.amount
-        when 'young'
-          @tournament.young_fare
         end
       end
     end

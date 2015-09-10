@@ -1,6 +1,6 @@
 module MangoPayments
   module Subscriptions
-    class CreateTransferService
+    class CreateTransferService < MangoPayments::Subscriptions::BaseService
       def initialize(subscription)
         @subscription = subscription
         @tournament   = subscription.tournament
@@ -8,7 +8,6 @@ module MangoPayments
       end
 
       def call
-        amount        = compute_amount
         amount_cents  = amount * 100
         transaction   = @subscription.mangopay_transactions.create(status: 'pending', category: 'transfer')
 
@@ -31,17 +30,6 @@ module MangoPayments
           @subscription.update(funds_sent: true)
         else
           false
-        end
-      end
-
-      private
-
-      def compute_amount
-        case @subscription.fare_type
-        when 'standard'
-          @tournament.amount
-        when 'young'
-          @tournament.young_fare
         end
       end
     end

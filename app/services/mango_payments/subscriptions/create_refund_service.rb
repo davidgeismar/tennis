@@ -1,13 +1,21 @@
 module MangoPayments
   module Subscriptions
-    class CreateRefundService
+    class CreateRefundService < MangoPayments::Subscriptions::BaseService
       def initialize(subscription)
         @subscription = subscription
       end
 
       def call
+        amount_cents      = amount * 100
         transaction       = @subscription.mangopay_transactions.create(status: 'pending', cgv: true, category: 'refund')
-        mango_transaction = MangoPay::PayIn.refund(@subscription.mangopay_payin_id, { AuthorId: @subscription.user.mangopay_user_id })
+        mango_transaction = MangoPay::PayIn.refund(
+          @subscription.mangopay_payin_id,
+          {
+            AuthorId:     @subscription.user.mangopay_user_id,
+            DebitedFunds: { Currency: 'EUR', Amount: amount_cents },
+            Fees:         { Currency: 'EUR', Amount: 0 }
+          }
+        )
 
         transaction.update(
           archive:                  mango_transaction,
