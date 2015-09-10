@@ -1,0 +1,26 @@
+
+div class="container"
+  div class="row"
+    div class="col-xs-12"
+
+      h1 class="emperor" Mes Tournois Terminés
+
+      table class="table table-hover"
+        tr
+          th Compétition
+          th Catégorie
+          th Date de début
+          th Date de fin
+          th Statut
+        - if @passed_tournaments.present?
+          - @passed_tournaments.each do |passed_tournament|
+            tr
+               td
+                = link_to passed_tournament.name, user_tournament_path(current_user, passed_tournament)
+               td = passed_tournament.category.capitalize
+               td = passed_tournament.starts_on.strftime('%d/%m/%Y')
+               td = passed_tournament.ends_on.strftime('%d/%m/%Y')
+               td Tournoi Validé
+        - else
+          tr
+            td colspan="5" Vous n'avez encore aucun tournois terminé

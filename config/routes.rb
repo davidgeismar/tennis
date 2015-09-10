@@ -20,24 +20,26 @@ Rails.application.routes.draw do
     resources :tournaments, only: [:show, :new, :create, :edit, :update]
   end
 
-  # tournaments
-
   resources :tournaments, only: [:index, :show, :new, :create, :update] do
-    resource  :aei_export,          only: [:create]
-    resource  :rankings,            only: [:show]
-
-    resources :player_invitations,  only: [:new, :create]
-    resources :subscriptions,       only: [:new, :show, :create, :index, :update]
-    resources :transfers,           only: [:create]
+    resources :competitions
   end
 
-  post 'tournaments/:tournament_id/convocations/multiple_new',    to: "convocations#multiple_new",    as: "multiple_new"
-  post 'tournaments/:tournament_id/convocations/multiple_create', to: "convocations#multiple_create", as: "multiple_create"
-  post 'tournaments/:tournament_id/updaterankings',               to: "tournaments#update_rankings",  as: "updaterankings"
-  get  'users/:user_id/passed_tournaments',                       to: "tournaments#passed_tournaments",  as: "passed_tournaments"
-  # subscriptions
+  resources :competitions, only: [:index, :show, :new, :create, :update] do
+    resources :subscriptions,       only: [:new, :show, :create, :index, :update]
+    resources :player_invitations,  only: [:new, :create]
+    resource  :rankings,            only: [:show]
+    resource  :aei_export,          only: [:create]
+  end
 
-  get "mestournois", to: "subscriptions#mytournaments", as: "mes_tournois"
+  resources :mytournaments, only: [:index] do
+    collection do
+      get :passed
+    end
+  end
+
+  post 'competitions/:competition_id/convocations/multiple_new',    to: "convocations#multiple_new",    as: "multiple_new"
+  post 'competitions/:competition_id/convocations/multiple_create', to: "convocations#multiple_create", as: "multiple_create"
+  post 'competitions/:competition_id/updaterankings',               to: "competitions#update_rankings",  as: "updaterankings"
 
   resources :subscriptions, only: [] do
     member do
@@ -50,6 +52,5 @@ Rails.application.routes.draw do
     resources :disponibilities, only: [:new, :create, :edit, :update, :show]
   end
 
-  # notifs
   resource :notification_update, only: [:create]
 end

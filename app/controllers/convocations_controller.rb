@@ -1,5 +1,6 @@
 class ConvocationsController < ApplicationController
   before_action :find_subscription, except: [:multiple_new, :multiple_create]
+  before_action :set_competition, only: [:multiple_new, :multiple_create]
 
   def new
     @convocation = Convocation.new
@@ -15,10 +16,10 @@ class ConvocationsController < ApplicationController
 
       @notification = Notification.create(
         user:     @convocation.subscription.user,
-        content:  "Vous êtes convoqué(e) à #{@convocation.subscription.tournament.name} le #{@convocation.date.strftime("le %d/%m/%Y")} à #{@convocation.hour.strftime(" à %Hh%M")}"
+        content:  "Vous êtes convoqué(e) à #{@convocation.subscription.tournament.name} dans la catégorie #{@convocation.subscription.competition.category} #{@convocation.date.strftime("le %d/%m/%Y")}#{@convocation.hour.strftime(" à %Hh%M")}"
       )
       flash[:notice] = "Votre convocation a bien été envoyée"
-      redirect_to tournament_subscriptions_path(@subscription.tournament)
+      redirect_to competition_subscriptions_path(@subscription.competition)
     else
       render :new
     end
@@ -36,27 +37,43 @@ class ConvocationsController < ApplicationController
       @notification = Notification.create(
         user:         @convocation.subscription.tournament.user,
         convocation:  @convocation,
-        content:      "#{@convocation.subscription.user.full_name} n'est pas disponible à la date de votre convoncation"
+        content:      "#{@convocation.subscription.user.full_name} n'est pas disponible #{@convocation.date.strftime("le %d/%m/%Y")}#{@convocation.hour.strftime(" à %Hh%M")} pour #{@convocation.subscription.tournament.name} dans la catégorie #{@convocation.subscription.competition.category}"
       )
 
       redirect_to new_convocation_message_path(@convocation)
+    elsif @convocation.status == "confirmed" && current_user.judge?
+      @notification = Notification.create(
+        user:         @convocation.subscription.user,
+        convocation:  @convocation,
+        content:      "#{@convocation.subscription.tournament.user.full_name}, juge-arbitre de #{@convocation.subscription.tournament.name}, ne peut pas vous proposer une autre date/horaire, il vous demande donc d'être présent le #{@convocation.date.strftime("le %d/%m/%Y")}#{@convocation.hour.strftime(" à %H%M")}"
+      )
+      flash[:notice] = "Le statut de cette convocation est à présent : CONFIRMÉ"
+      redirect_to
     elsif @convocation.status == "confirmed"
       @notification = Notification.create(
         user:         @convocation.subscription.tournament.user,
         convocation:  @convocation,
-        content:      "#{@convocation.subscription.user.full_name} confirme sa participation le #{@convocation.date.strftime("le %d/%m/%Y")} à #{@convocation.hour.strftime(" à %Hh%M")}"
+        content:      "#{@convocation.subscription.user.full_name} confirme sa participation #{@convocation.date.strftime("le %d/%m/%Y")}#{@convocation.hour.strftime(" à %Hh%M")} dans la catégorie #{@convocation.subscription.competition.category}"
       )
 
       flash[:notice] = "Le statut de cette convocation est à présent : CONFIRMÉ"
-      redirect_to mes_tournois_path
+      redirect_to competition_subscriptions_path(@convocation.subscription.competition)
+
+    elsif @convocation.status == "confirmed_by_judge"
+      @notification = Notification.create(
+        user:         @convocation.subscription.user,
+        convocation:  @convocation,
+        content:      "Le juge arbitre de #{@convocation.tournament.name} ne peut pas vous proposer un autre créneau pour votre convocation"
+      )
+      flash[:notice] = "La convocation a bien été confirmée"
+      redirect_to competition_subscriptions_path(@convocation.subscription.competition)
     else
       flash[:alert] = "Vous venez d'indiquer au juge arbitre que vous abandonnez la compétition"
-      redirect_to mes_tournois_path
+      redirect_to mytournaments_path
     end
   end
 
   def multiple_new
-    @tournament       = Tournament.find(params[:tournament_id])
     @subscription_ids = params[:select_players].split(',') # ["27", "38", "37", "35"]
     @subscriptions    = Subscription.where(id: @subscription_ids) # array of subscriptions
 
@@ -64,7 +81,7 @@ class ConvocationsController < ApplicationController
 
     if @subscriptions.blank?
       flash[:alert] = "Vous n'avez sélectionné aucun joueur"
-      redirect_to tournament_subscriptions_path(@tournament)
+      redirect_to competition_subscriptions_path(@competition)
     else
       @player_names = @subscriptions.map { |subscription| subscription.user.full_name }
     end
@@ -72,12 +89,17 @@ class ConvocationsController < ApplicationController
 
   # coder un système d'alert box si les dispos d'un joueur ne matchent pas avec la convoc
   def multiple_create
-
-    @tournament = Tournament.find(params[:tournament_id])
-    judge = @tournament.user
+    # @tournament = Tournament.find(params[:tournament_id])
+    judge             = @competition.tournament.user
     @subscription_ids = params[:subscription_ids].split
-    @subscriptions = Subscription.where(id: @subscription_ids)
+    @subscriptions    = Subscription.where(id: @subscription_ids)
+    @player_names     = @subscriptions.map { |subscription| subscription.user.full_name }
     custom_authorize ConvocationMultiPolicy, @subscriptions
+
+    if params[:date].blank? || params[:hour].blank?
+      flash[:alert] = "Merci de compléter à la fois la date et l'heure de convocation."
+      return render :multiple_new
+    end
 
     @subscriptions.each do |subscription|
       convocation = Convocation.new(date: params[:date], hour: params[:hour], subscription: subscription)
@@ -88,7 +110,7 @@ class ConvocationsController < ApplicationController
         @notification = Notification.create(
           user:         subscription.user,
           convocation:  convocation,
-          content:      "Vous êtes convoqué(e) à #{convocation.subscription.tournament.name} le #{convocation.date.strftime("%d/%m/%Y")} à #{convocation.hour.strftime(" à %Hh%M")}"
+          content:      "Vous êtes convoqué(e) à #{convocation.subscription.tournament.name} dans la catégorie #{convocation.subscription.competition.category} le #{convocation.date.strftime("%d/%m/%Y")}#{convocation.hour.strftime(" à %Hh%M")}"
         )
 
         if @subscriptions.count == 1
@@ -105,7 +127,7 @@ class ConvocationsController < ApplicationController
             client.account.sms.messages.create(
               from: ENV['TWILIO_FROM'],
               to:   convocation.subscription.user.telephone,
-              body: "Vous etes convoqué(e)  #{convocation.date.strftime("le %d/%m/%Y")} #{convocation.hour.strftime(" à %Hh%M")} pour le tournoi #{convocation.subscription.tournament.name} "
+              body: "Vous etes convoqué(e) #{convocation.date.strftime("le %d/%m/%Y")} #{convocation.hour.strftime(" à %Hh%M")} pour le tournoi #{convocation.subscription.tournament.name} "
             )
             sms_credit = judge.sms_quantity - 1
             judge.sms_quantity = sms_credit
@@ -119,17 +141,21 @@ class ConvocationsController < ApplicationController
       end
     end
 
-    redirect_to tournament_subscriptions_path(@tournament)
+    redirect_to competition_subscriptions_path(@competition)
   end
 
   private
 
   def convocation_params
     if current_user.judge?
-      params.require(:convocation).permit(:hour, :date)
+      params.require(:convocation).permit(:hour, :date, :status)
     else
       params.require(:convocation).permit(:status)
     end
+  end
+
+  def set_competition
+    @competition = Competition.find(params[:competition_id])
   end
 
   def find_subscription

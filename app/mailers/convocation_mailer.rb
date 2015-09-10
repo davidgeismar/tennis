@@ -8,6 +8,6 @@ class ConvocationMailer < ApplicationMailer
   def send_convocation(convocation)
     @convocation = convocation
 
-    mail(to: @convocation.subscription.user.email, subject: "Convocation au tournoi #{@convocation.subscription.tournament.name} pour le #{@convocation.date.strftime("%d/%m/%Y")} à  #{@convocation.hour.strftime("%Hh%M")}")
+    mail(to: @convocation.subscription.user.email, subject: "Convocation au tournoi #{@convocation.subscription.tournament.name} dans la catégorie #{@convocation.subscription.competition.category} pour le #{@convocation.date.strftime("%d/%m/%Y")} à  #{@convocation.hour.strftime("%Hh%M")}")
   end
 end

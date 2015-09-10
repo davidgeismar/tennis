@@ -1,16 +1,9 @@
 class TournamentPolicy < ApplicationPolicy
   class Scope < Scope
     def resolve
-
       scope.all
       .where(accepted: true)
       .where("ends_on >= :today", today: Date.today)
-    end
-
-    def passed
-      scope.all
-      .where(accepted: true)
-      .where("ends_on <= :today", today: Date.today)
     end
   end
 
@@ -30,11 +23,11 @@ class TournamentPolicy < ApplicationPolicy
     user && user.judge?
   end
 
-  def update?
-    user && record.user == user
+  def passed?
+    user && user.judge?
   end
 
-  def update_rankings?
+  def update?
     user && record.user == user
   end
 

@@ -10,19 +10,19 @@ div class="row"
               dt Prénom
               dd
                - if @user.first_name.nil? || @user.first_name.blank?
-                  <br>
+                  br
                - else
                   = @user.first_name
               dt Nom
               dd
                 - if @user.last_name.nil? || @user.last_name.blank?
-                  <br>
+                  br
                 - else
                   = @user.last_name
               dt Date de naissance
               dd
                 - if @user.birthdate.nil? || @user.birthdate.blank?
-                  <br>
+                  br
                 - else
                   = @user.birthdate.strftime("%d/%m/%Y")
 
@@ -30,13 +30,13 @@ div class="row"
               dt Email
               dd
                 - if @user.email.nil? || @user.email.blank?
-                  <br>
+                  br
                 - else
                   = @user.email
               dt Telephone
               dd
                 - if @user.telephone.nil? || @user.telephone.blank?
-                  <br>
+                  br
                 - else
                   = @user.telephone
 
@@ -44,19 +44,19 @@ div class="row"
               dt Addresse
               dd
                 - if @user.address.nil? || @user.address.blank?
-                  <br>
+                  br
                 - else
                   = @user.address
               dt Classement
               dd
                 - if @user.ranking.nil? || @user.ranking.blank?
-                  <br>
+                  br
                 - else
                   = @user.ranking
               dt Numéro de licence
               dd
                 - if @user.licence_number.nil? || @user.licence_number.blank?
-                    <br>
+                    br
                 - else
                   = @user.licence_number
 

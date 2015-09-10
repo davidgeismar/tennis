@@ -1,24 +1,16 @@
 class Tournament < ActiveRecord::Base
-  searchkick
-  extend Enumerize
-
-  enumerize :category,    in: Settings.enumerize.categories
-  enumerize :genre,       in: Settings.enumerize.genre
-  enumerize :max_ranking, in: Settings.enumerize.ranking
-  enumerize :min_ranking, in: Settings.enumerize.ranking
-  enumerize :nature,      in: ['Simple']
 
   geocoded_by :address_tour
 
   belongs_to :user
 
+  has_one  :mangopay_transaction, dependent: :destroy
+
   has_many :notifications,  dependent: :destroy
-  has_many :subscriptions,  dependent: :destroy
-  has_many :transfers,      dependent: :destroy
+  has_many :subscriptions,  through: :competitions
+  has_many :competitions,   dependent: :destroy
 
   validates :postcode,            presence: { message: "Merci d'indiquer un code postal valide" }
-  validates :genre,               presence: { message: "Merci d'indiquer le genre" }
-  validates :category,            presence: { message: "Merci d'indiquer la catégorie" }
   validates :starts_on,           presence: { message: "Merci d'indiquer la date de début" }
   validates :ends_on,             presence: { message: "Merci d'indiquer la date de fin" }
   validates :amount,              presence: { message: "Merci d'indiquer le montant des frais d'inscription" }
@@ -45,11 +37,12 @@ class Tournament < ActiveRecord::Base
     }
 
   validate :start_date_before_end_date
-  validate :min_ranking_inferior_to_max_ranking
 
   after_validation  :geocode,                 if: :address_tour_changed?
   after_save        :send_email_if_accepted,  if: :accepted_changed?
 
+  scope :current, -> { where('ends_on > :today', today: Date.today) }
+  scope :passed,  -> { where('ends_on < :today', today: Date.today) }
 
   def address_tour
     "#{address} #{city}"
@@ -57,46 +50,6 @@ class Tournament < ActiveRecord::Base
 
   def address_tour_changed?
     address_changed? || city_changed?
-  end
-
-  def open_for_birthdate?(user_birthdate)
-    birth_year        = user_birthdate.year
-    user_age          = Date.today.year - birth_year
-
-    check_settings    = Settings.tournament_category_checks
-    real_age          = check_settings.real_age[category]
-    exact_tennis_age  = check_settings.exact_tennis_age[category]
-    range_tennis_age  = check_settings.range_tennis_age[category]
-    senior_tennis_age = check_settings.senior_tennis_age[category]
-
-    return false if user_age <= 7
-    return false if real_age          && real_age != user_age
-    return false if exact_tennis_age  && (tennis_year - exact_tennis_age) != birth_year
-    return false if range_tennis_age  && (tennis_year - range_tennis_age) != birth_year && (tennis_year - range_tennis_age - 1) != birth_year
-    return false if senior_tennis_age && (tennis_year - senior_tennis_age) < birth_year
-
-    true
-  end
-
-  def open_for_genre?(user_genre)
-    self.genre == user_genre
-  end
-
-  def open_for_ranking?(user_ranking)
-    ranking_field_name = Settings.user_tournament_ranking_matching[user_ranking]
-    ranking_acceptance = self[ranking_field_name]
-    (total && ranking_acceptance) == true
-  end
-
-  def in_ranking_range(user_ranking, tournament)
-    ranking_value = Settings.user_ranking_value[user_ranking]
-    tournament_max_ranking_value = Settings.user_ranking_value[tournament.max_ranking]
-    tournament_min_ranking_value = Settings.user_ranking_value[tournament.min_ranking]
-    if tournament_max_ranking_value >= ranking_value && ranking_value >= tournament_min_ranking_value
-      return true
-    else
-      return false
-    end
   end
 
   def passed?
@@ -125,13 +78,6 @@ class Tournament < ActiveRecord::Base
   def start_date_before_end_date
     if starts_on && ends_on && starts_on > ends_on
       errors.add(:starts_on, "Veuillez choisir une date de début avant la date de fin du tournoi")
-    end
-  end
-  def min_ranking_inferior_to_max_ranking
-    tournament_max_ranking_value = Settings.user_ranking_value[max_ranking]
-    tournament_min_ranking_value = Settings.user_ranking_value[min_ranking]
-    if min_ranking && max_ranking && tournament_min_ranking_value >= tournament_max_ranking_value
-      errors.add(:max_ranking, "Veuillez choisir un classement maximum supérieur au classement minimum")
     end
   end
 end

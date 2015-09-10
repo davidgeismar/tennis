@@ -57,6 +57,9 @@ site:
   title: WeTennis
   url: http://wetennis.fr
 
+user:
+  young_fare_max_age: 18
+
 user_ranking_value:
   "NC": 0
   "40": 1
@@ -81,10 +84,9 @@ user_ranking_value:
   "-2/6": 20
   "-4/6": 21
   "-15": 23
-  "-30": 24
+  "1ère série": 24
 
-
-user_tournament_ranking_matching:
+user_competition_ranking_matching:
   "NC": 'NC'
   "40": 'quarante'
   "30/5": 'trentecinq'
@@ -110,7 +112,7 @@ user_tournament_ranking_matching:
   "-15": 'moinsquize'
   "-30": 'moinstrente'
 
-tournament_category_checks:
+competition_category_checks:
   real_age:
     '8 ans': 8
     '9 ans': 9

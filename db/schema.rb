@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150906213313) do
+ActiveRecord::Schema.define(version: 20150910135853) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -31,27 +31,48 @@ ActiveRecord::Schema.define(version: 20150906213313) do
   add_index "active_admin_comments", ["namespace"], name: "index_active_admin_comments_on_namespace", using: :btree
   add_index "active_admin_comments", ["resource_type", "resource_id"], name: "index_active_admin_comments_on_resource_type_and_resource_id", using: :btree
 
-  create_table "activities", force: :cascade do |t|
-    t.integer  "trackable_id"
-    t.string   "trackable_type"
-    t.integer  "owner_id"
-    t.string   "owner_type"
-    t.string   "key"
-    t.text     "parameters"
-    t.integer  "recipient_id"
-    t.string   "recipient_type"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  add_index "activities", ["owner_id", "owner_type"], name: "index_activities_on_owner_id_and_owner_type", using: :btree
-  add_index "activities", ["recipient_id", "recipient_type"], name: "index_activities_on_recipient_id_and_recipient_type", using: :btree
-  add_index "activities", ["trackable_id", "trackable_type"], name: "index_activities_on_trackable_id_and_trackable_type", using: :btree
-
   create_table "clients", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
+
+  create_table "competitions", force: :cascade do |t|
+    t.integer  "tournament_id"
+    t.string   "category"
+    t.string   "min_ranking"
+    t.string   "max_ranking"
+    t.string   "nature"
+    t.datetime "created_at",                    null: false
+    t.datetime "updated_at",                    null: false
+    t.string   "genre"
+    t.boolean  "quarante",       default: true
+    t.boolean  "NC",             default: true
+    t.boolean  "trentecinq",     default: true
+    t.boolean  "trentequatre",   default: true
+    t.boolean  "trentetrois",    default: true
+    t.boolean  "trentedeux",     default: true
+    t.boolean  "trenteun",       default: true
+    t.boolean  "trente",         default: true
+    t.boolean  "quinzecinq",     default: true
+    t.boolean  "quinzequatre",   default: true
+    t.boolean  "quinzetrois",    default: true
+    t.boolean  "quinzedeux",     default: true
+    t.boolean  "quinzeun",       default: true
+    t.boolean  "quinze",         default: true
+    t.boolean  "cinqsix",        default: true
+    t.boolean  "quatresix",      default: true
+    t.boolean  "troissix",       default: true
+    t.boolean  "deuxsix",        default: true
+    t.boolean  "unsix",          default: true
+    t.boolean  "zero",           default: true
+    t.boolean  "moinsdeuxsix",   default: true
+    t.boolean  "moinsquatresix", default: true
+    t.boolean  "moinsquinze",    default: true
+    t.boolean  "premiereserie",  default: true
+    t.boolean  "total",          default: true
+  end
+
+  add_index "competitions", ["tournament_id"], name: "index_competitions_on_tournament_id", using: :btree
 
   create_table "contacts", force: :cascade do |t|
     t.string   "email"
@@ -100,6 +121,22 @@ ActiveRecord::Schema.define(version: 20150906213313) do
     t.string   "full_name"
   end
 
+  create_table "mangopay_transactions", force: :cascade do |t|
+    t.string   "status"
+    t.integer  "mangopay_transaction_id"
+    t.string   "category"
+    t.json     "archive"
+    t.datetime "created_at",                              null: false
+    t.datetime "updated_at",                              null: false
+    t.boolean  "cgv",                     default: false
+    t.integer  "competition_id"
+    t.integer  "subscription_id"
+    t.integer  "tournament_id"
+  end
+
+  add_index "mangopay_transactions", ["competition_id"], name: "index_mangopay_transactions_on_competition_id", using: :btree
+  add_index "mangopay_transactions", ["subscription_id"], name: "index_mangopay_transactions_on_subscription_id", using: :btree
+
   create_table "messages", force: :cascade do |t|
     t.integer  "user_id"
     t.datetime "read_at"
@@ -126,28 +163,28 @@ ActiveRecord::Schema.define(version: 20150906213313) do
 
   create_table "subscriptions", force: :cascade do |t|
     t.integer  "user_id"
-    t.integer  "tournament_id"
     t.string   "status",            default: "pending"
     t.datetime "created_at",                            null: false
     t.datetime "updated_at",                            null: false
     t.boolean  "exported",          default: false
     t.boolean  "funds_sent",        default: false
     t.string   "mangopay_payin_id"
+    t.integer  "competition_id"
+    t.string   "fare_type"
   end
 
-  add_index "subscriptions", ["tournament_id"], name: "index_subscriptions_on_tournament_id", using: :btree
+  add_index "subscriptions", ["competition_id"], name: "index_subscriptions_on_competition_id", using: :btree
+  add_index "subscriptions", ["fare_type"], name: "index_subscriptions_on_fare_type", using: :btree
   add_index "subscriptions", ["user_id"], name: "index_subscriptions_on_user_id", using: :btree
 
   create_table "tournaments", force: :cascade do |t|
     t.integer  "user_id"
-    t.string   "genre"
-    t.string   "category"
     t.boolean  "accepted",                 default: false
     t.integer  "amount"
     t.date     "starts_on"
     t.date     "ends_on"
-    t.datetime "created_at",                                  null: false
-    t.datetime "updated_at",                                  null: false
+    t.datetime "created_at",                               null: false
+    t.datetime "updated_at",                               null: false
     t.string   "address"
     t.string   "city"
     t.string   "name"
@@ -155,36 +192,9 @@ ActiveRecord::Schema.define(version: 20150906213313) do
     t.float    "latitude"
     t.float    "longitude"
     t.string   "homologation_number"
-    t.string   "min_ranking"
-    t.string   "max_ranking"
-    t.string   "nature",                   default: "single"
     t.string   "postcode"
     t.integer  "young_fare"
-    t.boolean  "NC",                       default: true
-    t.boolean  "trentecinq",               default: true
-    t.boolean  "trentequatre",             default: true
-    t.boolean  "trentetrois",              default: true
-    t.boolean  "trentedeux",               default: true
-    t.boolean  "trenteun",                 default: true
-    t.boolean  "trente",                   default: true
-    t.boolean  "quinzecinq",               default: true
-    t.boolean  "quinzequatre",             default: true
-    t.boolean  "quinzetrois",              default: true
-    t.boolean  "quinzedeux",               default: true
-    t.boolean  "quinzeun",                 default: true
-    t.boolean  "quinze",                   default: true
-    t.boolean  "cinqsix",                  default: true
-    t.boolean  "quatresix",                default: true
-    t.boolean  "troissix",                 default: true
-    t.boolean  "deuxsix",                  default: true
-    t.boolean  "unsix",                    default: true
-    t.boolean  "zero",                     default: true
-    t.boolean  "moinsdeuxsix",             default: true
-    t.boolean  "moinsquatresix",           default: true
-    t.boolean  "moinsquinze",              default: true
     t.boolean  "moinstrente",              default: true
-    t.boolean  "quarante",                 default: true
-    t.boolean  "total",                    default: true
     t.string   "iban"
     t.string   "bic"
     t.string   "club_email"
@@ -196,17 +206,6 @@ ActiveRecord::Schema.define(version: 20150906213313) do
   end
 
   add_index "tournaments", ["user_id"], name: "index_tournaments_on_user_id", using: :btree
-
-  create_table "transfers", force: :cascade do |t|
-    t.string   "status"
-    t.integer  "mangopay_transaction_id"
-    t.string   "category"
-    t.json     "archive"
-    t.datetime "created_at",                              null: false
-    t.datetime "updated_at",                              null: false
-    t.integer  "tournament_id"
-    t.boolean  "cgv",                     default: false
-  end
 
   create_table "users", force: :cascade do |t|
     t.string   "email",                         default: "",    null: false
@@ -280,10 +279,13 @@ ActiveRecord::Schema.define(version: 20150906213313) do
   add_index "users", ["invited_by_id"], name: "index_users_on_invited_by_id", using: :btree
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
 
+  add_foreign_key "competitions", "tournaments"
   add_foreign_key "convocations", "subscriptions"
   add_foreign_key "disponibilities", "subscriptions"
+  add_foreign_key "mangopay_transactions", "competitions"
+  add_foreign_key "mangopay_transactions", "subscriptions"
   add_foreign_key "notifications", "users"
-  add_foreign_key "subscriptions", "tournaments"
+  add_foreign_key "subscriptions", "competitions"
   add_foreign_key "subscriptions", "users"
   add_foreign_key "tournaments", "users"
 end

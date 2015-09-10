@@ -2,16 +2,24 @@
   <div class="container">
     <div class="panel panel-default bigmarge">
       <div class="panel-heading">
-        <h3 class="text-center"> Le statut de votre convocation du <%= @convocation.date.strftime("%d/%m/%Y") %> à <%= @convocation.hour.strftime("%Hh%M") %> pour <%= @convocation.subscription.tournament.name %> est actuellement: <br> <%=@convocation.status_text.upcase%></h3>
+      <%if current_user.judge?%>
+          <p> Le statut de la convocation de <%=@convocation.subscription.user.full_name %> du <%= @convocation.date.strftime("%d/%m/%Y") %> à <%= @convocation.hour.strftime("%Hh%M") %> pour <%= @convocation.subscription.tournament.name %> dans la catégorie <%= @convocation.subscription.competition.category %> est actuellement: <strong> <%=@convocation.status_text.upcase%></strong><p>
+      <%else%>
+            <p> Le statut de votre convocation du <%= @convocation.date.strftime("%d/%m/%Y") %> à <%= @convocation.hour.strftime("%Hh%M") %> pour <%= @convocation.subscription.tournament.name %> dans la catégorie <%= @convocation.subscription.competition.category %> est actuellement: <strong> <%=@convocation.status_text.upcase%></strong><p>
+      <% end -%>
       </div>
     </div>
     <% if @convocation.status == "refused" %>
       <div class="row text-center">
         <div class="col-xs-12">
-          <a href="#" data-target="#accepted" data-toggle="modal" class="btn btn-success convocation-answer">Accepter la convocation</a>
-        </div>
-        <div class="col-xs-12">
-          <a href="#" data-target="#cancelled" data-toggle="modal" class="btn btn-danger convocation-answer">W.O</a>
+          <div class="panel panel-default">
+            <div class="panel-heading">Forcer ce joueur à accepter la convocation ou le mettre WO</div>
+            <div class="panel-body">
+              <a href="#" data-target="#accepted" data-toggle="modal" class="btn btn-success convocation-answer">Accepter la convocation</a>
+
+              <a href="#" data-target="#cancelled" data-toggle="modal" class="btn btn-danger convocation-answer">W.O</a>
+            </div>
+          </div>
         </div>
       </div>
     <% elsif @convocation.status == "accepted" %>
@@ -32,7 +40,7 @@
           <a href="#" data-target="#accepted" data-toggle="modal" class="btn btn-success convocation-answer">Accepter la convocation</a>
         </div>
         <div class="col-xs-12">
-          <a href="#" data-target="#refused" data-toggle="modal" class="btn btn-warning convocation-answer">Refuser la convocation</a>
+          <a href="#" data-target="#refused" data-toggle="modal" class="btn btn-warning convocation-answer">Je suis indisponible</a>
         </div>
       </div>
     <% end -%>
@@ -44,12 +52,16 @@
       <div class="modal-content text-center">
         <div class="modal-header">
           <h4 class="modal-title">Confirmer cette convocation</h4>
-           <p>Vous vous engagez à être présent le <strong> <%= @convocation.date.strftime("%d/%m/%Y") %> </strong> à <strong>   <%= @convocation.hour.strftime("%Hh%M") %></strong> au <strong><%= @convocation.subscription.tournament.address %> </strong></p>
+          <% if current_user.judge? %>
+            <p> En appuyant sur accepter vous notifiez au joueur qu'il n'a plus la possibilité de refuser cette convocation. Il devra soit accepter la convocation soit etre WO.</p>
+          <% else %>
+            <p>Vous vous engagez à être présent le <strong> <%= @convocation.date.strftime("%d/%m/%Y") %> </strong> à <strong>   <%= @convocation.hour.strftime("%Hh%M") %></strong> au <strong><%= @convocation.subscription.tournament.address %> </strong></p>
+          <% end %>
         </div>
         <div class="modal-body">
           <%= simple_form_for @convocation do |f| %>
-          <%= hidden_field_tag 'convocation[status]', :confirmed %>
-          <%= f.button :submit, "Accepter", class: " btn btn-success convocation-answer" %>
+            <%= hidden_field_tag 'convocation[status]', :confirmed %>
+            <%= f.button :submit, "Accepter", class: " btn btn-success convocation-answer" %>
            <% end %>
 
         </div>
@@ -63,13 +75,13 @@
     <div class="modal-dialog mymodal">
       <div class="modal-content text-center">
         <div class="modal-header">
-          <h4 class="modal-title">Refuser cette convocation</h4>
-          <p>En refusant la convocation vous indiquez au juge arbitre que la date et/ou l'heure de la convocation ne vous convienne pas. Vous pouvez appeler le juge arbitre  au <strong><%= @convocation.subscription.tournament.user.telephone %> </strong>pour qu'il vous propose un nouveau jour/horaire </p>
+          <h4 class="modal-title">Demander au juge-arbitre une autre convocation ?</h4>
+          <p>Vous vous apprétez à indiquer au juge-arbitre que la présente convocation ne vous convient pas. Attention, il se peut que le juge-arbitre ne puisse pas vous convoquez à une autre date/heure. Vous pouvez appeler le juge arbitre  au <strong><%= @convocation.subscription.tournament.user.telephone %> </strong>.  </p>
         </div>
         <div class="modal-body">
           <%= simple_form_for @convocation do |f| %>
            <%= hidden_field_tag 'convocation[status]', :refused %>
-           <%= f.button :submit, "Refuser", class: "btn-warning convocation-answer" %>
+           <%= f.button :submit, "Envoyer un message au JA", class: "btn-warning convocation-answer" %>
            <% end %>
         </div>
       </div><!-- /.modal-content -->

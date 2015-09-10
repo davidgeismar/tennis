@@ -1,8 +1,8 @@
 
-<h1>WeTennis : Vous avez été ajouté au tournoi <%=@subscription.tournament.name%></h1>
+<h1>WeTennis : Vous avez été ajouté au tournoi <%=@subscription.tournament.name%> dans la catégorie <%= @subscription.competition.category%></h1>
 
-<p>Bonjour <%=@subscription.user.name%>,</p>
- <p>Vous avez été ajouté au tournoi <strong><%=@subscription.tournament.name%></strong> du <%=@subscription.tournament.starts_on.strftime("%d/%m/%Y") %> au <%=@subscription.tournament.ends_on.strftime("%d/%m/%Y") %> par <strong><%=@subscription.tournament.user.full_name%>, juge arbitre du tournoi <%=@subscription.tournament.name%></strong> </p>
+<p>Bonjour <%=@subscription.user.first_name.capitalize%>,</p>
+ <p>Vous avez été ajouté au tournoi <strong><%=@subscription.tournament.name%> (dans la catéogorie <%=@subscription.competition.category%></strong> du <%=@subscription.tournament.starts_on.strftime("%d/%m/%Y") %> au <%=@subscription.tournament.ends_on.strftime("%d/%m/%Y") %>) par <strong><%=@subscription.tournament.user.full_name%>, juge-arbitre du tournoi <%=@subscription.tournament.name%></strong> </p>
   <p>Vous recevrez un email vous informant de la validation ou du refus de votre inscription.</p>
  <p>Le juge-arbitre doit encore confirmer votre inscription au tournoi.<br> Vous recevrez la confirmation ou le refus par e-mail dans les plus brefs délais.
 </p>

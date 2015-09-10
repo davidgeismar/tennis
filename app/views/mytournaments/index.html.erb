@@ -1,0 +1,5 @@
+<% if current_user.judge %>
+ <%= render 'judge' %>
+<% else %>
+  <%= render 'player'%>
+<% end %>

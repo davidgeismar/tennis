@@ -2,17 +2,18 @@
   <div class="row">
     <div class="col-xs-12">
       <h1 class="emperor">
-        <%= @tournament.name.upcase %>
+        <%= @competition.tournament.name.upcase %>
+        <%= @competition.category %>
       </h1>
       <ul class="list-inline">
         <li>
-          <%=link_to new_tournament_player_invitation_path(@tournament), class: "btn btn-success", id: "convocation-submit" do %>
+          <%=link_to new_competition_player_invitation_path(@competition), class: "btn btn-success", id: "convocation-submit" do %>
             <i class="fa fa-plus"></i>
             Ajouter un joueur à la liste
           <% end %>
         </li>
         <li>
-          <%=link_to tournament_rankings_path(@tournament), class: "btn btn-success", id: "convocation-submit" do %>
+          <%=link_to competition_rankings_path(@competition), class: "btn btn-success", id: "convocation-submit" do %>
           <i class="fa fa-lg fa-bar-chart"></i>
           Statistiques Tournoi
           <% end %>
@@ -21,18 +22,18 @@
     </div>
   </div>
 
-    <table id="example" class="table table-hover card display dataTable table_judge_tournoi">
+    <table id="example" class="table table-hover table-striped card display dataTable table_judge_tournoi">
         <thead>
           <tr>
-           <th>Exporté</th>
-           <th><input type="checkbox" onClick="toggle(this)" />Sélectionner tout</th>
-           <th>Prénom</th>
+           <th>AEI</th>
+           <th><input type="checkbox" onClick="toggle(this)"/>Sel.</th>
+           <th>Pr.</th>
            <th>Nom</th>
-           <th>Licence</th>
-           <th>Inscription</th>
+           <th>Lic.</th>
+           <th>Inscr.</th>
            <th class="text-center">Profil</th>
-           <th>Convocation en cours</th>
-           <th>Messages</th>
+           <th>Convoc. en cours</th>
+           <th>Mess.</th>
            <th>Dispos</th>
           </tr>
         </thead>
@@ -52,17 +53,17 @@
               <%end%>
               <td class="first-name"><%= subscription.user.first_name%></td>
               <td><%= subscription.user.last_name%></td>
-              <td><%= subscription.user.licence_number%></td>
+              <td data-toggle="tooltip" data-placement="top" title="<%=subscription.user.ranking%>"><%= subscription.user.licence_number%></td>
               <!-- si le player a été added manuellement il n'y a pas l'option confirmed mais l'option !confirmed! seulement dans le select -->
               <%if subscription.status == "pending" && subscription.user.invitation_token?%>
                 <td>
-                  <%= form_for [@tournament, subscription] do |f| %>
+                  <%= form_for [@competition, subscription] do |f| %>
                     <%= f.select :status, subscription_status_options_player_added_manualy, class: "form-control subscription-status" %>
                   <%end%>
                 </td>
               <%elsif subscription.status == "pending"%>
                 <td>
-                  <%= form_for [@tournament, subscription] do |f| %>
+                  <%= form_for [@competition, subscription] do |f| %>
                     <%= f.select :status, subscription_status_options, class: "form-control subscription-status" %>
                   <%end%>
                 </td>
@@ -70,7 +71,7 @@
                 <td>
                   <div class="btn btn-success">
                     <a href="#" data-target="#confirme" data-toggle="modal" class="subscription_status">
-                      Confirmé
+                      Payé
                     </a>
                   </div>
                   <div class="modal fade" id="confirme">
@@ -93,9 +94,9 @@
                   </div>
                   <%elsif subscription.status == "confirmed_warning"%>
                   <td>
-                  <div class="btn btn-success" data-toggle="tooltip" data-placement="top" title="!confirmé! signifie que le joueur a bien été confirmé dans la compétition mais que son paiement n'a pas été pris en compte via WeTennis. Vous devrez donc encaissez le joueur le jour de sa première convocation.">
+                  <div class="btn btn-success" data-toggle="tooltip" data-placement="top" title="Ce joueur doit payer le jour de sa première convocation">
                     <a href="#" data-target="#confirme_without" data-toggle="modal" class="subscription_status" class="confirm!">
-                      !Confirmé!
+                      A payer
                     </a>
                   </div>
                   <div class="modal fade" id="confirme_without">
@@ -143,24 +144,27 @@
                 </td>
               <% end %>
 
-              <td><%=link_to "Profil", user_path(subscription.user), class: 'btn btn-primary' %></td>
+              <td><%=link_to "Profil", user_path(subscription.user), class: 'btn btn-primary', title: "tel : #{subscription.user.telephone}", "data-toggle"=> "tooltip", "data-placement" => "top" %></td>
 
 
               <% if subscription.convocations.last %>
-                <td><%= subscription.convocations.last.status_text %></td>
+                <td>
+                  <%= subscription.convocations.last.date.strftime('le %d/%m/%Y')%>
+                  <%= subscription.convocations.last.hour.strftime('à %Hh%M')%>
+                  <%= subscription.convocations.last.status_text %></td>
               <%else%>
                 <td></td>
               <% end %>
               <% if subscription.convocations.last && subscription.convocations.last.messages.last && !subscription.convocations.last.messages.last.read  %>
               <td>
-                <%=link_to "+1", convocation_messages_path(subscription.convocations.last), class: "btn btn-success message" %>
+                <%=link_to "+1", convocation_messages_path(subscription.convocations.last), class: "btn btn-success message", "data-toggle"=>"tooltip", "data-placement"=>"top", title: " #{subscription.convocations.last.messages.last.content}" %>
               </td>
               <%else%>
                 <td></td>
               <% end %>
               <% if subscription.disponibility %>
                 <td>
-                  <%= link_to image_tag("fleche_bleufonce.svg"), subscription_disponibility_path(subscription, subscription.disponibility), class: "fleche_subscription" %>
+                  <%= link_to image_tag("fleche_bleufonce.svg"), subscription_disponibility_path(subscription, subscription.disponibility), class: "fleche_subscription", title: " L: #{subscription.disponibility.monday} Ma: #{subscription.disponibility.tuesday} Me: #{subscription.disponibility.wednesday} Je: #{subscription.disponibility.thursday} Ve: #{subscription.disponibility.friday} Sam: #{subscription.disponibility.saturday} Dim: #{subscription.disponibility.sunday} ", "data-toggle"=> "tooltip", "data-placement" => "top" %>
                 </td>
               <% else %>
                 <td>Non renseignées</td>
@@ -172,7 +176,7 @@
 
       <ul class="list-inline">
         <li>
-          <%= form_tag multiple_new_path(@tournament) do %>
+          <%= form_tag multiple_new_path(@competition) do %>
             <%= hidden_field_tag :select_players %>
             <%= button_tag(type: "submit", class: "btn btn-success margin") do %>
               <i class="fa fa-envelope"></i>
@@ -208,7 +212,7 @@
       </div>
       <div class="modal-body">
 
-        <%= form_tag tournament_aei_export_path(@tournament) do %>
+        <%= form_tag competition_aei_export_path(@competition) do %>
           <%= hidden_field_tag :subscription_ids_export %>
           <div class="form-group">
             <%= label_tag :login_aei, "Identifiant AEI" %>
@@ -291,8 +295,5 @@ function toggle(source) {
   $('#select_players').val(subscriptionIds);
   $('#subscription_ids_export').val(subscriptionIds);
 }
-$(document).ready( function () {
-  $('[data-toggle="tooltip"]').tooltip()
-})
 </script>
 <% end %>

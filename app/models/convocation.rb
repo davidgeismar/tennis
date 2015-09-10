@@ -1,8 +1,9 @@
 class Convocation < ActiveRecord::Base
   extend Enumerize
-  enumerize :status, in: [:pending, :confirmed, :refused, :cancelled]
+  enumerize :status, in: [:pending, :confirmed, :refused, :confirmed_by_judge, :cancelled]
 
   belongs_to  :subscription
+  has_one :tournament, through: :subscription
 
   has_many    :messages
 

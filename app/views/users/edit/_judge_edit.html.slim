@@ -11,8 +11,8 @@ div class="banner padded"
                 = f.error_notification
                 = f.input :first_name, label: "Prénom"
                 = f.input :last_name, label: "Nom"
-                / = f.label :birthdate, 'Date de naissance'
-                / = f.date_select :birthdate, {:include_blank => true, :default => nil, :use_month_names => ['Janv.','Fevr.', 'Mars', 'Avr.', 'Mai', 'Juin', 'Juil.', 'Août','Sept.', 'Oct.', 'Nov.', 'Déc.'], :order => [:day, :month, :year], :start_year => 1910, :end_year => 2010}
+                = f.label :birthdate, 'Date de naissance'
+                = f.date_select :birthdate, {:include_blank => true, :default => nil, :use_month_names => ['Janv.','Fevr.', 'Mars', 'Avr.', 'Mai', 'Juin', 'Juil.', 'Août','Sept.', 'Oct.', 'Nov.', 'Déc.'], :order => [:day, :month, :year], :start_year => 1910, :end_year => 2010}
                 div class= "form-group"
                   = f.label :picture, label: "Photo"
                   div class="upload-file-container"
@@ -21,7 +21,7 @@ div class="banner padded"
                 = f.input :email, label: "email"
                 = f.input :telephone
                 = f.input :licence_number, label: "Numéro de Licence"
-                / = f.input :address, label: "Votre addresse"
+                = f.input :address, label: "Votre addresse"
 
                 = f.button :submit, "Valider", class: "btn-success"
                 = link_to "Annuler", user_path(current_user), class: "btn btn-default"

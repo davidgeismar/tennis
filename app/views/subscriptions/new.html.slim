@@ -5,15 +5,9 @@ div class="container"
 
       p
         'Paiement de l’inscription pour un montant de
-        - if @subscription.tournament.young_fare && current_user.age < 18
-          strong
-            = @subscription.tournament.young_fare
-            '€
-        - else
-          strong
-            = @total_amount
-            '€
-
+        strong
+          = @total_amount
+          '€
 
       div class="row"
         div class="col-sm-6"
@@ -41,7 +35,7 @@ div class="container"
             'En cliquant sur payer, je valide mon inscription à
             strong> = @subscription.tournament.name
             'dans la catégorie
-            strong> = @subscription.tournament.category
+            strong> = @subscription.competition.category
             'du
             strong> = @subscription.tournament.starts_on.strftime("%d/%m/%Y")
             'au
@@ -51,7 +45,7 @@ div class="container"
       = hidden_field_tag :card_type, "CB_VISA_MASTERCARD"
 
       div class="well"
-        = form_tag tournament_subscriptions_path(@tournament), method: :post, id: 'payment_form' do ||
+        = form_tag competition_subscriptions_path(@competition), method: :post, id: 'payment_form' do ||
             div class="checkbox"
               label for="js-CGV"
                 input type="checkbox" name="CGV" id="js-CGV"

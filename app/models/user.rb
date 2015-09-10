@@ -64,6 +64,10 @@ class User < ActiveRecord::Base
     Time.current.year - birthdate.year
   end
 
+  def eligible_to_young_fare?
+     age < Settings.user.young_fare_max_age
+  end
+
   def full_name
     if last_name && first_name.nil?
       last_name.capitalize

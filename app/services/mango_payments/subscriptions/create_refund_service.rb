@@ -1,21 +1,29 @@
 module MangoPayments
   module Subscriptions
-    class CreateRefundService
+    class CreateRefundService < MangoPayments::Subscriptions::BaseService
       def initialize(subscription)
         @subscription = subscription
       end
 
       def call
-        transfer    = @subscription.tournament.transfers.create(status: 'pending', cgv: true, category: 'refund')
-        transaction = MangoPay::PayIn.refund(@subscription.mangopay_payin_id, { AuthorId: @subscription.user.mangopay_user_id })
-
-        transfer.update(
-          archive:                  transaction,
-          mangopay_transaction_id:  transaction['Id'],
-          status:                   (transaction['Status'] == 'SUCCEEDED' ? 'success' : 'failed')
+        amount_cents      = amount * 100
+        transaction       = @subscription.mangopay_transactions.create(status: 'pending', cgv: true, category: 'refund')
+        mango_transaction = MangoPay::PayIn.refund(
+          @subscription.mangopay_payin_id,
+          {
+            AuthorId:     @subscription.user.mangopay_user_id,
+            DebitedFunds: { Currency: 'EUR', Amount: amount_cents },
+            Fees:         { Currency: 'EUR', Amount: 0 }
+          }
         )
 
-        return transfer.status == 'success'
+        transaction.update(
+          archive:                  mango_transaction,
+          mangopay_transaction_id:  mango_transaction['Id'],
+          status:                   (mango_transaction['Status'] == 'SUCCEEDED' ? 'success' : 'failed')
+        )
+
+        return transaction.status == 'success'
       end
     end
   end

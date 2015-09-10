@@ -1,5 +1,5 @@
 class RankingPolicy < ApplicationPolicy
   def show?
-    record.user == user
+    record.tournament.user == user
   end
 end

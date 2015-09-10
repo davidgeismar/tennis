@@ -1,11 +1,11 @@
 fr:
   aei:
-    tournament_nature:
+    competition_nature:
       'SM': 'Simple Messieurs'
       'SD': 'Simple Dames'
-    tournament_age_category:
+    competition_age_category:
       'Senior': 'Senior'
-    tournament_category:
+    competition_category:
       male_seniors: "Simple Messieurs Senior"
       'male_45 ans': "Simple Messieurs 45"
       'male_35 ans': "Simple Messieurs 35"

@@ -4,7 +4,7 @@
         <div class="panel panel-default">
           <div class="panel-heading">
             <h1>Félicitation !</h1>
-            <p>Votre Paiement pour <%=@subscription.tournament.name%> a bien été pris en compte. Vous recevrez un mail de confirmation si votre inscription est validé par le juge arbitre.
+            <p>Votre Paiement pour <%=@subscription.tournament.name%> dans la catégorie <%= @subscription.competition.category%> <%= @subscription.competition.genre.text %> a bien été pris en compte. Vous recevrez un mail de confirmation si votre inscription est validé par le juge arbitre.
             S'il est impossible de vous intégrez au tableau, votre paiement vous sera remboursé intégralement. <br><strong>Merci de bien vouloir indiquer vos disponibilités pour le tournoi en remplissant les champs à votre droite.</strong></p>
 
             <p>L'équipe Tennis Match</p>

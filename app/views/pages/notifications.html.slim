@@ -21,23 +21,23 @@ div class="container"
                       i> class="fa fa-envelope"
                       = notification.content
                       '
-                      span.text-light = notification.created_at.strftime('%d/%m/%Y')
+                      span.text-light = notification.created_at.strftime('%d/%m/%Y à %Hh%M')
                   - elsif notification.convocation && notification.user.judge == true && notification.convocation.messages.blank?
-                    = link_to notification.content,  tournament_subscriptions_path(notification.convocation.subscription.tournament)
+                    = link_to notification.content,  competition_subscriptions_path(notification.convocation.subscription.competition)
                     '
-                    span.text-light = notification.created_at.strftime('%d/%m/%Y')
+                    span.text-light = notification.created_at.strftime('%d/%m/%Y à %Hh%M')
                   - elsif notification.convocation && notification.user.judge == true && notification.convocation.messages
                     = link_to notification.content, convocation_messages_path(notification.convocation)
                     '
-                    span.text-light = notification.created_at.strftime('%d/%m/%Y')
+                    span.text-light = notification.created_at.strftime('%d/%m/%Y à %Hh%M')
                   - elsif notification.tournament
-                    = link_to notification.content, tournament_subscriptions_path(notification.tournament)
+                    = link_to notification.content, tournament_path(notification.tournament)
                     '
-                    span.text-light = notification.created_at.strftime('%d/%m/%Y')
+                    span.text-light = notification.created_at.strftime('%d/%m/%Y à %Hh%M')
                   - else
                     => notification.content
                     '
-                    span.text-light = notification.created_at.strftime('%d/%m/%Y')
+                    span.text-light = notification.created_at.strftime('%d/%m/%Y à %Hh%M')
 
 = content_for :after_js do
   javascript:
