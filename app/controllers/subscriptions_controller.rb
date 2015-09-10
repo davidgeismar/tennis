@@ -8,7 +8,7 @@ class SubscriptionsController < ApplicationController
     @tournament     = @competition.tournament
     @subscriptions  = @competition.subscriptions
 
-    authorize @subscriptions
+    custom_authorize SubscriptionMultiPolicy, @subscriptions
     policy_scope(@subscriptions)
   end
 
