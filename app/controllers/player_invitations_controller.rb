@@ -5,20 +5,17 @@ class PlayerInvitationsController < ApplicationController
   end
 
   def create
-    emails_in_competition = []
-    @competition.subscriptions.each do |subscription|
-      emails_in_competition << subscription.user.email
-    end
-    @errors = []
+    emails_in_competition = @competition.subscriptions.map { |subscription| subscription.user.email }
+
     if params[:first_name] == ""
-      @errors << "Merci de préciser le prénom du licencié"
-      render :new and return
+      flash[:alert] = "Merci de préciser le prénom du licencié"
+      return render :new
     elsif params[:last_name] == ""
-      @errors << "Merci de préciser le nom du licencié"
-      render :new and return
+      flash[:alert] = "Merci de préciser le nom du licencié"
+      return render :new
     elsif (params[:licence_number].delete(' ') =~ /\A\d{7}\D{1}\z/).nil?
-      @errors << "Merci de préciser un numéro de licence valide"
-      render :new and return
+      flash[:alert] = "Merci de préciser un numéro de licence valide"
+      return render :new
     # if user est déjà inscrit au tournoi
     elsif emails_in_competition.include?(params[:email])
       flash[:alert] = "Ce licencié a déjà été ajouté au tournoi. Merci de vérifier votre liste de joueur"
@@ -40,7 +37,6 @@ class PlayerInvitationsController < ApplicationController
           # n'arrivera pas car toute les erreurs sont déjà géré
           render :new
         end
-
     else
         #mail proposant au user de s'inscrire au tournoi via wetennis
         PlayerInvitationsMailer.send_invitation(@competition, params[:email]).deliver
