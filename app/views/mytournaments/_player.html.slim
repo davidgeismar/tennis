@@ -11,7 +11,6 @@ div class="container"
             th Statut inscription
             th Date convoc.
             th Réponse convoc.
-            th Dispos
             th Num JA
         tbody
         - @subscriptions.each do |subscription|
@@ -40,11 +39,5 @@ div class="container"
                 - else
                   strong
                     = subscription.convocations.last.status.text
-
-            td
-              - if subscription.disponibility.blank?
-                 = link_to 'Indiquer', new_subscription_disponibility_path(subscription, subscription.disponibility), class: 'btn btn-success'
-              - else
-                 = link_to 'Changer', edit_subscription_disponibility_path(subscription, subscription.disponibility), class: 'btn btn-warning'
             td
               = subscription.tournament.user.telephone
