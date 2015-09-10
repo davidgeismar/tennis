@@ -72,7 +72,7 @@ class ConvocationsController < ApplicationController
       )
 
       flash[:notice] = "Le statut de cette convocation est à présent : CONFIRMÉ"
-      redirect_to competition_subscriptions_path(@convocation.subscription.competition)
+      redirect_to mytournaments_path
 
     elsif @convocation.status == "confirmed_by_judge"
       #email

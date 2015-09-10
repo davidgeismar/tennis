@@ -29,10 +29,6 @@ class SubscriptionPolicy < ApplicationPolicy
     user
   end
 
-  def index?
-   true
-  end
-
   def update?
     record.competition.tournament.user == user
   end

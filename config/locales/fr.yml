@@ -158,6 +158,10 @@ fr:
         refused: Refusé
         cancelled: Annulé
         sent: Demande envoyée
+      fare_type:
+        standard: "Ad"
+        young: "Je"
+        unknown: ""
     user:
       genre:
         male: Homme
