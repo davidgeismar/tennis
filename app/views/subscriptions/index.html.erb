@@ -164,10 +164,10 @@
               <% end %>
               <% if subscription.disponibility %>
                 <td>
-                  <%= link_to image_tag("fleche_bleufonce.svg"), subscription_disponibility_path(subscription, subscription.disponibility), class: "fleche_subscription", title: " L: #{subscription.disponibility.monday} Ma: #{subscription.disponibility.tuesday} Me: #{subscription.disponibility.wednesday} Je: #{subscription.disponibility.thursday} Ve: #{subscription.disponibility.friday} Sam: #{subscription.disponibility.saturday} Dim: #{subscription.disponibility.sunday} ", "data-toggle"=> "tooltip", "data-placement" => "top" %>
+                  <%= link_to '<i class="fa fa-calendar"></i>'.html_safe, subscription_disponibility_path(subscription, subscription.disponibility), class: "fleche_subscription", title: " L: #{subscription.disponibility.monday} Ma: #{subscription.disponibility.tuesday} Me: #{subscription.disponibility.wednesday} Je: #{subscription.disponibility.thursday} Ve: #{subscription.disponibility.friday} Sam: #{subscription.disponibility.saturday} Dim: #{subscription.disponibility.sunday} ", "data-toggle"=> "tooltip", "data-placement" => "top" %>
                 </td>
               <% else %>
-                <td>Non renseignées</td>
+                <td><%= link_to '<i class="fa fa-calendar"></i>'.html_safe, new_subscription_disponibility_path(subscription), class: "fleche_subscription", title: "Non renseignées ", "data-toggle"=> "tooltip", "data-placement" => "top" %></td>
               <% end %>
             </tr>
           <%end%>

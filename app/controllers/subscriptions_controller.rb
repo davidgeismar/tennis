@@ -22,7 +22,7 @@ class SubscriptionsController < ApplicationController
     @tournament     = @competition.tournament
     @subscription   = @competition.subscriptions.build(competition: @competition)
 
-    if current_user.eligible_to_young_fare?
+    if current_user.eligible_for_young_fare?
       @total_amount = @tournament.young_fare
     else
       @total_amount = @tournament.amount

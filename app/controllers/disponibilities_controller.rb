@@ -12,7 +12,10 @@ class DisponibilitiesController < ApplicationController
     @disponibility.subscription = @subscription
     authorize @disponibility
 
-    if @disponibility.save
+    if @disponibility.save && current_user.judge?
+      redirect_to competition_subscriptions_path(@subscription.competition)
+      flash[:notice] = "Les disponibilités du licencié ont bien été enregistrées"
+    elsif  @disponibility.save
       redirect_to mytournaments_path
       flash[:notice] = "Vos disponibilités ont bien été enregistrées"
     else
@@ -33,8 +36,8 @@ class DisponibilitiesController < ApplicationController
    @disponibility = @subscription.disponibility
    authorize @disponibility
    if @disponibility.update(disponibility_params)
-    redirect_to root_path
-    flash[:notice] = "Vos disponibilités ont bien été modifiés"
+    redirect_to competition_subscriptions_path(@subscription.competition)
+    flash[:notice] = "Les disponibilités du licencié ont bien été enregistrées"
    else
     render "edit"
    end
