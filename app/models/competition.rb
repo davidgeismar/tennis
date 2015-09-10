@@ -38,6 +38,16 @@ class Competition < ActiveRecord::Base
     self.genre == user_genre
   end
 
+  def tennis_year
+    year = tournament.ends_on.year
+
+    if tournament.ends_on.month >= 9
+      year += 1
+    end
+
+    year
+  end
+
   def open_for_birthdate?(user_birthdate)
     birth_year        = user_birthdate.year
     user_age          = Date.today.year - birth_year

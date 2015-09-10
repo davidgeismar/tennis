@@ -56,16 +56,6 @@ class Tournament < ActiveRecord::Base
     self.ends_on < Date.today
   end
 
-  def tennis_year
-    year = ends_on.year
-
-    if ends_on.month >= 9
-      year += 1
-    end
-
-    year
-  end
-
   private
 
   def send_email_if_accepted
