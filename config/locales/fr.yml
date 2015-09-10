@@ -133,15 +133,7 @@ fr:
         confirmed: Confirmé
         refused: Refusé
         cancelled: W.O
-    subscription:
-      status:
-        confirmed_warning: "!Confirmé!"
-        pending: En attente
-        confirmed: Confirmé
-        refused: Refusé
-        cancelled: Annulé
-        sent: Demande envoyée
-    tournament:
+    competition:
       genre:
         male: Homme
         female: Femme
@@ -157,6 +149,14 @@ fr:
         '-15':   '-15'
         '-30':   '-30'
         '-30':   '-30'
+    subscription:
+      status:
+        confirmed_warning: "!Confirmé!"
+        pending: En attente
+        confirmed: Confirmé
+        refused: Refusé
+        cancelled: Annulé
+        sent: Demande envoyée
     user:
       genre:
         male: Homme
@@ -167,10 +167,6 @@ fr:
         '-15':   '-15'
         '-30':   '-30'
         '-30':   '-30'
-    competition:
-      genre:
-        male: Homme
-        female: Femme
   views:
     pagination:
       first: "première"
