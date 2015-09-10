@@ -20,26 +20,26 @@ Rails.application.routes.draw do
     resources :tournaments, only: [:show, :new, :create, :edit, :update]
   end
 
-  # tournaments
   resources :tournaments, only: [:index, :show, :new, :create, :update] do
     resources :competitions
   end
 
   resources :competitions, only: [:index, :show, :new, :create, :update] do
-    resources :transfers,           only: [:create]
     resources :subscriptions,       only: [:new, :show, :create, :index, :update]
     resources :player_invitations,  only: [:new, :create]
     resource  :rankings,            only: [:show]
     resource  :aei_export,          only: [:create]
   end
 
+  resources :mytournaments, only: [:index] do
+    collection do
+      get :passed
+    end
+  end
+
   post 'competitions/:competition_id/convocations/multiple_new',    to: "convocations#multiple_new",    as: "multiple_new"
   post 'competitions/:competition_id/convocations/multiple_create', to: "convocations#multiple_create", as: "multiple_create"
   post 'competitions/:competition_id/updaterankings',               to: "competitions#update_rankings",  as: "updaterankings"
-  get  'users/:user_id/passed_tournaments',                       to: "tournaments#passed_tournaments",  as: "passed_tournaments"
-  # subscriptions
-
-  get "mestournois", to: "subscriptions#mytournaments", as: "mes_tournois"
 
   resources :subscriptions, only: [] do
     member do
@@ -52,6 +52,5 @@ Rails.application.routes.draw do
     resources :disponibilities, only: [:new, :create, :edit, :update, :show]
   end
 
-  # notifs
   resource :notification_update, only: [:create]
 end

@@ -60,7 +60,7 @@ class ConvocationsController < ApplicationController
       redirect_to competition_subscriptions_path(@convocation.subscription.competition)
     else
       flash[:alert] = "Vous venez d'indiquer au juge arbitre que vous abandonnez la compétition"
-      redirect_to mes_tournois_path
+      redirect_to mytournaments_path
     end
   end
 

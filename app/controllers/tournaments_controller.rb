@@ -62,11 +62,6 @@
     end
   end
 
-  def passed_tournaments
-    @passed_tournaments = current_user.tournaments.passed
-    authorize @passed_tournaments
-  end
-
   private
 
   def check_profile

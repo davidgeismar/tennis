@@ -1,20 +1,6 @@
 class SubscriptionsController < ApplicationController
   skip_after_action :verify_authorized, only: [:mytournaments]
 
-  def mytournaments
-    # judge
-    @current_tournaments  = current_user.tournaments.current
-    @passed_tournaments   = current_user.tournaments.passed
-
-    # player
-    @subscriptions        = current_user.subscriptions.current
-
-    if @subscriptions.blank? && current_user.judge == false
-      flash[:notice] = "Vous ne vous êtes pas encore inscrit à un tournoi."
-    end
-    #writte custom policy
-  end
-
   def index
     @rankings       = ['NC', '40', '30/5', '30/4', '30/3', '30/2', '30/1', '30', '15/5', '15/4', '15/3', '15/2', '15/1', '15', '5/6', '4/6', '3/6', '2/6', '1/6', '0', '-2/6', '-4/6', '-15', '-30']
     @user           = current_user
