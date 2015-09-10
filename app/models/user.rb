@@ -64,7 +64,7 @@ class User < ActiveRecord::Base
     Time.current.year - birthdate.year
   end
 
-  def eligible_to_young_fare?
+  def eligible_for_young_fare?
      age < Settings.user.young_fare_max_age
   end
 
