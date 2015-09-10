@@ -80,12 +80,17 @@ class ConvocationsController < ApplicationController
 
   # coder un système d'alert box si les dispos d'un joueur ne matchent pas avec la convoc
   def multiple_create
-
     # @tournament = Tournament.find(params[:tournament_id])
-    judge = @competition.tournament.user
+    judge             = @competition.tournament.user
     @subscription_ids = params[:subscription_ids].split
-    @subscriptions = Subscription.where(id: @subscription_ids)
+    @subscriptions    = Subscription.where(id: @subscription_ids)
+    @player_names     = @subscriptions.map { |subscription| subscription.user.full_name }
     custom_authorize ConvocationMultiPolicy, @subscriptions
+
+    if params[:date].blank? || params[:hour].blank?
+      flash[:alert] = "Merci de compléter à la fois la date et l'heure de convocation."
+      return render :multiple_new
+    end
 
     @subscriptions.each do |subscription|
       convocation = Convocation.new(date: params[:date], hour: params[:hour], subscription: subscription)
