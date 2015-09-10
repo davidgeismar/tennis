@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150909092751) do
+ActiveRecord::Schema.define(version: 20150910101058) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -178,14 +178,12 @@ ActiveRecord::Schema.define(version: 20150909092751) do
 
   create_table "tournaments", force: :cascade do |t|
     t.integer  "user_id"
-    t.string   "genre"
-    t.string   "category"
     t.boolean  "accepted",                 default: false
     t.integer  "amount"
     t.date     "starts_on"
     t.date     "ends_on"
-    t.datetime "created_at",                                  null: false
-    t.datetime "updated_at",                                  null: false
+    t.datetime "created_at",                               null: false
+    t.datetime "updated_at",                               null: false
     t.string   "address"
     t.string   "city"
     t.string   "name"
@@ -193,36 +191,9 @@ ActiveRecord::Schema.define(version: 20150909092751) do
     t.float    "latitude"
     t.float    "longitude"
     t.string   "homologation_number"
-    t.string   "min_ranking"
-    t.string   "max_ranking"
-    t.string   "nature",                   default: "single"
     t.string   "postcode"
     t.integer  "young_fare"
-    t.boolean  "NC",                       default: true
-    t.boolean  "trentecinq",               default: true
-    t.boolean  "trentequatre",             default: true
-    t.boolean  "trentetrois",              default: true
-    t.boolean  "trentedeux",               default: true
-    t.boolean  "trenteun",                 default: true
-    t.boolean  "trente",                   default: true
-    t.boolean  "quinzecinq",               default: true
-    t.boolean  "quinzequatre",             default: true
-    t.boolean  "quinzetrois",              default: true
-    t.boolean  "quinzedeux",               default: true
-    t.boolean  "quinzeun",                 default: true
-    t.boolean  "quinze",                   default: true
-    t.boolean  "cinqsix",                  default: true
-    t.boolean  "quatresix",                default: true
-    t.boolean  "troissix",                 default: true
-    t.boolean  "deuxsix",                  default: true
-    t.boolean  "unsix",                    default: true
-    t.boolean  "zero",                     default: true
-    t.boolean  "moinsdeuxsix",             default: true
-    t.boolean  "moinsquatresix",           default: true
-    t.boolean  "moinsquinze",              default: true
     t.boolean  "moinstrente",              default: true
-    t.boolean  "quarante",                 default: true
-    t.boolean  "total",                    default: true
     t.string   "iban"
     t.string   "bic"
     t.string   "club_email"
