@@ -1,7 +1,7 @@
 
 <h1>WeTennis: demande d'inscription confirmée mais non réglée</h1>
   <p>Bonjour <%=@subscription.user.first_name.capitalize%>, <br>
-   Votre demande d'inscription au tournoi <strong><%=@subscription.competition.tournament.name%> dans la catégorie <%=@subscription.competition.category%></strong> du <%=@subscription.competition.tournament.starts_on.strftime("%d/%m/%Y") %> au <%=@subscription.competition.tournament.ends_on.strftime("%d/%m/%Y") %> a été confirmée par le juge arbitre. <br> </p>
+   Votre demande d'inscription au tournoi <strong><%=@subscription.tournament.name%> dans la catégorie <%=@subscription.competition.category%></strong> du <%=@subscription.tournament.starts_on.strftime("%d/%m/%Y") %> au <%=@subscription.tournament.ends_on.strftime("%d/%m/%Y") %> a été confirmée par le juge arbitre. <br> </p>
    <p>Néanmoins votre inscription n'a pas encore été réglée. Vous devrez donc vous acquitter de vos droits d'inscription le jour de votre première convocation auprès du juge-arbitre</p>
 
 

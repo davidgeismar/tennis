@@ -4,7 +4,7 @@ class ConvocationMultiPolicy < ApplicationPolicy
   end
 
   def multiple_create?
-    user && subscriptions.all? { |subscription| subscription.competition.tournament.user == user }
+    user && subscriptions.all? { |subscription| subscription.tournament.user == user }
   end
 
   private

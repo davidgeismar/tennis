@@ -110,7 +110,7 @@ user_competition_ranking_matching:
   "-15": 'moinsquize'
   "-30": 'moinstrente'
 
-tournament_category_checks:
+competition_category_checks:
   real_age:
     '8 ans': 8
     '9 ans': 9

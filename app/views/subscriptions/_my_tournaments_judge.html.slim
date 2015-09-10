@@ -24,7 +24,7 @@ div class="container"
                      ul class="collapse" id="#{tournament.id}"
                       - tournament.competitions.each do |competition|
                         li
-                          = link_to (competition.category + ' ' + competition.genre.text + ' (' + competition.subscriptions.count.to_s + ')'),  tournament_competition_path(tournament, competition)
+                          = link_to("#{competition.category} #{competition.genre.text} (#{competition.subscriptions.count})",  tournament_competition_path(tournament, competition))
                td = tournament.subscriptions.count
                td = tournament.starts_on.strftime('%d/%m/%Y')
                td Tournoi Validé

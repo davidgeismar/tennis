@@ -1,8 +1,8 @@
 
-WeTennis : Vous avez été ajouté au tournoi <%=@subscription.competition.tournament.name%> dans la catégorie <%= @subscription.competition.category%>
+WeTennis : Vous avez été ajouté au tournoi <%=@subscription.tournament.name%> dans la catégorie <%= @subscription.competition.category%>
 
 Bonjour <%=@subscription.user.first_name.capitalize%>,
-Vous avez été ajouté au tournoi <%=@subscription.competition.tournament.name%> (catégorie <%= @subscription.competition.category%>, du <%=@subscription.competition.tournament.starts_on.strftime("%d/%m/%Y") %> au <%=@subscription.competition.tournament.ends_on.strftime("%d/%m/%Y") %>) par <%=@subscription.competition.tournament.user.full_name%>, juge-arbitre du tournoi <%=@subscription.competition.tournament.name%>.
+Vous avez été ajouté au tournoi <%=@subscription.tournament.name%> (catégorie <%= @subscription.competition.category%>, du <%=@subscription.tournament.starts_on.strftime("%d/%m/%Y") %> au <%=@subscription.tournament.ends_on.strftime("%d/%m/%Y") %>) par <%=@subscription.tournament.user.full_name%>, juge-arbitre du tournoi <%=@subscription.tournament.name%>.
 Votre inscription est actuellement sur liste d'attente jusqu'à la validation officielle par le juge-arbitre.
 Vous recevrez un email vous informant de la validation ou du refus de votre inscription.
 

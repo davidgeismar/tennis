@@ -1,5 +1,5 @@
 WeTennis: demande d'inscription confirmée
 
    Bonjour <%=@subscription.user.first_name.capitalize%>,
-   Votre demande d'inscription au tournoi <%=@subscription.competition.tournament.name%> dans la catégorie <%=@subscription.competition.category%>du <%=@subscription.competition.tournament.starts_on.strftime("%d/%m/%Y") %> au <%=@subscription.competition.tournament.ends_on.strftime("%d/%m/%Y") %> a été confirmée par le juge arbitre.
+   Votre demande d'inscription au tournoi <%=@subscription.tournament.name%> dans la catégorie <%=@subscription.competition.category%>du <%=@subscription.tournament.starts_on.strftime("%d/%m/%Y") %> au <%=@subscription.tournament.ends_on.strftime("%d/%m/%Y") %> a été confirmée par le juge arbitre.
    Vous recevrez votre convocation dans les plus brefs délais !

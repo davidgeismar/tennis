@@ -8,7 +8,6 @@ class Tournament < ActiveRecord::Base
   has_many :subscriptions,  through: :competitions
   has_many :competitions,   dependent: :destroy
 
-
   validates :postcode,            presence: { message: "Merci d'indiquer un code postal valide" }
   validates :starts_on,           presence: { message: "Merci d'indiquer la date de début" }
   validates :ends_on,             presence: { message: "Merci d'indiquer la date de fin" }

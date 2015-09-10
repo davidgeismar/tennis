@@ -37,7 +37,7 @@ class SubscriptionsController < ApplicationController
     @competition   = Competition.find(params[:competition_id])
     @tournament    = @competition.tournament
     @subscription = @competition.subscriptions.build(competition: @competition)
-    @total_amount = @subscription.competition.tournament.amount + (10*@subscription.competition.tournament.amount/100)
+    @total_amount = @subscription.tournament.amount + (10*@subscription.tournament.amount/100)
 
     authorize @subscription
 
@@ -70,9 +70,9 @@ class SubscriptionsController < ApplicationController
       SubscriptionMailer.confirmation(subscription).deliver
 
       notification = Notification.create(
-        user:       subscription.competition.tournament.user,
-        content:    "#{subscription.user.full_name} a demandé à s'inscrire à #{subscription.competition.tournament.name} dans la catégorie #{subscription.competition.category} ",
-        tournament: subscription.competition.tournament
+        user:       subscription.tournament.user,
+        content:    "#{subscription.user.full_name} a demandé à s'inscrire à #{subscription.tournament.name} dans la catégorie #{subscription.competition.category} ",
+        tournament: subscription.tournament
       )
 
       redirect_to new_subscription_disponibility_path(subscription)
@@ -97,9 +97,9 @@ class SubscriptionsController < ApplicationController
     @subscription.update(subscription_params)
 
     if @subscription.status == "refused"
-      @subscription.user.notifications.create(content: "Votre inscription à #{@subscription.competition.tournament.name} dans la catégorie #{@subscription.competition.category} a été refusée")
+      @subscription.user.notifications.create(content: "Votre inscription à #{@subscription.tournament.name} dans la catégorie #{@subscription.competition.category} a été refusée")
     elsif @subscription.status == "confirmed"
-      @subscription.user.notifications.create(content: "Votre inscription à #{@subscription.competition.tournament.name} dans la catégorie #{@subscription.competition.category} a été confirmée")
+      @subscription.user.notifications.create(content: "Votre inscription à #{@subscription.tournament.name} dans la catégorie #{@subscription.competition.category} a été confirmée")
     end
 
     unless @subscription.exported
@@ -149,7 +149,7 @@ class SubscriptionsController < ApplicationController
 
       @notification = Notification.create(
         user:     @subscription.user,
-        content:  "Nous avons le regret de vous apprendre que le juge arbitre de #{@subscription.competition.tournament.name} a finalement annulé votre inscription dans la catégorie #{@subscription.competition.category}."
+        content:  "Nous avons le regret de vous apprendre que le juge arbitre de #{@subscription.tournament.name} a finalement annulé votre inscription dans la catégorie #{@subscription.competition.category}."
       )
 
       #insérer mailer
@@ -208,15 +208,15 @@ class SubscriptionsController < ApplicationController
     elsif @competition.open_for_ranking?(current_user.ranking) == false
       flash[:alert] = "Ce tournoi n'accepte plus d'inscrits à votre classement"
       return false
-    elsif @competition.in_ranking_range(current_user.ranking, @competition) == false
+    elsif @competition.in_ranking_range?(current_user.ranking) == false
       flash[:alert] = "Vous n'avez pas le classement requis pour participer à ce tournoi"
       return false
     elsif @competition.open_for_genre?(current_user.genre) == false
       flash[:alert] = "Ce tournoi n'est pas mixte. Vous ne pouvez pas vous inscrire"
       return false
-    # elsif @competition.open_for_birthdate?(current_user.birthdate) == false
-    #   flash[:alert] = "Vous n'avez pas l'age requis pour participer à ce tournoi"
-    #   return false
+    elsif @competition.open_for_birthdate?(current_user.birthdate) == false
+      flash[:alert] = "Vous n'avez pas l'age requis pour participer à ce tournoi"
+      return false
     end
 
     true

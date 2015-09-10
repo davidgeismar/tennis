@@ -4,7 +4,7 @@
         <div class="panel panel-default">
           <div class="panel-heading">
             <h1>Félicitation !</h1>
-            <p>Votre Paiement pour <%=@subscription.competition.tournament.name%> dans la catégorie <%= @subscription.competition.category%> <%= @subscription.competition.genre.text %> a bien été pris en compte. Vous recevrez un mail de confirmation si votre inscription est validé par le juge arbitre.
+            <p>Votre Paiement pour <%=@subscription.tournament.name%> dans la catégorie <%= @subscription.competition.category%> <%= @subscription.competition.genre.text %> a bien été pris en compte. Vous recevrez un mail de confirmation si votre inscription est validé par le juge arbitre.
             S'il est impossible de vous intégrez au tableau, votre paiement vous sera remboursé intégralement. <br><strong>Merci de bien vouloir indiquer vos disponibilités pour le tournoi en remplissant les champs à votre droite.</strong></p>
 
             <p>L'équipe Tennis Match</p>
@@ -14,7 +14,7 @@
       <div class="col-md-offset-1 col-md-4 bigmarge">
         <div class="panel panel-default">
           <div class="panel-heading">
-        <h3 id="indiquer_dispo"><%=image_tag ("calendrier.svg"), class: "enveloppe"%> Merci d'indiquer vos disponibilités pour <%=@subscription.competition.tournament.name.upcase%>  </h3>
+        <h3 id="indiquer_dispo"><%=image_tag ("calendrier.svg"), class: "enveloppe"%> Merci d'indiquer vos disponibilités pour <%=@subscription.tournament.name.upcase%>  </h3>
         <%=simple_form_for [@subscription, @disponibility] do |f|%>
         <%= f.error_notification %>
 

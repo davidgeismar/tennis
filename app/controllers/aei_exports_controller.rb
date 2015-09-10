@@ -151,7 +151,7 @@ class AeiExportsController < ApplicationController
                       puts html_body.search('li').text
 
 
-                    elsif category_nature.present? && category_age.present? && aei_category_nature + ' ' + aei_category_age == aei_competition_category
+                    elsif category_nature.present? && category_age.present? && "#{aei_category_nature} #{aei_category_age}" == aei_competition_category
                        checkbox.check
 
 

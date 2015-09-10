@@ -4,7 +4,7 @@ module MangoPayments
       def initialize(subscription)
         @subscription = subscription
         @competition   = subscription.competition
-        @tournament = subscription.competition.tournament
+        @tournament = subscription.tournament
         @user         = subscription.user
       end
 

@@ -5,7 +5,8 @@ class Subscription < ActiveRecord::Base
   belongs_to :user
   belongs_to :competition
 
-  has_one :disponibility, dependent: :destroy
+  has_one :disponibility, dependent:  :destroy
+  has_one :tournament,    through:    :competition
 
   has_many :convocations, dependent: :destroy
 

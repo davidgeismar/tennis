@@ -5,15 +5,15 @@ class CompetitionsController < ApplicationController
   def new
     @competition = Competition.new
     authorize @competition
-
   end
+
   def create
     @competition =  Competition.new(competition_params)
     @competition.tournament = @tournament
     authorize @competition
 
     if @competition.save
-      flash[:notice] = "Félicitation votre épreuve a bien été crée"
+      flash[:notice] = "Félicitation votre épreuve a bien été créée"
       redirect_to tournament_path(@tournament)
     else
       render :new
@@ -36,8 +36,8 @@ class CompetitionsController < ApplicationController
 
   def update
     authorize @competition
-    @competition.update(competition_params)
-    if @competition.save
+
+    if @competition.update(competition_params)
       flash[:notice] = "Votre épreuve a bien été modifiée"
       redirect_to competition_subscriptions_path(@competition)
     else
@@ -48,7 +48,6 @@ class CompetitionsController < ApplicationController
   def update_rankings
     authorize @competition
     @competition.update(competition_params)
-    @competition.save
     render nothing: true
   end
 
@@ -87,8 +86,8 @@ class CompetitionsController < ApplicationController
       :moinsquinze,
       :premiereserie
       )
-
   end
+
   def find_tournament
     if params[:tournament_id] != nil
       @tournament = Tournament.find(params[:tournament_id])
@@ -97,9 +96,9 @@ class CompetitionsController < ApplicationController
 
   def set_competition
     if params[:id]
-      @competition = Competition.find_by_id(params[:id])
+      @competition = Competition.find(params[:id])
     elsif params[:competition_id]
-      @competition = Competition.find_by_id(params[:competition_id])
+      @competition = Competition.find(params[:competition_id])
     end
   end
 end

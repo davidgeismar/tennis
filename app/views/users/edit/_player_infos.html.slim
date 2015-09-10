@@ -9,26 +9,26 @@ div class="row"
             dl class="dl-horizontal"
               dt Prénom
               dd
-               - if @user.first_name.nil? || @user.first_name.blank?
-                  <br>
+               - if @user.first_name.blank?
+                  br
                - else
                   = @user.first_name
               dt Nom
               dd
-                - if @user.last_name.nil? || @user.last_name.blank?
-                  <br>
+                - if @user.last_name.blank?
+                  br
                 - else
                   = @user.last_name
               dt Addresse
               dd
-                - if @user.address.nil? || @user.address.blank?
-                  <br>
+                - if @user.address.blank?
+                  br
                 - else
                   = @user.address
               dt Date de naissance
               dd
-                - if @user.birthdate.nil? || @user.birthdate.blank?
-                  <br>
+                - if @user.birthdate.blank?
+                  br
                 - else
                   = @user.birthdate.strftime("%d/%m/%Y")
 
@@ -36,22 +36,22 @@ div class="row"
 
                 dt Sexe
                 dd
-                  - if @user.genre.nil? || @user.genre.blank?
-                    <br>
+                  - if @user.genre.blank?
+                    br
                   - else
                     = @user.genre.text
 
             dl class="dl-horizontal"
               dt Email
               dd
-                - if @user.email.nil? || @user.email.blank?
-                  <br>
+                - if @user.email.blank?
+                  br
                 - else
                   = @user.email
               dt Telephone
               dd
-                - if @user.telephone.nil? || @user.telephone.blank?
-                  <br>
+                - if @user.telephone.blank?
+                  br
                 - else
                   = @user.telephone
 
@@ -59,20 +59,20 @@ div class="row"
                 dl class="dl-horizontal"
                   dt Club
                   dd
-                    - if @user.club.nil? || @user.club.blank?
-                      <br>
+                    - if @user.club.blank?
+                      br
                     - else
                       = @user.club
                   dt Classement
                   dd
-                    - if @user.ranking.nil? || @user.ranking.blank?
-                      <br>
+                    - if @user.ranking.blank?
+                      br
                     - else
                       = @user.ranking
               dt Numéro de licence
               dd
-                - if @user.licence_number.nil? || @user.licence_number.blank?
-                    <br>
+                - if @user.licence_number.blank?
+                    br
                 - else
                   = @user.licence_number
 

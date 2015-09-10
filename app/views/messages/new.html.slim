@@ -8,11 +8,11 @@ div class="banner"
             p
               strong
                 'Vous ne pouvez pas venir à la convocation proposée par
-                =@convocation.subscription.competition.tournament.user.first_name
+                =@convocation.subscription.tournament.user.first_name
                 '
-                =@convocation.subscription.competition.tournament.user.last_name
+                =@convocation.subscription.tournament.user.last_name
                 ', juge arbitre du tournoi
-                =@convocation.subscription.competition.tournament.name
+                =@convocation.subscription.tournament.name
             p Envoyer lui un message avec vos disponibilités. Si le juge-arbitre ne peut malgré tout pas changer la date de convocation, vous serez WO :
           div class= "panel-body"
             = simple_form_for([@convocation, @message], :url => convocation_messages_path(@convocation)) do |f|

@@ -3,9 +3,9 @@
     <div class="panel panel-default bigmarge">
       <div class="panel-heading">
       <%if current_user.judge?%>
-          <p> Le statut de la convocation de <%=@convocation.subscription.user.full_name %> du <%= @convocation.date.strftime("%d/%m/%Y") %> à <%= @convocation.hour.strftime("%Hh%M") %> pour <%= @convocation.subscription.competition.tournament.name %> dans la catégorie <%= @convocation.subscription.competition.category %> est actuellement: <strong> <%=@convocation.status_text.upcase%></strong><p>
+          <p> Le statut de la convocation de <%=@convocation.subscription.user.full_name %> du <%= @convocation.date.strftime("%d/%m/%Y") %> à <%= @convocation.hour.strftime("%Hh%M") %> pour <%= @convocation.subscription.tournament.name %> dans la catégorie <%= @convocation.subscription.competition.category %> est actuellement: <strong> <%=@convocation.status_text.upcase%></strong><p>
       <%else%>
-            <p> Le statut de votre convocation du <%= @convocation.date.strftime("%d/%m/%Y") %> à <%= @convocation.hour.strftime("%Hh%M") %> pour <%= @convocation.subscription.competition.tournament.name %> dans la catégorie <%= @convocation.subscription.competition.category %> est actuellement: <strong> <%=@convocation.status_text.upcase%></strong><p>
+            <p> Le statut de votre convocation du <%= @convocation.date.strftime("%d/%m/%Y") %> à <%= @convocation.hour.strftime("%Hh%M") %> pour <%= @convocation.subscription.tournament.name %> dans la catégorie <%= @convocation.subscription.competition.category %> est actuellement: <strong> <%=@convocation.status_text.upcase%></strong><p>
       <% end -%>
       </div>
     </div>
@@ -55,7 +55,7 @@
           <% if current_user.judge? %>
             <p> En appuyant sur accepter vous notifiez au joueur qu'il n'a plus la possibilité de refuser cette convocation. Il devra soit accepter la convocation soit etre WO.</p>
           <% else %>
-            <p>Vous vous engagez à être présent le <strong> <%= @convocation.date.strftime("%d/%m/%Y") %> </strong> à <strong>   <%= @convocation.hour.strftime("%Hh%M") %></strong> au <strong><%= @convocation.subscription.competition.tournament.address %> </strong></p>
+            <p>Vous vous engagez à être présent le <strong> <%= @convocation.date.strftime("%d/%m/%Y") %> </strong> à <strong>   <%= @convocation.hour.strftime("%Hh%M") %></strong> au <strong><%= @convocation.subscription.tournament.address %> </strong></p>
           <% end %>
         </div>
         <div class="modal-body">
@@ -76,7 +76,7 @@
       <div class="modal-content text-center">
         <div class="modal-header">
           <h4 class="modal-title">Demander au juge-arbitre une autre convocation ?</h4>
-          <p>Vous vous apprétez à indiquer au juge-arbitre que la présente convocation ne vous convient pas. Attention, il se peut que le juge-arbitre ne puisse pas vous convoquez à une autre date/heure. Vous pouvez appeler le juge arbitre  au <strong><%= @convocation.subscription.competition.tournament.user.telephone %> </strong>.  </p>
+          <p>Vous vous apprétez à indiquer au juge-arbitre que la présente convocation ne vous convient pas. Attention, il se peut que le juge-arbitre ne puisse pas vous convoquez à une autre date/heure. Vous pouvez appeler le juge arbitre  au <strong><%= @convocation.subscription.tournament.user.telephone %> </strong>.  </p>
         </div>
         <div class="modal-body">
           <%= simple_form_for @convocation do |f| %>

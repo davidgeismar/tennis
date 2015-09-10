@@ -3,7 +3,7 @@
 
 <p>
  Bonjour <%=@subscription.user.first_name.capitalize%>, <br>
- Votre demande d'inscription au tournoi <strong><%=@subscription.competition.tournament.name%> dans la catégorie <%=@subscription.competition.category%> </strong> du <%=@subscription.competition.tournament.starts_on.strftime("%d/%m/%Y") %> au <%=@subscription.competition.tournament.ends_on.strftime("%d/%m/%Y") %> a été refusée par le juge arbitre en raison d'un manque de place disponible. <br>
+ Votre demande d'inscription au tournoi <strong><%=@subscription.tournament.name%> dans la catégorie <%=@subscription.competition.category%> </strong> du <%=@subscription.tournament.starts_on.strftime("%d/%m/%Y") %> au <%=@subscription.tournament.ends_on.strftime("%d/%m/%Y") %> a été refusée par le juge arbitre en raison d'un manque de place disponible. <br>
   N'hésitez pas à vous inscrire à d'autres tournois sur WeTennis! <br>
 </p>
 
