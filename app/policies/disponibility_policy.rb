@@ -10,10 +10,14 @@ class DisponibilityPolicy < ApplicationPolicy
   end
 
   def create? #pas besoin de préciser pour new et edit
-    user && record.subscription.user == user
+    user && record.subscription.user && record.subscription.tournament.user
+  end
+
+  def edit?
+    user && record.subscription.tournament.user == user
   end
 
   def update?
-    user && record.subscription.user == user
+    user && record.subscription.tournament.user == user
   end
 end
