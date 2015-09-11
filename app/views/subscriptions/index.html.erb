@@ -53,7 +53,7 @@
               <%end%>
               <td class="first-name"><%= subscription.user.first_name%></td>
               <td><%= subscription.user.last_name%></td>
-              <td data-toggle="tooltip" data-placement="top" title="<%=subscription.user.ranking%>"><%= subscription.user.licence_number%></td>
+              <td><div data-toggle="tooltip" data-placement="left" title="<%=subscription.user.ranking%>"><%= subscription.user.licence_number%></div></td>
               <!-- si le player a été added manuellement il n'y a pas l'option confirmed mais l'option !confirmed! seulement dans le select -->
               <%if subscription.status == "pending" && subscription.user.invitation_token?%>
                 <td>
@@ -151,7 +151,7 @@
                 <td>
                   <%= subscription.convocations.last.date.strftime('le %d/%m/%Y')%>
                   <%= subscription.convocations.last.hour.strftime('à %Hh%M')%>
-                  <%= subscription.convocations.last.status_text %></td>
+                  <strong><%= subscription.convocations.last.status_text %></strong></td>
               <%else%>
                 <td></td>
               <% end %>
@@ -164,7 +164,8 @@
               <% end %>
               <% if subscription.disponibility %>
                 <td>
-                  <%= link_to '<i class="fa fa-calendar"></i>'.html_safe, subscription_disponibility_path(subscription, subscription.disponibility), class: "fleche_subscription", title: " L: #{subscription.disponibility.monday} Ma: #{subscription.disponibility.tuesday} Me: #{subscription.disponibility.wednesday} Je: #{subscription.disponibility.thursday} Ve: #{subscription.disponibility.friday} Sam: #{subscription.disponibility.saturday} Dim: #{subscription.disponibility.sunday} ", "data-toggle"=> "tooltip", "data-placement" => "top" %>
+                  <%= link_to '<i class="fa fa-calendar"></i>'.html_safe, subscription_disponibility_path(subscription, subscription.disponibility), class: "fleche_subscription", "data-container"=>"body",
+                    "data-html"=>"true", "data-content"=> " <ul class='small'> <li>L: #{subscription.disponibility.monday}</li> <li>Ma: #{subscription.disponibility.tuesday}</li> <li>Me: #{subscription.disponibility.wednesday}</li> <li>Je: #{subscription.disponibility.thursday}</li> <li>Ve: #{subscription.disponibility.friday}</li> <li>Sam: #{subscription.disponibility.saturday} </li><li>Dim: #{subscription.disponibility.sunday}</li><li>Dim: #{subscription.disponibility.comment}</li> </ul>", "data-toggle"=> "popover", "data-placement" => "top", "data-trigger"=>"hover", "title" => "<div class=small>Dispos Licencié </div>" %>
                 </td>
               <% else %>
                 <td><%= link_to '<i class="fa fa-calendar"></i>'.html_safe, new_subscription_disponibility_path(subscription), class: "fleche_subscription", title: "Non renseignées ", "data-toggle"=> "tooltip", "data-placement" => "top" %></td>

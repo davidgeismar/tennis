@@ -5,7 +5,7 @@ class PlayerInvitationsController < ApplicationController
   end
 
   def create
-    emails_in_competition = @competition.subscriptions.map { |subscription| subscription.user.email }
+    emails_in_competition = @competition.subscriptions.map {|subscription| subscription.user.email}
 
     if params[:first_name] == ""
       flash[:alert] = "Merci de préciser le prénom du licencié"

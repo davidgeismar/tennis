@@ -18,7 +18,8 @@ div class="container"
             td = subscription.tournament.name
             td = subscription.competition.category
             - if subscription.status == "confirmed_warning"
-                td data-toggle="tooltip" data-placement="left" title="!confirmé! signifie que vous avez bien été confirmé dans la compétition mais que votre paiement n'a pas été effectué via WeTennis. Vous devrez donc payer les frais d'inscription le jour de votre première convocation." = subscription.status_text
+                td
+                  div data-toggle="popover" data-placement="left" data-html= "true" data-trigger="hover" title="<div class='small'>!Confirmé!</div>" data-content="<div class='small'>!confirmé! signifie que vous avez bien été confirmé dans la compétition mais que votre paiement n'a pas été effectué via WeTennis. Vous devrez donc payer les frais d'inscription le jour de votre première convocation.</div>" = subscription.status_text
             - else
                 td = subscription.status_text
             td
