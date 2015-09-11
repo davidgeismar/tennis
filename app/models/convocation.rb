@@ -5,7 +5,7 @@ class Convocation < ActiveRecord::Base
   belongs_to  :subscription
   has_one :tournament, through: :subscription
 
-  has_many    :messages
+  has_one    :message
 
   validates :date,            presence: { message: "Veuillez remplir la date de la convocation" }, on: :create
   validates :hour,            presence: { message: "Veuillez remplir l'heure de votre convocation" }, on: :create

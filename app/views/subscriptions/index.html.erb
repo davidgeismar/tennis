@@ -155,9 +155,9 @@
               <%else%>
                 <td></td>
               <% end %>
-              <% if subscription.convocations.last && subscription.convocations.last.messages.last && !subscription.convocations.last.messages.last.read  %>
+              <% if subscription.convocations.last && subscription.convocations.last.message && !subscription.convocations.last.message.read  %>
               <td>
-                <%=link_to "+1", convocation_messages_path(subscription.convocations.last), class: "btn btn-success message", "data-toggle"=>"tooltip", "data-placement"=>"top", title: " #{subscription.convocations.last.messages.last.content}" %>
+                <%=link_to "+1", convocation_message_path(subscription.convocations.last, subscription.convocations.last.message), class: "btn btn-success message", "data-toggle"=>"tooltip", "data-placement"=>"top", title: " #{subscription.convocations.last.message.content}" %>
               </td>
               <%else%>
                 <td></td>

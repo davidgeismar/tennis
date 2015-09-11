@@ -8,7 +8,7 @@ module MangoPayments
       def call
         amount        = total_amount
         amount_cents  = amount * 100
-        transaction   = @tournament.create_mango_transaction(status: 'pending', category: 'payout')
+        transaction   = @tournament.create_mangopay_transaction(status: 'pending', category: 'payout')
 
         mango_transaction   = MangoPay::PayOut::BankWire.create(
           AuthorId:         @tournament.mangopay_user_id,
@@ -38,7 +38,7 @@ module MangoPayments
         total_amount_by_type('young') + total_amount_by_type('standard')
       end
 
-      def amount_by_type(fare_type)
+      def total_amount_by_type(fare_type)
         subscriptions = @tournament.subscriptions.where(status: 'confirmed', funds_sent: true, fare_type: fare_type)
 
         case fare_type

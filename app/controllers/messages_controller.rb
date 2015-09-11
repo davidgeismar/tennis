@@ -1,10 +1,4 @@
 class MessagesController < ApplicationController
-  respond_to :js, only: :reply
-
-  skip_before_action  :authenticate_user!,  only: [:contact]
-  skip_after_action   :verify_policy_scoped
-
-  before_action :set_conversation,  only:    [:show, :reply, :reply_server]
   after_action  :verify_authorized, except:  [:index, :contact]
 
   def new
@@ -29,26 +23,19 @@ class MessagesController < ApplicationController
     end
   end
 
-  def update
-     @message.update(message_params)
-  end
-
-  def contact
-    @message = Message.new
-  end
-
-  def index
+  def show
     @convocation  = Convocation.find(params[:convocation_id])
-    @messages     = @convocation.messages.all
-    @messages.each do |message|
-      message.read = true
-      message.save
-    end
+    @message     = @convocation.message
+    authorize @message
+    @message.read = true
+    @message.save
   end
 
   private
 
   def message_params
-    params.require(:message).permit(:content, :read)
+    params.require(:message).permit(
+      :content,
+      :read)
   end
 end

@@ -7,19 +7,13 @@ class MessagePolicy < ApplicationPolicy
 
   def new?
     user
-     # && user == record.convocation.subscription.user
   end
 
   def create?
     user
-   # &&  user == record.convocation.subscription.user
   end
 
-  def edit?
-    false
-  end
-
-  def update?
-    false
+  def show?
+    user && record.convocation.subscription.tournament.user == user
   end
 end
