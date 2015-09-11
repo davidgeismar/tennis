@@ -24,7 +24,7 @@ class ConvocationsController < ApplicationController
           client.account.messages.create(
             from: ENV['TWILIO_FROM'],
             to:   @convocation.subscription.user.telephone,
-            body: "Le juge-arbitre vous propose une nouvelle convocation #{@convocation.date.strftime("le %d/%m/%Y")} #{@convocation.hour.strftime(" à %Hh%M")} pour le tournoi #{@convocation.subscription.tournament.name} dans la catégorie #{@convocation.subscription.competition.category}. Num JA: #{@convocation.subscription.tournament.user.telephone} Connectez vous sur www.wetennis.fr pour répondre à cette convocation. "
+            body: "Le juge-arbitre vous propose une nouvelle convocation #{@convocation.date.strftime("le %d/%m/%Y")} #{@convocation.hour.strftime(" à %Hh%M")} pour le tournoi #{@convocation.subscription.tournament.name} dans la catégorie #{@convocation.subscription.competition.category}. Num JA: #{@convocation.subscription.tournament.user.telephone} Connectez vous sur www.wetennis.fr (onglet 'Mes Tournois') pour répondre à cette convocation. "
           )
           sms_credit = judge.sms_quantity - 1
           judge.sms_quantity = sms_credit

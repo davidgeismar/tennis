@@ -17,7 +17,6 @@ div class="container"
             tr
                td
                 = link_to passed_tournament.name, user_tournament_path(current_user, passed_tournament)
-               td = passed_tournament.category.capitalize
                td = passed_tournament.starts_on.strftime('%d/%m/%Y')
                td = passed_tournament.ends_on.strftime('%d/%m/%Y')
                td Tournoi Validé
