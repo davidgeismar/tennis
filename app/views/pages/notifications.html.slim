@@ -34,8 +34,8 @@ div class="container"
                     '
                     span.text-light = notification.created_at.strftime('%d/%m/%Y à %Hh%M')
 
-                  - elsif notification.convocation && notification.user.judge? && notification.convocation.messages
-                    = link_to notification.content, convocation_messages_path(notification.convocation)
+                  - elsif notification.convocation && notification.user.judge? && notification.convocation.message
+                    = link_to notification.content, convocation_message_path(notification.convocation, notification.convocation.message)
                     '
                     span.text-light = notification.created_at.strftime('%d/%m/%Y à %Hh%M')
 

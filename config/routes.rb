@@ -13,7 +13,7 @@ Rails.application.routes.draw do
   resources :contacts,  only: [:new, :create]
 
   resources :convocations, only: [:edit, :update] do # JOUEUR
-    resources :messages
+    resources :messages, only: [:new, :create, :show]
   end
 
   resources :users, only: [:update, :show, :edit] do

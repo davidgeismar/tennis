@@ -19,12 +19,13 @@ div class="row"
                   br
                 - else
                   = @user.last_name
-              dt Addresse
-              dd
-                - if @user.address.blank?
-                  br
-                - else
-                  = @user.address
+              - unless !@user.judge
+                dt Addresse
+                dd
+                  - if @user.address.blank?
+                    br
+                  - else
+                    = @user.address
               dt Date de naissance
               dd
                 - if @user.birthdate.blank?
