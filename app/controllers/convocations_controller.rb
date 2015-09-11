@@ -21,10 +21,10 @@ class ConvocationsController < ApplicationController
         begin
           client = Twilio::REST::Client.new(ENV['TWILIO_SID'], ENV['TWILIO_TOKEN'])
           # Create and send an SMS message
-          client.account.sms.messages.create(
+          client.account.messages.create(
             from: ENV['TWILIO_FROM'],
-            to:   convocation.subscription.user.telephone,
-            body: "Le juge-arbitre vous propose une nouvelle convocation #{convocation.date.strftime("le %d/%m/%Y")} #{convocation.hour.strftime(" à %Hh%M")} pour le tournoi #{convocation.subscription.tournament.name} dans la catégorie #{convocation.competition.category}. Num JA: #{convocation.subscription.tournament.user.telephone} Connectez vous sur www.wetennis.fr pour répondre à cette convocation. "
+            to:   @convocation.subscription.user.telephone,
+            body: "Le juge-arbitre vous propose une nouvelle convocation #{@convocation.date.strftime("le %d/%m/%Y")} #{@convocation.hour.strftime(" à %Hh%M")} pour le tournoi #{@convocation.subscription.tournament.name} dans la catégorie #{@convocation.subscription.competition.category}. Num JA: #{@convocation.subscription.tournament.user.telephone} Connectez vous sur www.wetennis.fr pour répondre à cette convocation. "
           )
           sms_credit = judge.sms_quantity - 1
           judge.sms_quantity = sms_credit
@@ -36,7 +36,8 @@ class ConvocationsController < ApplicationController
 
       @notification = Notification.create(
         user:     @convocation.subscription.user,
-        content:  "Le juge-arbitre vous propose une nouvelle convocation #{convocation.date.strftime("le %d/%m/%Y")} #{convocation.hour.strftime(" à %Hh%M")} pour le tournoi #{convocation.subscription.tournament.name} dans la catégorie #{convocation.competition.category}"
+        content:  "Le juge-arbitre vous propose une nouvelle convocation #{@convocation.date.strftime("le %d/%m/%Y")} #{@convocation.hour.strftime(" à %Hh%M")} pour le tournoi #{@convocation.subscription.tournament.name} dans la catégorie #{@convocation.subscription.competition.category}",
+        convocation: @convocation
       )
       flash[:notice] = "Votre convocation a bien été envoyée"
       redirect_to competition_subscriptions_path(@subscription.competition)
@@ -85,20 +86,8 @@ class ConvocationsController < ApplicationController
       )
       #sms
       if @convocation.subscription.user.telephone && judge.sms_forfait && judge.sms_quantity > 0
-        begin
-          client = Twilio::REST::Client.new(ENV['TWILIO_SID'], ENV['TWILIO_TOKEN'])
-          # Create and send an SMS message
-          client.account.sms.messages.create(
-            from: ENV['TWILIO_FROM'],
-            to:   convocation.subscription.user.telephone,
-            body: "Le juge-arbitre ne peut pas vous proposer un autre créneau pour votre convocation #{convocation.date.strftime("le %d/%m/%Y")} #{convocation.hour.strftime(" à %Hh%M")} pour le tournoi #{convocation.subscription.tournament.name} dans la catégorie #{convocation.competition.category}. Num JA: #{convocation.subscription.tournament.user.telephone}. Si vous ne pouvez pas participer connectez vous sur www.wetennis.fr pour indiquer votre WO. "
-          )
-          sms_credit = judge.sms_quantity - 1
-          judge.sms_quantity = sms_credit
-          judge.save
-        rescue Twilio::REST::RequestError
-          # on error, sms won't be sent.. deal
-        end
+        service = TextMessages::Convocations::CreateTextMessageService.new(@convocation)
+        service.call
       end
       flash[:notice] = "La convocation a bien été confirmée"
       redirect_to competition_subscriptions_path(@convocation.subscription.competition)
@@ -155,21 +144,8 @@ class ConvocationsController < ApplicationController
         end
 
         if convocation.subscription.user.telephone && judge.sms_forfait && judge.sms_quantity > 0
-          begin
-            client = Twilio::REST::Client.new(ENV['TWILIO_SID'], ENV['TWILIO_TOKEN'])
-
-            # Create and send an SMS message
-            client.account.sms.messages.create(
-              from: ENV['TWILIO_FROM'],
-              to:   convocation.subscription.user.telephone,
-              body: "Vous etes convoqué(e) #{convocation.date.strftime("le %d/%m/%Y")} #{convocation.hour.strftime(" à %Hh%M")} pour le tournoi #{convocation.subscription.tournament.name} dans la catégorie #{convocation.competition.category}. Num JA: #{convocation.subscription.tournament.user.telephone} Connectez vous sur www.wetennis.fr pour répondre à cette convocation. "
-            )
-            sms_credit = judge.sms_quantity - 1
-            judge.sms_quantity = sms_credit
-            judge.save
-          rescue Twilio::REST::RequestError
-            # on error, sms won't be sent.. deal
-          end
+            service = TextMessages::Convocations::CreateTextMessageService.new(convocation)
+            service.call
         end
       else
         flash[:warning] = "Un problème est survenu veuillez réessayer d'envoyer votre convocation"
