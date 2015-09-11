@@ -25,7 +25,7 @@ class SubscriptionsController < ApplicationController
     if current_user.eligible_for_young_fare?
       @total_amount = @tournament.young_fare
     else
-      @total_amount = @tournament.amount
+      @total_amount = @tournament.amount.to_f
     end
 
     @total_amount  += (10 * @total_amount / 100)
