@@ -3,7 +3,7 @@ class MessagesController < ApplicationController
 
   def new
     @convocation  = Convocation.find(params[:convocation_id])
-    @message      = Message.new
+    @message      = Message.new(convocation: @convocation)
     authorize @message
   end
 
