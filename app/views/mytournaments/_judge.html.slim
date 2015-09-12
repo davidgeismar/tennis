@@ -18,10 +18,10 @@ div class="container"
           tr
             - if tournament.accepted
                td
-                  i class="fa fa-plus" role="button" data-toggle="collapse" href="##{tournament.id}" aria-expanded="false" aria-controls="#{tournament.id}"
+                  i class="fa fa-fw fa-eye" role="button" data-toggle="collapse" href="##{tournament.id}" aria-expanded="false" aria-controls="#{tournament.id}"
                   = link_to tournament.name, user_tournament_path(current_user, tournament)
                   - if tournament.competitions
-                     ul class="collapse" id="#{tournament.id}"
+                    ul class="collapse" id="#{tournament.id}"
                       - tournament.competitions.each do |competition|
                         li
                           = link_to("#{competition.category} #{competition.genre.text} (#{competition.subscriptions.count})",  tournament_competition_path(tournament, competition))
