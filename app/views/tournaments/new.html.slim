@@ -1,45 +1,38 @@
+div class="container"
+  div class="row"
+    div class="col-md-12"
+      h1 Création d’un tournoi
 
-div class="banner-tournament"
-  div class= "container"
-    h1 class= "text-center emperor" id= "formulaire-tournoi" Création d’un tournoi
-
-
-    = simple_form_for @tournament do |t|
-       = t.error_notification
-       div class= "col-md-offset-1 col-md-5"
-         div class="panel panel-default"
-           div class= "panel-heading"
-             h4 Informations Compétition
-           div class= "panel-body"
-             = t.input :homologation_number, label: "Votre numéro d'homologation (strictement identique à celui sur AEI)"
-             = t.input :name, label: 'Nom de la Compétition'
-             = t.input :city, label: 'Ville'
-             = t.input :postcode, label: 'Code Postal'
-             = t.input :address, label: 'Addresse des installations'
-             = t.input :starts_on, as: :string, input_html: { class: "datepicker"}, label: "Début de la compétition "
-             = t.input :ends_on, as: :string, input_html: { class: "datepicker"}, label: "Fin de la compétition"
-             = t.input :amount, label: "Tarif adulte", input_html: { min: '0' }
-             = t.input :young_fare, label: "Tarif Jeune", input_html: { min: '0' }
-       div class="col-md-offset-1 col-md-5"
-         div class="panel panel-default"
-           div class= "panel-heading"
-             h4 Informations Club
-           div class= "panel-body"
-             = t.input :club_organisateur, label: "Nom"
-             = t.input :club_email, label: "Email"
-             = t.input :iban, label: "IBAN"
-             = t.input :bic, label: "BIC"
-           div class= "panel-footer"
+    = simple_form_for @tournament, class: 'row' do |t|
+      = t.error_notification
+      div class="col-md-6"
+        div class="panel panel-default"
+          div class="panel-heading"
+            h4 Informations Compétition
+          div class="panel-body"
+            = t.input :homologation_number, label: "Votre numéro d'homologation (strictement identique à celui sur AEI)"
+            = t.input :name, label: 'Nom de la Compétition'
+            div class="row"
+              div class="col-md-6"
+                = t.input :starts_on, as: :string, input_html: { class: "datepicker"}, label: "Début"
+              div class="col-md-6"
+                = t.input :ends_on, as: :string, input_html: { class: "datepicker"}, label: "Fin"
+              div class="col-md-12"
+                = t.input :address, label: 'Addresse des installations'
+              div class="col-md-6"
+                = t.input :postcode, label: 'Code Postal'
+              div class="col-md-6"
+                = t.input :city, label: 'Ville'
+            = t.input :amount, label: "Tarif adulte", input_html: { min: '0' }
+            = t.input :young_fare, label: "Tarif Jeune", input_html: { min: '0' }
+      div class="col-md-6"
+        div class="panel panel-default"
+          div class="panel-heading"
+            h4 Informations Club
+          div class="panel-body"
+            = t.input :club_organisateur, label: "Nom"
+            = t.input :club_email, label: "Email"
+            = t.input :iban, label: "IBAN"
+            = t.input :bic, label: "BIC"
+          div class="panel-footer"
             = t.button :submit, value: "Soumettre ce tournoi à validation",  class: "btn-primary marge-bas"
-
-
-= content_for :after_js do
-  javascript:
-    $(document).ready(function(){
-      $('.datepicker').datepicker({
-         format: 'dd/mm/yyyy',
-         language: 'fr',
-         startDate: '-3d'
-        });
-    });
-
