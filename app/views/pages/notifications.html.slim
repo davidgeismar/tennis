@@ -43,6 +43,11 @@ div class="container"
                     = link_to notification.content, tournament_path(notification.tournament)
                     '
                     span.text-light = notification.created_at.strftime('%d/%m/%Y à %Hh%M')
+
+                  - elsif notification.competition
+                    = link_to notification.content, competition_subscriptions_path(notification.competition)
+                    '
+                    span.text-light = notification.created_at.strftime('%d/%m/%Y à %Hh%M')
                   - else
                     => notification.content
                     '

@@ -37,9 +37,9 @@ div class="container"
             dt Catégories :
             br
             ul
-            - @tournament.competitions.each do |competition|
-              li
-                = "#{competition.category} #{competition.genre}"
+              - @tournament.competitions.each do |competition|
+                li
+                   = "#{competition.category} #{competition.genre.text}"
 
       = link_to '← Retour', tournaments_path, class: 'btn btn-default'
       = link_to 'S’inscrire', tournament_competitions_path(@tournament), class: 'btn btn-warning'

@@ -14,10 +14,12 @@ class ConvocationPolicy < ApplicationPolicy
   end
 
   def edit?
-    user && record.subscription.tournament.user && record.subscription.user
+    (user && record.subscription.tournament.user == user) ||
+    (user && record.subscription.user == user)
   end
 
   def update?
-    user && record.subscription.tournament.user && record.subscription.user
+    (user && record.subscription.tournament.user == user) ||
+    (user && record.subscription.user == user)
   end
 end
