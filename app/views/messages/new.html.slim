@@ -13,10 +13,10 @@ div class="banner"
                 =@convocation.subscription.tournament.user.last_name
                 ', juge arbitre du tournoi
                 =@convocation.subscription.tournament.name
-            p Envoyer lui un message avec vos disponibilités. Si le juge-arbitre ne peut malgré tout pas changer la date de convocation, vous serez WO :
+            p Renseignez exclusivement vos disponibilités dans le présent message. Si le juge-arbitre ne peut malgré tout pas changer la date de convocation, vous serez WO :
           div class= "panel-body"
             = simple_form_for([@convocation, @message], :url => convocation_messages_path(@convocation)) do |f|
                 = f.error_notification
-                = f.text_area :content, class:  "message-box", placeholder: "ex: le jeudi de 17h à 22h", required: true
+                = f.text_area :content, class:  "message-box", placeholder: "ex: - ce jeudi de 17h à 22h", required: true
                 br
                    = f.button :submit, "Envoyer", class: "btn btn-success"
