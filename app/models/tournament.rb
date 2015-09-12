@@ -56,6 +56,10 @@ class Tournament < ActiveRecord::Base
     self.ends_on < Date.today
   end
 
+  def self.search(term)
+    Tournament.where('name ILIKE ? OR starts_on ILIKE ? OR ends_on ILIKE ?' , "%#{term}%")
+  end
+
   private
 
   def send_email_if_accepted

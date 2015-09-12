@@ -45,6 +45,7 @@ div class="container"
                     span.text-light = notification.created_at.strftime('%d/%m/%Y à %Hh%M')
 
                   - elsif notification.competition
+
                     = link_to notification.content, competition_subscriptions_path(notification.competition)
                     '
                     span.text-light = notification.created_at.strftime('%d/%m/%Y à %Hh%M')
