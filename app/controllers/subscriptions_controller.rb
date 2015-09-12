@@ -23,7 +23,7 @@ class SubscriptionsController < ApplicationController
     @subscription   = @competition.subscriptions.build(competition: @competition)
 
     if current_user.eligible_for_young_fare?
-      @total_amount = @tournament.young_fare
+      @total_amount = @tournament.young_fare.to_f
     else
       @total_amount = @tournament.amount.to_f
     end
@@ -52,7 +52,7 @@ class SubscriptionsController < ApplicationController
     current_user.update(mangopay_card_id: params[:card_id])
 
     competition   = Competition.find(params[:competition_id])
-    fare_type     = current_user.eligible_for_young_fare? ? :fare : :standard
+    fare_type     = current_user.eligible_for_young_fare? ? :young : :standard
     tournament    = competition.tournament
     subscription  = Subscription.new(user: current_user, competition: competition, fare_type: fare_type)
     service       = MangoPayments::Subscriptions::CreatePayinService.new(subscription)

@@ -12,7 +12,6 @@ module MangoPayments
             @amount = @subscription.tournament.young_fare
           end
         end
-
         @amount
       end
     end
