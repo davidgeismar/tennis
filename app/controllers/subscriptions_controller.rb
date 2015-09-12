@@ -20,7 +20,7 @@ class SubscriptionsController < ApplicationController
   def new
     @competition    = Competition.find(params[:competition_id])
     @tournament     = @competition.tournament
-    @subscription   = @competition.subscriptions.build(competition: @competition, fare_type: fare_type)
+    @subscription   = @competition.subscriptions.build(competition: @competition)
 
     if current_user.eligible_for_young_fare?
       @total_amount = @tournament.young_fare.to_f
