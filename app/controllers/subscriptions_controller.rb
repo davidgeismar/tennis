@@ -64,8 +64,9 @@ class SubscriptionsController < ApplicationController
       notification = Notification.create(
         user:       subscription.tournament.user,
         content:    "#{subscription.user.full_name} a demandé à s'inscrire à #{subscription.tournament.name} dans la catégorie #{subscription.competition.category} ",
-        competition: subscription.competition
+        competition_id: subscription.competition.id
       )
+
 
       redirect_to new_subscription_disponibility_path(subscription)
     else
