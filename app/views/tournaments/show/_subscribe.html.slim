@@ -23,10 +23,16 @@ div class="container"
             dt Ville
             dd = @tournament.city
           dl class="dl-horizontal"
-            dt Frais d’inscription
+            dt Tarif Adulte
             dd
               = @tournament.amount
               '€
+            - if @tournament.young_fare?
+              dt Tarif jeune
+              dd
+                = @tournament.young_fare
+                '€
+
           dl class= "dl-horizontal"
             dt Catégories :
             br

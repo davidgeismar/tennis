@@ -14,7 +14,10 @@
           <p>Sexe: <strong><%=  @tournament.genre.text.upcase %></strong></p>
           <p>Catégorie: <strong><%= @tournament.category %></strong></p>
           <p>Addresse des installations: <strong><%= @tournament.address %></strong></p>
-          <p>Frais d'inscription: <strong><%= @tournament.amount %> €</strong></p>
+          <p>Tarif adulte: <strong><%= @tournament.amount %> €</strong></p>
+          <% if @tournament.young_fare? %>
+            <p>Tarif jeune: <strong><%= @tournament.young_fare %> €</strong></p>
+          <% end -%>
         </div>
       </div>
     </div>
