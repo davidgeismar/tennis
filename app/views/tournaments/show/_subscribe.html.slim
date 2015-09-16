@@ -33,13 +33,12 @@ div class="container"
                 = @tournament.young_fare
                 '€
 
-          dl class= "dl-horizontal"
+          dl class="dl-horizontal"
             dt Catégories :
-            br
-            ul
+            dd
               - @tournament.competitions.each do |competition|
-                li
-                   = "#{competition.category} #{competition.genre.text}"
+                = "#{competition.category} #{competition.genre.text}"
+                br
 
       = link_to '← Retour', tournaments_path, class: 'btn btn-default'
       = link_to 'S’inscrire', tournament_competitions_path(@tournament), class: 'btn btn-warning'
