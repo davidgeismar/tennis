@@ -24,7 +24,7 @@ class AeiExportsController < ApplicationController
         success: [],
         failure: []
       }
-
+      already_subscribed_players = []
       subscriptions_arrays.each do |subscription_array|
         agent = Mechanize.new
         agent.get("https://aei.app.fft.fr/ei/connexion.do?dispatch=afficher")
@@ -162,8 +162,14 @@ class AeiExportsController < ApplicationController
                       page = form.submit
                       body = page.body
                       html_body = Nokogiri::HTML(body)
-                      puts html_body
-                      puts html_body.search('li').text
+                      # puts html_body
+                      # gestion joueur déjà inscrit
+                      # str = html_body.search('li').text
+                      html_body.search('li').each do |li|
+                        name = li.text.slice(0...(li.text.index('est déjà inscrit(e)')))
+                        puts name
+                        already_subscribed_players << name
+                      end
                     end
                   end
 
@@ -189,13 +195,16 @@ class AeiExportsController < ApplicationController
       end
 
       failure_full_names = stats[:failure].map { |subscription| subscription.user.full_name }.join(', ')
-
+      already_subscribed_full_names = already_subscribed_players.map {|full_name| full_name}.join(', ')
 
       flash[:notice]  = "Vous avez exporté #{stats[:success].size} licencié(s) avec succès"
 
-      if failure_full_names.present?
-
+      if failure_full_names.present? && already_subscribed_players.present?
+        flash[:alert]   = "#{already_subscribed_full_names} sont déjà inscrit à ce tournoi dans cette catégorie. #{failure_full_names} n'ont pas pu être exportés. Merci de vous connecter sur AEI pour procéder à l'inscription manuelle"
+      elsif failure_full_names.present?
         flash[:alert]   = "#{failure_full_names} n'ont pas pu être exportés. Merci de vous connecter sur AEI pour procéder à l'inscription manuelle"
+      elsif already_subscribed_players.present?
+        flash[:alert]   = "#{already_subscribed_full_names} sont déjà inscrit à ce tournoi dans cette catégorie."
       end
 
       redirect_to competition_subscriptions_path(@competition)

@@ -316,6 +316,7 @@ GEM
     thor (0.19.1)
     thread_safe (0.3.5)
     tilt (1.4.1)
+    trigram (0.0.1)
     twilio-ruby (3.16.1)
       builder (>= 2.1.2)
       jwt (~> 1.0)
@@ -380,6 +381,7 @@ DEPENDENCIES
   simple_form (~> 3.1.0)
   slim (~> 3.0.6)
   spring
+  trigram
   twilio-ruby (~> 3.12)
   uglifier (~> 2.7.0)
   unicode_utils (~> 1.4.0)
