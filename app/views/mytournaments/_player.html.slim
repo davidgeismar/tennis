@@ -37,6 +37,9 @@ div class="container"
                     = simple_form_for subscription.convocations.last do |f|
                        = hidden_field_tag 'convocation[status]', :cancelled
                        = f.button :submit, "W.O", class: " btn btn-danger"
+                - elsif subscription.convocations.last.status == "confirmed"
+                  strong
+                    =link_to subscription.convocations.last.status.text, edit_convocation_path(subscription.convocations.last)
                 - else
                   strong
                     = subscription.convocations.last.status.text
