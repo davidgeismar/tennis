@@ -61,9 +61,11 @@ class ConvocationsController < ApplicationController
         convocation:  @convocation,
         content:      "#{@convocation.subscription.user.full_name} n'est pas disponible #{@convocation.date.strftime("le %d/%m/%Y")}#{@convocation.hour.strftime(" à %Hh%M")} pour #{@convocation.subscription.tournament.name} dans la catégorie #{@convocation.subscription.competition.category}"
       )
-
-      redirect_to new_convocation_message_path(@convocation)
-
+      if @convocation.message
+        redirect_to mytournaments_path
+      else
+        redirect_to new_convocation_message_path(@convocation)
+      end
     elsif @convocation.status == "confirmed"
       #notif
       @notification = Notification.create(
