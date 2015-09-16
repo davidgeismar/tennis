@@ -1,0 +1,101 @@
+p
+  'Le statut de votre convocation du
+  = @convocation.date.strftime("%d/%m/%Y")
+  ' à
+  = @convocation.hour.strftime("%Hh%M")
+  '  pour
+  = @convocation.subscription.tournament.name
+  '  dans la catégorie
+  = @convocation.subscription.competition.category
+  '  est actuellement:
+  strong
+    =@convocation.status_text.upcase
+
+
+  - if @convocation.status == "refused"
+      div class="row text-center"
+        div class="col-xs-12"
+          a href="#" data-target="#accepted" data-toggle="modal" class="btn btn-success convocation-answer"Accepter la convocation
+          a href="#" data-target="#cancelled" data-toggle="modal" class="btn btn-danger convocation-answer"W.O
+
+  - elsif @convocation.status == "confirmed"
+      div class="row text-center"
+        div class="col-xs-12"
+          a href="#" data-target="#refused" data-toggle="modal" class="btn btn-warning convocation-answer"Je suis indisponible
+
+        div class="col-xs-12"
+          a href="#" data-target="#cancelled" data-toggle="modal" class="btn btn-danger convocation-answer"W.O
+
+  - elsif @convocation.status == "confirmed_by_judge"
+    div class="row text-center"
+      div class="col-xs-12"
+          a href="#" data-target="#cancelled" data-toggle="modal" class="btn btn-danger convocation-answer"W.O
+
+  - elsif @convocation.status == "pending"
+    div class="row text-center"
+      div class="col-xs-12"
+         a href="#" data-target="#accepted" data-toggle="modal" class="btn btn-success convocation-answer"Accepter la convocation
+      div class="col-xs-12"
+          a href="#" data-target="#refused" data-toggle="modal" class="btn btn-warning convocation-answer"Je suis indisponible
+
+  - else
+      div class="row text-center"
+        div class="col-xs-12"
+          a href="#" data-target="#accepted" data-toggle="modal" class="btn btn-success convocation-answer"Accepter la convocation
+
+
+
+div class="modal fade" id="accepted"
+  div class="modal-dialog mymodal"
+    div class="modal-content text-center"
+      div class="modal-header"
+        h4 class="modal-title"Confirmer cette convocation
+        p
+          'Vous vous engagez à être présent le
+          strong
+             =@convocation.date.strftime("%d/%m/%Y")
+          '  à
+          strong
+            =@convocation.hour.strftime("%Hh%M")
+          '  au
+          strong
+            =@convocation.subscription.tournament.address
+
+      div class="modal-body"
+        = simple_form_for @convocation do |f|
+          = hidden_field_tag 'convocation[status]', :confirmed
+          = f.button :submit, "Accepter", class: " btn btn-success convocation-answer"
+
+div class="modal fade" id="refused"
+  div class="modal-dialog mymodal"
+    div class="modal-content text-center"
+      div class="modal-header"
+        h4 class="modal-title" Demander au juge-arbitre une autre convocation?
+        p Vous vous apprétez à indiquer au juge-arbitre que la présente convocation ne vous convient pas. Attention, il se peut que le juge-arbitre ne puisse pas vous convoquez à une autre date/heure. Vous pouvez appeler le juge-arbitre  au
+        strong
+           = @convocation.subscription.tournament.user.telephone
+
+      div class="modal-body"
+        = simple_form_for @convocation do |f|
+         = hidden_field_tag 'convocation[status]', :refused
+         = f.button :submit, "Je suis indisponible", class: "btn-warning convocation-answer"
+
+
+
+div class="modal fade" id="cancelled"
+  div class="modal-dialog mymodal"
+    div class="modal-content text-center"
+      div class="modal-header"
+        h4 class="modal-title"W.O
+        p
+          'En cliquant sur W.O, vous indiquez au juge arbitre que vous souhaitez
+          strong
+            'abandonner la compétition.
+
+      div class="modal-body"
+        = simple_form_for @convocation do |f|
+          = hidden_field_tag 'convocation[status]', :cancelled
+          = f.button :submit, "W.O", class: "btn-danger convocation-answer"
+
+
+
