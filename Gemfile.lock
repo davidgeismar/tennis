@@ -217,6 +217,10 @@ GEM
       cocaine (~> 0.5.5)
       mime-types
     pg (0.18.2)
+    pg_search (1.0.5)
+      activerecord (>= 3.1)
+      activesupport (>= 3.1)
+      arel
     polyamorous (1.2.0)
       activerecord (>= 3.0)
     pry (0.10.1)
@@ -363,6 +367,7 @@ DEPENDENCIES
   omniauth-facebook (~> 2.0.0)
   paperclip (~> 4.2.1)
   pg (~> 0.18.1)
+  pg_search
   pry-byebug
   pry-rails
   puma

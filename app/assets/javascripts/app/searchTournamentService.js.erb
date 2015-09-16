@@ -1,0 +1,17 @@
+$(document).ready(function(){
+  $( ".tournament_search" ).keyup(function() {
+
+    var content = $( ".tournament_search" ).val();
+      $.ajax({url: "/tournaments/",
+            data: {content:content},
+            type: "POST",
+            success: function(data){
+
+            },
+            error: function(err){
+
+            }
+
+    });
+  });
+});

@@ -1,4 +1,8 @@
 class Tournament < ActiveRecord::Base
+  include PgSearch
+  pg_search_scope :search,
+  :against => [:name, :address, :city, :club_organisateur, :starts_on, :ends_on, :postcode],
+  :using => {:tsearch => {:prefix => true} }
 
   geocoded_by :address_tour
 
@@ -54,10 +58,6 @@ class Tournament < ActiveRecord::Base
 
   def passed?
     self.ends_on < Date.today
-  end
-
-  def self.search(term)
-    Tournament.where('name ILIKE ? OR starts_on ILIKE ? OR ends_on ILIKE ?' , "%#{term}%")
   end
 
   private
