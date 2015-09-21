@@ -6,20 +6,20 @@ div class= "panel panel-default"
     div class= "panel heading"
       h4
         'Convocation du
-        = @convocation.date.strftime("%d/%m/%Y")
-        '  à
+        => @convocation.date.strftime("%d/%m/%Y")
+        'à
         = @convocation.hour.strftime("%Hh%M")
 
       p
         'Le statut de votre convocation du
-        = @convocation.date.strftime("%d/%m/%Y")
-        ' à
-        = @convocation.hour.strftime("%Hh%M")
-        '  pour
-        = @convocation.subscription.tournament.name
-        '  dans la catégorie
-        = @convocation.subscription.competition.category
-        '  est actuellement:
+        => @convocation.date.strftime("%d/%m/%Y")
+        'à
+        => @convocation.hour.strftime("%Hh%M")
+        'pour
+        => @convocation.subscription.tournament.name
+        'dans la catégorie
+        => @convocation.subscription.competition.category
+        'est actuellement:
         strong
           =@convocation.status_text.upcase
 
@@ -65,13 +65,13 @@ div class="modal fade" id="accepted"
         p
           'Vous vous engagez à être présent le
           strong
-             =@convocation.date.strftime("%d/%m/%Y")
-          '  à
+             =>@convocation.date.strftime("%d/%m/%Y")
+          'à
           strong
-            =@convocation.hour.strftime("%Hh%M")
-          '  au
+            =>@convocation.hour.strftime("%Hh%M")
+          'au
           strong
-            =@convocation.subscription.tournament.address
+            =>@convocation.subscription.tournament.address
 
       div class="modal-body"
         = simple_form_for @convocation do |f|

@@ -1,28 +1,27 @@
 h1
-  = @convocation.subscription.tournament.name
-  '
+  => @convocation.subscription.tournament.name
   = @convocation.subscription.competition.category
 div class= "panel panel-default"
   div class= "panel heading"
     h4
       'Convocation du
-      = @convocation.date.strftime("%d/%m/%Y")
-      '  à
-      = @convocation.hour.strftime("%Hh%M")
+      => @convocation.date.strftime("%d/%m/%Y")
+      'à
+      => @convocation.hour.strftime("%Hh%M")
 
     - if @convocation.status == "refused"
-        =@convocation.subscription.user.full_name
-        '  a
+        =>@convocation.subscription.user.full_name
+        'a
         strong
           =@convocation.status_text.upcase
         '  la convocation du
-        = @convocation.date.strftime("%d/%m/%Y")
-        '  à
-        = @convocation.hour.strftime("%Hh%M")
+        => @convocation.date.strftime("%d/%m/%Y")
+        'à
+        => @convocation.hour.strftime("%Hh%M")
         '  que vous lui avez proposé pour
-        = @convocation.subscription.tournament.name.upcase
-        '  dans la catégorie
-        = @convocation.subscription.competition.category
+        =>@convocation.subscription.tournament.name.upcase
+        'dans la catégorie
+        =>@convocation.subscription.competition.category
 
     - elsif @convocation.status == "confirmed"
         =@convocation.subscription.user.full_name
@@ -38,6 +37,14 @@ div class= "panel panel-default"
         '  dans la catégorie
         = @convocation.subscription.competition.category
 
+    - elsif @convocation.status == "pending"
+      p
+        strong
+          =>@convocation.subscription.user.full_name
+        'n'a pas encore répondu à votre convocation
+        br
+        ' Voulez vous lui proposer une autre convocation ?
+
     - elsif @convocation.status == "confirmed_by_judge"
       p
         'Vous avez indiquez à
@@ -49,8 +56,8 @@ div class= "panel panel-default"
     - else
       p
         strong
-          =@convocation.subscription.user.full_name
-        '  vous a notifié son WO
+          =>@convocation.subscription.user.full_name
+        'vous a notifié son WO
         br
         ' Vous pouvez néanmoins toujours lui proposer une nouvelle convocation si vous pensez que cela est nécessaire
     - if @convocation.status == "refused"
