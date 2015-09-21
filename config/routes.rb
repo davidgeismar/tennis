@@ -41,6 +41,8 @@ Rails.application.routes.draw do
   post 'competitions/:competition_id/convocations/multiple_create', to: "convocations#multiple_create", as: "multiple_create"
   post 'competitions/:competition_id/updaterankings',               to: "competitions#update_rankings",  as: "updaterankings"
 
+  post 'tournaments/:tournament_id/subscriptions/multiple_new',    to: "subscriptions#multiple_new",    as: "multiple_new_subscriptions"
+  post 'tournaments/:tournament_id/subscriptions/multiple_create', to: "subscriptions#multiple_create", as: "multiple_create_subscriptions"
   resources :subscriptions, only: [] do
     member do
       post 'accept'

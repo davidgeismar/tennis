@@ -7,7 +7,16 @@ div class="banner-tournament"
         div class="panel-heading"
           h4 Catégories disponibles
         div class="panel-body"
-          ul
+          ul class= "list-unstyled"
             - @competitions.each do |competition|
               li
+                input class="checkbox-subscription" type="checkbox" name="sub" id= competition.id
                 = link_to("#{competition.category} #{competition.genre.text}",  new_competition_subscription_path(competition))
+
+
+          = form_tag multiple_new_subscriptions_path(params[:tournament_id]) do ||
+            = hidden_field_tag :select_competitions
+            = button_tag(type: "submit", class: "btn btn-success margin") do
+              'Valider
+
+

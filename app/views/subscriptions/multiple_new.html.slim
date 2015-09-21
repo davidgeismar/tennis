@@ -1,0 +1,76 @@
+div class="container"
+  div class="row"
+    div class="col-xs-12"
+      h1 Paiement
+
+      p
+        'Paiement de l’inscription pour un montant de
+        strong
+          = @total_amount
+          '€
+
+      div class="row"
+        div class="col-sm-6"
+          div class="well"
+            label Numéro de carte
+            div class="input-group"
+              div class="input-group-addon"
+                i class="fa fa-credit-card"
+              input type="number" id="card_number" class="form-control empty text-input card-input" placeholder="1234 5678 3245 2345"
+            div class="row"
+              div class="col-xs-6"
+                label Expire fin
+                div class="input-group"
+                  div class="input-group-addon"
+                    i class="fa fa-calendar"
+                  input type="number" id="card_expiration_date" class="form-control empty text-input date-input" placeholder="MMAA"
+              div class="col-xs-6"
+                label Code CSV
+                div class="input-group"
+                  div class="input-group-addon"
+                    i class="fa fa-lock"
+                  input type="number" id="card_cvx" class="form-control empty text-input" placeholder="123"
+        div class="col-sm-6"
+          p
+            'En cliquant sur payer, je valide mon inscription à
+            strong> = @tournament.name
+            'dans la,les catégorie(s)
+            - @competitions.each do |competition|
+              strong> = competition.category
+              ',
+            'du
+            strong> = @tournament.starts_on.strftime("%d/%m/%Y")
+            'au
+            strong = @tournament.ends_on.strftime("%d/%m/%Y")
+          p Je ne serai débité que si mon inscription au tournoi est validé par le Juge arbitre
+
+      = hidden_field_tag :card_type, "CB_VISA_MASTERCARD"
+
+      div class="well"
+        = form_tag multiple_create_subscriptions_path(@tournament), method: :post, id: 'payment_form' do ||
+          = hidden_field_tag :competitions_ids, nil, value: @competition_ids
+            div class="checkbox"
+              label for="js-CGV"
+                input type="checkbox" name="CGV" id="js-CGV"
+                'J’ai lu et j’accepte les
+                = link_to 'conditions générales de vente', page_path('cgv')
+
+
+
+      div id="js-error-cgv" class="alert alert-info hide"
+        p
+          'Veuillez
+          strong> accepter les CGV de WeTennis
+          'pour procéder au paiement
+      div id="js-result" class="alert"
+
+      div class="row"
+        div class="col-xs-12 col-sm-4"
+          button class= "btn btn-primary btn-lg" onclick="javascript:registerCardDemo();"
+            'Payer
+            = @total_amount
+            '€
+        div class="col-xs-12 col-sm-8"
+          = image_tag 'mangopay_logos.png', id: 'mangopay', class: 'img-responsive'
+
+= render 'subscriptions/new_payment'
