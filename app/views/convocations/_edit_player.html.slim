@@ -1,47 +1,59 @@
-p
-  'Le statut de votre convocation du
-  = @convocation.date.strftime("%d/%m/%Y")
-  ' à
-  = @convocation.hour.strftime("%Hh%M")
-  '  pour
+h1
   = @convocation.subscription.tournament.name
-  '  dans la catégorie
+  '
   = @convocation.subscription.competition.category
-  '  est actuellement:
-  strong
-    =@convocation.status_text.upcase
+div class= "panel panel-default"
+    div class= "panel heading"
+      h4
+        'Convocation du
+        = @convocation.date.strftime("%d/%m/%Y")
+        '  à
+        = @convocation.hour.strftime("%Hh%M")
 
+      p
+        'Le statut de votre convocation du
+        = @convocation.date.strftime("%d/%m/%Y")
+        ' à
+        = @convocation.hour.strftime("%Hh%M")
+        '  pour
+        = @convocation.subscription.tournament.name
+        '  dans la catégorie
+        = @convocation.subscription.competition.category
+        '  est actuellement:
+        strong
+          =@convocation.status_text.upcase
 
-  - if @convocation.status == "refused"
-      div class="row text-center"
-        div class="col-xs-12"
-          a href="#" data-target="#accepted" data-toggle="modal" class="btn btn-success convocation-answer"Accepter la convocation
-          a href="#" data-target="#cancelled" data-toggle="modal" class="btn btn-danger convocation-answer"W.O
+    div class="panel-body"
+      - if @convocation.status == "refused"
+          div class="row text-center"
+            div class="col-xs-12"
+              a href="#" data-target="#accepted" data-toggle="modal" class="btn btn-success convocation-answer"Accepter la convocation
+              a href="#" data-target="#cancelled" data-toggle="modal" class="btn btn-danger convocation-answer"W.O
 
-  - elsif @convocation.status == "confirmed"
-      div class="row text-center"
-        div class="col-xs-12"
-          a href="#" data-target="#refused" data-toggle="modal" class="btn btn-warning convocation-answer"Je suis indisponible
+      - elsif @convocation.status == "confirmed"
+          div class="row text-center"
+            div class="col-xs-12"
+              a href="#" data-target="#refused" data-toggle="modal" class="btn btn-warning convocation-answer"Je suis indisponible
 
-        div class="col-xs-12"
-          a href="#" data-target="#cancelled" data-toggle="modal" class="btn btn-danger convocation-answer"W.O
+            div class="col-xs-12"
+              a href="#" data-target="#cancelled" data-toggle="modal" class="btn btn-danger convocation-answer"W.O
 
-  - elsif @convocation.status == "confirmed_by_judge"
-    div class="row text-center"
-      div class="col-xs-12"
-          a href="#" data-target="#cancelled" data-toggle="modal" class="btn btn-danger convocation-answer"W.O
+      - elsif @convocation.status == "confirmed_by_judge"
+        div class="row text-center"
+          div class="col-xs-12"
+              a href="#" data-target="#cancelled" data-toggle="modal" class="btn btn-danger convocation-answer"W.O
 
-  - elsif @convocation.status == "pending"
-    div class="row text-center"
-      div class="col-xs-12"
-         a href="#" data-target="#accepted" data-toggle="modal" class="btn btn-success convocation-answer"Accepter la convocation
-      div class="col-xs-12"
-          a href="#" data-target="#refused" data-toggle="modal" class="btn btn-warning convocation-answer"Je suis indisponible
+      - elsif @convocation.status == "pending"
+        div class="row text-center"
+          div class="col-xs-12"
+             a href="#" data-target="#accepted" data-toggle="modal" class="btn btn-success convocation-answer"Accepter la convocation
+          div class="col-xs-12"
+              a href="#" data-target="#refused" data-toggle="modal" class="btn btn-warning convocation-answer"Je suis indisponible
 
-  - else
-      div class="row text-center"
-        div class="col-xs-12"
-          a href="#" data-target="#accepted" data-toggle="modal" class="btn btn-success convocation-answer"Accepter la convocation
+      - else
+          div class="row text-center"
+            div class="col-xs-12"
+              a href="#" data-target="#accepted" data-toggle="modal" class="btn btn-success convocation-answer"Accepter la convocation
 
 
 
