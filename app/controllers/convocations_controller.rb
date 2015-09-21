@@ -16,7 +16,6 @@ class ConvocationsController < ApplicationController
     if @convocation.save
       ConvocationMailer.send_convocation(@convocation).deliver
 
-
       if @convocation.subscription.user.telephone && judge.sms_forfait && judge.sms_quantity > 0
         begin
           client = Twilio::REST::Client.new(ENV['TWILIO_SID'], ENV['TWILIO_TOKEN'])
@@ -26,8 +25,7 @@ class ConvocationsController < ApplicationController
             to:   @convocation.subscription.user.telephone,
             body: "Le juge-arbitre vous propose une nouvelle convocation #{@convocation.date.strftime("le %d/%m/%Y")} #{@convocation.hour.strftime(" à %Hh%M")} pour le tournoi #{@convocation.subscription.tournament.name} dans la catégorie #{@convocation.subscription.competition.category}. Num JA: #{@convocation.subscription.tournament.user.telephone} Connectez vous sur www.wetennis.fr (onglet 'Mes Tournois') pour répondre à cette convocation. "
           )
-          sms_credit = judge.sms_quantity - 1
-          judge.sms_quantity = sms_credit
+          judge.sms_quantity -= 1
           judge.save
         rescue Twilio::REST::RequestError
           # on error, sms won't be sent.. deal
@@ -84,11 +82,12 @@ class ConvocationsController < ApplicationController
         convocation:  @convocation,
         content:      "Le juge arbitre de #{@convocation.tournament.name} ne peut pas vous proposer un autre créneau pour votre convocation"
       )
-      #sms
+
+      # sms
       if @convocation.subscription.user.telephone && judge.sms_forfait && judge.sms_quantity > 0
-        service = TextMessages::Convocations::CreateTextMessageService.new(@convocation)
-        service.call
+        TextMessages::Convocations::CreateTextMessageService.new(@convocation).call
       end
+
       flash[:notice] = "La convocation a bien été confirmée"
       redirect_to competition_subscriptions_path(@convocation.subscription.competition)
     else
@@ -144,8 +143,7 @@ class ConvocationsController < ApplicationController
         end
 
         if convocation.subscription.user.telephone && judge.sms_forfait && judge.sms_quantity > 0
-            service = TextMessages::Convocations::CreateTextMessageService.new(convocation)
-            service.call
+          TextMessages::Convocations::CreateTextMessageService.new(convocation).call
         end
       else
         flash[:warning] = "Un problème est survenu veuillez réessayer d'envoyer votre convocation"
