@@ -1,0 +1,9 @@
+div class="banner"
+  div class="container"
+    - if current_user.judge?
+      = render 'edit_judge'
+    - else
+      = render 'edit_player'
+
+
+

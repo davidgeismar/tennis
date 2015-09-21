@@ -33,12 +33,15 @@ div class="container"
                     =link_to "Répondre", edit_convocation_path(subscription.convocations.last), class: "btn btn-success"
                 - elsif subscription.convocations.last.status == "confirmed_by_judge"
                   strong data-toggle="tooltip" data-placement="left" title="Le JA n'a pas d'autre dispo à vous proposez. Si vous ne pouvez pas venir, veuillez cliquer sur W.O"
-                    = subscription.convocations.last.status.text
+                    = link_to subscription.convocations.last.status.text, edit_convocation_path(subscription.convocations.last)
                     = simple_form_for subscription.convocations.last do |f|
                        = hidden_field_tag 'convocation[status]', :cancelled
                        = f.button :submit, "W.O", class: " btn btn-danger"
+                - elsif subscription.convocations.last.status == "confirmed"
+                  strong
+                    =link_to subscription.convocations.last.status.text, edit_convocation_path(subscription.convocations.last)
                 - else
                   strong
-                    = subscription.convocations.last.status.text
+                    = link_to subscription.convocations.last.status.text, edit_convocation_path(subscription.convocations.last)
             td
               = subscription.tournament.user.telephone
