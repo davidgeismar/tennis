@@ -23,6 +23,12 @@ class DisponibilitiesController < ApplicationController
     end
   end
 
+  def multiple_new
+
+  end
+
+  def multiple_create
+  end
   def show
     authorize @subscription.disponibility
   end
