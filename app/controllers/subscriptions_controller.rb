@@ -17,6 +17,82 @@ class SubscriptionsController < ApplicationController
     authorize @subscription
   end
 
+  def multiple_new
+    @competition_ids = params[:select_competitions].split(',') # ["27", "38", "37", "35"]
+    @competitions    = Competition.where(id: @competition_ids) # array of subscriptions
+    @tournament = Tournament.find(params[:tournament_id])
+    number = @competition_ids.length
+
+
+    custom_authorize CompetitionMultiPolicy, @competitions
+
+    if current_user.eligible_for_young_fare?
+      @total_amount = (@tournament.young_fare*number).to_f
+    else
+      @total_amount = (@tournament.amount*number).to_f
+    end
+
+    @total_amount  += (10 * @total_amount / 100)
+
+    # authorize @subscription
+    @competitions.each do |competition|
+      unless competition_available_for_user?(competition)
+        return redirect_to tournament_competitions_path(@tournament)
+      end
+    end
+
+    unless current_user.mangopay_user_id
+      MangoPayments::Users::CreateNaturalUserService.new(current_user).call
+      MangoPayments::Users::CreateWalletService.new(current_user).call
+    end
+
+    @card         = MangoPayments::Users::CreateCardRegistrationService.new(current_user).call
+    # @subscription = @competition.subscriptions.build
+  rescue MangoPay::ResponseError => e
+    flash[:alert] = "Nous ne parvenons pas à procéder à votre inscription. Veuillez renouveler votre demande. Si le problème persiste, veuillez contacter le service client [#{e.code}]."
+    redirect_to tournament_path(@tournament)
+  end
+
+
+  def multiple_create
+    current_user.update(mangopay_card_id: params[:card_id])
+    @competition_ids = params[:competition_ids].split
+    @competitions    = Competition.where(id: @competition_ids)
+    fare_type     = current_user.eligible_for_young_fare? ? :young : :standard
+    tournament    = Tournament.find(params[:tournament_id])
+    custom_authorize CompetitionMultiPolicy, @competition
+
+    @competitions.each do |competition|
+      subscription  = Subscription.new(user: current_user, competition: competition, fare_type: fare_type)
+
+      if subscription.save
+        service       = MangoPayments::Subscriptions::CreatePayinService.new(subscription)
+        if service.call
+          SubscriptionMailer.confirmation(subscription).deliver
+          notification = Notification.create(
+            user:       subscription.tournament.user,
+            content:    "#{subscription.user.full_name} a demandé à s'inscrire à #{subscription.tournament.name} dans la catégorie #{subscription.competition.category} ",
+            competition_id: subscription.competition.id
+          )
+        else
+          flash[:alert] = 'Un problème est survenu lors du paiement. Merci de bien vouloir réessayer plus tard.'
+          redirect_to tournament_path(tournament)
+        end
+
+      else
+        flash[:alert] = "Un problème est survenu veuillez réessayer"
+      end
+    end
+   # redirect_to new_subscription_disponibility_path(@competitons)
+  rescue MangoPay::ResponseError => e
+    flash[:alert] = "Nous ne parvenons pas à procéder à votre inscription. Veuillez renouveler votre demande. Si le problème persiste, veuillez contacter le service client [#{e.code}]."
+    redirect_to tournament_path(tournament)
+  end
+
+
+
+
+
   def new
     @competition    = Competition.find(params[:competition_id])
     @tournament     = @competition.tournament
@@ -191,23 +267,23 @@ class SubscriptionsController < ApplicationController
     params.require(:subscription).permit(:status, :disponibilities)
   end
 
-  def competition_available_for_user?
+  def competition_available_for_user?(competition)
     if current_user.profile_complete? == false
       flash[:alert] = "Vous devez d'abord remplir <a href=#{user_path(current_user)}>votre profil</a> entièrement avant de pouvoir vous inscrire à ce tournoi (n'oubliez pas de scanner votre licence et votre certificat médical !)"
       return false
-    elsif current_user.subscriptions.where(competition: @competition).exists?
+    elsif current_user.subscriptions.where(competition: competition).exists?
       flash[:alert] = "Vous êtes déjà inscrit à ce tournoi dans cette catégorie"
       return false
-    elsif @competition.open_for_ranking?(current_user.ranking) == false
+    elsif competition.open_for_ranking?(current_user.ranking) == false
       flash[:alert] = "Ce tournoi n'accepte plus d'inscrits à votre classement"
       return false
-    elsif @competition.in_ranking_range?(current_user.ranking) == false
+    elsif competition.in_ranking_range?(current_user.ranking) == false
       flash[:alert] = "Vous n'avez pas le classement requis pour participer à ce tournoi"
       return false
-    elsif @competition.open_for_genre?(current_user.genre) == false
+    elsif competition.open_for_genre?(current_user.genre) == false
       flash[:alert] = "Ce tournoi n'est pas mixte. Vous ne pouvez pas vous inscrire"
       return false
-    elsif @competition.open_for_birthdate?(current_user.birthdate) == false
+    elsif competition.open_for_birthdate?(current_user.birthdate) == false
       flash[:alert] = "Vous n'avez pas l'age requis pour participer à ce tournoi"
       return false
     end
