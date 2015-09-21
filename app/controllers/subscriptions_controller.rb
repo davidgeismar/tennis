@@ -55,7 +55,43 @@ class SubscriptionsController < ApplicationController
 
 
   def multiple_create
+    current_user.update(mangopay_card_id: params[:card_id])
+    @competition_ids = params[:competition_ids].split
+    @competitions    = Competition.where(id: @competition_ids)
+    fare_type     = current_user.eligible_for_young_fare? ? :young : :standard
+    tournament    = Tournament.find(params[:tournament_id])
+    custom_authorize CompetitionMultiPolicy, @competition
+
+    @competitions.each do |competition|
+      subscription  = Subscription.new(user: current_user, competition: competition, fare_type: fare_type)
+
+      if subscription.save
+        service       = MangoPayments::Subscriptions::CreatePayinService.new(subscription)
+        if service.call
+          SubscriptionMailer.confirmation(subscription).deliver
+          notification = Notification.create(
+            user:       subscription.tournament.user,
+            content:    "#{subscription.user.full_name} a demandé à s'inscrire à #{subscription.tournament.name} dans la catégorie #{subscription.competition.category} ",
+            competition_id: subscription.competition.id
+          )
+        else
+          flash[:alert] = 'Un problème est survenu lors du paiement. Merci de bien vouloir réessayer plus tard.'
+          redirect_to tournament_path(tournament)
+        end
+
+      else
+        flash[:alert] = "Un problème est survenu veuillez réessayer"
+      end
+    end
+   # redirect_to new_subscription_disponibility_path(@competitons)
+  rescue MangoPay::ResponseError => e
+    flash[:alert] = "Nous ne parvenons pas à procéder à votre inscription. Veuillez renouveler votre demande. Si le problème persiste, veuillez contacter le service client [#{e.code}]."
+    redirect_to tournament_path(tournament)
   end
+
+
+
+
 
   def new
     @competition    = Competition.find(params[:competition_id])

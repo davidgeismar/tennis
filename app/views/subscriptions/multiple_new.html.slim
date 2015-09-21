@@ -48,12 +48,12 @@ div class="container"
 
       div class="well"
         = form_tag multiple_create_subscriptions_path(@tournament), method: :post, id: 'payment_form' do ||
-          = hidden_field_tag :competitions_ids, nil, value: @competition_ids
-            div class="checkbox"
-              label for="js-CGV"
-                input type="checkbox" name="CGV" id="js-CGV"
-                'J’ai lu et j’accepte les
-                = link_to 'conditions générales de vente', page_path('cgv')
+          = hidden_field_tag :competition_ids, nil, value: @competition_ids
+          div class="checkbox"
+            label for="js-CGV"
+              input type="checkbox" name="CGV" id="js-CGV"
+              'J’ai lu et j’accepte les
+              = link_to 'conditions générales de vente', page_path('cgv')
 
 
 
