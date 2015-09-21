@@ -54,16 +54,17 @@ div class="container"
 
 
 
+      div id="js-result" class="alert alert-info hide"
       div id="js-error-cgv" class="alert alert-info hide"
         p
           'Veuillez
           strong> accepter les CGV de WeTennis
           'pour procéder au paiement
-      div id="js-result" class="alert"
-
+      hr
       div class="row"
         div class="col-xs-12 col-sm-4"
           button class= "btn btn-primary btn-lg" onclick="javascript:registerCardDemo();"
+            i.fa.fa-fw.fa-lock
             'Payer
             = @total_amount
             '€
