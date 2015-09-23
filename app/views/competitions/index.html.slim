@@ -10,4 +10,6 @@ div class="banner-tournament"
           ul
             - @competitions.each do |competition|
               li
-                = link_to("#{competition.category} #{competition.genre.text}",  new_competition_subscription_path(competition))
+                = link_to(I18n.t("competition.#{competition.category} #{competition.genre.text}"),  new_competition_subscription_path(competition))
+
+
