@@ -11,7 +11,8 @@ div class="banner-tournament"
             - @competitions.each do |competition|
               li
                 input class="checkbox-subscription" type="checkbox" name="sub" id= competition.id
-                = link_to("#{competition.category} #{competition.genre.text}",  new_competition_subscription_path(competition))
+                =<> competition.category
+                = competition.genre.text
 
 
           = form_tag multiple_new_subscriptions_path(params[:tournament_id]) do ||

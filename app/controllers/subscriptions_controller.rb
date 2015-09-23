@@ -83,10 +83,9 @@ class SubscriptionsController < ApplicationController
         flash[:alert] = "Un problème est survenu veuillez réessayer"
       end
     end
-   # redirect_to new_subscription_disponibility_path(@competitons)
+  redirect_to new_tournament_disponibility_path(tournament)
   rescue MangoPay::ResponseError => e
     flash[:alert] = "Nous ne parvenons pas à procéder à votre inscription. Veuillez renouveler votre demande. Si le problème persiste, veuillez contacter le service client [#{e.code}]."
-    redirect_to tournament_path(tournament)
   end
 
 
@@ -275,16 +274,16 @@ class SubscriptionsController < ApplicationController
       flash[:alert] = "Vous êtes déjà inscrit à ce tournoi dans cette catégorie"
       return false
     elsif competition.open_for_ranking?(current_user.ranking) == false
-      flash[:alert] = "Ce tournoi n'accepte plus d'inscrits à votre classement"
+      flash[:alert] = "Cette épreuve n'accepte plus d'inscrits à votre classement"
       return false
     elsif competition.in_ranking_range?(current_user.ranking) == false
-      flash[:alert] = "Vous n'avez pas le classement requis pour participer à ce tournoi"
+      flash[:alert] = "Vous n'avez pas le classement requis pour participer à cette épreuve"
       return false
     elsif competition.open_for_genre?(current_user.genre) == false
-      flash[:alert] = "Ce tournoi n'est pas mixte. Vous ne pouvez pas vous inscrire"
+      flash[:alert] = "Cette épreuve n'est pas mixte. Vous ne pouvez pas vous inscrire"
       return false
     elsif competition.open_for_birthdate?(current_user.birthdate) == false
-      flash[:alert] = "Vous n'avez pas l'age requis pour participer à ce tournoi"
+      flash[:alert] = "Vous n'avez pas l'age requis pour participer à l'une des épreuves que vous avez sélectionné"
       return false
     end
 

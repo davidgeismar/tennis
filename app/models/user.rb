@@ -18,6 +18,7 @@ class User < ActiveRecord::Base
   has_many :tournaments,    dependent: :destroy
   has_many :messages,       dependent: :destroy
   has_many :notifications,  dependent: :destroy
+  has_many :disponibilities, dependent: :destroy
 
   has_attached_file :picture,           styles: { medium: "300x300>", thumb: "100x100>" }
   has_attached_file :licencepicture,    styles: { medium: "300x300>", thumb: "100x100>" }

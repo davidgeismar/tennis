@@ -3,23 +3,23 @@
       <div class="col-md-6 bigmarge">
         <div class="panel panel-default">
           <div class="panel-heading">
-            <h4>DISPONIBILITES DE <%= @subscription.user.full_name %></h4>
+            <h4>DISPONIBILITES DE <%= @disponibility.user.full_name %></h4>
           </div>
           <div class="panel-body">
             <ul>
-               <li>Le lundi: <%= @subscription.disponibility.monday %> </li>
-              <li>Le mardi: <%= @subscription.disponibility.tuesday %> </li>
-               <li>Le mercredi: <%= @subscription.disponibility.wednesday %> </li>
-               <li>Le jeudi: <%= @subscription.disponibility.thursday %> </li>
-               <li>Le vendredi: <%= @subscription.disponibility.friday %> </li>
-               <li>Le samedi : <%= @subscription.disponibility.saturday %> </li>
-               <li>Le dimanche : <%= @subscription.disponibility.sunday %> </li>
-               <li>Commentaire : <%= @subscription.disponibility.comment %> </li>
+               <li>Le lundi: <%= @disponibility.monday %> </li>
+              <li>Le mardi: <%= @disponibility.tuesday %> </li>
+               <li>Le mercredi: <%= @disponibility.wednesday %> </li>
+               <li>Le jeudi: <%= @disponibility.thursday %> </li>
+               <li>Le vendredi: <%= @disponibility.friday %> </li>
+               <li>Le samedi : <%= @disponibility.saturday %> </li>
+               <li>Le dimanche : <%= @disponibility.sunday %> </li>
+               <li>Commentaire : <%= @disponibility.comment %> </li>
             </ul>
           </div>
           <div class="panel-footer">
             <a href="javascript:history.back()" class="btn btn-default">Retour</a>
-            <%= link_to "Modifier", edit_subscription_disponibility_path(@subscription, @subscription.disponibility), class: 'btn btn-warning' %>
+            <%= link_to "Modifier", edit_tournament_disponibility_path(@tournament, @disponibility), class: 'btn btn-warning' %>
           </div>
         </div>
       </div>

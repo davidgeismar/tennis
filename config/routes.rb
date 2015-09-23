@@ -22,6 +22,7 @@ Rails.application.routes.draw do
 
   resources :tournaments, only: [:index, :show, :new, :create, :update] do
     resources :competitions
+    resources :disponibilities, only: [:new, :create, :show, :edit, :update]
   end
 
   resources :competitions, only: [:index, :show, :new, :create, :update] do
