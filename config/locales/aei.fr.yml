@@ -7,8 +7,8 @@ fr:
       'Senior': 'Senior'
     competition_category:
       male_seniors: "Simple Messieurs Senior"
-      'male_45 ans': "Simple Messieurs 45"
       'male_35 ans': "Simple Messieurs 35"
+      'male_45 ans': "Simple Messieurs 45"
       'male_40 ans': "Simple Messieurs 40"
       'male_50 ans': "Simple Messieurs 50"
       'male_55 ans': "Simple Messieurs 55"

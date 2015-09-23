@@ -41,7 +41,7 @@
             - @tournament.competitions.each do |competition|
               ul
                 li
-                  = link_to("#{competition.category} #{competition.genre.text}", tournament_competition_path(@tournament, competition))
+                  = link_to(I18n.t("competition.#{competition.category} #{competition.genre.text}"), tournament_competition_path(@tournament, competition))
 
 
       ul class="list-inline"
