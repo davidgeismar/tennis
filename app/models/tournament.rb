@@ -5,7 +5,7 @@ class Tournament < ActiveRecord::Base
   belongs_to :user
 
   has_one  :mangopay_transaction, dependent: :destroy
-
+  has_many :disponibilities, dependent: :destroy
   has_many :notifications,  dependent: :destroy
   has_many :subscriptions,  through: :competitions
   has_many :competitions,   dependent: :destroy

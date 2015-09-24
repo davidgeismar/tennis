@@ -1,15 +1,18 @@
 class DisponibilitiesController < ApplicationController
-  before_action :set_subscription
+  before_action :set_tournament
+  before_action :set_disponibility, only: [:edit, :update, :show]
 
   def new
     @disponibility = Disponibility.new
-    @disponibility.subscription = @subscription
+    @disponibility.user = current_user
+    @disponibility.tournament = @tournament
     authorize @disponibility
   end
 
   def create
     @disponibility = Disponibility.new(disponibility_params)
-    @disponibility.subscription = @subscription
+    @disponibility.tournament = @tournament
+    @disponibility.user = current_user
     authorize @disponibility
 
     if @disponibility.save && current_user.judge?
@@ -24,16 +27,14 @@ class DisponibilitiesController < ApplicationController
   end
 
   def show
-    authorize @subscription.disponibility
+    authorize @disponibility
   end
 
   def edit
-    @disponibility = @subscription.disponibility
     authorize @disponibility
   end
 
   def update
-   @disponibility = @subscription.disponibility
    authorize @disponibility
    if @disponibility.update(disponibility_params)
     redirect_to competition_subscriptions_path(@subscription.competition)
@@ -45,8 +46,12 @@ class DisponibilitiesController < ApplicationController
 
   private
 
-  def set_subscription
-    @subscription = Subscription.find(params[:subscription_id])
+  def set_tournament
+    @tournament = Tournament.find(params[:tournament_id])
+  end
+
+  def set_disponibility
+    @disponibility = Disponibility.find(params[:id])
   end
 
   def disponibility_params

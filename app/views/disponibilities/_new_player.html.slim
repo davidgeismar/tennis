@@ -5,26 +5,21 @@ div class="banner"
           div class="panel-heading"
             h1 Félicitation !
             p
-              ' Votre Paiement pour
-              =@subscription.tournament.name
-              '  dans la catégorie
-              = @subscription.competition.category
-              '
-              = @subscription.competition.genre.text
-              '  a bien été pris en compte. Vous recevrez un mail de confirmation si votre inscription est validé par le juge arbitre.
-            p S'il est impossible de vous intégrez au tableau, votre paiement vous sera remboursé intégralement.
+              ' Votre inscription pour
+              =>@tournament.name
+              'a bien été pris en compte. Vous recevrez un mail de confirmation si votre inscription est validé par le juge arbitre.
             strong Merci de bien vouloir indiquer vos disponibilités pour le tournoi en remplissant les champs à votre droite.
             br
             br
-            p L'équipe Tennis Match
+            p L'équipe WeTennis
 
       div class="col-md-offset-1 col-md-4 bigmarge"
         div class="panel panel-default"
           div class="panel-heading"
-            h3 =@subscription.tournament.name.upcase
+            h3 =@tournament.name.upcase
             p Merci d'indiquer vos disponibilités
           div class="panel-body"
-            =simple_form_for [@subscription, @disponibility] do |f|
+            =simple_form_for [@tournament, @disponibility] do |f|
               = f.error_notification
 
               = f.input :monday
