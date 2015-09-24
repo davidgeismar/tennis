@@ -5,10 +5,10 @@ class PlayerInvitationsMailer < ApplicationMailer
   #
   #   en.convocation_mailer.convocation.subject
   #
-  def send_invitation(tournament, user_email)
-    @tournament = tournament
+  def send_invitation(competition, user_email)
+    @competition = tournament
     @user_email = user_email
 
-    mail(to: @user_email, subject: "Vous avez été invité à vous inscrire au tournoi #{@tournament.name}")
+    mail(to: @user_email, subject: "Vous avez été invité à vous inscrire au tournoi #{@competition.tournament.name}")
   end
 end
