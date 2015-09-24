@@ -35,9 +35,9 @@ div class="container"
 
           dl class="dl-horizontal"
             dt Catégories :
-            dd
+            dd class="medium_minus"
               - @tournament.competitions.each do |competition|
-                = "#{competition.category} #{competition.genre.text}"
+                = I18n.t("competition.#{competition.category} #{competition.genre.text}")
                 br
 
       = link_to '← Retour', tournaments_path, class: 'btn btn-default'
