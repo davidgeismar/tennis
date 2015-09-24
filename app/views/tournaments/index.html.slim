@@ -21,7 +21,7 @@ div class="container"
                   strong = tournament.ends_on.strftime("%d/%m/%Y")
                 ul
                   - tournament.competitions.each do |competition|
-                    li class="small"
+                    li class="medium"
                       = I18n.t("competition.#{competition.category} #{competition.genre.text}")
               div class="panel-footer"
                 = link_to 'En savoir plus', tournament_path(tournament), class: 'btn btn-primary'
