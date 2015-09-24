@@ -13,7 +13,7 @@ div class="container"
                   br
                   small = tournament.city.upcase
 
-              div class="panel-body"
+              div class="panel-body min_height_panel"
                 p
                   'Du
                   strong> = tournament.starts_on.strftime("%d/%m/%Y")
@@ -21,7 +21,7 @@ div class="container"
                   strong = tournament.ends_on.strftime("%d/%m/%Y")
                 ul
                   - tournament.competitions.each do |competition|
-                    li
-                      = "#{competition.category} #{competition.genre.text}"
+                    li class="medium"
+                      = I18n.t("competition.#{competition.category} #{competition.genre.text}")
               div class="panel-footer"
                 = link_to 'En savoir plus', tournament_path(tournament), class: 'btn btn-primary'

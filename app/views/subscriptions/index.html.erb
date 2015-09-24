@@ -149,15 +149,15 @@
               <% if subscription.convocations.last %>
                   <td><%= subscription.convocations.last.date.strftime('le %d/%m/%Y')%>
                   <%= subscription.convocations.last.hour.strftime('à %Hh%M')%>
-                  <%= link_to subscription.convocations.last.status_text, edit_convocation_path(subscription.convocations.last) %><td>
+                  <%= link_to subscription.convocations.last.status_text, edit_convocation_path(subscription.convocations.last) %></td>
               <%else%>
                 <td></td>
               <% end %>
 
               <% if subscription.convocations.last && subscription.convocations.last.message && !subscription.convocations.last.message.read  %>
-              <td>
-                <%=link_to "+1", convocation_message_path(subscription.convocations.last, subscription.convocations.last.message), class: "btn btn-success message", "data-toggle"=>"tooltip", "data-placement"=>"top", title: " #{subscription.convocations.last.message.content}" %>
-              </td>
+                <td>
+                  <%=link_to "+1", convocation_message_path(subscription.convocations.last, subscription.convocations.last.message), class: "btn btn-success message", "data-toggle"=>"tooltip", "data-placement"=>"top", title: " #{subscription.convocations.last.message.content}" %>
+                </td>
               <%else%>
                 <td></td>
               <% end %>

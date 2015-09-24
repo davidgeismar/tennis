@@ -10,6 +10,7 @@ div class="banner-tournament"
           ul class= "list-unstyled"
             - @unsubcribed_competitions.each do |competition|
               li
+
                 input class="checkbox-subscription" type="checkbox" name="sub" id= competition.id
                 =<> competition.category
                 = competition.genre.text
@@ -19,5 +20,6 @@ div class="banner-tournament"
             = hidden_field_tag :select_competitions
             = button_tag(type: "submit", class: "btn btn-success margin") do
               'Valider
+
 
 

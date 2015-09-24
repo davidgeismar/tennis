@@ -36,6 +36,13 @@
             strong
               - if @tournament.bic?
                 = @tournament.bic
+          p
+            'EPREUVES :
+            - @tournament.competitions.each do |competition|
+              ul
+                li
+                  = link_to(I18n.t("competition.#{competition.category} #{competition.genre.text}"), tournament_competition_path(@tournament, competition))
+
 
       ul class="list-inline"
         li = link_to 'Éditer', edit_user_tournament_path(current_user, @tournament), class: 'btn btn-success'
