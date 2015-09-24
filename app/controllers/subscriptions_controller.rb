@@ -63,7 +63,7 @@ class SubscriptionsController < ApplicationController
     custom_authorize CompetitionMultiPolicy, @competition
 
     @competitions.each do |competition|
-      subscription  = Subscription.new(user: current_user, competition: competition, fare_type: fare_type)
+      subscription  = Subscription.new(user: current_user, competition: competition, fare_type: fare_type, tournament_id: tournament.id)
 
       if subscription.save
         service       = MangoPayments::Subscriptions::CreatePayinService.new(subscription)
@@ -83,7 +83,13 @@ class SubscriptionsController < ApplicationController
         flash[:alert] = "Un problème est survenu veuillez réessayer"
       end
     end
-  redirect_to new_tournament_disponibility_path(tournament)
+    if tournament.disponibilities.where(user: current_user).exists?
+
+      redirect_to mytournaments_path
+    else
+      flash[:notice] = "Votre demande d'inscription a bien été prise en compte. Vous recevrez une réponse du Juge arbitre dans les plus brefs délais"
+      redirect_to new_tournament_disponibility_path(tournament)
+    end
   rescue MangoPay::ResponseError => e
     flash[:alert] = "Nous ne parvenons pas à procéder à votre inscription. Veuillez renouveler votre demande. Si le problème persiste, veuillez contacter le service client [#{e.code}]."
   end
@@ -286,7 +292,6 @@ class SubscriptionsController < ApplicationController
       flash[:alert] = "Vous n'avez pas l'age requis pour participer à l'une des épreuves que vous avez sélectionné"
       return false
     end
-
     true
   end
 end

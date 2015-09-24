@@ -130,8 +130,9 @@ competition_category_checks:
     '13-14 ans': 13
     '15-16 ans': 15
     '17-18 ans': 17
-  senior_tennis_age:
+  all_age_good:
     'seniors': 19
+  senior_tennis_age:
     '35 ans': 35
     '40 ans': 40
     '45 ans': 45

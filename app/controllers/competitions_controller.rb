@@ -21,7 +21,15 @@ class CompetitionsController < ApplicationController
   end
 
   def index
+    @tournament = Tournament.find(params[:tournament_id])
+    #les subscriptions du user pour ce tournament
+    @subscriptions_of_user = current_user.subscriptions.where(tournament_id: @tournament.id)
+    @competitions_already_subscribed_array = []
+    @subscriptions_of_user.each do |subscription|
+      @competitions_already_subscribed_array << subscription.competition
+    end
     @competitions = Competition.where(tournament_id: @tournament)
+    @unsubcribed_competitions = @competitions - @competitions_already_subscribed_array
     policy_scope(@competitions)
   end
 

@@ -7,7 +7,6 @@ class Competition < ActiveRecord::Base
   enumerize :nature,      in: ['Simple']
 
   belongs_to :tournament
-
   has_many :subscriptions, dependent: :destroy
   has_many :notifications, dependent: :destroy
 
@@ -58,13 +57,10 @@ class Competition < ActiveRecord::Base
     exact_tennis_age  = check_settings.exact_tennis_age[category]
     range_tennis_age  = check_settings.range_tennis_age[category]
     senior_tennis_age = check_settings.senior_tennis_age[category]
-    senior_only_age   = check_settings.senior_tennis_age["seniors"]
-
     return false if user_age <= 7
     return false if real_age          && real_age != user_age
     return false if exact_tennis_age  && (tennis_year - exact_tennis_age) > birth_year
     return false if range_tennis_age  && (tennis_year - range_tennis_age) > birth_year && (tennis_year - range_tennis_age - 1) > birth_year
-    return true  if senior_only_age
     return false if senior_tennis_age && (tennis_year - senior_tennis_age) < birth_year
 
     true

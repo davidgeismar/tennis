@@ -1,6 +1,6 @@
 class DisponibilitiesController < ApplicationController
   before_action :set_tournament
-  before_action :set_disponibility
+  before_action :set_disponibility, only: [:edit, :update, :show]
 
   def new
     @disponibility = Disponibility.new
