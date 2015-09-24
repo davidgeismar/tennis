@@ -12,8 +12,7 @@ div class="banner-tournament"
               li
 
                 input class="checkbox-subscription" type="checkbox" name="sub" id= competition.id
-                =<> competition.category
-                = competition.genre.text
+                =<> I18n.t("competition.#{competition.category} #{competition.genre.text}")
 
 
           = form_tag multiple_new_subscriptions_path(params[:tournament_id]) do ||
