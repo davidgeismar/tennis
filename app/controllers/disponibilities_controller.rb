@@ -19,7 +19,7 @@ class DisponibilitiesController < ApplicationController
       redirect_to competition_subscriptions_path(@subscription.competition)
       flash[:notice] = "Les disponibilités du licencié ont bien été enregistrées"
     elsif  @disponibility.save
-      redirect_to mytournaments_path
+      redirect_to tournament_competitions_path(@tournament)
       flash[:notice] = "Vos disponibilités ont bien été enregistrées"
     else
       render 'new'

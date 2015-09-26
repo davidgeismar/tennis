@@ -1,35 +1,22 @@
 div class="banner"
   div class="container padded"
-      div class="col-md-6 bigmarge"
-        div class="panel panel-default"
-          div class="panel-heading"
-            h1 Félicitation !
-            p
-              ' Votre inscription pour
-              =>@tournament.name
-              'a bien été pris en compte. Vous recevrez un mail de confirmation si votre inscription est validé par le juge arbitre.
-            strong Merci de bien vouloir indiquer vos disponibilités pour le tournoi en remplissant les champs à votre droite.
-            br
-            br
-            p L'équipe WeTennis
+    div class="col-md-offset-4 col-md-4 bigmarge"
+      div class="panel panel-default"
+        div class="panel-heading"
+          h3 =@tournament.name.upcase
+          p Merci d'indiquer vos disponibilités
+        div class="panel-body"
+          =simple_form_for [@tournament, @disponibility] do |f|
+            = f.error_notification
 
-      div class="col-md-offset-1 col-md-4 bigmarge"
-        div class="panel panel-default"
-          div class="panel-heading"
-            h3 =@tournament.name.upcase
-            p Merci d'indiquer vos disponibilités
-          div class="panel-body"
-            =simple_form_for [@tournament, @disponibility] do |f|
-              = f.error_notification
-
-              = f.input :monday
-              = f.input :tuesday
-              = f.input :wednesday
-              = f.input :thursday
-              = f.input :friday
-              = f.input :saturday
-              = f.input :sunday
-              = f.input :comment
+            = f.input :monday
+            = f.input :tuesday
+            = f.input :wednesday
+            = f.input :thursday
+            = f.input :friday
+            = f.input :saturday
+            = f.input :sunday
+            = f.input :comment
 
 
-              = f.button :submit, "Valider", class: "btn btn-success"
+            = f.button :submit, "Valider", class: "btn btn-success"
