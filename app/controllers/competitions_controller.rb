@@ -31,6 +31,11 @@ class CompetitionsController < ApplicationController
     @competitions = Competition.where(tournament_id: @tournament)
     @unsubcribed_competitions = @competitions - @competitions_already_subscribed_array
     policy_scope(@competitions)
+    if @unsubscribed_competitions.nil?
+      flash[:alert] = "Vous êtes déjà inscrit dans toutes les catégories disponibles de ce tournoi"
+      redirect_to mytournaments_path
+    else
+    end
   end
 
   def show

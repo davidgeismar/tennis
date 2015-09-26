@@ -83,13 +83,10 @@ class SubscriptionsController < ApplicationController
         flash[:alert] = "Un problème est survenu veuillez réessayer"
       end
     end
-    if tournament.disponibilities.where(user: current_user).exists?
 
-      redirect_to mytournaments_path
-    else
       flash[:notice] = "Votre demande d'inscription a bien été prise en compte. Vous recevrez une réponse du Juge arbitre dans les plus brefs délais"
-      redirect_to new_tournament_disponibility_path(tournament)
-    end
+      redirect_to mytournaments_path
+
   rescue MangoPay::ResponseError => e
     flash[:alert] = "Nous ne parvenons pas à procéder à votre inscription. Veuillez renouveler votre demande. Si le problème persiste, veuillez contacter le service client [#{e.code}]."
   end

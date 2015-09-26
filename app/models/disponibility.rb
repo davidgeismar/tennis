@@ -17,4 +17,10 @@ class Disponibility < ActiveRecord::Base
    # validates :week, presence: {message: "Merci d'indiquer vos disponibilités en semaine"}
    validates :saturday, presence: {message: "Merci d'indiquer vos disponibilités pour le samedi"}
    validates :sunday, presence: {message: "Merci d'indiquer vos disponibilités pour le dimanche"}
+   validates :monday, presence: {message: "Merci d'indiquer vos disponibilités pour le lundi"}
+   validates :tuesday, presence: {message: "Merci d'indiquer vos disponibilités pour le mardi"}
+   validates :wednesday, presence: {message: "Merci d'indiquer vos disponibilités pour le mercredi"}
+   validates :thursday, presence: {message: "Merci d'indiquer vos disponibilités pour le jeudi"}
+   validates :friday, presence: {message: "Merci d'indiquer vos disponibilités pour le vendredi"}
+
 end

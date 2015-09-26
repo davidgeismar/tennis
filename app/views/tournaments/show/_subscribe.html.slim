@@ -41,7 +41,10 @@ div class="container"
                 br
 
       = link_to '← Retour', tournaments_path, class: 'btn btn-default'
-      = link_to 'S’inscrire', tournament_competitions_path(@tournament), class: 'btn btn-warning'
+      - if !current_user.judge && @tournament.disponibilities.where(user: current_user).exists?
+         = link_to 'S’inscrire', tournament_competitions_path(@tournament), class: 'btn btn-warning'
+      - else
+         = link_to 'S’inscrire', new_tournament_disponibility_path(@tournament), class: 'btn btn-warning'
 
     div class="col-md-7"
       = render 'tournaments/show/map_location'
