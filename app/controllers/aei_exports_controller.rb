@@ -24,7 +24,9 @@ class AeiExportsController < ApplicationController
         success: [],
         failure: []
       }
+      outdated_licence = []
       already_subscribed_players = []
+      too_young_to_participate = []
       subscriptions_arrays.each do |subscription_array|
         agent = Mechanize.new
         agent.get("https://aei.app.fft.fr/ei/connexion.do?dispatch=afficher")
@@ -138,7 +140,7 @@ class AeiExportsController < ApplicationController
                     # I18n.t("aei.tournament_category.#{tournament_category}")
 
                     if aei_competition_category == category_title
-                      raise
+
 
                       checkbox.check
 
@@ -162,13 +164,36 @@ class AeiExportsController < ApplicationController
                       page = form.submit
                       body = page.body
                       html_body = Nokogiri::HTML(body)
+
+
                       # puts html_body
+
+                      #players who are too young to participate
+                      html_body.search('.L1').each do |mess|
+                        puts mess
+                        if mess.text.include?("trop jeune pour participer à l'épreuve")
+                          name = mess.text.slice(0...(mess.text.index(" : trop jeune pour participer à l'épreuve")))
+                          too_young_to_participate << name
+                        else
+                        end
+                      end
                       # gestion joueur déjà inscrit
                       # str = html_body.search('li').text
                       html_body.search('li').each do |li|
-                        name = li.text.slice(0...(li.text.index('est déjà inscrit(e)')))
-                        puts name
-                        already_subscribed_players << name
+                        #already_subscribed
+
+                       if li.text.include?('est déjà inscrit(e)')
+                          name = li.text.slice(0...(li.text.index('est déjà inscrit(e)')))
+                          puts name
+                          already_subscribed_players << name
+                        #licence non valide
+                        elsif li.text.include?('Passé le')
+                          name = li.text.slice(0...(li.text.index(' : Passé le')))
+                          puts name
+                          outdated_licence << name
+                        else
+                          puts licence
+                        end
                       end
                     end
                   end
@@ -196,11 +221,17 @@ class AeiExportsController < ApplicationController
 
       failure_full_names = stats[:failure].map { |subscription| subscription.user.full_name }.join(', ')
       already_subscribed_full_names = already_subscribed_players.map {|full_name| full_name}.join(', ')
+      outdated_licence_full_names = outdated_licence.map {|full_name| full_name}.join(', ')
+      too_young_to_participate_full_names = too_young_to_participate.map {|full_name| full_name}.join(', ')
 
       flash[:notice]  = "Vous avez exporté #{stats[:success].size} licencié(s) avec succès"
 
-      if failure_full_names.present? && already_subscribed_players.present?
-        flash[:alert]   = "#{already_subscribed_full_names} sont déjà inscrit à ce tournoi dans cette catégorie. #{failure_full_names} n'ont pas pu être exportés. Merci de vous connecter sur AEI pour procéder à l'inscription manuelle"
+      if failure_full_names.present? && outdated_licence_full_names.present?
+          flash[:alert]   = "#{outdated_licence_full_names} n'ont pas une licence valide au jour de la compétition. #{failure_full_names} n'ont pas pu être exportés. Merci de vous connecter sur AEI pour procéder à l'inscription manuelle"
+      elsif failure_full_names.present? && already_subscribed_players.present? && too_young_to_participate
+        flash[:alert]   = "#{already_subscribed_full_names} sont déjà inscrit à ce tournoi dans cette catégorie. #{too_young_to_participate_full_names} sont trop jeunes pour participer au tournoi dans cette catégorie. #{failure_full_names} n'ont pas pu être exportés. Merci de vous connecter sur AEI pour procéder à l'inscription manuelle"
+      elsif failure_full_names.present? && too_young_to_participate.present?
+        flash[:alert]   = "#{too_young_to_participate_full_names} sont trop jeunes pour participer au tournoi dans cette catégorie. #{failure_full_names} n'ont pas pu être exportés. Merci de vous connecter sur AEI pour procéder à l'inscription manuelle"
       elsif failure_full_names.present?
         flash[:alert]   = "#{failure_full_names} n'ont pas pu être exportés. Merci de vous connecter sur AEI pour procéder à l'inscription manuelle"
       elsif already_subscribed_players.present?
