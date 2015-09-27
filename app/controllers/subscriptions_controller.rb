@@ -32,7 +32,7 @@ class SubscriptionsController < ApplicationController
       @total_amount = (@tournament.amount*number).to_f
     end
 
-    @total_amount  += (10 * @total_amount / 100)
+    @total_amount  += (@total_amount + 0.80)
 
     # authorize @subscription
     @competitions.each do |competition|
@@ -106,7 +106,7 @@ class SubscriptionsController < ApplicationController
       @total_amount = @tournament.amount.to_f
     end
 
-    @total_amount  += (10 * @total_amount / 100)
+    @total_amount  += ( @total_amount + 0.80)
 
     authorize @subscription
 
