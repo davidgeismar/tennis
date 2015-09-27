@@ -168,7 +168,7 @@
                     "data-html"=>"true", "data-content"=> " <ul class='small'> <li>L: #{@disponibility.monday}</li> <li>Ma: #{@disponibility.tuesday}</li> <li>Me: #{@disponibility.wednesday}</li> <li>Je: #{@disponibility.thursday}</li> <li>Ve: #{@disponibility.friday}</li> <li>Sam: #{@disponibility.saturday} </li><li>Dim: #{@disponibility.sunday}</li><li>Com: #{@disponibility.comment}</li> </ul>", "data-toggle"=> "popover", "data-placement" => "top", "data-trigger"=>"hover", "title" => "<div class=small>Dispos Licencié </div>" %>
                 </td>
               <% else %>
-                <td><%= link_to '<i class="fa fa-calendar"></i>'.html_safe, new_subscription_disponibility_path(subscription), class: "fleche_subscription", title: "Non renseignées ", "data-toggle"=> "tooltip", "data-placement" => "top" %></td>
+                <td><%= link_to '<i class="fa fa-calendar"></i>'.html_safe, new_tournament_disponibility_path(@tournament), class: "fleche_subscription", title: "Non renseignées ", "data-toggle"=> "tooltip", "data-placement" => "top" %></td>
               <% end %>
             </tr>
           <%end%>

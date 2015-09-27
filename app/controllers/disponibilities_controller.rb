@@ -16,7 +16,7 @@ class DisponibilitiesController < ApplicationController
     authorize @disponibility
 
     if @disponibility.save && current_user.judge?
-      redirect_to competition_subscriptions_path(@subscription.competition)
+      redirect_to mytournaments_path
       flash[:notice] = "Les disponibilités du licencié ont bien été enregistrées"
     elsif  @disponibility.save
       redirect_to tournament_competitions_path(@tournament)

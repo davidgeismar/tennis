@@ -21,6 +21,10 @@ class CompetitionPolicy < ApplicationPolicy
     user && record.tournament.user == user
   end
 
+  def index?
+    user && (user.judge == false)
+  end
+
   def update_rankings?
     user && record.tournament.user == user
   end
