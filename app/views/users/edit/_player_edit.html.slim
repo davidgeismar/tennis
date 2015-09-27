@@ -12,10 +12,11 @@ div class="banner padded"
 
               = f.input :first_name, label: "Prénom (tel qu'il apparait sur votre licence)"
               = f.input :last_name, label: "Nom (tel qu'il apparait sur votre licence)"
-              div class= "form-group"
-                = f.label :birthdate, 'Date de naissance'
-                br
-                = f.date_select :birthdate, {:include_blank => true, :default => nil, :use_month_names => ['Janv.','Fevr.', 'Mars', 'Avr.', 'Mai', 'Juin', 'Juil.', 'Août','Sept.', 'Oct.', 'Nov.', 'Déc.'], :order => [:day, :month, :year], :start_year => 1910, :end_year => 2010}
+              - unless current_user.subscriptions.exists && !current_user.judge?
+                div class= "form-group"
+                  = f.label :birthdate, 'Date de naissance'
+                  br
+                  = f.date_select :birthdate, {:include_blank => true, :default => nil, :use_month_names => ['Janv.','Fevr.', 'Mars', 'Avr.', 'Mai', 'Juin', 'Juil.', 'Août','Sept.', 'Oct.', 'Nov.', 'Déc.'], :order => [:day, :month, :year], :start_year => 1910, :end_year => 2010}
               div class= "form-group"
                 = f.label :Photo
                 div class="upload-file-container"

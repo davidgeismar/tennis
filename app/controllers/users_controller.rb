@@ -12,7 +12,10 @@ class UsersController < ApplicationController
 
   def update
     authorize @user
-    if @user.update(user_params)
+    if  @user.subscriptions.exists && @user.update!(user_params_without_birthdate) && !@user.judge?
+      flash[:alert] = "Vous ne pouvez plus modifier votre date de naissance après vous etre inscrit à une compétition. Merci de contacter l'administrateur du site"
+      redirect_to user_path(current_user)
+    elsif @user.update(user_params)
       redirect_to user_path(current_user)
     else
       render 'edit'
@@ -25,6 +28,29 @@ class UsersController < ApplicationController
     params.require(:user).permit(
       :address,
       :birthdate,
+      :certifmedpicture,
+      :club,
+      :email,
+      :first_name,
+      :genre,
+      :judge_number,
+      :last_name,
+      :licence_number,
+      :licencepicture,
+      :login_aei,
+      :name,
+      :password_aei,
+      :picture,
+      :ranking,
+      :telephone,
+      :sms_forfait,
+      :sms_quantity
+    )
+  end
+
+  def user_params_without_birthdate
+     params.require(:user).permit(
+      :address,
       :certifmedpicture,
       :club,
       :email,
