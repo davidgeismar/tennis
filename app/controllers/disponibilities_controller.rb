@@ -37,7 +37,7 @@ class DisponibilitiesController < ApplicationController
   def update
    authorize @disponibility
    if @disponibility.update(disponibility_params)
-    redirect_to competition_subscriptions_path(@subscription.competition)
+    redirect_to mytournaments_path
     flash[:notice] = "Les disponibilités du licencié ont bien été enregistrées"
    else
     render "edit"
