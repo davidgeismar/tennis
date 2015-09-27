@@ -9,8 +9,8 @@ class CompetitionPolicy < ApplicationPolicy
     user
   end
 
-  def show
-    user && record.tournament.user == user
+  def show?
+    user && (record.tournament.user == user)
   end
 
   def create? #pas besoin de préciser pour new et edit
