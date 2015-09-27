@@ -12,7 +12,7 @@ div class="banner padded"
 
               = f.input :first_name, label: "Prénom (tel qu'il apparait sur votre licence)"
               = f.input :last_name, label: "Nom (tel qu'il apparait sur votre licence)"
-              - unless current_user.subscriptions.exists && !current_user.judge?
+              - if !current_user.subscriptions.exists? && !current_user.judge?
                 div class= "form-group"
                   = f.label :birthdate, 'Date de naissance'
                   br
