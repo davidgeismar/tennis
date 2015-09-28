@@ -21,6 +21,6 @@ div class="row" id="tournament_row"
             ul
             - tournament.competitions.each do |competition|
               li
-                = "#{competition.category} #{competition.genre.text}"
+                = I18n.t("competition.#{competition.category} #{competition.genre.text}")
           div class="panel-footer"
             = link_to 'En savoir plus', tournament_path(tournament), class: 'btn btn-primary'

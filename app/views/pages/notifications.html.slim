@@ -34,8 +34,12 @@ div class="container"
                     '
                     span.text-light = notification.created_at.strftime('%d/%m/%Y à %Hh%M')
 
-                  - elsif notification.convocation && notification.user.judge? && notification.convocation.message
+                  - elsif notification.convocation && notification.user.judge && notification.convocation.status == "refused" && notification.convocation.message
                     = link_to notification.content, convocation_message_path(notification.convocation, notification.convocation.message)
+                    '
+                    span.text-light = notification.created_at.strftime('%d/%m/%Y à %Hh%M')
+                  - elsif notification.convocation && notification.user.judge && notification.convocation.status == "refused"
+                    = link_to notification.content, edit_convocation_path(notification.convocation)
                     '
                     span.text-light = notification.created_at.strftime('%d/%m/%Y à %Hh%M')
 

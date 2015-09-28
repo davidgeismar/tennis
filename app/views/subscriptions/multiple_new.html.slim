@@ -33,38 +33,40 @@ div class="container"
         div class="col-sm-6"
           p
             'En cliquant sur payer, je valide mon inscription à
-            strong> = @subscription.tournament.name
-            'dans la catégorie
-            strong> = @subscription.competition.category
+            strong> = @tournament.name
+            'dans la,les catégorie(s)
+            - @competitions.each do |competition|
+              strong> = competition.category
+              ',
             'du
-            strong> = @subscription.tournament.starts_on.strftime("%d/%m/%Y")
+            strong> = @tournament.starts_on.strftime("%d/%m/%Y")
             'au
-            strong = @subscription.tournament.ends_on.strftime("%d/%m/%Y")
+            strong = @tournament.ends_on.strftime("%d/%m/%Y")
           p Je ne serai débité que si mon inscription au tournoi est validé par le Juge arbitre
 
       = hidden_field_tag :card_type, "CB_VISA_MASTERCARD"
 
       div class="well"
-        = form_tag competition_subscriptions_path(@competition), method: :post, id: 'payment_form' do ||
-            div class="checkbox"
-              label for="js-CGV"
-                input type="checkbox" name="CGV" id="js-CGV"
-                'J’ai lu et j’accepte les
-                = link_to 'conditions générales de vente', page_path('cgv')
+        = form_tag multiple_create_subscriptions_path(@tournament), method: :post, id: 'payment_form' do ||
+          = hidden_field_tag :competition_ids, nil, value: @competition_ids
+          div class="checkbox"
+            label for="js-CGV"
+              input type="checkbox" name="CGV" id="js-CGV"
+              'J’ai lu et j’accepte les
+              = link_to 'conditions générales de vente', page_path('cgv')
 
 
 
-      div id="js-result" class="alert alert-info hide"
       div id="js-error-cgv" class="alert alert-info hide"
         p
           'Veuillez
           strong> accepter les CGV de WeTennis
           'pour procéder au paiement
-      hr
+      div id="js-result" class="alert"
+
       div class="row"
         div class="col-xs-12 col-sm-4"
           button class= "btn btn-primary btn-lg" onclick="javascript:registerCardDemo();"
-            i.fa.fa-fw.fa-lock
             'Payer
             = @total_amount
             '€

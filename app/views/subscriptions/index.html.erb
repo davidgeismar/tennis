@@ -146,29 +146,29 @@
 
               <td><%=link_to "Profil", user_path(subscription.user), class: 'btn btn-primary', title: "tel : #{subscription.user.telephone}", "data-toggle"=> "tooltip", "data-placement" => "top" %></td>
 
-
               <% if subscription.convocations.last %>
-                <td>
-                  <%= subscription.convocations.last.date.strftime('le %d/%m/%Y')%>
+                  <td><%= subscription.convocations.last.date.strftime('le %d/%m/%Y')%>
                   <%= subscription.convocations.last.hour.strftime('à %Hh%M')%>
-                  <strong><%= subscription.convocations.last.status_text %></strong></td>
+                  <%= link_to subscription.convocations.last.status_text, edit_convocation_path(subscription.convocations.last) %></td>
               <%else%>
                 <td></td>
               <% end %>
+
               <% if subscription.convocations.last && subscription.convocations.last.message && !subscription.convocations.last.message.read  %>
-              <td>
-                <%=link_to "+1", convocation_message_path(subscription.convocations.last, subscription.convocations.last.message), class: "btn btn-success message", "data-toggle"=>"tooltip", "data-placement"=>"top", title: " #{subscription.convocations.last.message.content}" %>
-              </td>
+                <td>
+                  <%=link_to "+1", convocation_message_path(subscription.convocations.last, subscription.convocations.last.message), class: "btn btn-success message", "data-toggle"=>"tooltip", "data-placement"=>"top", title: " #{subscription.convocations.last.message.content}" %>
+                </td>
               <%else%>
                 <td></td>
               <% end %>
-              <% if subscription.disponibility %>
+              <%  @disponibility = Disponibility.where(tournament: @tournament, user: subscription.user).first %>
+              <% if @disponibility %>
                 <td>
-                  <%= link_to '<i class="fa fa-calendar"></i>'.html_safe, subscription_disponibility_path(subscription, subscription.disponibility), class: "fleche_subscription", "data-container"=>"body",
-                    "data-html"=>"true", "data-content"=> " <ul class='small'> <li>L: #{subscription.disponibility.monday}</li> <li>Ma: #{subscription.disponibility.tuesday}</li> <li>Me: #{subscription.disponibility.wednesday}</li> <li>Je: #{subscription.disponibility.thursday}</li> <li>Ve: #{subscription.disponibility.friday}</li> <li>Sam: #{subscription.disponibility.saturday} </li><li>Dim: #{subscription.disponibility.sunday}</li><li>Dim: #{subscription.disponibility.comment}</li> </ul>", "data-toggle"=> "popover", "data-placement" => "top", "data-trigger"=>"hover", "title" => "<div class=small>Dispos Licencié </div>" %>
+                  <%= link_to '<i class="fa fa-calendar"></i>'.html_safe, tournament_disponibility_path(@tournament, @disponibility), class: "fleche_subscription", "data-container"=>"body",
+                    "data-html"=>"true", "data-content"=> " <ul class='small'> <li>L: #{@disponibility.monday}</li> <li>Ma: #{@disponibility.tuesday}</li> <li>Me: #{@disponibility.wednesday}</li> <li>Je: #{@disponibility.thursday}</li> <li>Ve: #{@disponibility.friday}</li> <li>Sam: #{@disponibility.saturday} </li><li>Dim: #{@disponibility.sunday}</li><li>Com: #{@disponibility.comment}</li> </ul>", "data-toggle"=> "popover", "data-placement" => "top", "data-trigger"=>"hover", "title" => "<div class=small>Dispos Licencié </div>" %>
                 </td>
               <% else %>
-                <td><%= link_to '<i class="fa fa-calendar"></i>'.html_safe, new_subscription_disponibility_path(subscription), class: "fleche_subscription", title: "Non renseignées ", "data-toggle"=> "tooltip", "data-placement" => "top" %></td>
+                <td><%= link_to '<i class="fa fa-calendar"></i>'.html_safe, new_tournament_disponibility_path(@tournament), class: "fleche_subscription", title: "Non renseignées ", "data-toggle"=> "tooltip", "data-placement" => "top" %></td>
               <% end %>
             </tr>
           <%end%>

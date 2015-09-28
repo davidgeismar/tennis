@@ -1,18 +1,27 @@
+.container
+  .row
+    .col-xs-12
+      h1
+        = @tournament.name
+      = simple_form_for [@tournament, @competition] do |t|
+        .panel.panel-default
+          .panel-body
+            h2: small Modification de l'épreuve
+            p Attention si vous avez déjà des inscrits dans cette épreuve, il n'est pas recommandé de la modifier
+            = t.error_notification
+            .row
+              .col-md-4
+                = t.input :category, label: 'Catégorie de l’épreuve'
+              .col-md-4
+                = t.input :genre, label: 'Sexe'
+              .col-md-4
+                = t.input :nature, label: 'Nature de l’épreuve'
+            .row
+              .col-md-6
+                = t.input :min_ranking, label: 'Classement minimum'
+              .col-md-6
+                = t.input :max_ranking, label: 'Classement maximum'
 
-div class="banner-tournament"
-  div class= "container"
-    h1 class= "text-center emperor" id= "formulaire-tournoi" Modifier cette épreuve
-    = simple_form_for [@tournament, @competition] do |t|
-       = t.error_notification
-       div class= "col-md-offset-3 col-md-6"
-         div class="panel panel-default"
-           div class= "panel-heading"
-             h4 Informations Compétition
-           div class= "panel-body"
-               = t.input :category, label: "Catégorie de l'épreuve"
-               = t.input :genre, label: 'Sexe'
-               = t.input :nature, label: "Nature de l'épreuve"
-               = t.input :min_ranking, label: "Classement minimum"
-               = t.input :max_ranking, label: 'Classement maximum'
-           div class= "panel-footer"
-               = t.button :submit, value: "Modifier l'épreuve", class: "btn-primary marge-bas"
+        ul class="list-inline"
+          li = t.button :submit, value: "Modifier l'épreuve", class: "btn-primary marge-bas"
+

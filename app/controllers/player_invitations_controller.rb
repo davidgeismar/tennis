@@ -5,7 +5,7 @@ class PlayerInvitationsController < ApplicationController
   end
 
   def create
-    emails_in_competition = @competition.subscriptions.map {|subscription| subscription.user.email}
+    emails_in_competition = @competition.subscriptions.map { |subscription| subscription.user.email }
 
     if params[:first_name] == ""
       flash[:alert] = "Merci de préciser le prénom du licencié"
@@ -31,7 +31,7 @@ class PlayerInvitationsController < ApplicationController
         @subscription = Subscription.new(user: @user, competition: @competition, fare_type: :unknown)
         if @subscription.save
           SubscriptionMailer.confirmation_invited_user(@subscription).deliver
-          flash[:notice] = "Ce licencié a bien été ajouté aux inscrits. N'oublié pas confirmer (ou de refuser) le statut de son inscription."
+          flash[:notice] = "Ce licencié a bien été ajouté aux inscrits. N'oublier pas de confirmer (ou de refuser) le statut de son inscription."
           redirect_to competition_subscriptions_path(@competition)
         else
           # n'arrivera pas car toute les erreurs sont déjà géré

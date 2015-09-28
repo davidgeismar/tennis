@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150910201857) do
+ActiveRecord::Schema.define(version: 20150923184950) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -106,9 +106,13 @@ ActiveRecord::Schema.define(version: 20150910201857) do
     t.string   "thursday"
     t.string   "friday"
     t.text     "comment"
+    t.integer  "tournament_id"
+    t.integer  "user_id"
   end
 
   add_index "disponibilities", ["subscription_id"], name: "index_disponibilities_on_subscription_id", using: :btree
+  add_index "disponibilities", ["tournament_id"], name: "index_disponibilities_on_tournament_id", using: :btree
+  add_index "disponibilities", ["user_id"], name: "index_disponibilities_on_user_id", using: :btree
 
   create_table "licencieffts", force: :cascade do |t|
     t.date     "date_of_birth"
@@ -173,10 +177,12 @@ ActiveRecord::Schema.define(version: 20150910201857) do
     t.string   "mangopay_payin_id"
     t.integer  "competition_id"
     t.string   "fare_type"
+    t.integer  "tournament_id"
   end
 
   add_index "subscriptions", ["competition_id"], name: "index_subscriptions_on_competition_id", using: :btree
   add_index "subscriptions", ["fare_type"], name: "index_subscriptions_on_fare_type", using: :btree
+  add_index "subscriptions", ["tournament_id"], name: "index_subscriptions_on_tournament_id", using: :btree
   add_index "subscriptions", ["user_id"], name: "index_subscriptions_on_user_id", using: :btree
 
   create_table "tournaments", force: :cascade do |t|
@@ -284,11 +290,14 @@ ActiveRecord::Schema.define(version: 20150910201857) do
   add_foreign_key "competitions", "tournaments"
   add_foreign_key "convocations", "subscriptions"
   add_foreign_key "disponibilities", "subscriptions"
+  add_foreign_key "disponibilities", "tournaments"
+  add_foreign_key "disponibilities", "users"
   add_foreign_key "mangopay_transactions", "competitions"
   add_foreign_key "mangopay_transactions", "subscriptions"
   add_foreign_key "notifications", "competitions"
   add_foreign_key "notifications", "users"
   add_foreign_key "subscriptions", "competitions"
+  add_foreign_key "subscriptions", "tournaments"
   add_foreign_key "subscriptions", "users"
   add_foreign_key "tournaments", "users"
 end

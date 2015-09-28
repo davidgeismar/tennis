@@ -5,8 +5,8 @@
         $('#js-error-cgv').addClass('hide');
 
         var resultDiv         = $("#js-result");
-        resultDiv.innerHTML   = "Vérification...";
-        resultDiv.removeClass().addClass('alert alert-info');
+        resultDiv.html("Vérification…");
+        resultDiv.removeClass('hide');
 
         // Card register data prepared on the server
         var cardRegisterData = {
@@ -36,8 +36,8 @@
           function(res) {
             var message = '<strong>Votre carte a été vérifiée ' + res.CardId + ' </strong>.<br />';
             message    += '<strong>Le paiement est en cours</strong>';
-            resultDiv.innerHTML   = message;
             resultDiv.removeClass().addClass('alert alert-success');
+            resultDiv.innerHTML   = message;
 
             var form = $('#payment_form');
             form.find('button').prop('disabled', true);
@@ -45,11 +45,11 @@
             form.get(0).submit();
           },
           function(res) {
-            var message = "<strong>Votre carte n'a pas été débitée.</strong><br />";
+            var message = "<strong>Votre carte n’a pas été débitée.</strong><br />";
             message    += '<strong>' +res.ResultMessage + '<br /> Code : ' + res.ResultCode + '</strong>' ;
 
-            resultDiv.innerHTML   = message;
             resultDiv.removeClass().addClass('alert alert-warning');
+            resultDiv.innerHTML   = message;
           }
         );
       }

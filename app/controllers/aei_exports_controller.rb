@@ -16,6 +16,7 @@ class AeiExportsController < ApplicationController
         subscription = Subscription.find(subscription_id.to_i)
         @subscriptions_selected << subscription
 
+
       end
 
       #split array d'instance d'inscriptions into arrays de max 15 instances
@@ -50,8 +51,10 @@ class AeiExportsController < ApplicationController
             # try with 2015 32 92 0076 not working why ?
 
             # pour l'export en test il faut continuer avec le numéro de test 2015 32 92 0419
-              if a.text.split.join == @tournament.homologation_number && !homologation_number_found
+              if a.text.split.join == @tournament.homologation_number.split.join && !homologation_number_found
+
                 homologation_number_found = true
+
 
                 a = a.parent.previous.previous
                 a = a.at('a')[:href] # selecting the link to follow
@@ -97,8 +100,7 @@ class AeiExportsController < ApplicationController
                   page = form.submit
                   body = page.body
                   html_body = Nokogiri::HTML(body)
-
-                  # puts html_body
+                  puts html_body
 
                   form = agent.page.forms.first
 
@@ -138,7 +140,7 @@ class AeiExportsController < ApplicationController
                     # I18n.t("aei.tournament_category.#{tournament_category}")
 
                     if aei_competition_category == category_title
-                      raise
+
 
                       checkbox.check
 
@@ -151,7 +153,8 @@ class AeiExportsController < ApplicationController
                       puts html_body.search('li').text
 
 
-                    elsif category_nature.present? && category_age.present? && "#{aei_category_nature} #{aei_category_age}" == aei_competition_category
+                    elsif category_nature.present? && category_age.present? && ("#{aei_category_nature} #{aei_category_age}" == aei_competition_category)
+
                        checkbox.check
 
 

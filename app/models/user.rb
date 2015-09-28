@@ -18,6 +18,7 @@ class User < ActiveRecord::Base
   has_many :tournaments,    dependent: :destroy
   has_many :messages,       dependent: :destroy
   has_many :notifications,  dependent: :destroy
+  has_many :disponibilities, dependent: :destroy
 
   has_attached_file :picture,           styles: { medium: "300x300>", thumb: "100x100>" }
   has_attached_file :licencepicture,    styles: { medium: "300x300>", thumb: "100x100>" }
@@ -114,6 +115,20 @@ class User < ActiveRecord::Base
     end
   end
 
+  def reset_password!(new_password, new_password_confirmation)
+    self.password = new_password
+    self.password_confirmation = new_password_confirmation
+
+    validates_presence_of     :password
+    validates_confirmation_of :password
+    validates_length_of       :password, within: Devise.password_length, allow_blank: true
+
+    if errors.empty?
+      clear_reset_password_token
+      after_password_reset
+      save(validate: false)
+    end
+  end
 
   private
 

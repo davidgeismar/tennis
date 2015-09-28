@@ -1,44 +1,5 @@
-div class="container"
-  div class="row"
-    div class="col-xs-12"
+- if @subscriptions.blank?
+  = render 'player_blank'
+- else
+  = render 'player_full'
 
-      h1 class="emperor" Mes Tournois
-      table class="table table-hover table-striped"
-        thead
-          tr
-            th Compet.
-            th Cat.
-            th Statut inscription
-            th Date convoc.
-            th Réponse convoc.
-            th Num JA
-        tbody
-        - @subscriptions.each do |subscription|
-          tr
-            td = subscription.tournament.name
-            td = subscription.competition.category
-            - if subscription.status == "confirmed_warning"
-                td
-                  div data-toggle="popover" data-placement="left" data-html= "true" data-trigger="hover" title="<div class='small'>!Confirmé!</div>" data-content="<div class='small'>!confirmé! signifie que vous avez bien été confirmé dans la compétition mais que votre paiement n'a pas été effectué via WeTennis. Vous devrez donc payer les frais d'inscription le jour de votre première convocation.</div>" = subscription.status_text
-            - else
-                td = subscription.status_text
-            td
-              - unless subscription.convocations.size == 0
-                 = subscription.convocations.last.date.strftime("Le %d/%m/%Y")
-                 = subscription.convocations.last.hour.strftime(" à %Hh%M")
-
-            td
-              - if subscription.convocations.exists?
-                - if subscription.convocations.last.status == "pending"
-                    =link_to "Répondre", edit_convocation_path(subscription.convocations.last), class: "btn btn-success"
-                - elsif subscription.convocations.last.status == "confirmed_by_judge"
-                  strong data-toggle="tooltip" data-placement="left" title="Le JA n'a pas d'autre dispo à vous proposez. Si vous ne pouvez pas venir, veuillez cliquer sur W.O"
-                    = subscription.convocations.last.status.text
-                    = simple_form_for subscription.convocations.last do |f|
-                       = hidden_field_tag 'convocation[status]', :cancelled
-                       = f.button :submit, "W.O", class: " btn btn-danger"
-                - else
-                  strong
-                    = subscription.convocations.last.status.text
-            td
-              = subscription.tournament.user.telephone

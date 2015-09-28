@@ -3,7 +3,7 @@ div class="col-md-offset-4 col-md-4 bigmarge"
     div class="panel-heading"
       h3 Indiquer les disponibilités du licencié
     div class="panel-body"
-      =simple_form_for [@subscription, @disponibility] do |f|
+      =simple_form_for [@tournament, @disponibility] do |f|
         = f.error_notification
 
         = f.input :monday

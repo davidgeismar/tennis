@@ -6,18 +6,18 @@ class DisponibilityPolicy < ApplicationPolicy
   end
 
   def show?
-    user && record.subscription.tournament.user == user
+    user && record.tournament.user == user
   end
 
   def create? #pas besoin de préciser pour new et edit
-    user && record.subscription.user && record.subscription.tournament.user
+    user && record.user && record.tournament.user
   end
 
   def edit?
-    user && record.subscription.tournament.user == user
+    user && record.tournament.user == user
   end
 
   def update?
-    user && record.subscription.tournament.user == user
+    user && record.tournament.user == user
   end
 end

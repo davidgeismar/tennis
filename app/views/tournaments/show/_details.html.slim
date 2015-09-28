@@ -1,0 +1,49 @@
+.container
+  .row
+    .col-xs-12
+      h1
+        = @tournament.name
+      .panel.panel-default
+        .panel-body
+          h4 Du #{@tournament.starts_on.strftime("%d/%m/%Y")} au #{@tournament.ends_on.strftime("%d/%m/%Y")}
+          p
+            'Club Organisateur :
+            strong = @tournament.club_organisateur
+          p
+            'Numéro d’homologation :
+            strong = @tournament.homologation_number
+          p
+            'Ville :
+            strong = @tournament.city
+          p
+            'Code Postal :
+            strong = @tournament.postcode
+          p
+            'Addresse des installations :
+            strong = @tournament.address
+          p
+            'Frais d’inscription :
+            strong> = @tournament.amount
+            '€
+          p
+            'IBAN :
+            strong
+              - if @tournament.iban?
+                - i = @tournament.iban
+                = i[0..2] + "************"
+          p
+            'BIC :
+            strong
+              - if @tournament.bic?
+                = @tournament.bic
+          p
+            'EPREUVES :
+            - @tournament.competitions.each do |competition|
+              ul
+                li
+                  = link_to(I18n.t("competition.#{competition.category} #{competition.genre.text}"), tournament_competition_path(@tournament, competition))
+
+
+      ul class="list-inline"
+        li = link_to 'Éditer', edit_user_tournament_path(current_user, @tournament), class: 'btn btn-success'
+        li = link_to 'Ajouter une épreuve', new_tournament_competition_path(@tournament), class: 'btn btn-warning'

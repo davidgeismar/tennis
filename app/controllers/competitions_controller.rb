@@ -21,8 +21,22 @@ class CompetitionsController < ApplicationController
   end
 
   def index
+    @tournament = Tournament.find(params[:tournament_id])
+    #les subscriptions du user pour ce tournament
+    @subscriptions_of_user = current_user.subscriptions.where(tournament_id: @tournament.id)
+    @competitions_already_subscribed_array = []
+    @subscriptions_of_user.each do |subscription|
+      @competitions_already_subscribed_array << subscription.competition
+    end
     @competitions = Competition.where(tournament_id: @tournament)
+    @unsubscribed_competitions = @competitions - @competitions_already_subscribed_array
+    authorize @competitions
     policy_scope(@competitions)
+    if @unsubscribed_competitions.nil?
+      flash[:alert] = "Vous êtes déjà inscrit dans toutes les catégories disponibles de ce tournoi"
+      redirect_to mytournaments_path
+    else
+    end
   end
 
   def show

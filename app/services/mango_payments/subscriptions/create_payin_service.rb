@@ -9,7 +9,7 @@ module MangoPayments
 
       def call
         amount_cents  = amount * 100
-        fees_cents    = ((amount * 0.1) * 100).to_i
+        fees_cents    = (0.80 * 100).to_i
         total_cents   = amount_cents + fees_cents
         transaction   = @subscription.mangopay_transactions.new(status: 'pending', cgv: true, category: 'payin')
 
