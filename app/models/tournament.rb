@@ -12,6 +12,7 @@ class Tournament < ActiveRecord::Base
   has_many :disponibilities, dependent: :destroy
   has_many :notifications,  dependent: :destroy
   has_many :subscriptions,  through: :competitions
+  has_many :users,          through: :subscriptions
   has_many :competitions,   dependent: :destroy
 
   validates :postcode,            presence: { message: "Merci d'indiquer un code postal valide" }
