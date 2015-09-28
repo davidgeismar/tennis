@@ -1,0 +1,21 @@
+// $(document).ready(function(){
+//  jQuery(function() {
+//     var completer;
+
+//     completer = new GmapsCompleter({
+//       inputField: '#gmaps-input-address',
+//       errorField: '#gmaps-error'
+//     });
+
+//     completer.autoCompleteInit({
+//       region: ".fr",
+//       country: "France"
+//     });
+//   });
+// });
+
+$(document).ready(function(){
+  $("#gmaps-input-address").geocomplete();
+  // $.fn.geocomplete("#gmaps-input-address");
+
+});
