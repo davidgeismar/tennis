@@ -1,6 +1,6 @@
  class TournamentsController < ApplicationController
   before_action :set_tournament,  only: [:update, :edit, :show]
-  before_action :check_profile,   only: [:new, :create]
+  before_action :check_profile,   only: [:create]
 
   def index
     @tournaments = policy_scope(Tournament)
@@ -26,6 +26,7 @@
   def new
     @tournament = Tournament.new
     authorize @tournament
+    check_profile
   end
 
   def create
@@ -66,7 +67,7 @@
 
   def check_profile
     if !current_user.profile_complete?
-      flash[:alert] = "Vous devez d'abord remplir" + "<a href=#{user_path(current_user)} class='profil_link'>" + "votre profil" + "</a>"  + "entièrement pour pouvoir ajouter votre tournoi"
+      flash[:alert] = "Vous devez d'abord remplir" + "<a href=#{user_path(current_user)} class='profil_link'>" + " votre profil " + "</a>"  + "entièrement pour pouvoir ajouter votre tournoi"
       redirect_to root_path
     elsif !current_user.accepted
       flash[:alert] = "Votre compte Juge Arbitre doit d'abord avoir été accepté par l'équipe WeTennis avant de pouvoir ajouter un tournoi. Assurez vous d'avoir bien rempli intégralement" + "<a href=#{user_path(current_user)} class='profil_link'>" + "votre profil" + "</a>" + "afin d'avoir une réponse rapide."
