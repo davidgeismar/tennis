@@ -10,11 +10,11 @@
       render 'pages/partials/_no_tournaments'
     elsif params[:content].blank?
     elsif params[:content]
-      @tournaments = @tournaments.search(params[:content])
+      @tournaments = Tournament.near(params[:content], 20, :units => :km).where(accepted: true)
+      # @tournaments = @tournaments.search(params[:content])
       respond_to do |format|
         format.js {}
         format.html{ render :index }
-        # binding.pry
       end
     end
   end

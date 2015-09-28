@@ -136,6 +136,8 @@ GEM
       actionpack (>= 3.2.13)
     formtastic_i18n (0.4.1)
     geocoder (1.2.9)
+    geocomplete_rails (1.6.5)
+      railties (>= 3.1)
     globalid (0.3.5)
       activesupport (>= 4.1.0)
     gmaps4rails (2.1.2)
@@ -358,6 +360,7 @@ DEPENDENCIES
   figaro (~> 1.1.0)
   font-awesome-sass (~> 4.3.1)
   geocoder (~> 1.2.7)
+  geocomplete_rails
   gmaps4rails (~> 2.1.2)
   high_voltage (~> 2.2.1)
   jquery-rails (~> 4.0.3)

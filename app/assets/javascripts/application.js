@@ -7,6 +7,7 @@
 //= require jquery.dataTables
 //= require bootstrap-datepicker
 //= require bootstrap-switch
+//= require geocomplete
 //= require_tree ./app
 
 

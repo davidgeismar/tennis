@@ -25,6 +25,7 @@ gem "geocoder",                   "~> 1.2.7"
 gem "gmaps4rails",                "~> 2.1.2"
 gem "high_voltage",               "~> 2.2.1"
 gem "jquery-rails",               "~> 4.0.3"
+gem 'geocomplete_rails'
 gem "mangopay",                   "~> 3.0.14"
 gem "mechanize",                  "~> 2.7.3"
 gem "omniauth-facebook",          "~> 2.0.0"

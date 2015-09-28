@@ -1,3 +1,3 @@
-console.log('test');
-$('#tournament_row').html("<%= render 'tournaments' %>");
-
+$(document).ready(function(){
+  $('#tournament_row').html("<%= escape_javascript(render 'tournaments')%>");
+})

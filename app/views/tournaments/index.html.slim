@@ -5,6 +5,10 @@ div class="container"
       = form_tag tournaments_path, method: "get", :remote => true do ||
         div class="form-group"
           = label_tag :content, "recherche"
-          = text_field_tag :content, nil, class: "form-control"
+          = text_field_tag :content, nil, :id => 'gmaps-input-address', placeholder: "Rechercher des tournois par lieu", class: "form-control"
+          = button_tag(type: "submit") do
+            i class="fa fa-search"
 
         = render "tournaments"
+
+

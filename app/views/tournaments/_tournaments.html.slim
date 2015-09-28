@@ -1,22 +1,26 @@
 div class="row" id="tournament_row"
- - @tournaments.each do |tournament|
-    div class="col-md-4"
-      div class="panel panel-default"
-        div class="panel-heading"
-          h2
-            = tournament.name
-            br
-            small = tournament.city.upcase
+  - if @tournaments.empty?
+    p
+      strong Il n'y a pas de tournois dans un rayon de 20 Km par rapport au lieu que vous avez saisit.
+  - else
+   - @tournaments.each do |tournament|
+      div class="col-md-4"
+        div class="panel panel-default"
+          div class="panel-heading"
+            h2
+              = tournament.name
+              br
+              small = tournament.city.upcase
 
-        div class="panel-body"
-          p
-            'Du
-            strong> = tournament.starts_on.strftime("%d/%m/%Y")
-            'au
-            strong = tournament.ends_on.strftime("%d/%m/%Y")
-          ul
-          - tournament.competitions.each do |competition|
-            li
-              = "#{competition.category} #{competition.genre.text}"
-        div class="panel-footer"
-          = link_to 'En savoir plus', tournament_path(tournament), class: 'btn btn-primary'
+          div class="panel-body"
+            p
+              'Du
+              strong> = tournament.starts_on.strftime("%d/%m/%Y")
+              'au
+              strong = tournament.ends_on.strftime("%d/%m/%Y")
+            ul
+            - tournament.competitions.each do |competition|
+              li
+                = "#{competition.category} #{competition.genre.text}"
+          div class="panel-footer"
+            = link_to 'En savoir plus', tournament_path(tournament), class: 'btn btn-primary'
