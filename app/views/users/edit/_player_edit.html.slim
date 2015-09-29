@@ -1,49 +1,72 @@
-div class="banner padded"
-  div class="container"
+div class="container"
+  div class="row"
+    div class="col-sm-12"
+      h1 Modifier mes informations
+
+  = simple_form_for @user do |f|
     div class="row"
-      h1 class= "text-center emperor" Modifier mon profil
-      div class="col-xs-6 col-xs-offset-3 bigmarge"
-         div class="panel panel-default"
-           div class= "panel-heading"
-              h4 Informations Licencié
-           div class= "panel-body"
-             = simple_form_for @user do |f|
-              = f.error_notification
+      div class="col-sm-6"
+        div class="panel panel-default"
+          div class= "panel-body"
+            = f.error_notification
 
-              = f.input :first_name, label: "Prénom (tel qu'il apparait sur votre licence)"
-              = f.input :last_name, label: "Nom (tel qu'il apparait sur votre licence)"
-              div class= "form-group"
-                = f.label :birthdate, 'Date de naissance'
-                br
-                = f.date_select :birthdate, {:include_blank => true, :default => nil, :use_month_names => ['Janv.','Fevr.', 'Mars', 'Avr.', 'Mai', 'Juin', 'Juil.', 'Août','Sept.', 'Oct.', 'Nov.', 'Déc.'], :order => [:day, :month, :year], :start_year => 1910, :end_year => 2010}
-              div class= "form-group"
-                = f.label :Photo
-                div class="upload-file-container"
-                  = f.file_field :picture, id: "myFileInput1"
-                  span id="fileName1"
-              = f.input :email, label:"email"
-              = f.input :telephone, label: "telephone", placeholder: "Merci de respecter le format suivant: +33602892813"
+            div class="row"
+              div class="col-sm-6"
+                = f.input :last_name, label: "Nom"
+              div class="col-sm-6"
+                = f.input :first_name, label: "Prénom"
+            = f.input :licence_number, label: "Numéro de licence", placeholder: "0930613K"
+            hr
+            = f.input :club, label: "Votre club", placeholder: "TC Trouville"
+            div class="row"
+              div class="col-sm-6"
+                = f.input :genre, label: "Sexe"
+              div class="col-sm-6"
+                = f.input :ranking, label: "Classement"
 
-              = f.input :club, label: "Votre club", placeholder: "TC Trouville"
-              = f.input :genre, label: "Sexe"
-              = f.input :ranking, label: "Classement"
-              = f.input :licence_number, label: "Numéro de licence", placeholder: "0930613K"
-              div class= "form-group"
-                = f.label :licence
-                div class="upload-file-container"
-                  = f.file_field :licencepicture, id: "myFileInput2"
-                  span id="fileName2"
+            div class= "form-group"
+              = f.label :birthdate, 'Date de naissance'
+              br
+              = f.date_select :birthdate, {:include_blank => true, :default => nil, :use_month_names => ['Janv.','Fevr.', 'Mars', 'Avr.', 'Mai', 'Juin', 'Juil.', 'Août','Sept.', 'Oct.', 'Nov.', 'Déc.'], :order => [:day, :month, :year], :start_year => 1910, :end_year => 2010}
+            div class="row"
+              div class="col-sm-6"
+                = f.input :email, label:"Email"
+              div class="col-sm-6"
+                = f.input :telephone, label: "Téléphone", placeholder: "Merci de respecter le format suivant: +33602892813"
+            hr
+            div class="row"
+              div class="col-xs-4"
+                div class= "form-group"
+                  = f.label :Photo
+                  div class="btn btn-primary btn-upload"
+                    = f.file_field :picture, id: "myFileInput1"
+                    i class="fa fa-fw fa-cloud-upload"
+                    'Ajouter
+                    span id="fileName1"
+              div class="col-xs-4"
+                div class= "form-group"
+                  = f.label :licence
+                  div class="btn btn-primary btn-upload"
+                    = f.file_field :licencepicture, id: "myFileInput2"
+                    i class="fa fa-fw fa-cloud-upload"
+                    'Ajouter
+                    span id="fileName2"
+              div class="col-xs-4"
+                div class= "form-group"
+                  = f.label :certificat
+                  div class="btn btn-primary btn-upload"
+                    = f.file_field :certifmedpicture, id: "myFileInput3"
+                    i class="fa fa-fw fa-cloud-upload"
+                    'Ajouter
+                    span id="fileName3"
 
-
-              div class= "form-group"
-                = f.label :certificat
-                div class="upload-file-container"
-                  = f.file_field :certifmedpicture, id: "myFileInput3"
-                  span id="fileName3"
-
-              div id="validation"
-                = f.submit "valider", class: "btn btn-success"
-                = link_to "Annuler", user_path(current_user), class: "btn btn-default"
+        ul.list-inline
+          li = f.submit "Valider", class: "btn btn-success"
+          li = link_to "Annuler", user_path(current_user), class: "btn btn-default"
+      div class="col-sm-6"
+        = image_tag 'licence-card.png', alt: 'Image de licence de tennis'
+        p class="text-danger"
+          'Les informations de votre profil doivent être exactement les mêmes que votre licence
 
 = content_for :after_js do
   javascript:
@@ -62,5 +85,3 @@ div class="banner padded"
         $('#fileName3').append( "<i class='fa fa-check'></i>" )
       });
     });
-
-
