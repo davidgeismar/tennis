@@ -1,0 +1,260 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>Application des Epreuves Individuelles</title>
+<link rel="stylesheet" type="text/css" href="css/common.css">
+<script type="text/javascript" src="js/common.js"></script>
+<script type="text/javascript" src="js/helptip.js"></script>
+<script type="text/javascript" src="js/javascript.js"></script>
+<link rel="stylesheet" type="text/css" href="css/calendar.css">
+<link rel="stylesheet" href="jquery-ui-1.9.2.custom/css/redmond/jquery-ui-1.9.2.custom.min.css">
+<script language="javascript" type="text/javascript" src="js/calendar.js"></script>
+<script language="javascript" type="text/javascript" src="js/calendar-setup.js"></script>
+<script language="javascript" type="text/javascript" src="js/calendar-fr.js"></script>
+<script language="javascript" type="text/javascript" src="dwr/engine.js"></script>
+<script language="javascript" type="text/javascript" src="dwr/util.js"></script>
+<script src="jquery-ui-1.9.2.custom/js/jquery-1.8.3.js"></script>
+<script src="jquery-ui-1.9.2.custom/js/jquery-ui-1.9.2.custom.min.js"></script><script type="text/javascript"><!--
+
+//--></script>
+
+
+<script type="text/javascript"><!--
+window.onload = function() {
+  document.JoueurFicheForm.jou_vlib_secteur.focus();
+};
+//--></script>
+</head>
+<body>
+<table border="0" cellspacing="0" cellpadding="0" width="100%" class="index">
+
+<tr>
+  <td colspan="2" class="header" align="center">
+    <table width="100%" cellpadding="0" cellspacing="0" border="0"><tr>
+      <td width="99"><img src="img/logoEI.gif" width="99" height="54" alt="logoEI.gif" border="0"></td>
+      <td align="center" valign="bottom">
+        <table width="100%" cellpadding="0" cellspacing="0" border="0">
+          <tr valign="middle"><td class="title" align="center">Application des Epreuves Individuelles</td></tr>
+          <tr><td class="user" align="left">
+
+
+              MAGNE S astien 32 92 0419
+
+
+
+
+          </td></tr>
+        </table>
+        </td>
+      <td width="190"><a href="http://www.fft.fr" target="_blank"><img src="img/logoFFT.gif" width="190" height="54" alt="logoFFT.gif" border="0"></a></td>
+    </tr></table>
+  </td>
+</tr>
+
+<tr valign="top">
+
+  <td class="menu" width="160">
+
+    <table cellspacing="0" cellpadding="0" border="0" class="treeview"><tr><td valign="top"><table cellspacing="1" cellpadding="1" border="0" width="100%">
+<tr><td>
+<table border="0" cellspacing="0" cellpadding="0" width="100%" id="treeViewmain">
+<tr>
+<td valign="top" height="100%" style="background-image: url(/ei/img/treeLine.gif); background-repeat: repeat-y; " width="16"><a href="javascript://" onclick="return changeTree('main*0','/ei/img/treeNodeOpen.gif','/ei/img/treeNodeClose.gif');" target="treeFrame"><img src="/ei/img/treeNodeClose.gif" id="treeViewImagemain*0" border="0" width="16" height="22" align="middle"></a></td>
+<td valign="top" colspan="2"><table border="0" cellspacing="0" cellpadding="0" width="100%">
+<tr>
+<td width="1"></td>
+<td class="treeview1"><a href="competitions.do?dispatch=afficher" class="treeview2">Competitions</a></td>
+<td align="right" nowrap></td>
+</tr>
+<tr><td valign="top" colspan="2" id="treeViewmain*0" style="display:none;"><table border="0" cellspacing="0" cellpadding="0" width="100%"><tr>
+<td valign="top" height="100%" width="16"><img src="/ei/img/treeItemLast.gif" border="0" width="16" height="22"></td>
+<td width="1"></td>
+<td class="treeview2"><a href="competitionTabAdminInfo.do?dispatch=afficher&amp;coi_iid=149806" class="treeview3">Open s&eacute;niors</a></td>
+<td align="right" nowrap></td>
+</tr></table></td></tr>
+</table></td>
+</tr>
+<tr>
+<td valign="top" height="100%" style="background-image: url(/ei/img/treeLine.gif); background-repeat: repeat-y; " width="16"><img src="/ei/img/treeItem.gif" border="0" width="16" height="22"></td>
+<td width="1"></td>
+<td class="treeview1"><a href="profil.do?dispatch=afficher" class="treeview2">Profil</a></td>
+<td align="right" nowrap></td>
+</tr>
+<tr>
+<td valign="top" height="100%" style="background-image: url(/ei/img/treeLine.gif); background-repeat: repeat-y; " width="16"><img src="/ei/img/treeItem.gif" border="0" width="16" height="22"></td>
+<td width="1"></td>
+<td class="treeview1"><a href="programmation.do?dispatch=ouvrir&amp;returnMapping=competitionTabJoueurs" class="treeview2">Programmation</a></td>
+<td align="right" nowrap></td>
+</tr>
+<tr>
+<td valign="top" height="100%" style="background-image: url(/ei/img/treeLine.gif); background-repeat: repeat-y; " width="16"><img src="/ei/img/treeItem.gif" border="0" width="16" height="22"></td>
+<td width="1"></td>
+<td class="treeview1"><a href="programmationCreneaux.do?dispatch=afficher&amp;returnMapping=competitionTabJoueurs" class="treeview2">Cr&eacute;neaux</a></td>
+<td align="right" nowrap></td>
+</tr>
+<tr>
+<td valign="top" height="100%" style="background-image: url(/ei/img/treeLine.gif); background-repeat: repeat-y; " width="16"><img src="/ei/img/treeItem.gif" border="0" width="16" height="22"></td>
+<td width="1"></td>
+<td class="treeview1"><a href="arbitrage.do?dispatch=afficher" class="treeview2">Arbitrage</a></td>
+<td align="right" nowrap></td>
+</tr>
+<tr>
+<td valign="top" height="100%" style="background-image: url(/ei/img/treeLine.gif); background-repeat: repeat-y; " width="16"><img src="/ei/img/treeItem.gif" border="0" width="16" height="22"></td>
+<td width="1"></td>
+<td class="treeview1"><a href="joueurFicheRecherche.do?dispatch=afficher&amp;" class="treeview2">Recherche joueurs</a></td>
+<td align="right" nowrap></td>
+</tr>
+<tr>
+<td valign="top" height="100%" style="background-image: url(/ei/img/treeLine.gif); background-repeat: repeat-y; " width="16"><a href="javascript://" onclick="return changeTree('main*6','/ei/img/treeNodeOpen.gif','/ei/img/treeNodeClose.gif');" target="treeFrame"><img src="/ei/img/treeNodeClose.gif" id="treeViewImagemain*6" border="0" width="16" height="22" align="middle"></a></td>
+<td valign="top" colspan="2"><table border="0" cellspacing="0" cellpadding="0" width="100%">
+<tr>
+<td width="1"></td>
+<td class="treeview1">Editions</td>
+<td align="right" nowrap></td>
+</tr>
+<tr><td valign="top" colspan="2" id="treeViewmain*6" style="display:none;"><table border="0" cellspacing="0" cellpadding="0" width="100%">
+<tr>
+<td valign="top" height="100%" style="background-image: url(/ei/img/treeLine.gif); background-repeat: repeat-y; " width="16"><img src="/ei/img/treeItem.gif" border="0" width="16" height="22"></td>
+<td width="1"></td>
+<td class="treeview2"><a href="javascript:openPopupEdition('editionJoueurs.do?dispatch=afficher');" class="treeview3">Joueurs</a></td>
+<td align="right" nowrap></td>
+</tr>
+<tr>
+<td valign="top" height="100%" style="background-image: url(/ei/img/treeLine.gif); background-repeat: repeat-y; " width="16"><img src="/ei/img/treeItem.gif" border="0" width="16" height="22"></td>
+<td width="1"></td>
+<td class="treeview2"><a href="javascript:openPopupEdition('editionJoueursAutreCompet.do?dispatch=afficher');" class="treeview3">Joueurs autre comp&eacute;tition</a></td>
+<td align="right" nowrap></td>
+</tr>
+<tr>
+<td valign="top" height="100%" style="background-image: url(/ei/img/treeLine.gif); background-repeat: repeat-y; " width="16"><img src="/ei/img/treeItem.gif" border="0" width="16" height="22"></td>
+<td width="1"></td>
+<td class="treeview2"><a href="javascript:openPopupEdition('editionConvocation2.do?dispatch=afficher');" class="treeview3">Convocations</a></td>
+<td align="right" nowrap></td>
+</tr>
+<tr>
+<td valign="top" height="100%" style="background-image: url(/ei/img/treeLine.gif); background-repeat: repeat-y; " width="16"><img src="/ei/img/treeItem.gif" border="0" width="16" height="22"></td>
+<td width="1"></td>
+<td class="treeview2"><a href="javascript:openPopupEdition('editionMatches.do?dispatch=afficher');" class="treeview3">Liste matches</a></td>
+<td align="right" nowrap></td>
+</tr>
+<tr>
+<td valign="top" height="100%" style="background-image: url(/ei/img/treeLine.gif); background-repeat: repeat-y; " width="16"><img src="/ei/img/treeItem.gif" border="0" width="16" height="22"></td>
+<td width="1"></td>
+<td class="treeview2"><a href="javascript:openPopupEdition('editionCircuits.do?dispatch=afficher');" class="treeview3">Circuits</a></td>
+<td align="right" nowrap></td>
+</tr>
+<tr>
+<td valign="top" height="100%" style="background-image: url(/ei/img/treeLine.gif); background-repeat: repeat-y; " width="16"><img src="/ei/img/treeItem.gif" border="0" width="16" height="22"></td>
+<td width="1"></td>
+<td class="treeview2"><a href="javascript:openPopupEdition('editionResultats.do?dispatch=afficher');" class="treeview3">Etat de r&eacute;sultats</a></td>
+<td align="right" nowrap></td>
+</tr>
+<tr>
+<td valign="top" height="100%" style="background-image: url(/ei/img/treeLine.gif); background-repeat: repeat-y; " width="16"><img src="/ei/img/treeItem.gif" border="0" width="16" height="22"></td>
+<td width="1"></td>
+<td class="treeview2"><a href="javascript:openPopupEdition('editionPoules.do?dispatch=afficher');" class="treeview3">Poules</a></td>
+<td align="right" nowrap></td>
+</tr>
+<tr>
+<td valign="top" height="100%" style="background-image: url(/ei/img/treeLine.gif); background-repeat: repeat-y; " width="16"><img src="/ei/img/treeItem.gif" border="0" width="16" height="22"></td>
+<td width="1"></td>
+<td class="treeview2"><a href="javascript:openPopupEdition('editionTableaux.do?dispatch=afficher');" class="treeview3">Tableaux</a></td>
+<td align="right" nowrap></td>
+</tr>
+<tr>
+<td valign="top" height="100%" style="background-image: url(/ei/img/treeLine.gif); background-repeat: repeat-y; " width="16"><img src="/ei/img/treeItem.gif" border="0" width="16" height="22"></td>
+<td width="1"></td>
+<td class="treeview2"><a href="javascript:openPopupEdition('editionPaiements.do?dispatch=afficher');" class="treeview3">Paiements re&ccedil;us</a></td>
+<td align="right" nowrap></td>
+</tr>
+<tr>
+<td valign="top" height="100%" width="16"><img src="/ei/img/treeItemLast.gif" border="0" width="16" height="22"></td>
+<td width="1"></td>
+<td class="treeview2"><a href="javascript:openPopupEdition('editionFormulaireEngagement.do?dispatch=afficher');" class="treeview3">Formulaire d'engagement</a></td>
+<td align="right" nowrap></td>
+</tr>
+</table></td></tr>
+</table></td>
+</tr>
+<tr>
+<td valign="top" height="100%" style="background-image: url(/ei/img/treeLine.gif); background-repeat: repeat-y; " width="16"><a href="javascript://" onclick="return changeTree('main*7','/ei/img/treeNodeOpen.gif','/ei/img/treeNodeClose.gif');" target="treeFrame"><img src="/ei/img/treeNodeClose.gif" id="treeViewImagemain*7" border="0" width="16" height="22" align="middle"></a></td>
+<td valign="top" colspan="2"><table border="0" cellspacing="0" cellpadding="0" width="100%">
+<tr>
+<td width="1"></td>
+<td class="treeview1">Documentation</td>
+<td align="right" nowrap></td>
+</tr>
+<tr><td valign="top" colspan="2" id="treeViewmain*7" style="display:none;"><table border="0" cellspacing="0" cellpadding="0" width="100%">
+<tr>
+<td valign="top" height="100%" style="background-image: url(/ei/img/treeLine.gif); background-repeat: repeat-y; " width="16"><img src="/ei/img/treeItem.gif" border="0" width="16" height="22"></td>
+<td width="1"></td>
+<td class="treeview2"><a href="https://aei.app.fft.fr/eidocs/faq.doc" class="treeview3" target="_blank">Foire aux questions</a></td>
+<td align="right" nowrap></td>
+</tr>
+<tr>
+<td valign="top" height="100%" style="background-image: url(/ei/img/treeLine.gif); background-repeat: repeat-y; " width="16"><img src="/ei/img/treeItem.gif" border="0" width="16" height="22"></td>
+<td width="1"></td>
+<td class="treeview2"><a href="https://aei.app.fft.fr/eidocs/whatsnew.pdf" class="treeview3" target="_blank">Derni&egrave;res modifications</a></td>
+<td align="right" nowrap></td>
+</tr>
+<tr>
+<td valign="top" height="100%" style="background-image: url(/ei/img/treeLine.gif); background-repeat: repeat-y; " width="16"><img src="/ei/img/treeItem.gif" border="0" width="16" height="22"></td>
+<td width="1"></td>
+<td class="treeview2"><a href="https://aei.app.fft.fr/eidocs/couv_guide_util.pdf" class="treeview3" target="_blank">Page de garde guide V3</a></td>
+<td align="right" nowrap></td>
+</tr>
+<tr>
+<td valign="top" height="100%" style="background-image: url(/ei/img/treeLine.gif); background-repeat: repeat-y; " width="16"><img src="/ei/img/treeItem.gif" border="0" width="16" height="22"></td>
+<td width="1"></td>
+<td class="treeview2"><a href="https://aei.app.fft.fr/eidocs/guide_utilisateur.zip" class="treeview3" target="_blank">Guide utilisateur V12</a></td>
+<td align="right" nowrap></td>
+</tr>
+<tr>
+<td valign="top" height="100%" style="background-image: url(/ei/img/treeLine.gif); background-repeat: repeat-y; " width="16"><img src="/ei/img/treeItem.gif" border="0" width="16" height="22"></td>
+<td width="1"></td>
+<td class="treeview2"><a href="https://aei.app.fft.fr/eidocs/Note%20AEI%20Mars%202015.pdf" class="treeview3" target="_blank">Note AEI Mars 2015</a></td>
+<td align="right" nowrap></td>
+</tr>
+<tr>
+<td valign="top" height="100%" style="background-image: url(/ei/img/treeLine.gif); background-repeat: repeat-y; " width="16"><img src="/ei/img/treeItem.gif" border="0" width="16" height="22"></td>
+<td width="1"></td>
+<td class="treeview2"><a href="https://aei.app.fft.fr/eidocs/Guide%20Technique%20AEI.doc" class="treeview3" target="_blank">Guide technique</a></td>
+<td align="right" nowrap></td>
+</tr>
+<tr>
+<td valign="top" height="100%" style="background-image: url(/ei/img/treeLine.gif); background-repeat: repeat-y; " width="16"><img src="/ei/img/treeItem.gif" border="0" width="16" height="22"></td>
+<td width="1"></td>
+<td class="treeview2"><a href="https://aei.app.fft.fr/eidocs/Notice%20prog.pdf" class="treeview3" target="_blank">Programmation</a></td>
+<td align="right" nowrap></td>
+</tr>
+<tr>
+<td valign="top" height="100%" width="16"><img src="/ei/img/treeItemLast.gif" border="0" width="16" height="22"></td>
+<td width="1"></td>
+<td class="treeview2"><a href="https://aei.app.fft.fr/eidocs/Notice%20TMC.pdf" class="treeview3" target="_blank">TMC</a></td>
+<td align="right" nowrap></td>
+</tr>
+</table></td></tr>
+</table></td>
+</tr>
+<tr>
+<td valign="top" height="100%" width="16"><img src="/ei/img/treeItemLast.gif" border="0" width="16" height="22"></td>
+<td width="1"></td>
+<td class="treeview1"><a href="connexion.do?dispatch=afficher" class="treeview2">D&eacute;connexion</a></td>
+<td align="right" nowrap></td>
+</tr>
+</table>
+<iframe id="treeFrame" name="treeFrame" style="width:0px; height:0px; border: 0px" src="about:blank"></iframe>
+</td></tr>
+</table></td></tr></table>
+
+  </td>
+
+  <td class="body" align="center" width="100%">
+    <table border="0" cellspacing="0" cellpadding="0" width="100%">
+      <tr><td align="left"></td></tr>
+</table>
+</td>
+</tr>
+</table>
+</body>
+</html>

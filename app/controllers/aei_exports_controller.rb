@@ -259,20 +259,34 @@ class AeiExportsController < ApplicationController
                  page_joueurs_inscrits = agent.get(lien_joueurs_inscrits) #following link on the player_tabs
                  body = page_joueurs_inscrits.body
                   html_body = Nokogiri::HTML(body)
-                  puts html_body
                   @subscriptions_selected.each do |subscription|
-                    names = html_body.search('td .L2')
+                    names = html_body.search('.L2') + html_body.search('.L1')
+                    t = []
                       names.each do |name|
+                        t << name.text.split.join.downcase
+
                       if (subscription.user.full_name.split.join.downcase == name.text.split.join.downcase) || (subscription.user.full_name_inversed.split.join.downcase == name.text.split.join.downcase)
+
                         a = name.previous.previous
                         a = a.at('a')[:href] # selecting the link to follow
-                        raise
-                        page_player_profile = agent.get(a) #following the link
-                        body = page_player_profile.body
+
+                        a = a.slice(0...(a.index('&returnMapping')))
+                        a = a.slice(a.index("iid=")..-1)
+                        a = "https://aei.app.fft.fr/ei/joueurFiche.do?dispatch=afficher&jou_" + a + "&returnMapping=joueurTabInfo"
+
+                        page_player_edit_profile = agent.get(a) #following the link
+                        body = page_player_edit_profile.body
                         html_body = Nokogiri::HTML(body)
                         puts html_body
-                        form.field_with(:name => 'dispatch').value = "rechercher"
+
+
+                        form = agent.page_player_edit_profile.forms.first
+
+                        form.field_with(:name => 'jou_vcomment').value = "hellloooooooo"
                         raise
+
+
+                        redirect_to root_path
                       end
                     end
                   end
