@@ -40,6 +40,7 @@ Rails.application.routes.draw do
     end
   end
 
+  post 'competitions/:competition_id/disponibility_export',         to: "aei_exports#export_disponibilities", as: "export_disponibilities"
   post 'competitions/:competition_id/convocations/multiple_new',    to: "convocations#multiple_new",    as: "multiple_new"
   post 'competitions/:competition_id/convocations/multiple_create', to: "convocations#multiple_create", as: "multiple_create"
   post 'competitions/:competition_id/updaterankings',               to: "competitions#update_rankings",  as: "updaterankings"
