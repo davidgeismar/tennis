@@ -1,0 +1,6 @@
+= simple_form_for @challenge, class: 'row' do |t|
+   = t.error_notification
+   = t.input :place, label: "Club"
+   = t.input :time, label: "Heure du défi"
+   = t.input :date, label: "Date du défi"
+   = t.button :submit, value: "Envoyer le défi",  class: "btn-primary marge-bas"

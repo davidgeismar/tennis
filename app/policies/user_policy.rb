@@ -11,7 +11,6 @@ class UserPolicy < ApplicationPolicy
 
   def show?
      user == record ||  user.tournaments.any? { |t| t.users.include?(record)}
-
   end
 
   def update?

@@ -3,6 +3,7 @@ class User < ActiveRecord::Base
 
   enumerize :genre,   in: Settings.enumerize.genre
   enumerize :ranking, in: Settings.enumerize.ranking
+  geocoded_by :ip
 
   devise :invitable,
           :database_authenticatable,

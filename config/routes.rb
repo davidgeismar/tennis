@@ -11,12 +11,14 @@ Rails.application.routes.draw do
 
   resource  :judge,     only: :show
   resources :contacts,  only: [:new, :create]
+  resources :challenges
 
   resources :convocations, only: [:edit, :update] do # JOUEUR
     resources :messages, only: [:new, :create, :show]
   end
 
-  resources :users, only: [:update, :show, :edit] do
+
+  resources :users, only: [:update, :show, :edit, :index] do
     resources :tournaments, only: [:show, :new, :create, :edit, :update]
   end
 
