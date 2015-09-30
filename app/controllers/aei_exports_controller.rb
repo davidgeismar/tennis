@@ -273,6 +273,7 @@ class AeiExportsController < ApplicationController
                         a = a.slice(0...(a.index('&returnMapping')))
                         a = a.slice(a.index("iid=")..-1)
                         a = "https://aei.app.fft.fr/ei/joueurFiche.do?dispatch=afficher&jou_" + a + "&returnMapping=joueurTabInfo"
+                        raise
 
                         page_player_edit_profile = agent.get(a) #following the link
                         body = page_player_edit_profile.body
