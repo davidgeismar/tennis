@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150928231444) do
+ActiveRecord::Schema.define(version: 20150930132117) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -290,6 +290,10 @@ ActiveRecord::Schema.define(version: 20150928231444) do
     t.string   "mangopay_wallet_id"
     t.boolean  "sms_forfait",                   default: false
     t.integer  "sms_quantity"
+    t.string   "extradoc_file_name"
+    t.string   "extradoc_content_type"
+    t.integer  "extradoc_file_size"
+    t.datetime "extradoc_updated_at"
   end
 
   add_index "users", ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true, using: :btree
