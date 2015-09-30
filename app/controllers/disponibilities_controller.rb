@@ -12,9 +12,13 @@ class DisponibilitiesController < ApplicationController
   def create
     @disponibility = Disponibility.new(disponibility_params)
     @disponibility.tournament = @tournament
-    @disponibility.user = current_user
-    authorize @disponibility
-
+    if !current_user.judge?
+      @disponibility.user = current_user
+      authorize @disponibility
+    else
+      @disponibility.user = Subscription.find(params[:subscription_id]).user
+      authorize @disponibility
+    end
     if @disponibility.save && current_user.judge?
       redirect_to mytournaments_path
       flash[:notice] = "Les disponibilités du licencié ont bien été enregistrées"
