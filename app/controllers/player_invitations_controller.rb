@@ -30,6 +30,7 @@ class PlayerInvitationsController < ApplicationController
         @user.first_name      = params[:first_name]
         @user.last_name       = params[:last_name]
         @user.licence_number  = params[:licence_number].delete(' ')
+        @user.telephone = params[:telephone].delete(' ')
         @user.save
         @subscription = Subscription.new(user: @user, competition: @competition, fare_type: :unknown)
         if @subscription.save
