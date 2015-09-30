@@ -24,7 +24,9 @@ class User < ActiveRecord::Base
   has_attached_file :picture,           styles: { medium: "300x300>", thumb: "100x100>" }
   has_attached_file :licencepicture,    styles: { medium: "300x300>", thumb: "100x100>" }
   has_attached_file :certifmedpicture,  styles: { medium: "300x300>", thumb: "100x100>" }
+  has_attached_file :extradoc,           styles: { medium: "300x300>", thumb: "100x100>" }
 
+  validates_attachment_content_type :extradoc,           content_type: /\Aimage\/.*\z/
   validates_attachment_content_type :picture,           content_type: /\Aimage\/.*\z/
   validates_attachment_content_type :licencepicture,    content_type: /\Aimage\/.*\z/
   validates_attachment_content_type :certifmedpicture,  content_type: /\Aimage\/.*\z/

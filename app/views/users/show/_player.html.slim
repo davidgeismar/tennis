@@ -14,6 +14,9 @@ div class="container"
         li role="presentation"
           a href="#certif" aria-controls="certif" role="tab" data-toggle="tab"
             strong Certificat Médical
+        li role="presentation"
+          a href="#other_documents" aria-controls="other_documents" role="tab" data-toggle="tab"
+            strong Autres documents
 
       div class="tab-content"
         div role="tabpanel" class="tab-pane active" id="profil"
@@ -39,3 +42,10 @@ div class="container"
               = render 'users/edit/certif_picture'
           - else
               = render 'users/edit/player_upload_certif_btn'
+
+        div role="tabpanel" class="tab-pane" id="other_documents"
+          - if @user.extradoc_content_type
+            div id="licence_picture"
+              = render 'users/edit/extradoc_picture'
+          - else
+              = render 'users/edit/player_upload_extradoc_btn'
