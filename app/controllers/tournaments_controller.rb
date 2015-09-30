@@ -62,6 +62,7 @@
 
   def update
     authorize @tournament
+    @tournament.homologation_number = params[:tournament][:homologation_number].split.join
     @tournament.update(tournament_params)
     @tournament.accepted = false
     if @tournament.save
