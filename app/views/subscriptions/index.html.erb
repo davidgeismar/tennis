@@ -164,7 +164,7 @@
               <%  @disponibility = Disponibility.where(tournament: @tournament, user: subscription.user).first %>
               <% if @disponibility %>
                 <td>
-                  <%= link_to '<i class="fa fa-calendar"></i>'.html_safe, tournament_disponibility_path(@tournament, @disponibility), class: "fleche_subscription", "data-container"=>"body",
+                  <%= link_to '<i class="fa fa-calendar"></i>'.html_safe, tournament_disponibility_path(@tournament, @disponibility, subscription_id: subscription.id), class: "fleche_subscription", "data-container"=>"body",
                     "data-html"=>"true", "data-content"=> " <ul class='small'> <li>L: #{Settings.disponibility[@disponibility.monday]}</li> <li>Ma: #{Settings.disponibility[@disponibility.tuesday]}</li> <li>Me: #{Settings.disponibility[@disponibility.wednesday]}</li> <li>Je: #{Settings.disponibility[@disponibility.thursday]}</li> <li>Ve: #{Settings.disponibility[@disponibility.friday]}</li> <li>Sam: #{Settings.disponibility[@disponibility.saturday]} </li><li>Dim: #{Settings.disponibility[@disponibility.sunday]}</li><li>Com: #{@disponibility.comment}</li> </ul>", "data-toggle"=> "popover", "data-placement" => "top", "data-trigger"=>"hover", "title" => "<div class=small>Dispos Licencié </div>" %>
                 </td>
               <% else %>
