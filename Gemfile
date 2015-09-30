@@ -41,7 +41,6 @@ gem "slim",                       "~> 3.0.6"
 gem "uglifier",                   "~> 2.7.0"
 gem "unicode_utils",              "~> 1.4.0"
 gem "twilio-ruby",                "~> 3.12"
-gem 'trigram'
 
 
 group :development, :test do
