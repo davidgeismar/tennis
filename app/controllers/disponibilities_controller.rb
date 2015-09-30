@@ -16,11 +16,12 @@ class DisponibilitiesController < ApplicationController
       @disponibility.user = current_user
       authorize @disponibility
     else
-      @disponibility.user = Subscription.find(params[:subscription_id]).user
+      @subscription = Subscription.find(params[:disponibility][:subscription_id])
+      @disponibility.user = @subscription.user
       authorize @disponibility
     end
     if @disponibility.save && current_user.judge?
-      redirect_to mytournaments_path
+      redirect_to competition_subscriptions_path(@subscription.competition)
       flash[:notice] = "Les disponibilités du licencié ont bien été enregistrées"
     elsif  @disponibility.save
       redirect_to tournament_competitions_path(@tournament)
@@ -59,7 +60,7 @@ class DisponibilitiesController < ApplicationController
   end
 
   def disponibility_params
-    params.require(:disponibility).permit(:week, :saturday, :sunday, :monday, :tuesday, :wednesday, :thursday, :friday, :comment)
+    params.require(:disponibility).permit(:week, :saturday, :sunday, :monday, :tuesday, :wednesday, :thursday, :friday, :comment, :subscription_id)
   end
 
 end
