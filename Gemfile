@@ -43,6 +43,7 @@ gem "uglifier",                   "~> 2.7.0"
 gem "unicode_utils",              "~> 1.4.0"
 gem "twilio-ruby",                "~> 3.12"
 gem 'pg_search'
+gem "watir-rails"
 
 
 group :development, :test do

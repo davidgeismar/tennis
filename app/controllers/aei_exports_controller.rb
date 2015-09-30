@@ -249,8 +249,8 @@ class AeiExportsController < ApplicationController
 
                 homologation_number_found = true
                 a = a.parent.previous.previous
-                a = a.at('a')[:href] # selecting the link to follow
-                page_selected_compet = agent.get(a) #following the link
+                a_tournament = a.at('a')[:href] # selecting the link to follow
+                page_selected_compet = agent.get(a_tournament) #following the link
                 body = page_selected_compet.body
                 html_body = Nokogiri::HTML(body)
                 joueur_access = html_body.search('#tabs0head2 a') #wtf here
@@ -270,25 +270,43 @@ class AeiExportsController < ApplicationController
                         a = name.previous.previous
                         a = a.at('a')[:href] # selecting the link to follow
 
-                        a = a.slice(0...(a.index('&returnMapping')))
-                        a = a.slice(a.index("iid=")..-1)
-                        a = "https://aei.app.fft.fr/ei/joueurFiche.do?dispatch=afficher&jou_" + a + "&returnMapping=joueurTabInfo"
-                        raise
+                        # a = a.slice(0...(a.index('&returnMapping')))
+                        # a = a.slice(a.index("iid=")..-1)
+                        # a = "https://aei.app.fft.fr/ei/joueurFiche.do?dispatch=afficher&jou_" + a + "&returnMapping=joueurTabInfo"
+                        user_disponibility = Disponibility.where(user: subscription.user, tournament_id: subscription.tournament.id)
+                        user_disponibilities = user_disponibility.monday
 
-                        page_player_edit_profile = agent.get(a) #following the link
-                        body = page_player_edit_profile.body
-                        html_body = Nokogiri::HTML(body)
-                        puts html_body
+                        browser = Watir::Browser.new
+                        browser.goto "https://aei.app.fft.fr/ei/connexion.do?dispatch=afficher"
+                        browser.text_field(name: "util_vlogin").set params[:login_aei]
+                        browser.text_field(name: "util_vpassword").set params[:password_aei]
+                        browser.button(value: "Connexion").click
+                        browser.goto "https://aei.app.fft.fr/ei/" + a_tournament
+                        browser.goto "https://aei.app.fft.fr/ei/" + a
+                        browser.button(value: "Modifier").click
+                        browser.text_field(name: "jou_vcomment").set user_disponibilities
+                        browser.button(value: "Valider").click
+
+                        # browser.goto a
+                        # browser.text_field(name: "jou_vcomment").set "Jarmo"
+                        # browser.button(value: "Valider").click
 
 
-                        form = agent.page_player_edit_profile.forms.first
+                        # page_player_edit_profile = agent.get(a) #following the link
+                        # body = page_player_edit_profile.body
+                        # html_body = Nokogiri::HTML(body)
+                        # puts html_body
 
-                        form.field_with(:name => 'jou_vcomment').value = "hellloooooooo"
-                        raise
+
+                        # form = agent.page_player_edit_profile.forms.first
+
+                        # form.field_with(:name => 'jou_vcomment').value = "hellloooooooo"
+                        # raise
 
 
-                        redirect_to root_path
+
                       end
+
                     end
                   end
                 end
@@ -296,7 +314,7 @@ class AeiExportsController < ApplicationController
             end
           end
         end
-
+        redirect_to root_path
   end
 
   private
