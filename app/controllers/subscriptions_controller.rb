@@ -19,9 +19,10 @@ class SubscriptionsController < ApplicationController
 
   def multiple_new
     @competition_ids = params[:select_competitions].split(',') # ["27", "38", "37", "35"]
-    @competitions    = Competition.where(id: @competition_ids) # array of subscriptions
+    @competitions    = Competition.where(id: @competition_ids) # array of competitions
     @tournament = Tournament.find(params[:tournament_id])
     number = @competition_ids.length
+
 
 
     custom_authorize CompetitionMultiPolicy, @competitions
@@ -32,7 +33,7 @@ class SubscriptionsController < ApplicationController
       @total_amount = (@tournament.amount*number).to_f
     end
 
-    @total_amount  += (@total_amount + 0.80)
+    @total_amount  =  @total_amount + 0.80
 
     # authorize @subscription
     @competitions.each do |competition|
