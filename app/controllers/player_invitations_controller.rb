@@ -17,6 +17,9 @@ class PlayerInvitationsController < ApplicationController
       flash[:alert] = "Merci de préciser un numéro de licence valide"
       return render :new
     # if user est déjà inscrit au tournoi
+    elsif (params[:telephone].delete(' ')  =~ /\A(\+33)[1-9]([-. ]?[0-9]{2}){4}\z/).nil?
+      flash[:alert] = "Merci de respecter un format du type +33666027414 pour le numéro de telephone du licencié"
+      return render :new
     elsif emails_in_competition.include?(params[:email])
       flash[:alert] = "Ce licencié a déjà été ajouté au tournoi. Merci de vérifier votre liste de joueur"
       redirect_to competition_subscriptions_path(@competition)

@@ -20,5 +20,8 @@ div class= "banner adding_manually"
             div class= "form-group"
               = label_tag :licence_number, "Numéro de licence"
               = text_field_tag :licence_number, nil, class: "form-control", required: true
+            div class= "form-group"
+              = label_tag :telephone, "Telephone"
+              = text_field_tag :telephone, nil, placeholder: "+33666027414", class: "form-control", required: true
 
             = submit_tag "Inscrire", class: "btn btn-primary"
