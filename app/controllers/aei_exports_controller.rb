@@ -257,10 +257,17 @@ class AeiExportsController < ApplicationController
     else
        #put all selected subcriptions in [@subscriptions_selected]
       @subscriptions_selected = []
+      @users_not_yet_exported = []
       @subscription_ids.each do |subscription_id|
         #instance of subscription is added
         subscription = Subscription.find(subscription_id.to_i)
-        @subscriptions_selected << subscription
+        # pour que l'on puisse exporter les dispos il faut que le joueur ai été exporté préalablement
+        if subscription.exported?
+          @subscriptions_selected << subscription
+        else
+          # joueur qui n'ont pas encore été exporté sont stockés ici
+          @users_not_yet_exported << subscription.user.full_name
+        end
       end
         agent = Mechanize.new
         agent.get("https://aei.app.fft.fr/ei/connexion.do?dispatch=afficher")
@@ -314,7 +321,9 @@ class AeiExportsController < ApplicationController
                         # a = a.slice(a.index("iid=")..-1)
                         # a = "https://aei.app.fft.fr/ei/joueurFiche.do?dispatch=afficher&jou_" + a + "&returnMapping=joueurTabInfo"
                         user_disponibility = Disponibility.where(user: subscription.user, tournament_id: subscription.tournament.id)
-                        user_disponibilities = user_disponibility.monday
+                        user_disponibilities = "L: #{Settings.disponibility[@disponibility.monday]} Ma: #{Settings.disponibility[@disponibility.tuesday]} Me: #{Settings.disponibility[@disponibility.wednesday]} Je: #{Settings.disponibility[@disponibility.thursday]} Ve: #{Settings.disponibility[@disponibility.friday]} Sam: #{Settings.disponibility[@disponibility.saturday]} Dim: #{Settings.disponibility[@disponibility.sunday]}Com: #{@disponibility.comment}"
+
+
 
                         browser = Watir::Browser.new
                         browser.goto "https://aei.app.fft.fr/ei/connexion.do?dispatch=afficher"
@@ -354,6 +363,7 @@ class AeiExportsController < ApplicationController
             end
           end
         end
+        flash[:notice] = "les disponibilités de vos inscrits ont bien été exportés"
         redirect_to root_path
   end
 
