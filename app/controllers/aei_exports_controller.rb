@@ -246,103 +246,97 @@ class AeiExportsController < ApplicationController
   end
 
   def export_disponibilities
+    # je récupère les joueurs sélectionnés
     @subscription_ids = params[:subscription_ids_export_dispo].split(',')
     @tournament = @competition.tournament
     authorize @competition
     if @subscription_ids.blank?
-
-       flash[:alert] = "Vous n'avez sélectionner aucun joueur à exporter"
+      flash[:alert] = "Vous n'avez sélectionner aucun joueur à exporter"
       redirect_to competition_subscriptions_path(params[:competition_id])
-
     else
        #put all selected subcriptions in [@subscriptions_selected]
       @subscriptions_selected = []
       @subscription_ids.each do |subscription_id|
-        #instance of subscription is added
+        #instance of subscriptions selected are added in array
         subscription = Subscription.find(subscription_id.to_i)
         @subscriptions_selected << subscription
       end
-        agent = Mechanize.new
-        agent.get("https://aei.app.fft.fr/ei/connexion.do?dispatch=afficher")
-        # login into AEI
-        # gestion d'erreur si mot de passe fourni ou login fourni mauvais redirect avec
-        # if errors = html_body.search(erreur)
-        #  flash[:alert] = "Vos identifiants n'ont n'a pas été reconnu"
-        form_login_AEI = agent.page.forms.first
-        form_login_AEI.util_vlogin = params[:login_aei]
-        form_login_AEI.util_vpassword = params[:password_aei]
-        page_compet_list = agent.submit(form_login_AEI, form_login_AEI.buttons.first)
-        # page avec la liste des tournois dont s'occupe le JA classés pas numéro de licence
-        body = page_compet_list.body
-        html_body = Nokogiri::HTML(body)
-        if html_body.search('td a.treeview2').first.present?
-          links = html_body.search('a.helptip')
-            homologation_number_found = false
-            links.each do |a|
-            # pour l'export en test il faut continuer avec le numéro de test 2015 32 92 0419
-              #checking if homologation number matches homologation number on AEI
-              if a.text.split.join == @tournament.homologation_number.split.join && !homologation_number_found
+      agent = Mechanize.new
+      agent.get("https://aei.app.fft.fr/ei/connexion.do?dispatch=afficher")
+      # login into AEI
+      # gestion d'erreur si mot de passe fourni ou login fourni mauvais redirect avec
+      # if errors = html_body.search(erreur)
+      #  flash[:alert] = "Vos identifiants n'ont n'a pas été reconnu"
+      form_login_AEI = agent.page.forms.first
+      form_login_AEI.util_vlogin = params[:login_aei]
+      form_login_AEI.util_vpassword = params[:password_aei]
+      page_compet_list = agent.submit(form_login_AEI, form_login_AEI.buttons.first)
+      # page avec la liste des tournois dont s'occupe le JA classés pas numéro de licence
+      body = page_compet_list.body
+      html_body = Nokogiri::HTML(body)
+      if html_body.search('td a.treeview2').first.present?
+        links = html_body.search('a.helptip')
+        homologation_number_found = false
+        links.each do |a|
+          #checking if homologation number matches homologation number on AEI
+          if a.text.split.join == @tournament.homologation_number.split.join && !homologation_number_found
+            homologation_number_found = true
+            a = a.parent.previous.previous
+            a_tournament = a.at('a')[:href] # selecting the link to profile_tournament
+            page_selected_compet = agent.get(a_tournament) #following the link to profile_tournement
+            body = page_selected_compet.body
+            html_body = Nokogiri::HTML(body)
+            joueur_access = html_body.search('#tabs0head2 a') #finding tab "Joueurs"
+            joueur_access.each do |a| #wtf here
+               lien_joueurs_inscrits = a[:href] # link to player_tab
+               page_joueurs_inscrits = agent.get(lien_joueurs_inscrits) #following link on the player_tabs
+               body = page_joueurs_inscrits.body
+               html_body = Nokogiri::HTML(body)
+               browser = Watir::Browser.new
+               browser.goto "https://aei.app.fft.fr/ei/connexion.do?dispatch=afficher"
+               browser.text_field(name: "util_vlogin").set params[:login_aei]
+               browser.text_field(name: "util_vpassword").set params[:password_aei]
+               browser.button(value: "Connexion").click
+               failures = []
+               success = []
+               @subscriptions_selected.each do |subscription|
+                  link_number = 2
+                  while lien = page_joueurs_inscrits.link_with(:text=> link_number.to_s)
+                    names = html_body.search('.L2') + html_body.search('.L1')
+                    names.each do |name|
+                      # if player's name is found in player's list (il faut que le robot puisse passer de page en page !)
+                      if (subscription.user.full_name.split.join.downcase == name.text.split.join.downcase) || (subscription.user.full_name_inversed.split.join.downcase == name.text.split.join.downcase)
+                        a = name.previous.previous
+                        a = a.at('a')[:href] # selecting the link to profile_player
+                        user_disponibility = Disponibility.where(user: subscription.user, tournament_id: subscription.tournament.id)
+                        user_disponibilities = "hello"
 
-                homologation_number_found = true
-                a = a.parent.previous.previous
-                a_tournament = a.at('a')[:href] # selecting the link to profile_tournament
-                page_selected_compet = agent.get(a_tournament) #following the link to profile_tournement
-                body = page_selected_compet.body
-                html_body = Nokogiri::HTML(body)
-                joueur_access = html_body.search('#tabs0head2 a') #wtf here
-                joueur_access.each do |a| #wtf here
-                   lien_joueurs_inscrits = a[:href]
-                   page_joueurs_inscrits = agent.get(lien_joueurs_inscrits) #following link on the player_tabs
+                        # browser is callded to go post on each field
 
-                   body = page_joueurs_inscrits.body
-                   html_body = Nokogiri::HTML(body)
-                   failures = []
-                   success = []
-                   link_number = 2
-                    while lien = page_joueurs_inscrits.link_with(:text=> link_number.to_s)
-                       @subscriptions_selected.each do |subscription|
-                          names = html_body.search('.L2') + html_body.search('.L1')
-                          names.each do |name|
-                            # if player's name is found in player's list (il faut que le robot puisse passer de page en page !)
-                            if (subscription.user.full_name.split.join.downcase == name.text.split.join.downcase) || (subscription.user.full_name_inversed.split.join.downcase == name.text.split.join.downcase)
-
-                              a = name.previous.previous
-                              a = a.at('a')[:href] # selecting the link to profile_player
-                              user_disponibility = Disponibility.where(user: subscription.user, tournament_id: subscription.tournament.id)
+                        browser.goto "https://aei.app.fft.fr/ei/" + a_tournament
+                        browser.goto "https://aei.app.fft.fr/ei/" + a
+                        browser.button(value: "Modifier").click
+                        browser.text_field(name: "jou_vcomment").set user_disponibilities
+                        browser.button(value: "Valider").click
 
 
-                              browser = Watir::Browser.new
-                              browser.goto "https://aei.app.fft.fr/ei/connexion.do?dispatch=afficher"
-                              browser.text_field(name: "util_vlogin").set params[:login_aei]
-                              browser.text_field(name: "util_vpassword").set params[:password_aei]
-                              browser.button(value: "Connexion").click
-                              browser.goto "https://aei.app.fft.fr/ei/" + a_tournament
-                              browser.goto "https://aei.app.fft.fr/ei/" + a
-                              browser.button(value: "Modifier").click
-                              browser.text_field(name: "jou_vcomment").set user_disponibilities
-                              browser.button(value: "Valider").click
-                              page_joueurs_inscrits = lien.click
-                              body = page_joueurs_inscrits.body
-                              html_body = Nokogiri::HTML(body)
+                      else
+                        page_joueurs_inscrits = lien.click
+                        body = page_joueurs_inscrits.body
+                        html_body = Nokogiri::HTML(body)
+                        link_number = link_number + 1
 
-                              link_number = link_number + 1
-
-                            else
-                              failures << subscription.user.full_name
-
-                            end
-                          end
-                        end
                       end
                     end
                   end
                 end
-              end
             end
           end
         end
-    redirect_to root_path
+      end
+    end
   end
+
 
   private
 
