@@ -1,10 +1,10 @@
 class CompetitionMultiPolicy < ApplicationPolicy
   def multiple_new?
-    true
+    multiple_create?
   end
 
   def multiple_create?
-    true
+    user && !user.judge?
   end
 
   private
