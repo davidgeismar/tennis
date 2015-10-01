@@ -272,20 +272,16 @@ class AeiExportsController < ApplicationController
         form_login_AEI.util_vlogin = params[:login_aei]
         form_login_AEI.util_vpassword = params[:password_aei]
         page_compet_list = agent.submit(form_login_AEI, form_login_AEI.buttons.first)
+        # page avec la liste des tournois dont s'occupe le JA classés pas numéro de licence
         body = page_compet_list.body
         html_body = Nokogiri::HTML(body)
         if html_body.search('td a.treeview2').first.present?
           links = html_body.search('a.helptip')
-
             homologation_number_found = false
-
             links.each do |a|
-            # try with 2015 32 92 0076 not working why ?
-
             # pour l'export en test il faut continuer avec le numéro de test 2015 32 92 0419
-
+              #checking if homologation number matches homologation number on AEI
               if a.text.split.join == @tournament.homologation_number.split.join && !homologation_number_found
-
 
                 homologation_number_found = true
                 a = a.parent.previous.previous
@@ -294,41 +290,50 @@ class AeiExportsController < ApplicationController
                 body = page_selected_compet.body
                 html_body = Nokogiri::HTML(body)
                 joueur_access = html_body.search('#tabs0head2 a') #wtf here
-                 joueur_access.each do |a| #wtf here
-                  lien_joueurs_inscrits = a[:href]
-                 page_joueurs_inscrits = agent.get(lien_joueurs_inscrits) #following link on the player_tabs
-                 body = page_joueurs_inscrits.body
-                  html_body = Nokogiri::HTML(body)
-                  failures = []
-                  success = []
-                  @subscriptions_selected.each do |subscription|
-                    names = html_body.search('.L2') + html_body.search('.L1')
-                    names.each do |name|
-                      # if player's name is found in player's list (il faut que le robot puisse passer de page en page !)
-                      if (subscription.user.full_name.split.join.downcase == name.text.split.join.downcase) || (subscription.user.full_name_inversed.split.join.downcase == name.text.split.join.downcase)
+                joueur_access.each do |a| #wtf here
+                   lien_joueurs_inscrits = a[:href]
+                   page_joueurs_inscrits = agent.get(lien_joueurs_inscrits) #following link on the player_tabs
 
-                        a = name.previous.previous
-                        a = a.at('a')[:href] # selecting the link to profile_player
-                        user_disponibility = Disponibility.where(user: subscription.user, tournament_id: subscription.tournament.id)
-                        user_disponibilities = user_disponibility.monday
+                   body = page_joueurs_inscrits.body
+                   html_body = Nokogiri::HTML(body)
+                   failures = []
+                   success = []
+                   link_number = 2
+                    while lien = page_joueurs_inscrits.link_with(:text=> link_number.to_s)
+                       @subscriptions_selected.each do |subscription|
+                          names = html_body.search('.L2') + html_body.search('.L1')
+                          names.each do |name|
+                            # if player's name is found in player's list (il faut que le robot puisse passer de page en page !)
+                            if (subscription.user.full_name.split.join.downcase == name.text.split.join.downcase) || (subscription.user.full_name_inversed.split.join.downcase == name.text.split.join.downcase)
 
-                        browser = Watir::Browser.new
-                        browser.goto "https://aei.app.fft.fr/ei/connexion.do?dispatch=afficher"
-                        browser.text_field(name: "util_vlogin").set params[:login_aei]
-                        browser.text_field(name: "util_vpassword").set params[:password_aei]
-                        browser.button(value: "Connexion").click
-                        browser.goto "https://aei.app.fft.fr/ei/" + a_tournament
-                        browser.goto "https://aei.app.fft.fr/ei/" + a
-                        browser.button(value: "Modifier").click
-                        browser.text_field(name: "jou_vcomment").set user_disponibilities
-                        browser.button(value: "Valider").click
-
-                      else
-                        failures << subscription.user.full_name
+                              a = name.previous.previous
+                              a = a.at('a')[:href] # selecting the link to profile_player
+                              user_disponibility = Disponibility.where(user: subscription.user, tournament_id: subscription.tournament.id)
 
 
+                              browser = Watir::Browser.new
+                              browser.goto "https://aei.app.fft.fr/ei/connexion.do?dispatch=afficher"
+                              browser.text_field(name: "util_vlogin").set params[:login_aei]
+                              browser.text_field(name: "util_vpassword").set params[:password_aei]
+                              browser.button(value: "Connexion").click
+                              browser.goto "https://aei.app.fft.fr/ei/" + a_tournament
+                              browser.goto "https://aei.app.fft.fr/ei/" + a
+                              browser.button(value: "Modifier").click
+                              browser.text_field(name: "jou_vcomment").set user_disponibilities
+                              browser.button(value: "Valider").click
+                              page_joueurs_inscrits = lien.click
+                              body = page_joueurs_inscrits.body
+                              html_body = Nokogiri::HTML(body)
+
+                              link_number = link_number + 1
+
+                            else
+                              failures << subscription.user.full_name
+
+                            end
+                          end
+                        end
                       end
-
                     end
                   end
                 end
@@ -336,7 +341,7 @@ class AeiExportsController < ApplicationController
             end
           end
         end
-        redirect_to root_path
+    redirect_to root_path
   end
 
   private
@@ -383,7 +388,7 @@ class AeiExportsController < ApplicationController
 
 
 
-
+        # clique sur le lien page 2, 3, 4...
         link_number = 2
         while lien = page_joueurs_inscrits.link_with(:text=> link_number.to_s)
 
