@@ -22,6 +22,9 @@ div class= "panel panel-default"
         'est actuellement:
         strong
           =@convocation.status_text.upcase
+      p
+        'Numéro Juge-Arbitre :
+        = @convocation.subscription.tournament.user.telephone
 
     div class="panel-body"
       - if @convocation.status == "refused"
@@ -47,8 +50,6 @@ div class= "panel panel-default"
         div class="row text-center"
           div class="col-xs-12"
              a href="#" data-target="#accepted" data-toggle="modal" class="btn btn-success convocation-answer"Accepter la convocation
-          div class="col-xs-12"
-              a href="#" data-target="#refused" data-toggle="modal" class="btn btn-warning convocation-answer"Je suis indisponible
 
       - else
           div class="row text-center"
