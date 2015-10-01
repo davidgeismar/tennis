@@ -17,6 +17,7 @@
             <%= f.input :saturday  %>
             <%= f.input :sunday  %>
             <%= f.input :comment  %>
+            <%= f.input :subscription_id, :as => :hidden, :input_html => { :value => params[:subscription_id] } %>
             <%= f.button :submit, "Valider", class: "btn btn-success" %>
           <%end%>
         </div>

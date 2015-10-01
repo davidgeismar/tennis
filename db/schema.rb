@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150930132117) do
+ActiveRecord::Schema.define(version: 20151001002523) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -214,7 +214,6 @@ ActiveRecord::Schema.define(version: 20150930132117) do
     t.string   "homologation_number"
     t.string   "postcode"
     t.integer  "young_fare"
-    t.boolean  "moinstrente",              default: true
     t.string   "iban"
     t.string   "bic"
     t.string   "club_email"
