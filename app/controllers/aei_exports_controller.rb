@@ -340,10 +340,10 @@ class AeiExportsController < ApplicationController
             end
           end
         end
-
+      end
     flash[:notice] = "les disponibilités de vos inscrits ont bien été exportés"
     redirect_to root_path
-
+    end
   end
 
 
