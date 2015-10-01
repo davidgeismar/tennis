@@ -5,26 +5,26 @@ class AeiExportsController < ApplicationController
     @subscription_ids = params[:subscription_ids_export].split(',')
     @tournament = @competition.tournament
     authorize @competition
-
     if @subscription_ids.blank?
       redirect_to competition_subscriptions_path(params[:competition_id])
       flash[:alert] = "Vous n'avez sélectionner aucun joueur à exporter"
     else
-      #put all selected subcriptions in [@subscriptions_selected]
+      #put all instances of selected subcriptions in [@subscriptions_selected]
       @subscriptions_selected = []
       @subscription_ids.each do |subscription_id|
         subscription = Subscription.find(subscription_id.to_i)
         @subscriptions_selected << subscription
-
-
       end
-
-      #split array d'instance d'inscriptions into arrays de max 15 instances
+      #split @subscription_selected into subscriptions_arrays of maximum 15 instances
       subscriptions_arrays = @subscriptions_selected.each_slice(15).to_a
+
+      #gestion d'erreur
+      #stats of successfully and failure exported
       stats = {
         success: [],
         failure: []
       }
+      #different type of errors
       outdated_licence = []
       already_subscribed_players = []
       too_young_to_participate = []
@@ -42,6 +42,11 @@ class AeiExportsController < ApplicationController
         body = page_compet_list.body
         html_body = Nokogiri::HTML(body)
 
+        if html_body.search("td li").text == "Il n'y a aucun compte avec ces informations."
+          flash[:alert] = "Il n'y a aucun compte avec ces informations."
+          redirect_to competition_subscriptions_path(@competition) and return
+        else
+        end
         # checking right homologation number for tournament
         # si ça existe (Compétitions)
         if html_body.search('td a.treeview2').first.present?
