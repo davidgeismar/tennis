@@ -4,6 +4,6 @@ class PlayerInvitationPolicy < ApplicationPolicy
   end
 
   def create?
-    user && user.judge == true
+    user && user.judge? && (record.tournament.user == user)
   end
 end

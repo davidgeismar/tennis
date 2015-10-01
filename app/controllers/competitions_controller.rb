@@ -4,6 +4,7 @@ class CompetitionsController < ApplicationController
 
   def new
     @competition = Competition.new
+    @competition.tournament = @tournament
     authorize @competition
   end
 

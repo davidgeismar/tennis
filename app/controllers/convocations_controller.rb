@@ -4,6 +4,7 @@ class ConvocationsController < ApplicationController
 
   def new
     @convocation = Convocation.new
+    @convocation.subscription = @subscription
     authorize @convocation
   end
   # attention coder le sms system pour create

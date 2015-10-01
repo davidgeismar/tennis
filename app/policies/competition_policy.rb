@@ -6,7 +6,7 @@ class CompetitionPolicy < ApplicationPolicy
   end
 
   def new?
-    user
+    user && user.judge? && (record.tournament.user == user)
   end
 
   def show?

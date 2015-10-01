@@ -31,10 +31,6 @@ class TournamentPolicy < ApplicationPolicy
     user && record.user == user
   end
 
-  def find?
-    true
-  end
-
   def passed_tournaments?
     user
   end
