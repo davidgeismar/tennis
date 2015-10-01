@@ -289,8 +289,8 @@ class AeiExportsController < ApplicationController
 
                 homologation_number_found = true
                 a = a.parent.previous.previous
-                a_tournament = a.at('a')[:href] # selecting the link to follow
-                page_selected_compet = agent.get(a_tournament) #following the link
+                a_tournament = a.at('a')[:href] # selecting the link to profile_tournament
+                page_selected_compet = agent.get(a_tournament) #following the link to profile_tournement
                 body = page_selected_compet.body
                 html_body = Nokogiri::HTML(body)
                 joueur_access = html_body.search('#tabs0head2 a') #wtf here
@@ -299,20 +299,16 @@ class AeiExportsController < ApplicationController
                  page_joueurs_inscrits = agent.get(lien_joueurs_inscrits) #following link on the player_tabs
                  body = page_joueurs_inscrits.body
                   html_body = Nokogiri::HTML(body)
+                  failures = []
+                  success = []
                   @subscriptions_selected.each do |subscription|
                     names = html_body.search('.L2') + html_body.search('.L1')
-                    t = []
-                      names.each do |name|
-                        t << name.text.split.join.downcase
-
+                    names.each do |name|
+                      # if player's name is found in player's list (il faut que le robot puisse passer de page en page !)
                       if (subscription.user.full_name.split.join.downcase == name.text.split.join.downcase) || (subscription.user.full_name_inversed.split.join.downcase == name.text.split.join.downcase)
 
                         a = name.previous.previous
-                        a = a.at('a')[:href] # selecting the link to follow
-
-                        # a = a.slice(0...(a.index('&returnMapping')))
-                        # a = a.slice(a.index("iid=")..-1)
-                        # a = "https://aei.app.fft.fr/ei/joueurFiche.do?dispatch=afficher&jou_" + a + "&returnMapping=joueurTabInfo"
+                        a = a.at('a')[:href] # selecting the link to profile_player
                         user_disponibility = Disponibility.where(user: subscription.user, tournament_id: subscription.tournament.id)
                         user_disponibilities = user_disponibility.monday
 
@@ -327,22 +323,8 @@ class AeiExportsController < ApplicationController
                         browser.text_field(name: "jou_vcomment").set user_disponibilities
                         browser.button(value: "Valider").click
 
-                        # browser.goto a
-                        # browser.text_field(name: "jou_vcomment").set "Jarmo"
-                        # browser.button(value: "Valider").click
-
-
-                        # page_player_edit_profile = agent.get(a) #following the link
-                        # body = page_player_edit_profile.body
-                        # html_body = Nokogiri::HTML(body)
-                        # puts html_body
-
-
-                        # form = agent.page_player_edit_profile.forms.first
-
-                        # form.field_with(:name => 'jou_vcomment').value = "hellloooooooo"
-                        # raise
-
+                      else
+                        failures << subscription.user.full_name
 
 
                       end
