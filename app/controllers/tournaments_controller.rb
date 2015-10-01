@@ -10,7 +10,7 @@
       render 'pages/partials/_no_tournaments'
     elsif params[:content].blank?
     elsif params[:content]
-      @tournaments = Tournament.near(params[:content], 20, :units => :km).where(accepted: true)
+      @tournaments = Tournament.near(params[:content], 20, :units => :km).where(accepted: true).where("ends_on >= :today", today: Date.today)
       # @tournaments = @tournaments.search(params[:content])
       respond_to do |format|
         format.js {}
