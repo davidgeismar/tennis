@@ -55,9 +55,10 @@ class AeiExportsController < ApplicationController
           # links = html_body.xpath("//tr/td[2]/a[contains(class(), 'helptip')]") also works
           homologation_number_found = false
           #boucle sur chaque objet nokogiri pour checker le bon numéro d'homologation
+
           links.each do |link_to_tournament|
-            # pour l'export en test il faut continuer avec le numéro de test 2015 32 92 0419
             if link_to_tournament.text.split.join == @homologation_number && !homologation_number_found
+              raise
               homologation_number_found = true
               link_to_tournament = link_to_tournament.parent.previous_element.at('a')[:href] # selecting the link to follow which is in the previous td
               page_profil_tournament = agent.get(link_to_tournament) #following the link to tournament profile
@@ -178,7 +179,7 @@ class AeiExportsController < ApplicationController
       too_young_to_participate_full_names = too_young_to_participate.map {|full_name| full_name}.join(', ')
 
       flash[:notice]  = "Vous avez exporté #{stats[:success].size} licencié(s) avec succès"
-
+      Aei_exportMailer.export_bilan(failure_full_names, already_subscribed_full_names, outdated_licence_full_names, too_young_to_participate_full_names).deliver
       if failure_full_names.present? && outdated_licence_full_names.present?
           flash[:alert]   = "#{outdated_licence_full_names} n'ont pas une licence valide au jour de la compétition. #{failure_full_names} n'ont pas pu être exportés. Merci de vous connecter sur AEI pour procéder à l'inscription manuelle"
       elsif failure_full_names.present? && already_subscribed_players.present? && too_young_to_participate

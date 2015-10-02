@@ -54,6 +54,8 @@ class ConvocationsController < ApplicationController
         redirect_to new_convocation_message_path(@convocation)
       end
     elsif @convocation.status == "confirmed"
+      #email
+      ConvocationMailer.convocation_confirmed_by_player(@convocation).deliver
       #notif
       @notification = Notification.create(
         user:         @convocation.subscription.tournament.user,

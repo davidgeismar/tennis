@@ -70,6 +70,7 @@ class SubscriptionsController < ApplicationController
         service       = MangoPayments::Subscriptions::CreatePayinService.new(subscription)
         if service.call
           SubscriptionMailer.confirmation(subscription).deliver
+          SubscriptionMailer.confirmation_judge(subscription).deliver
           notification = Notification.create(
             user:       subscription.tournament.user,
             content:    "#{subscription.user.full_name} a demandé à s'inscrire à #{subscription.tournament.name} dans la catégorie #{subscription.competition.category} ",

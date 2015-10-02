@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151001002523) do
+ActiveRecord::Schema.define(version: 20151002073517) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -106,12 +106,11 @@ ActiveRecord::Schema.define(version: 20151001002523) do
   add_index "convocations", ["subscription_id"], name: "index_convocations_on_subscription_id", using: :btree
 
   create_table "disponibilities", force: :cascade do |t|
-    t.integer  "subscription_id"
     t.string   "week"
     t.string   "saturday"
     t.string   "sunday"
-    t.datetime "created_at",      null: false
-    t.datetime "updated_at",      null: false
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
     t.string   "monday"
     t.string   "tuesday"
     t.string   "wednesday"
@@ -122,7 +121,6 @@ ActiveRecord::Schema.define(version: 20151001002523) do
     t.integer  "user_id"
   end
 
-  add_index "disponibilities", ["subscription_id"], name: "index_disponibilities_on_subscription_id", using: :btree
   add_index "disponibilities", ["tournament_id"], name: "index_disponibilities_on_tournament_id", using: :btree
   add_index "disponibilities", ["user_id"], name: "index_disponibilities_on_user_id", using: :btree
 
@@ -304,7 +302,6 @@ ActiveRecord::Schema.define(version: 20151001002523) do
 
   add_foreign_key "competitions", "tournaments"
   add_foreign_key "convocations", "subscriptions"
-  add_foreign_key "disponibilities", "subscriptions"
   add_foreign_key "disponibilities", "tournaments"
   add_foreign_key "disponibilities", "users"
   add_foreign_key "mangopay_transactions", "competitions"
