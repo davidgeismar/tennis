@@ -1,15 +1,13 @@
 .container
   .row
-    .col-xs-12
+    .col-sm-8
       h1 class="emperor" Recherche de tournois
-  .row
-    .col-xs-10
-      = form_tag tournaments_path, method: "get", :remote => true do ||
-        .form-group
-          = text_field_tag :content, nil, :id => 'gmaps-input-address', placeholder: "Rechercher des tournois par lieu", class: "form-control"
+    .col-sm-4
+      .l-search-form
+        = form_tag tournaments_path, method: 'get', :remote => true, class: 'form-inline' do ||
+          .form-group
+            = text_field_tag :content, nil, id: 'gmaps-input-address', placeholder: 'Rechercher une ville', autosave: true, autofocus: true, class: 'form-control'
+            = button_tag(type: 'submit', class: 'btn btn-success') do ||
+              i.fa.fa-search
 
-        = button_tag(type: "submit") do
-          i class="fa fa-search"
-
-  = render "tournaments"
-
+  = render 'tournaments'

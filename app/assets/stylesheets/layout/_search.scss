@@ -1,0 +1,12 @@
+.l-search-form {
+  text-align: right;
+  padding-top: 30px;
+  .form-group {
+    position: relative;
+  }
+  .btn {
+    position: absolute;
+    top: 0;
+    right: 0;
+  }
+}
