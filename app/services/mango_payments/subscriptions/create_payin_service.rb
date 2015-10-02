@@ -35,6 +35,7 @@ module MangoPayments
           @subscription.mangopay_payin_id = mango_transaction['Id']
           @subscription.save
         else
+          raise
           false
         end
       end
