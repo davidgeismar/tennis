@@ -2,11 +2,12 @@ class AeiExportsController < ApplicationController
   before_action :set_competition
 
   def create
-
+    homologation_number_found = false
     @subscription_ids = params[:subscription_ids_export].split(',')
     @tournament = @competition.tournament
     @homologation_number = @tournament.homologation_number.split.join
     authorize @competition
+
     if @subscription_ids.blank?
       redirect_to competition_subscriptions_path(params[:competition_id])
       flash[:alert] = "Vous n'avez sélectionner aucun joueur à exporter"
@@ -53,12 +54,12 @@ class AeiExportsController < ApplicationController
         if html_body.search('td a.treeview2').first.present? # doit rendre objet.text "Competitions"
           links = html_body.search('td a.helptip')
           # links = html_body.xpath("//tr/td[2]/a[contains(class(), 'helptip')]") also works
-          homologation_number_found = false
+
           #boucle sur chaque objet nokogiri pour checker le bon numéro d'homologation
 
           links.each do |link_to_tournament|
+
             if link_to_tournament.text.split.join == @homologation_number && !homologation_number_found
-              raise
               homologation_number_found = true
               link_to_tournament = link_to_tournament.parent.previous_element.at('a')[:href] # selecting the link to follow which is in the previous td
               page_profil_tournament = agent.get(link_to_tournament) #following the link to tournament profile
@@ -162,24 +163,27 @@ class AeiExportsController < ApplicationController
                   end
                 end
               end
-              slice_stats = checking_export(subscription_array)
+              slice_stats = checking_export(subscription_array, @homologation_number)
               stats[:success] += slice_stats[:success]
               stats[:failure] += slice_stats[:failure]
-            else
-              flash[:alert] = "Le numéro d'homologation n'a pas été reconnu"
-              redirect_to competition_subscriptions_path(@competition) and return
             end
           end
         else
         end
       end
+
+      unless homologation_number_found
+        flash[:alert] = "Le numéro d'homologation n'a pas été trouvé"
+        redirect_to competition_subscriptions_path(@competition) and return
+      end
+
       failure_full_names = stats[:failure].map { |subscription| subscription.user.full_name }.join(', ')
       already_subscribed_full_names = already_subscribed_players.map {|full_name| full_name}.join(', ')
       outdated_licence_full_names = outdated_licence.map {|full_name| full_name}.join(', ')
       too_young_to_participate_full_names = too_young_to_participate.map {|full_name| full_name}.join(', ')
 
       flash[:notice]  = "Vous avez exporté #{stats[:success].size} licencié(s) avec succès"
-      Aei_exportMailer.export_bilan(failure_full_names, already_subscribed_full_names, outdated_licence_full_names, too_young_to_participate_full_names).deliver
+      AeiExportsMailer.export_bilan(failure_full_names, already_subscribed_full_names, outdated_licence_full_names, too_young_to_participate_full_names, @competition).deliver
       if failure_full_names.present? && outdated_licence_full_names.present?
           flash[:alert]   = "#{outdated_licence_full_names} n'ont pas une licence valide au jour de la compétition. #{failure_full_names} n'ont pas pu être exportés. Merci de vous connecter sur AEI pour procéder à l'inscription manuelle"
       elsif failure_full_names.present? && already_subscribed_players.present? && too_young_to_participate
@@ -292,7 +296,6 @@ class AeiExportsController < ApplicationController
     names = html_body.search('.L2') + html_body.search('.L1') # searching player names on AEI
     names.each do |name|
       # if player's name is found in player's list (il faut que le robot puisse passer de page en page !)
-      binding.pry
       if (subscription.user.full_name.split.join.downcase == name.text.split.join.downcase) || (subscription.user.full_name_inversed.split.join.downcase == name.text.split.join.downcase)
         a_player_profile = name.previous.previous.at('a')[:href] # selecting the link to profile_player
         user_disponibility = Disponibility.where(user: subscription.user, tournament_id: subscription.tournament.id)
@@ -312,7 +315,6 @@ class AeiExportsController < ApplicationController
         names.each do |name|
           arr << name.text
         end
-        binding.pry
         bibi(html_body, link_number, subscription, page_joueurs_inscrits)
 
       end
@@ -322,7 +324,7 @@ class AeiExportsController < ApplicationController
 
   private
 
-  def checking_export(subscription_array)
+  def checking_export(subscription_array, homologation_number)
     agent = Mechanize.new
     agent.get("https://aei.app.fft.fr/ei/connexion.do?dispatch=afficher")
     # login into AEI
@@ -344,7 +346,7 @@ class AeiExportsController < ApplicationController
     links.each do |a|
     # try with 2015 32 92 0076 not working why ?
     # if a.text.split.join ==  @tournament.homologation_number.split.join
-      if a.text.split.join == "201532920419"
+      if a.text.split.join == homologation_number
         homologation_number_found = true
         a = a.parent.previous.previous
         a = a.at('a')[:href] # selecting the link to follow
@@ -395,7 +397,8 @@ class AeiExportsController < ApplicationController
           subscription.save
         end
         return stats
-
+      else
+        flash[:alert] = "Nous n'avons pas pu vérifier si l'export s'est bien passé"
       end
     end
   end
