@@ -20,7 +20,6 @@ class AeiExportsController < ApplicationController
       end
       #split @subscription_selected into subscriptions_arrays of maximum 15 instances
       subscriptions_arrays = @subscriptions_selected.each_slice(15).to_a
-
       #gestion d'erreur
       #stats of successfully and failure exported
       stats = {
@@ -31,6 +30,7 @@ class AeiExportsController < ApplicationController
       outdated_licence = []
       already_subscribed_players = []
       too_young_to_participate = []
+      too_old_to_participate = []
       subscriptions_arrays.each do |subscription_array|
         agent = Mechanize.new
         agent.get("https://aei.app.fft.fr/ei/connexion.do?dispatch=afficher")
@@ -108,6 +108,7 @@ class AeiExportsController < ApplicationController
               # selecting the right category to subscribe the player into
               # checkbox for players have name pp_ino_selection whereas checkbox for category have epr_iid_selection name
               form.checkboxes.each do |checkbox|
+
                 td = checkbox.node.parent
                 tr = td.parent
                 # crosschecking category_title with category_nature and category_age
@@ -122,6 +123,10 @@ class AeiExportsController < ApplicationController
                 aei_competition_category  = I18n.t("aei.competition_category.#{competition_category}")
                 aei_category_nature = I18n.t("aei.competition_nature.#{category_nature}")
                 aei_category_age    = I18n.t("aei.competition_age_category.#{category_age}")
+
+                puts competition_category
+                puts aei_competition_category
+                puts aei_category_age
                 # double checking
                 if aei_competition_category == category_title
                   checkbox.check
@@ -138,29 +143,7 @@ class AeiExportsController < ApplicationController
                   page = form.submit
                   html_body = Nokogiri::HTML(page.body)
                   # puts html_body for debug
-                  #players who are too young to participate
-                  html_body.search('.L1').each do |error_mess|
-                    # puts mess for debug
-                    if error_mess.text.include?("trop jeune pour participer à l'épreuve")
-                      name = mess.text.slice(0...(mess.text.index(" : trop jeune pour participer à l'épreuve")))
-                      too_young_to_participate << name
-                    else
-                    end
-                  end
-                  # gestion erreur joueur déjà inscrit
-                  html_body.search('li').each do |li|
-                    if li.text.include?('est déjà inscrit(e)')
-                      name = li.text.slice(0...(li.text.index('est déjà inscrit(e)')))
-                      # puts name for debug
-                      already_subscribed_players << name
-                    #licence non valide
-                    elsif li.text.include?('Passé le')
-                      name = li.text.slice(0...(li.text.index(' : Passé le')))
-                      puts name
-                      outdated_licence << name
-                    else
-                    end
-                  end
+                  error_checking(html_body, outdated_licence, too_young_to_participate, too_old_to_participate, already_subscribed_players)
                 end
               end
               slice_stats = checking_export(subscription_array, @homologation_number)
@@ -181,9 +164,11 @@ class AeiExportsController < ApplicationController
       already_subscribed_full_names = already_subscribed_players.map {|full_name| full_name}.join(', ')
       outdated_licence_full_names = outdated_licence.map {|full_name| full_name}.join(', ')
       too_young_to_participate_full_names = too_young_to_participate.map {|full_name| full_name}.join(', ')
+      too_old_to_participate_full_names = too_old_to_participate.map {|full_name| full_name}.join(', ')
 
       flash[:notice]  = "Vous avez exporté #{stats[:success].size} licencié(s) avec succès"
-      AeiExportsMailer.export_bilan(failure_full_names, already_subscribed_full_names, outdated_licence_full_names, too_young_to_participate_full_names, @competition).deliver
+      AeiExportsMailer.export_bilan(failure_full_names, already_subscribed_full_names, outdated_licence_full_names, too_young_to_participate_full_names, too_old_to_participate_full_names, @competition).deliver
+
       if failure_full_names.present? && outdated_licence_full_names.present?
           flash[:alert]   = "#{outdated_licence_full_names} n'ont pas une licence valide au jour de la compétition. #{failure_full_names} n'ont pas pu être exportés. Merci de vous connecter sur AEI pour procéder à l'inscription manuelle"
       elsif failure_full_names.present? && already_subscribed_players.present? && too_young_to_participate
@@ -198,6 +183,29 @@ class AeiExportsController < ApplicationController
       redirect_to competition_subscriptions_path(@competition) and return
     end
   end
+
+
+def error_checking(html_body, outdated_licence, too_young_to_participate, too_old_to_participate, already_subscribed_players)
+  # dans search ajouter .L1
+    html_body.search('li').each do |error_mess|
+      # puts mess for debug
+      if error_mess.text.include?("trop jeune pour participer à l'épreuve")
+        name = error_mess.text.slice(0...(error_mess.text.index(" : trop jeune pour participer à l'épreuve")))
+        too_young_to_participate << name
+      elsif error_mess.text.include?("est trop âgé pour participer")
+        name = error_mess.text.slice(0...(error_mess.text.index(" est trop âgé pour participer")))
+        too_old_to_participate << name
+      elsif error_mess.text.include?('est déjà inscrit(e)')
+        name = error_mess.text.slice(0...(error_mess.text.index('est déjà inscrit(e)')))
+        already_subscribed_players << name
+      elsif error_mess.text.include?('Passé le')
+        name = error_mess.text.slice(0...(error_mess.text.index(' : Passé le')))
+        puts name
+        outdated_licence << name
+      end
+    end
+    return too_young_to_participate, too_old_to_participate, already_subscribed_players, outdated_licence
+end
 
   def export_disponibilities
     # je récupère les joueurs sélectionnés
@@ -398,7 +406,6 @@ class AeiExportsController < ApplicationController
         end
         return stats
       else
-        flash[:alert] = "Nous n'avons pas pu vérifier si l'export s'est bien passé"
       end
     end
   end
