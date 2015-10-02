@@ -32,6 +32,7 @@ module MangoPayments
 
 
         if transaction.status == 'success'
+          raise
           @subscription.mangopay_payin_id = mango_transaction['Id']
           @subscription.save
         else
