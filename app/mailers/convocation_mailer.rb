@@ -15,4 +15,9 @@ class ConvocationMailer < ApplicationMailer
 
     mail(to: @convocation.subscription.user.email, subject: "Convocation au tournoi #{@convocation.subscription.tournament.name} dans la catégorie #{@convocation.subscription.competition.category} pour le #{@convocation.date.strftime("%d/%m/%Y")} à #{@convocation.hour.strftime("%Hh%M")}")
   end
+
+  def convocation_confirmed_by_player(convocation)
+    @convocation = convocation
+    mail(to: @convocation.subscription.tournament.user.email, subject: "#{@convocation.subscription.user.full_name} confirme sa présence pour la convocation au tournoi #{@convocation.subscription.tournament.name} dans la catégorie #{@convocation.subscription.competition.category} pour le #{@convocation.date.strftime("%d/%m/%Y")} à #{@convocation.hour.strftime("%Hh%M")}")
+  end
 end

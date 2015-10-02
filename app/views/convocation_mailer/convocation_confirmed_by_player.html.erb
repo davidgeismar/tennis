@@ -1,0 +1,5 @@
+<h1>Bonjour <%= @convocation.subscription.tournament.user.full_name %></h1>
+
+<p><%=@convocation.subscription.user.full_name%> confirme sa présence pour la convocation au tournoi <%=@convocation.subscription.tournament.name%> dans la catégorie <%=@convocation.subscription.competition.category%> pour le <%=@convocation.date.strftime("%d/%m/%Y")%> à <%=@convocation.hour.strftime("%Hh%M")%></p>
+<p>Tel joueur :<%= @convocation.subscription.user.telephone %></p>
+<p> Connectez vous sur www.wetennis.fr pour envoyer d'autres convocations !</p>
