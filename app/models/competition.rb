@@ -53,11 +53,13 @@ class Competition < ActiveRecord::Base
     user_age          = Date.today.year - birth_year
 
     check_settings    = Settings.competition_category_checks
+    all_age_good      = check_settings.all_age_good[category]
     real_age          = check_settings.real_age[category]
     exact_tennis_age  = check_settings.exact_tennis_age[category]
     range_tennis_age  = check_settings.range_tennis_age[category]
     senior_tennis_age = check_settings.senior_tennis_age[category]
     return false if user_age <= 7
+    return false if all_age_good && (user_age <= 11)
     return false if real_age          && real_age != user_age
     return false if exact_tennis_age  && (tennis_year - exact_tennis_age) > birth_year
     return false if range_tennis_age  && (tennis_year - range_tennis_age) > birth_year && (tennis_year - range_tennis_age - 1) > birth_year
