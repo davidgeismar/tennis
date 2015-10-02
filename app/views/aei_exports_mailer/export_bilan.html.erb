@@ -1,6 +1,9 @@
-Votre export vers AEI s'est bien passé, voici le bilan
-<%=@failure_full_names%>
-<%=@already_subscribed_full_names%>
-<%=@outdated_licence_full_names%>
-<%=@too_young_to_participate_full_names%>
-<%=@too_old_to_participate_full_names%>
+<p>Votre export vers AEI s'est bien passé, voici le bilan de l'export : </p>
+<ul>
+  <li>Joueurs qui n'ont pas pu être exportés : <%=@failure_full_names%></li>
+  <li>Joueurs dont la licence est expirée : <%=@outdated_licence_full_names%></li>
+  <li>Joueurs trop jeunes pour être inscrit dans la catégorie souhaitée : <%=@too_young_to_participate_full_names%></li>
+  <li>Joueurs trop agés pour être inscrit dans la catégorie souhaitée : <%=@too_old_to_participate_full_names%></li>
+  <li>Joueurs déjà inscrits dans la catégorie sélectionnée : <%=@already_subscribed_full_names%></li>
+  <li>Joueur dont le sexe ne correspond pas : <%=@unavailable_for_genre_full_names%></li>
+</ul>

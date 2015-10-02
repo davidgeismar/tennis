@@ -27,6 +27,7 @@ class AeiExportsController < ApplicationController
         failure: []
       }
       #different type of errors
+      unavailable_for_genre = []
       outdated_licence = []
       already_subscribed_players = []
       too_young_to_participate = []
@@ -143,7 +144,7 @@ class AeiExportsController < ApplicationController
                   page = form.submit
                   html_body = Nokogiri::HTML(page.body)
                   # puts html_body for debug
-                  error_checking(html_body, outdated_licence, too_young_to_participate, too_old_to_participate, already_subscribed_players)
+                  error_checking(html_body, outdated_licence, too_young_to_participate, too_old_to_participate, already_subscribed_players, unavailable_for_genre)
                 end
               end
               slice_stats = checking_export(subscription_array, @homologation_number)
@@ -165,9 +166,10 @@ class AeiExportsController < ApplicationController
       outdated_licence_full_names = outdated_licence.map {|full_name| full_name}.join(', ')
       too_young_to_participate_full_names = too_young_to_participate.map {|full_name| full_name}.join(', ')
       too_old_to_participate_full_names = too_old_to_participate.map {|full_name| full_name}.join(', ')
+      unavailable_for_genre_full_names = unavailable_for_genre.map {|full_name| full_name}.join(', ')
 
       flash[:notice]  = "Vous avez exporté #{stats[:success].size} licencié(s) avec succès"
-      AeiExportsMailer.export_bilan(failure_full_names, already_subscribed_full_names, outdated_licence_full_names, too_young_to_participate_full_names, too_old_to_participate_full_names, @competition).deliver
+      AeiExportsMailer.export_bilan(failure_full_names, already_subscribed_full_names, outdated_licence_full_names, too_young_to_participate_full_names, too_old_to_participate_full_names, unavailable_for_genre_full_names, @competition).deliver
 
       if failure_full_names.present? && outdated_licence_full_names.present?
           flash[:alert]   = "#{outdated_licence_full_names} n'ont pas une licence valide au jour de la compétition. #{failure_full_names} n'ont pas pu être exportés. Merci de vous connecter sur AEI pour procéder à l'inscription manuelle"
@@ -185,8 +187,21 @@ class AeiExportsController < ApplicationController
   end
 
 
-def error_checking(html_body, outdated_licence, too_young_to_participate, too_old_to_participate, already_subscribed_players)
+def error_checking(html_body, outdated_licence, too_young_to_participate, too_old_to_participate, already_subscribed_players, unavailable_for_genre)
   # dans search ajouter .L1
+    html_body.search('.L1').each do |error_mess|
+      if error_mess.text.include?("trop jeune pour participer à l'épreuve")
+        name = error_mess.text.slice(0...(error_mess.text.index(" : trop jeune pour participer à l'épreuve")))
+        too_young_to_participate << name
+      end
+    end
+
+    html_body.search('.L2').each do |error_mess|
+      if error_mess.text.include?("trop jeune pour participer à l'épreuve")
+        name = error_mess.text.slice(0...(error_mess.text.index(" : trop jeune pour participer à l'épreuve")))
+        too_young_to_participate << name
+      end
+    end
     html_body.search('li').each do |error_mess|
       # puts mess for debug
       if error_mess.text.include?("trop jeune pour participer à l'épreuve")
@@ -200,8 +215,10 @@ def error_checking(html_body, outdated_licence, too_young_to_participate, too_ol
         already_subscribed_players << name
       elsif error_mess.text.include?('Passé le')
         name = error_mess.text.slice(0...(error_mess.text.index(' : Passé le')))
-        puts name
         outdated_licence << name
+      elsif error_mess.text.include?('Veuillez vérifier le sexe')
+        name = error_mess.text.slice(0...(error_mess.text.index(" n'a pu être inscrit. Veuillez vérifier le sexe")))
+        unavailable_for_genre << name
       end
     end
     return too_young_to_participate, too_old_to_participate, already_subscribed_players, outdated_licence

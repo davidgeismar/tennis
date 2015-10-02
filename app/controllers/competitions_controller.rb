@@ -33,7 +33,7 @@ class CompetitionsController < ApplicationController
     @unsubscribed_competitions = @competitions - @competitions_already_subscribed_array
     authorize @competitions
     policy_scope(@competitions)
-    if @unsubscribed_competitions.nil?
+    if @unsubscribed_competitions.blank?
       flash[:alert] = "Vous êtes déjà inscrit dans toutes les catégories disponibles de ce tournoi"
       redirect_to mytournaments_path
     else

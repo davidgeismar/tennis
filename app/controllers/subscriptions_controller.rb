@@ -19,12 +19,13 @@ class SubscriptionsController < ApplicationController
 
   def multiple_new
     @competition_ids = params[:select_competitions].split(',') # ["27", "38", "37", "35"]
+     @tournament = Tournament.find(params[:tournament_id])
+    if @competition_ids.blank?
+      flash[:alert] = "Vous n'avez sélectionné aucune catégories"
+      redirect_to tournament_competitions_path(@tournament)
+    end
     @competitions    = Competition.where(id: @competition_ids) # array of competitions
-    @tournament = Tournament.find(params[:tournament_id])
     number = @competition_ids.length
-
-
-
     custom_authorize CompetitionMultiPolicy, @competitions
 
     if current_user.eligible_for_young_fare?

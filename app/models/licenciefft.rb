@@ -1,5 +1,6 @@
 class Licenciefft < ActiveRecord::Base
    def self.mechanize_club
+    puts "hello"
     agent = Mechanize.new
     agent.get("http://www.rechercheclub.applipub-fft.fr/rechercheclub/")
     form = agent.page.forms.first
@@ -95,3 +96,4 @@ class Licenciefft < ActiveRecord::Base
       end
   end
 end
+
