@@ -307,8 +307,6 @@ end
               # end
             end
           else
-            flash[:alert] = "Le numéro d'homologation que vous avez indiqué sur Wetennis est incorrect"
-            redirect_to competition_subscriptions_path(@competition) and return
           end
         end
       end
@@ -318,10 +316,14 @@ end
   end
 
   def bibi(html_body, link_number, subscription, page_joueurs_inscrits)
-    names = html_body.search('.L2') + html_body.search('.L1') # searching player names on AEI
+    names = html_body.xpath("//tr/td[2]")  # searching player names on AEI
+    puts html_body
+    #j'arrive pas a aller chercher le joueur :()
     names.each do |name|
-      # if player's name is found in player's list (il faut que le robot puisse passer de page en page !)
-      if (subscription.user.full_name.split.join.downcase == name.text.split.join.downcase) || (subscription.user.full_name_inversed.split.join.downcase == name.text.split.join.downcase)
+      puts name.text.encode!('UTF-8', 'binary', invalid: :replace, undef: :replace, replace: '').split.join.downcase
+     # if player's name is found in player's list (il faut que le robot puisse passer de page en page !)
+      if (subscription.user.full_name.split.join.downcase == name.text.encode!('UTF-8', 'binary', invalid: :replace, undef: :replace, replace: '').split.join.downcase) || (subscription.user.full_name_inversed.split.join.downcase == name.text..encode!('UTF-8', 'binary', invalid: :replace, undef: :replace, replace: '').split.join.downcase)
+        raise
         a_player_profile = name.previous.previous.at('a')[:href] # selecting the link to profile_player
         user_disponibility = Disponibility.where(user: subscription.user, tournament_id: subscription.tournament.id)
         user_disponibilities = "hello"

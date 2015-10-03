@@ -23,7 +23,7 @@ module MangoPayments
           Fees:                 { Currency: 'EUR', Amount: fees_cents },
           SecureModeReturnURL:  'https://wetennis.fr'
         )
-
+        # where do you get mango_transaction['status']
         transaction.update(
           archive:                  mango_transaction,
           mangopay_transaction_id:  mango_transaction['Id'],
@@ -32,11 +32,9 @@ module MangoPayments
 
 
         if transaction.status == 'success'
-          raise
           @subscription.mangopay_payin_id = mango_transaction['Id']
           @subscription.save
         else
-          raise
           false
         end
       end
