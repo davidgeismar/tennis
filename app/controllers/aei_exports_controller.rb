@@ -7,7 +7,12 @@ class AeiExportsController < ApplicationController
     @tournament = @competition.tournament
     @homologation_number = @tournament.homologation_number.split.join
     authorize @competition
-
+    #different type of errors
+    unavailable_for_genre = []
+    outdated_licence = []
+    already_subscribed_players = []
+    too_young_to_participate = []
+    too_old_to_participate = []
     if @subscription_ids.blank?
       redirect_to competition_subscriptions_path(params[:competition_id])
       flash[:alert] = "Vous n'avez sélectionner aucun joueur à exporter"
@@ -26,45 +31,13 @@ class AeiExportsController < ApplicationController
         success: [],
         failure: []
       }
-      #different type of errors
-      unavailable_for_genre = []
-      outdated_licence = []
-      already_subscribed_players = []
-      too_young_to_participate = []
-      too_old_to_participate = []
       subscriptions_arrays.each do |subscription_array|
-        agent = Mechanize.new
-        agent.get("https://aei.app.fft.fr/ei/connexion.do?dispatch=afficher")
-        # login into AEI
-        # gestion d'erreur si mot de passe fourni ou login fourni mauvais redirect avec
-        # if errors = html_body.search(erreur)
-        #  flash[:alert] = "Vos identifiants n'ont n'a pas été reconnu"
-        form_login_AEI = agent.page.forms.first
-        form_login_AEI.util_vlogin = params[:login_aei]
-        form_login_AEI.util_vpassword = params[:password_aei]
-        page_compet_list = agent.submit(form_login_AEI, form_login_AEI.buttons.first)
-        body = page_compet_list.body
-        html_body = Nokogiri::HTML(body)
-
-        if html_body.search("td li").text == "Il n'y a aucun compte avec ces informations."
-          flash[:alert] = "Il n'y a aucun compte avec ces informations."
-          redirect_to competition_subscriptions_path(@competition) and return
-        else
-        end
-        # deuxieme check pour vérifier si User a les bons id &password
-        if html_body.search('td a.treeview2').first.present? # doit rendre objet.text "Competitions"
-          links = html_body.search('td a.helptip')
-          # links = html_body.xpath("//tr/td[2]/a[contains(class(), 'helptip')]") also works
-
+        mechanize_aei_login
+        searching_homologation_number(html_body)
           #boucle sur chaque objet nokogiri pour checker le bon numéro d'homologation
-
           links.each do |link_to_tournament|
-
             if link_to_tournament.text.split.join == @homologation_number && !homologation_number_found
-              homologation_number_found = true
-              link_to_tournament = link_to_tournament.parent.previous_element.at('a')[:href] # selecting the link to follow which is in the previous td
-              page_profil_tournament = agent.get(link_to_tournament) #following the link to tournament profile
-              html_body = Nokogiri::HTML(page_profil_tournament.body)
+              following_relevant_tournament(link_to_tournament)
               joueur_access = html_body.search('#tabs0head2 a').first
               lien_joueurs_inscrits = joueur_access[:href] #following link on the player_tabs in tournament profile
               page = agent.get("https://aei.app.fft.fr/ei/joueurRecherche.do?dispatch=afficher&returnMapping=competitionTabJoueurs&entite=COI") # page ou je peux rechercher les joueurs par numéro de licence
@@ -128,32 +101,28 @@ class AeiExportsController < ApplicationController
                 puts competition_category
                 puts aei_competition_category
                 puts aei_category_age
-                # double checking
+                # double checking possibility
                 if aei_competition_category == category_title
                   checkbox.check
                   # submitting inscription
                   form.field_with(:name => 'dispatch').value = "inscrire"
                   page = form.submit
                   html_body = Nokogiri::HTML(page.body)
-                  # puts html_body for debug
-                  # puts html_body.search('li').text for debug
+                  error_checking(html_body, outdated_licence, too_young_to_participate, too_old_to_participate, already_subscribed_players, unavailable_for_genre)
                 elsif category_nature.present? && category_age.present? && ("#{aei_category_nature} #{aei_category_age}" == aei_competition_category)
                   checkbox.check
                   # submitting inscription
                   form.field_with(:name => 'dispatch').value = "inscrire"
                   page = form.submit
                   html_body = Nokogiri::HTML(page.body)
-                  # puts html_body for debug
                   error_checking(html_body, outdated_licence, too_young_to_participate, too_old_to_participate, already_subscribed_players, unavailable_for_genre)
                 end
               end
               slice_stats = checking_export(subscription_array, @homologation_number)
-              stats[:success] += slice_stats[:success]
-              stats[:failure] += slice_stats[:failure]
+              stats[:success] += slice_stats[:success].to_i
+              stats[:failure] += slice_stats[:failure].to_i
             end
           end
-        else
-        end
       end
 
       unless homologation_number_found
@@ -187,8 +156,8 @@ class AeiExportsController < ApplicationController
   end
 
 
-def error_checking(html_body, outdated_licence, too_young_to_participate, too_old_to_participate, already_subscribed_players, unavailable_for_genre)
-  # dans search ajouter .L1
+  def error_checking(html_body, outdated_licence, too_young_to_participate, too_old_to_participate, already_subscribed_players, unavailable_for_genre)
+    # dans search ajouter .L1
     html_body.search('.L1').each do |error_mess|
       if error_mess.text.include?("trop jeune pour participer à l'épreuve")
         name = error_mess.text.slice(0...(error_mess.text.index(" : trop jeune pour participer à l'épreuve")))
@@ -221,11 +190,12 @@ def error_checking(html_body, outdated_licence, too_young_to_participate, too_ol
         unavailable_for_genre << name
       end
     end
-    return too_young_to_participate, too_old_to_participate, already_subscribed_players, outdated_licence
-end
+    return too_young_to_participate, too_old_to_participate, already_subscribed_players, outdated_licence, unavailable_for_genre
+  end
 
   def export_disponibilities
     # je récupère les joueurs sélectionnés
+    homologation_number_found = false
     @subscription_ids = params[:subscription_ids_export_dispo].split(',')
     @tournament = @competition.tournament
     authorize @competition
@@ -234,88 +204,44 @@ end
       redirect_to competition_subscriptions_path(params[:competition_id])
     else
        #put all selected subcriptions in [@subscriptions_selected]
-      @subscriptions_selected = []
+      @subscriptions_valids = []
       @users_not_yet_exported = []
       @subscription_ids.each do |subscription_id|
         #instance of subscriptions selected are added in array
         subscription = Subscription.find(subscription_id.to_i)
         # pour que l'on puisse exporter les dispos il faut que le joueur ai été exporté préalablement
         if subscription.exported?
-          @subscriptions_selected << subscription
+          @subscriptions_valids << subscription
         else
           # joueur qui n'ont pas encore été exporté sont stockés ici
           @users_not_yet_exported << subscription.user.full_name
         end
       end
-      agent = Mechanize.new
-      agent.get("https://aei.app.fft.fr/ei/connexion.do?dispatch=afficher")
-      #connexion sur AEI
-      form_login_AEI = agent.page.forms.first
-      form_login_AEI.util_vlogin = params[:login_aei]
-      form_login_AEI.util_vpassword = params[:password_aei]
-      page_compet_list = agent.submit(form_login_AEI, form_login_AEI.buttons.first)
-      # page avec la liste des tournois dont s'occupe le JA classés pas numéro de licence
-      body = page_compet_list.body
-      html_body = Nokogiri::HTML(body)
-      if html_body.search('td a.treeview2').first.present?
-        links = html_body.search('a.helptip')
-        homologation_number_found = false
-        links.each do |a|
-          #checking if homologation number matches homologation number on AEI
-          if a.text.split.join == @tournament.homologation_number.split.join && !homologation_number_found
-            homologation_number_found = true
-            a = a.parent.previous.previous
-            a_tournament = a.at('a')[:href] # selecting the link to profile_tournament
-            page_selected_compet = agent.get(a_tournament) #following the link to profile_tournement
-            body = page_selected_compet.body
-            html_body = Nokogiri::HTML(body)
-            joueur_access = html_body.search('#tabs0head2 a').first #finding tab "Joueurs"
-            lien_joueurs_inscrits = joueur_access[:href] # link to player_tab
-            page_joueurs_inscrits = agent.get(lien_joueurs_inscrits) #following link on the player_tabs
-            html_body = Nokogiri::HTML(page_joueurs_inscrits.body)
-            #connecting to AEI through Watir
-            browser = Watir::Browser.new
-            browser.goto "https://aei.app.fft.fr/ei/connexion.do?dispatch=afficher"
-            browser.text_field(name: "util_vlogin").set params[:login_aei]
-            browser.text_field(name: "util_vpassword").set params[:password_aei]
-            browser.button(value: "Connexion").click
-            failures = []
-            success = []
-            @subscriptions_selected.each do |subscription|
-              # link_number = 2
-              # while lien = page_joueurs_inscrits.link_with(:text=> link_number.to_s)
-              link_number = 1
-              bibi(html_body, link_number, subscription, page_joueurs_inscrits)
-              # names = html_body.search('.L2') + html_body.search('.L1') # searching player names on AEI
-              # names.each do |name|
-              #   # if player's name is found in player's list (il faut que le robot puisse passer de page en page !)
-              #   if (subscription.user.full_name.split.join.downcase == name.text.split.join.downcase) || (subscription.user.full_name_inversed.split.join.downcase == name.text.split.join.downcase)
-              #     a_player_profile = name.previous.previous.at('a')[:href] # selecting the link to profile_player
-              #     user_disponibility = Disponibility.where(user: subscription.user, tournament_id: subscription.tournament.id)
-              #     user_disponibilities = "hello"
-              #     # browser is callded to go post on each field
-              #     browser.goto "https://aei.app.fft.fr/ei/" + a_tournament
-              #     browser.goto "https://aei.app.fft.fr/ei/" + a_player_profile
-              #     browser.button(value: "Modifier").click
-              #     browser.text_field(name: "jou_vcomment").set user_disponibilities
-              #     browser.button(value: "Valider").click
-              #   elsif lien = page_joueurs_inscrits.link_with(:text=> (link_number + 1).to_s)
-              #     page_joueurs_inscrits = lien.click
-              #     html_body = Nokogiri::HTML(page_joueurs_inscrits.body)
-              #     bibi(html_body, link_number + 1)
-              #   end
-              # end
-            end
-          else
+
+      mechanize_aei_login
+      searching_homologation_number(html_body)
+      links.each do |link_to_tournament|
+        #checking if homologation number matches homologation number on AEI
+        if link_to_tournament.text.split.join == @tournament.homologation_number.split.join && !homologation_number_found
+          following_relevant_tournament(link_to_tournament)
+          accessing_players_list_tournament(html_body)
+          #connecting to AEI through Watir
+          watir_aei_login
+          failures = []
+          success = []
+          @subscriptions_valids.each do |subscription|
+            link_number = 1
+            export_disponibility(html_body, link_number, subscription, page_joueurs_inscrits)
           end
         end
       end
+
     flash[:notice] = "les disponibilités de vos inscrits ont bien été exportés"
     redirect_to root_path
     end
   end
 
-  def bibi(html_body, link_number, subscription, page_joueurs_inscrits)
+  def export_disponibility(html_body, link_number, subscription, page_joueurs_inscrits)
     names = html_body.xpath("//tr/td[2]")  # searching player names on AEI
     puts html_body
     #j'arrive pas a aller chercher le joueur :()
@@ -343,7 +269,6 @@ end
           arr << name.text
         end
         bibi(html_body, link_number, subscription, page_joueurs_inscrits)
-
       end
     end
   end
@@ -351,84 +276,117 @@ end
 
   private
 
-  def checking_export(subscription_array, homologation_number)
+  def mechanize_aei_login
     agent = Mechanize.new
     agent.get("https://aei.app.fft.fr/ei/connexion.do?dispatch=afficher")
-    # login into AEI
-    # gestion d'erreur si mot de passe fourni ou login fourni mauvais redirect avec
-    # if errors = html_body.search(erreur)
-    #  flash[:alert] = "Vos identifiants n'ont n'a pas été reconnu"
     form_login_AEI = agent.page.forms.first
     form_login_AEI.util_vlogin = params[:login_aei]
     form_login_AEI.util_vpassword = params[:password_aei]
     page_compet_list = agent.submit(form_login_AEI, form_login_AEI.buttons.first)
-    body = page_compet_list.body
-
-    page_compet_list = agent.get("https://aei.app.fft.fr/ei/competitions.do?dispatch=afficher")
-    body = page_compet_list.body
-    html_body = Nokogiri::HTML(body)
-    links = html_body.search('a.helptip')
-    homologation_number_found = false
-
-    links.each do |a|
-    # try with 2015 32 92 0076 not working why ?
-    # if a.text.split.join ==  @tournament.homologation_number.split.join
-      if a.text.split.join == homologation_number
-        homologation_number_found = true
-        a = a.parent.previous.previous
-        a = a.at('a')[:href] # selecting the link to follow
-        page_selected_compet = agent.get(a) #following the link
-        body = page_selected_compet.body
-        html_body = Nokogiri::HTML(body)
-
-        joueur_access = html_body.search('#tabs0head2 a').first
-        lien_joueurs_inscrits = joueur_access[:href]
-        page_joueurs_inscrits = agent.get(lien_joueurs_inscrits)
-
-
-        body = page_joueurs_inscrits.body
-        html_body = Nokogiri::HTML(body)
-        valids = html_body.search('table.L1 table td[2]')
-        array_subscribed_players = valids.map { |valid| valid.text.downcase.strip }
-
-
-
-        # clique sur le lien page 2, 3, 4...
-        link_number = 2
-        while lien = page_joueurs_inscrits.link_with(:text=> link_number.to_s)
-
-          page_joueurs_inscrits = lien.click
-          body = page_joueurs_inscrits.body
-          html_body = Nokogiri::HTML(body)
-          valids = html_body.search('table.L1 table td[2]')
-          array_subscribed_players += valids.map { |valid| valid.text.downcase.strip }
-          link_number = link_number + 1
-
-        end
-
-         stats = {
-            success: [],
-            failure: []
-          }
-        subscription_array.each do |subscription|
-          if array_subscribed_players.include?(subscription.user.full_name_inversed.downcase.strip) || array_subscribed_players.include?(subscription.user.full_name.downcase.strip)
-            stats[:success] << subscription
-
-          else
-            stats[:failure] << subscription
-
-          end
-        end
-        stats[:success].each do |subscription|
-          subscription.exported = true
-          subscription.save
-        end
-        return stats
-      else
-      end
+    html_body = Nokogiri::HTML(page_compet_list.body)
+    #gestion d'erreur à la connexion
+    if html_body.search("td li").text == "Il n'y a aucun compte avec ces informations."
+      flash[:alert] = "Il n'y a aucun compte avec ces informations."
+      redirect_to competition_subscriptions_path(@competition) and return
+    else
+      return html_body
     end
   end
 
+  def watir_aei_login
+    browser = Watir::Browser.new
+    browser.goto "https://aei.app.fft.fr/ei/connexion.do?dispatch=afficher"
+    browser.text_field(name: "util_vlogin").set params[:login_aei]
+    browser.text_field(name: "util_vpassword").set params[:password_aei]
+    browser.button(value: "Connexion").click
+  end
+
+  def searching_homologation_number(html_body)
+    links = html_body.search('td a.helptip') #links = html_body.xpath("//tr/td[2]/a[contains(class(), 'helptip')]") also works
+    return links
+  end
+
+  def following_relevant_tournament(soft_link_to_tournament)
+    homologation_number_found = true
+    hard_link_to_tournament = soft_link_to_tournament.parent.previous_element.at('a')[:href] # selecting the link to follow which is in the previous td
+    page_profil_tournament = agent.get(hard_link_to_tournament) #following the link to tournament profile
+    return html_body = Nokogiri::HTML(page_profil_tournament.body)
+  end
+
+  def accessing_players_list_tournament(html_body)
+    joueur_access = html_body.search('#tabs0head2 a').first #finding tab "Joueurs"
+    lien_joueurs_inscrits = joueur_access[:href] # link to player_tab
+    page_joueurs_inscrits = agent.get(lien_joueurs_inscrits) #following link on the player_tabs
+    return html_body = Nokogiri::HTML(page_joueurs_inscrits.body)
+  end
+
+  def checking_export(subscription_array, homologation_number)
+    competition_category = "#{@competition.genre}_#{@competition.category}"
+    aei_competition_category_shortcut  = I18n.t("aei.competition_category_shortcut.#{competition_category}")
+
+    mechanize_aei_login
+    searching_homologation_number(html_body)
+    homologation_number_found = false
+
+    links.each do |link_to_tournament|
+    # try with 2015 32 92 0076 not working why ?
+    # if a.text.split.join ==  @tournament.homologation_number.split.join
+      if link_to_tournament.text.split.join == homologation_number
+        following_relevant_tournament(link_to_tournament)
+        epreuves_access = html_body.search('#tabs0head1 a').first
+        lien_epreuves = epreuves_access[:href]
+        page_epreuves = agent.get(lien_epreuves)
+        html_body = Nokogiri::HTML(page_epreuves.body)
+        html_body.search('tr td[3]').each do |nat_cat|
+          puts nat_cat.text
+          if nat_cat.text == aei_competition_category_shortcut
+            lien_epreuve = nat_cat.previous_element.previous_element.at('a')[:href]
+            page_epreuve = agent.get(lien_epreuve)
+            html_body = Nokogiri::HTML(page_epreuve.body)
+            subscriptions_access = html_body.search('#tabs0head1 a').first
+            lien_joueurs_inscrits = subscriptions_access[:href]
+            page_joueurs_inscrits = agent.get(lien_joueurs_inscrits)
+            html_body = Nokogiri::HTML(page_joueurs_inscrits.body)
+            valids = html_body.search('table.L1 table td[3]')
+            array_subscribed_players = valids.map { |valid| valid.text.downcase.strip }
+        # clique sur le lien page 2, 3, 4...
+            link_number = 2
+            while lien = page_joueurs_inscrits.link_with(:text=> link_number.to_s)
+
+              page_joueurs_inscrits = lien.click
+              body = page_joueurs_inscrits.body
+              html_body = Nokogiri::HTML(body)
+              puts html_body
+              valids = html_body.search('table.L1 table td[3]')
+              array_subscribed_players += valids.map { |valid| valid.text.downcase.strip }
+              raise
+              link_number = link_number + 1
+            end
+
+            stats = {
+              success: [],
+              failure: []
+            }
+            subscription_array.each do |subscription|
+              if array_subscribed_players.include?(subscription.user.full_name_inversed.downcase.strip) || array_subscribed_players.include?(subscription.user.full_name.downcase.strip)
+                stats[:success] << subscription
+
+              else
+                stats[:failure] << subscription
+
+              end
+            end
+            stats[:success].each do |subscription|
+              subscription.exported = true
+              subscription.save
+            end
+            return stats
+          else
+          end
+        end
+      end
+    end
+  end
   def set_competition
     @competition = Competition.find(params[:competition_id])
     custom_authorize AEIExportPolicy, @competition
