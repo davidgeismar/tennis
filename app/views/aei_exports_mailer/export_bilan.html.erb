@@ -1,9 +1,11 @@
 <p>Votre export vers AEI s'est bien passé, voici le bilan de l'export : </p>
 <ul>
-  <li>Joueurs qui n'ont pas pu être exportés : <%=@failure_full_names%></li>
-  <li>Joueurs dont la licence est expirée : <%=@outdated_licence_full_names%></li>
-  <li>Joueurs trop jeunes pour être inscrit dans la catégorie souhaitée : <%=@too_young_to_participate_full_names%></li>
-  <li>Joueurs trop agés pour être inscrit dans la catégorie souhaitée : <%=@too_old_to_participate_full_names%></li>
-  <li>Joueurs déjà inscrits dans la catégorie sélectionnée : <%=@already_subscribed_full_names%></li>
-  <li>Joueur dont le sexe ne correspond pas : <%=@unavailable_for_genre_full_names%></li>
+
+  <li><strong>Joueurs qui n'ont pas pu être exportés(<%= @total_failure %>) :</strong> <%=@failure_full_names%></li>
+  <li><strong>Joueurs qui ont été exportés avec succès(<%= @total_success%>):</strong> <%= @success_full_names%></li>
+  <li><strong>Joueurs dont la licence est expirée (<%= @total_outdated_licence%>) :</strong> <%=@outdated_licence_full_names%></li>
+  <li><strong>Joueurs trop jeunes pour être inscrit dans la catégorie souhaitée (<%= @total_too_young %>) : </strong><%=@too_young_to_participate_full_names%></li>
+  <li><strong>Joueurs trop agés pour être inscrit dans la catégorie souhaitée(<%= @total_too_old%>) : </strong><%=@too_old_to_participate_full_names%></li>
+  <li><strong>Joueurs déjà inscrits dans la catégorie sélectionnée (<%= @total_already_subscribed%>) :</strong> <%=@already_subscribed_full_names%></li>
+  <li><strong>Joueur dont le sexe ne correspond pas(<%= @total_unvailable_genre%>): </strong><%=@unavailable_for_genre_full_names%></li>
 </ul>
