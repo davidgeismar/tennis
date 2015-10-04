@@ -1,0 +1,23 @@
+
+  $(document).ready(function() {
+
+      // page is now ready, initialize the calendar...
+
+      $('#full-calendar').fullCalendar({
+        defaultView: 'agendaWeek',
+        columnFormat: 'dddd',
+        selectable: true,
+        selectHelper: true,
+        unselectCancel: "td",
+        unselectAuto: false,
+        lang: "fr",
+        header: false,
+        allDayText: "Toute la journée",
+        slotLabelFormat: 'h(:mm)a',
+        allDaySlot: true,
+        minTime: "08:00:00",
+
+        // timeFormat: 'H:mmtt{-H:mmtt }',
+      });
+
+  });

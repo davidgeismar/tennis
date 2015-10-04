@@ -5,18 +5,19 @@ div class="banner"
         div class="panel-heading"
           h3 =@tournament.name.upcase
           p Merci d'indiquer vos disponibilités
-        div class="panel-body"
-          =simple_form_for [@tournament, @disponibility] do |f|
-            = f.error_notification
 
-            = f.input :monday
-            = f.input :tuesday
-            = f.input :wednesday
-            = f.input :thursday
-            = f.input :friday
-            = f.input :saturday
-            = f.input :sunday
-            = f.input :comment
+    div id= "full-calendar"
+    =simple_form_for [@tournament, @disponibility] do |f|
+      = f.error_notification
+
+      = f.input :monday, :as => :hidden
+      = f.input :tuesday, :as => :hidden
+      = f.input :wednesday, :as => :hidden
+      = f.input :thursday, :as => :hidden
+      = f.input :friday, :as => :hidden
+      = f.input :saturday, :as => :hidden
+      = f.input :sunday, :as => :hidden
+      = f.input :comment
 
 
-            = f.button :submit, "Valider", class: "btn btn-success"
+      = f.button :submit, "Valider", class: "btn btn-success"

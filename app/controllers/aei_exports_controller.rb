@@ -177,14 +177,14 @@ class AeiExportsController < ApplicationController
 
   def error_checking(html_body, outdated_licence, too_young_to_participate, too_old_to_participate, already_subscribed_players, unavailable_for_genre)
     # dans search ajouter .L1
-    html_body.search('.L1').each do |error_mess|
+    html_body.search('td .L1').each do |error_mess|
       if error_mess.text.include?("trop jeune pour participer à l'épreuve")
         name = error_mess.text.slice(0...(error_mess.text.index(" : trop jeune pour participer à l'épreuve")))
         too_young_to_participate << name
       end
     end
 
-    html_body.search('.L2').each do |error_mess|
+    html_body.search('td .L2').each do |error_mess|
       if error_mess.text.include?("trop jeune pour participer à l'épreuve")
         name = error_mess.text.slice(0...(error_mess.text.index(" : trop jeune pour participer à l'épreuve")))
         too_young_to_participate << name
