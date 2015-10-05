@@ -1,5 +1,4 @@
 class Disponibility < ActiveRecord::Base
-  belongs_to :subscription
   belongs_to :tournament
   belongs_to :user
 
