@@ -8,6 +8,9 @@
 //= require bootstrap-datepicker
 //= require bootstrap-switch
 //= require geocomplete
+//= require moment
+//= require fullcalendar
+//= require 'fullcalendar/lang/fr.js'
 //= require_tree ./app
 
 

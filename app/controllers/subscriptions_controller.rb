@@ -88,7 +88,7 @@ class SubscriptionsController < ApplicationController
     end
 
       flash[:notice] = "Votre demande d'inscription a bien été prise en compte. Vous recevrez une réponse du Juge arbitre dans les plus brefs délais"
-      redirect_to mytournaments_path
+      redirect_to mytournaments_path and return
 
   rescue MangoPay::ResponseError => e
     flash[:alert] = "Nous ne parvenons pas à procéder à votre inscription. Veuillez renouveler votre demande. Si le problème persiste, veuillez contacter le service client [#{e.code}]."
