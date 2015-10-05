@@ -10,70 +10,23 @@ class DisponibilitiesController < ApplicationController
   end
 
   def create
-    array_dispo = params[:dispo_array]
-    array_dispo_json = JSON.parse(array_dispo)
-    monday = array_dispo_json.select {|hash| hash["day"] == "lundi" }
-    monday_disponibilities = ""
-    monday.each do |hash|
-      slot_dispo = hash["start_time"] + "-" + hash["end_time"] + ", "
-      monday_disponibilities += slot_dispo
-    end
-    tuesday = array_dispo_json.select {|hash| hash["day"] == "mardi" }
-    tuesday_disponibilities = ""
-    tuesday.each do |hash|
-      slot_dispo = hash["start_time"] + "-" + hash["end_time"] + ", "
-      tuesday_disponibilities += slot_dispo
-    end
-
-    wednesday = array_dispo_json.select {|hash| hash["day"] == "mercredi" }
-    wednesday_disponibilities = ""
-    wednesday.each do |hash|
-      slot_dispo = hash["start_time"] + "-" + hash["end_time"] + ", "
-      wednesday_disponibilities += slot_dispo
-    end
-
-    thursday = array_dispo_json.select {|hash| hash["day"] == "jeudi" }
-    thursday_disponibilities = ""
-    thursday.each do |hash|
-      slot_dispo = hash["start_time"] + "-" + hash["end_time"] + ", "
-      thursday_disponibilities += slot_dispo
-    end
-
-    friday = array_dispo_json.select {|hash| hash["day"] == "vendredi" }
-    friday_disponibilities = ""
-    friday.each do |hash|
-      slot_dispo = hash["start_time"] + "-" + hash["end_time"] + ", "
-      friday_disponibilities += slot_dispo
-    end
-    saturday = array_dispo_json.select {|hash| hash["day"] == "samedi" }
-    saturday_disponibilities = ""
-    saturday.each do |hash|
-      slot_dispo = hash["start_time"] + "-" + hash["end_time"] + ", "
-      saturday_disponibilities += slot_dispo
-    end
-
-    sunday = array_dispo_json.select {|hash| hash["day"] == "dimanche" }
-    sunday_disponibilities = ""
-    sunday.each do |hash|
-      slot_dispo = hash["start_time"] + "-" + hash["end_time"] + ", "
-      sunday_disponibilities += slot_dispo
-    end
-    @disponibility = Disponibility.new
+    @disponibility            = Disponibility.new
     @disponibility.tournament = @tournament
-    if !current_user.judge?
-      @disponibility.user = current_user
-      @disponibility.monday = monday_disponibilities
-      @disponibility.tuesday = tuesday_disponibilities
-      @disponibility.wednesday = wednesday_disponibilities
-      @disponibility.thursday = thursday_disponibilities
-      @disponibility.friday = friday_disponibilities
-      @disponibility.saturday = saturday_disponibilities
-      @disponibility.sunday = sunday_disponibilities
-      authorize @disponibility
-    else
-      @subscription = Subscription.find(params[:disponibility][:subscription_id])
+    authorize @disponibility
+
+    if current_user.judge?
+      @subscription       = Subscription.find(params[:disponibility][:subscription_id])
       @disponibility.user = @subscription.user
-      authorize @disponibility
+    else
+      disponibilities           = JSON.parse(params[:dispo_array])
+      @disponibility.user       = current_user
+      @disponibility.monday     = disponibilities_for_day(disponibilities, 'lundi')
+      @disponibility.tuesday    = disponibilities_for_day(disponibilities, 'mardi')
+      @disponibility.wednesday  = disponibilities_for_day(disponibilities, 'mercredi')
+      @disponibility.thursday   = disponibilities_for_day(disponibilities, 'jeudi')
+      @disponibility.friday     = disponibilities_for_day(disponibilities, 'vendredi')
+      @disponibility.saturday   = disponibilities_for_day(disponibilities, 'samedi')
+      @disponibility.sunday     = disponibilities_for_day(disponibilities, 'dimanche')
     end
 
     if @disponibility.save
