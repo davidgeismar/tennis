@@ -16,9 +16,9 @@ class Competition < ActiveRecord::Base
   validate :min_ranking_inferior_to_max_ranking
 
   def in_ranking_range?(user_ranking)
-    ranking_value                 = Settings.user_ranking_value[user_ranking]
-    competition_max_ranking_value = Settings.user_ranking_value[self.max_ranking]
-    competition_min_ranking_value = Settings.user_ranking_value[self.min_ranking]
+    ranking_value                 = Settings.user.ranking_value[user_ranking]
+    competition_max_ranking_value = Settings.user.ranking_value[self.max_ranking]
+    competition_min_ranking_value = Settings.user.ranking_value[self.min_ranking]
 
     if competition_max_ranking_value >= ranking_value && ranking_value >= competition_min_ranking_value
       return true
@@ -28,7 +28,7 @@ class Competition < ActiveRecord::Base
   end
 
   def open_for_ranking?(user_ranking)
-    ranking_field_name = Settings.user_competition_ranking_matching[user_ranking]
+    ranking_field_name = Settings.user.competition_ranking_matching[user_ranking]
     ranking_acceptance = self[ranking_field_name]
 
     (total && ranking_acceptance) == true
@@ -70,8 +70,8 @@ class Competition < ActiveRecord::Base
   end
 
   def min_ranking_inferior_to_max_ranking
-    competition_max_ranking_value = Settings.user_ranking_value[max_ranking]
-    competition_min_ranking_value = Settings.user_ranking_value[min_ranking]
+    competition_max_ranking_value = Settings.user.ranking_value[max_ranking]
+    competition_min_ranking_value = Settings.user.ranking_value[min_ranking]
 
     if min_ranking && max_ranking && competition_min_ranking_value >= competition_max_ranking_value
       errors.add(:max_ranking, "Veuillez choisir un classement maximum supérieur au classement minimum")
