@@ -384,20 +384,20 @@ DEPENDENCIES
   enumerize (~> 0.10.0)
   figaro (~> 1.1.0)
   font-awesome-sass (~> 4.3.1)
-  fullcalendar-rails
+  fullcalendar-rails (~> 2.3.1.0)
   geocoder (~> 1.2.7)
-  geocomplete_rails
+  geocomplete_rails (~> 1.6.5)
   gmaps4rails (~> 2.1.2)
   high_voltage (~> 2.2.1)
   jquery-rails (~> 4.0.3)
   letter_opener
   mangopay (~> 3.0.14)
   mechanize (~> 2.7.3)
-  momentjs-rails
+  momentjs-rails (~> 2.10.3)
   omniauth-facebook (~> 2.0.0)
   paperclip (~> 4.2.1)
   pg (~> 0.18.1)
-  pg_search
+  pg_search (~> 1.0.5)
   pry-byebug
   pry-rails
   puma
@@ -418,4 +418,7 @@ DEPENDENCIES
   twilio-ruby (~> 3.12)
   uglifier (~> 2.7.0)
   unicode_utils (~> 1.4.0)
-  watir-rails
+  watir-rails (~> 1.1.0)
+
+BUNDLED WITH
+   1.10.6
