@@ -1,7 +1,7 @@
 
-$(document).ready(function() {
+  $(document).ready(function() {
 
-        // page is now ready, initialize the calendar...
+    // page is now ready, initialize the calendar...
     var array_dispo = []
     $('#calendar').fullCalendar({
       defaultView: 'agendaWeek',
@@ -21,25 +21,25 @@ $(document).ready(function() {
               end: end,
               rendering: 'background',
               block: true,
-              timeFormat: 'H'
           },
 
           ]);
-
-
           var day = moment(start["_d"]).format("dddd");
           var start_time = moment(start["_d"]).format("HH:mm");
           var end_time = moment(end["_d"]).format("HH:mm");
           var slot = {    day: day,
                           start_time: start_time,
                           end_time: end_time
+
                       };
           array_dispo.push(slot);
           $("#dispo_array").val(JSON.stringify(array_dispo));
+
           $("#calendar").fullCalendar("unselect");
       },
       selectOverlap: function(event) {
            return ! event.block;
       },
   });
+
 });

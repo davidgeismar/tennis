@@ -44,6 +44,8 @@ gem "unicode_utils",              "~> 1.4.0"
 gem "twilio-ruby",                "~> 3.12"
 gem 'pg_search'
 gem "watir-rails"
+gem 'fullcalendar-rails'
+gem 'momentjs-rails'
 
 
 

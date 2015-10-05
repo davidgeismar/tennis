@@ -165,7 +165,7 @@
               <% if @disponibility %>
                 <td>
                   <%= link_to '<i class="fa fa-calendar"></i>'.html_safe, tournament_disponibility_path(@tournament, @disponibility, subscription_id: subscription.id), class: "fleche_subscription", "data-container"=>"body",
-                    "data-html"=>"true", "data-content"=> " <ul class='small'> <li>L: #{Settings.disponibility[@disponibility.monday]}</li> <li>Ma: #{Settings.disponibility[@disponibility.tuesday]}</li> <li>Me: #{Settings.disponibility[@disponibility.wednesday]}</li> <li>Je: #{Settings.disponibility[@disponibility.thursday]}</li> <li>Ve: #{Settings.disponibility[@disponibility.friday]}</li> <li>Sam: #{Settings.disponibility[@disponibility.saturday]} </li><li>Dim: #{Settings.disponibility[@disponibility.sunday]}</li><li>Com: #{@disponibility.comment}</li> </ul>", "data-toggle"=> "popover", "data-placement" => "top", "data-trigger"=>"hover", "title" => "<div class=small>Dispos Licencié </div>" %>
+                    "data-html"=>"true", "data-content"=> " <ul class='small'> <li>L: #{@disponibility.monday}</li> <li>Ma: #{@disponibility.tuesday}</li> <li>Me: #{@disponibility.wednesday}</li> <li>Je: #{@disponibility.thursday}</li> <li>Ve: #{@disponibility.friday}</li> <li>Sam: #{@disponibility.saturday} </li><li>Dim: #{@disponibility.sunday}</li><li>Com: #{@disponibility.comment}</li> </ul>", "data-toggle"=> "popover", "data-placement" => "top", "data-trigger"=>"hover", "title" => "<div class=small>Dispos Licencié </div>" %>
                 </td>
               <% else %>
                 <td><%= link_to '<i class="fa fa-calendar"></i>'.html_safe, new_tournament_disponibility_path(@tournament, subscription_id: subscription.id), class: "fleche_subscription", title: "Non renseignées ", "data-toggle"=> "tooltip", "data-placement" => "top" %></td>
@@ -243,12 +243,13 @@
   <div class="modal-dialog mymodal">
     <div class="modal-content text-center">
       <div class="modal-header">
-        <h4 class="modal-title">Exporter les dispos de vos inscrits sur AEI</h4>
-         <p> wetennis vous permet d'exporter la liste de tous vos inscrits sur AEI.Avant de continuer, assurer vous: <br></p>
+        <h4 class="modal-title">Exporter les disponibilités de vos inscrits sur AEI</h4>
+         <p> Wetennis vous permet d'exporter les disponibilités de vos inscrits vers AEI (dans la case commentaire de la fiche profil du licencié). Avant de continuer, assurer vous: <br></p>
           <ul>
             <li> <strong>D'avoir bien créer votre Tournoi sur AEI</strong></li>
             <li> <strong>Que le numéro d'homologation sur AEI et WeTennis correspondent</strong></li>
             <li><strong>Que la catégorie du tournoi sur AEI et WeTennis correspondent</strong></li>
+            <li><strong>D'avoir procéder à l'export de l'inscrit dont vous souhaitez exporter les disponibilités préalablement</strong></li>
           </ul>
       </div>
       <div class="modal-body">
