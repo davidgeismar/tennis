@@ -1,108 +1,47 @@
 
   $(document).ready(function() {
 
-      // page is now ready, initialize the calendar...
-  var array_dispo = []
-  $('#calendar').fullCalendar({
-    defaultView: 'agendaWeek',
-    lang: "fr",
-    header: false,
-    selectHelper: true,
-    allDaySlot: true,
-    selectable: true,
-    unselectAuto: true,
-    timezone: 'local',
-    minTime: "08:00:00",
-    columnFormat: 'dddd',
-    select: function (start, end, jsEvent, view) {
+    // page is now ready, initialize the calendar...
+    var array_dispo = []
+    $('#calendar').fullCalendar({
+      defaultView: 'agendaWeek',
+      lang: "fr",
+      header: false,
+      selectHelper: true,
+      allDaySlot: true,
+      selectable: true,
+      unselectAuto: true,
+      timezone: 'local',
+      minTime: "08:00:00",
+      columnFormat: 'dddd',
+      select: function (start, end, jsEvent, view) {
 
-        $("#calendar").fullCalendar('addEventSource', [{
-            start: start,
-            end: end,
-            rendering: 'background',
-            block: true,
-            timeFormat: 'H'
-        },
+          $("#calendar").fullCalendar('addEventSource', [{
+              start: start,
+              end: end,
+              rendering: 'background',
+              block: true,
+          },
 
-        ]);
+          ]);
 
+          console.log(start);
+          var day = moment(start["_d"]).format("dddd");
+          var start_time = moment(start["_d"]).format("HH:mm");
+          var end_time = moment(end["_d"]).format("HH:mm");
+          var slot = {    day: day,
+                          start_time: start_time,
+                          end_time: end_time
 
-        var day = moment(start["_d"]).format("dddd");
-        var start_time = moment(start["_d"]).format("HH:mm");
-        var end_time = moment(end["_d"]).format("HH:mm");
-        var slot = {    day: day,
-                        start_time: start_time,
-                        end_time: end_time
-                    };
-        array_dispo.push(slot);
-        // var slot = start + " - " + end;
+                      };
+          array_dispo.push(slot);
+          $("#dispo_array").val(JSON.stringify(array_dispo));
 
-        $("#dispo_array").val(JSON.stringify(array_dispo));
-        // if (start.toLowerCase().indexOf("lundi") >= 0) {
-        //   $("#disponibility_monday").val(slot);
-        // }
-        // else if (start.toLowerCase().indexOf("mardi") >= 0) {
-        //   $("#disponibility_tuesday").val(slot);
-        // }
-        // else if (start.toLowerCase().indexOf("mercredi") >= 0) {
-        //   $("#disponibility_wednesday").val(slot);
-        // }
-        // else if (start.toLowerCase().indexOf("jeudi") >= 0) {
-        //   $("#disponibility_thursday").val(slot);
-        // }
-        // else if (start.toLowerCase().indexOf("vendredi") >= 0) {
-        //   $("#disponibility_friday").val(slot);
-        // }
-        // else if (start.toLowerCase().indexOf("samedi") >= 0) {
-        //   $("#disponibility_saturday").val(slot);
-        // }
-        // else if (start.toLowerCase().indexOf("dimanche") >= 0) {
-        //   $("#disponibility_sunday").val(slot);
-        // }
-        $("#calendar").fullCalendar("unselect");
-    },
-    selectOverlap: function(event) {
-         return ! event.block;
-    },
-});
-
-$(document).ready(function() {
-  $('.checkbox-subscription').on('change', function() {
-    var competitions_selected = $('.checkbox-subscription:checked').map(function() {
-      return $(this).prop('id');
-    }).get().join(',');
-   $('#select_competitions').val(competitions_selected);
-  })
-
-})
-
-      // $('#full-calendar').fullCalendar({
-      //   defaultView: 'agendaWeek',
-      //   columnFormat: 'dddd',
-      //   selectable: true,
-      //   selectHelper: true,
-      //   unselectCancel: "td",
-      //   unselectAuto: false,
-      //   lang: "fr",
-      //   header: false,
-      //   allDayText: "Toute la journée",
-      //   slotLabelFormat: 'h(:mm)a',
-      //   allDaySlot: true,
-      //   minTime: "08:00:00",
-      //   select: function (start, end, jsEvent, view) {
-      //     $("#calendar").fullCalendar('addEventSource', [{
-      //         start: start,
-      //         end: end,
-      //         rendering: 'background',
-      //         block: true,
-      //     }, ]);
-      //     $("#calendar").fullCalendar("unselect");
-      //   },
-      //   selectOverlap: function(event) {
-      //       return ! event.block;
-      //   }
-
-      //       // timeFormat: 'H:mmtt{-H:mmtt }',
-      //     });
-
+          $("#calendar").fullCalendar("unselect");
+      },
+      selectOverlap: function(event) {
+           return ! event.block;
+      },
   });
+
+});
