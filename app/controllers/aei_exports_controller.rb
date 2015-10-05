@@ -41,8 +41,7 @@ class AeiExportsController < ApplicationController
       #gestion d'erreur à la connexion
       if html_body.search("td li").text == "Il n'y a aucun compte avec ces informations."
         flash[:alert] = "Il n'y a aucun compte avec ces informations."
-        redirect_to competition_subscriptions_path(@competition) and return
-      else
+        return redirect_to competition_subscriptions_path(@competition)
       end
       links = html_body.search('td a.helptip')
       #boucle sur chaque objet nokogiri pour checker le bon numéro d'homologation
@@ -137,7 +136,7 @@ class AeiExportsController < ApplicationController
 
       unless homologation_number_found
         flash[:alert] = "Le numéro d'homologation n'a pas été trouvé"
-        redirect_to competition_subscriptions_path(@competition) and return
+        return redirect_to competition_subscriptions_path(@competition)
       end
 
       success_full_names = stats[:success].map { |subscription| subscription.user.full_name }.join(', ')
@@ -169,7 +168,7 @@ class AeiExportsController < ApplicationController
       elsif already_subscribed_players.present?
         flash[:alert]   = "#{already_subscribed_full_names} sont déjà inscrit à ce tournoi dans cette catégorie."
       end
-      redirect_to competition_subscriptions_path(@competition) and return
+      return redirect_to competition_subscriptions_path(@competition)
     end
   end
 
@@ -245,8 +244,7 @@ class AeiExportsController < ApplicationController
       #gestion d'erreur à la connexion
       if html_body.search("td li").text == "Il n'y a aucun compte avec ces informations."
         flash[:alert] = "Il n'y a aucun compte avec ces informations."
-        redirect_to competition_subscriptions_path(@competition) and return
-      else
+        return redirect_to competition_subscriptions_path(@competition)
       end
       links = html_body.search('td a.helptip')
       links.each do |soft_link_to_tournament|
@@ -327,7 +325,7 @@ class AeiExportsController < ApplicationController
     #gestion d'erreur à la connexion
     if html_body.search("td li").text == "Il n'y a aucun compte avec ces informations."
       flash[:alert] = "Il n'y a aucun compte avec ces informations."
-      redirect_to competition_subscriptions_path(@competition) and return
+      return redirect_to competition_subscriptions_path(@competition)
     else
       return html_body
     end
@@ -373,8 +371,7 @@ class AeiExportsController < ApplicationController
     #gestion d'erreur à la connexion
     if html_body.search("td li").text == "Il n'y a aucun compte avec ces informations."
       flash[:alert] = "Il n'y a aucun compte avec ces informations."
-      redirect_to competition_subscriptions_path(@competition) and return
-    else
+      return redirect_to competition_subscriptions_path(@competition)
     end
     homologation_number_found = false
     links = html_body.search('td a.helptip')
@@ -429,7 +426,6 @@ class AeiExportsController < ApplicationController
               subscription.save
             end
             return stats
-          else
           end
         end
       end

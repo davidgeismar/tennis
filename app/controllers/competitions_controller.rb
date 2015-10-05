@@ -3,13 +3,13 @@ class CompetitionsController < ApplicationController
   before_action :set_competition, only: [:show, :edit, :update, :update_rankings]
 
   def new
-    @competition = Competition.new
+    @competition            = Competition.new
     @competition.tournament = @tournament
     authorize @competition
   end
 
   def create
-    @competition =  Competition.new(competition_params)
+    @competition            = Competition.new(competition_params)
     @competition.tournament = @tournament
     authorize @competition
 
@@ -26,17 +26,20 @@ class CompetitionsController < ApplicationController
     #les subscriptions du user pour ce tournament
     @subscriptions_of_user = current_user.subscriptions.where(tournament_id: @tournament.id)
     @competitions_already_subscribed_array = []
+
     @subscriptions_of_user.each do |subscription|
       @competitions_already_subscribed_array << subscription.competition
     end
-    @competitions = Competition.where(tournament_id: @tournament)
-    @unsubscribed_competitions = @competitions - @competitions_already_subscribed_array
+
+    @competitions               = Competition.where(tournament_id: @tournament)
+    @unsubscribed_competitions  = @competitions - @competitions_already_subscribed_array
+
     authorize @competitions
     policy_scope(@competitions)
+
     if @unsubscribed_competitions.blank?
       flash[:alert] = "Vous êtes déjà inscrit dans toutes les catégories disponibles de ce tournoi"
       redirect_to mytournaments_path
-    else
     end
   end
 
@@ -104,7 +107,7 @@ class CompetitionsController < ApplicationController
   end
 
   def find_tournament
-    if params[:tournament_id] != nil
+    if params[:tournament_id]
       @tournament = Tournament.find(params[:tournament_id])
     end
   end

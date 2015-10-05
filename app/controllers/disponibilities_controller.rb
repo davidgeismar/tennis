@@ -3,8 +3,8 @@ class DisponibilitiesController < ApplicationController
   before_action :set_disponibility, only: [:edit, :update, :show]
 
   def new
-    @disponibility = Disponibility.new
-    @disponibility.user = current_user
+    @disponibility            = Disponibility.new
+    @disponibility.user       = current_user
     @disponibility.tournament = @tournament
     authorize @disponibility
   end
@@ -75,12 +75,15 @@ class DisponibilitiesController < ApplicationController
       @disponibility.user = @subscription.user
       authorize @disponibility
     end
-    if @disponibility.save && current_user.judge?
-      redirect_to competition_subscriptions_path(@subscription.competition)
-      flash[:notice] = "Les disponibilités du licencié ont bien été enregistrées"
-    elsif  @disponibility.save
-      redirect_to tournament_competitions_path(@tournament)
-      flash[:notice] = "Vos disponibilités ont bien été enregistrées"
+
+    if @disponibility.save
+      if current_user.judge?
+        redirect_to competition_subscriptions_path(@subscription.competition)
+        flash[:notice] = "Les disponibilités du licencié ont bien été enregistrées"
+      else
+        redirect_to tournament_competitions_path(@tournament)
+        flash[:notice] = "Vos disponibilités ont bien été enregistrées"
+      end
     else
       render 'new'
     end
@@ -95,28 +98,44 @@ class DisponibilitiesController < ApplicationController
   end
 
   def update
-   authorize @disponibility
-   @subscription = Subscription.find(params[:disponibility][:subscription_id])
-   if @disponibility.update(disponibility_params)
-    redirect_to competition_subscriptions_path(@subscription.competition)
-    flash[:notice] = "Les disponibilités du licencié ont bien été enregistrées"
-   else
-    render "edit"
-   end
+    authorize @disponibility
+    @subscription = Subscription.find(params[:disponibility][:subscription_id])
+
+    if @disponibility.update(disponibility_params)
+      redirect_to competition_subscriptions_path(@subscription.competition)
+      flash[:notice] = "Les disponibilités du licencié ont bien été enregistrées"
+    else
+      render "edit"
+    end
   end
 
   private
 
-  def set_tournament
-    @tournament = Tournament.find(params[:tournament_id])
+  def disponibilities_for_day(disponibilities, day)
+    day_disponibilities = disponibilities.select { |hash| hash['day'] == day }
+    day_disponibilities.map { |hash| "#{hash['start_time']}-#{hash['end_time']}" }.join(', ')
+  end
+
+  def disponibility_params
+    params.require(:disponibility).permit(
+      :week,
+      :saturday,
+      :sunday,
+      :monday,
+      :tuesday,
+      :wednesday,
+      :thursday,
+      :friday,
+      :comment,
+      :subscription_id
+    )
   end
 
   def set_disponibility
     @disponibility = Disponibility.find(params[:id])
   end
 
-  def disponibility_params
-    params.require(:disponibility).permit(:week, :saturday, :sunday, :monday, :tuesday, :wednesday, :thursday, :friday, :comment, :subscription_id)
+  def set_tournament
+    @tournament = Tournament.find(params[:tournament_id])
   end
-
 end

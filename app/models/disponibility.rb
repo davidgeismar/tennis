@@ -1,5 +1,5 @@
 class Disponibility < ActiveRecord::Base
-
+  belongs_to :subscription
   belongs_to :tournament
   belongs_to :user
 
@@ -12,15 +12,13 @@ class Disponibility < ActiveRecord::Base
   # enumerize :wednesday, in: ['Toute la journée', 'à partir de 9h', 'à partir de 9h30', 'à partir de 10h', 'à partir de 10h30', 'à partir de 11h', 'à partir de 11h30', 'à partir de 12h', 'à partir de 12h30', 'à partir de 13h', 'à partir de 13h30','à partir de 14h', 'à partir de 14h30', 'à partir de 15h', 'à partir de 15h30', 'à partir de 16h','à partir de 16h30', 'à partir de 17h', 'à partir de 17h30','à partir de 18h', 'à partir de 18h30', 'à partir de 19h', 'à partir de 19h30', 'à partir de 20h', 'à partir de 20h30', 'à partir de 21h', 'à partir de 21h30', 'à partir de 22h', 'à partir de 22h30', 'à partir de 23h']
   # enumerize :thursday, in: ['Toute la journée', 'à partir de 9h', 'à partir de 9h30', 'à partir de 10h', 'à partir de 10h30', 'à partir de 11h', 'à partir de 11h30', 'à partir de 12h', 'à partir de 12h30', 'à partir de 13h', 'à partir de 13h30','à partir de 14h', 'à partir de 14h30', 'à partir de 15h', 'à partir de 15h30', 'à partir de 16h','à partir de 16h30', 'à partir de 17h', 'à partir de 17h30','à partir de 18h', 'à partir de 18h30', 'à partir de 19h', 'à partir de 19h30', 'à partir de 20h', 'à partir de 20h30', 'à partir de 21h', 'à partir de 21h30', 'à partir de 22h', 'à partir de 22h30', 'à partir de 23h']
   # enumerize :friday, in:   ['Toute la journée', 'à partir de 9h', 'à partir de 9h30', 'à partir de 10h', 'à partir de 10h30', 'à partir de 11h', 'à partir de 11h30', 'à partir de 12h', 'à partir de 12h30', 'à partir de 13h', 'à partir de 13h30','à partir de 14h', 'à partir de 14h30', 'à partir de 15h', 'à partir de 15h30', 'à partir de 16h','à partir de 16h30', 'à partir de 17h', 'à partir de 17h30','à partir de 18h', 'à partir de 18h30', 'à partir de 19h', 'à partir de 19h30', 'à partir de 20h', 'à partir de 20h30', 'à partir de 21h', 'à partir de 21h30', 'à partir de 22h', 'à partir de 22h30', 'à partir de 23h']
-   belongs_to :subscription
 
-   # validates :week, presence: {message: "Merci d'indiquer vos disponibilités en semaine"}
-   # validates :saturday, presence: {message: "Merci d'indiquer vos disponibilités pour le samedi"}
-   # validates :sunday, presence: {message: "Merci d'indiquer vos disponibilités pour le dimanche"}
-   # validates :monday, presence: {message: "Merci d'indiquer vos disponibilités pour le lundi"}
-   # validates :tuesday, presence: {message: "Merci d'indiquer vos disponibilités pour le mardi"}
-   # validates :wednesday, presence: {message: "Merci d'indiquer vos disponibilités pour le mercredi"}
-   # validates :thursday, presence: {message: "Merci d'indiquer vos disponibilités pour le jeudi"}
-   # validates :friday, presence: {message: "Merci d'indiquer vos disponibilités pour le vendredi"}
-
+  # validates :week,       presence: { message: "Merci d'indiquer vos disponibilités en semaine" }
+  # validates :saturday,   presence: { message: "Merci d'indiquer vos disponibilités pour le samedi" }
+  # validates :sunday,     presence: { message: "Merci d'indiquer vos disponibilités pour le dimanche" }
+  # validates :monday,     presence: { message: "Merci d'indiquer vos disponibilités pour le lundi" }
+  # validates :tuesday,    presence: { message: "Merci d'indiquer vos disponibilités pour le mardi" }
+  # validates :wednesday,  presence: { message: "Merci d'indiquer vos disponibilités pour le mercredi" }
+  # validates :thursday,   presence: { message: "Merci d'indiquer vos disponibilités pour le jeudi" }
+  # validates :friday,     presence: { message: "Merci d'indiquer vos disponibilités pour le vendredi" }
 end

@@ -10,7 +10,7 @@ class UserPolicy < ApplicationPolicy
   end
 
   def show?
-     user == record ||  user.tournaments.any? { |t| t.users.include?(record)}
+    user == record || user.tournaments.any? { |tournament| tournament.users.include?(record) }
   end
 
   def update?
@@ -22,6 +22,6 @@ class UserPolicy < ApplicationPolicy
   end
 
   def set_user?
-  true
+    true
   end
 end

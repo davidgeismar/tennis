@@ -18,14 +18,16 @@ class SubscriptionsController < ApplicationController
   end
 
   def multiple_new
-    @competition_ids = params[:select_competitions].split(',') # ["27", "38", "37", "35"]
-     @tournament = Tournament.find(params[:tournament_id])
+    @competition_ids  = params[:select_competitions].split(',') # ["27", "38", "37", "35"]
+    @tournament       = Tournament.find(params[:tournament_id])
+
     if @competition_ids.blank?
       flash[:alert] = "Vous n'avez sélectionné aucune catégories"
       redirect_to tournament_competitions_path(@tournament)
     end
-    @competitions    = Competition.where(id: @competition_ids) # array of competitions
-    number = @competition_ids.length
+
+    @competitions = Competition.where(id: @competition_ids) # array of competitions
+    number        = @competition_ids.length
     custom_authorize CompetitionMultiPolicy, @competitions
 
     if current_user.eligible_for_young_fare?
@@ -34,7 +36,7 @@ class SubscriptionsController < ApplicationController
       @total_amount = (@tournament.amount*number).to_f
     end
 
-    @total_amount  =  @total_amount + 0.55
+    @total_amount = @total_amount + 0.55
 
     # authorize @subscription
     @competitions.each do |competition|
@@ -48,27 +50,28 @@ class SubscriptionsController < ApplicationController
       MangoPayments::Users::CreateWalletService.new(current_user).call
     end
 
-    @card         = MangoPayments::Users::CreateCardRegistrationService.new(current_user).call
+    @card = MangoPayments::Users::CreateCardRegistrationService.new(current_user).call
     # @subscription = @competition.subscriptions.build
   rescue MangoPay::ResponseError => e
     flash[:alert] = "Nous ne parvenons pas à procéder à votre inscription. Veuillez renouveler votre demande. Si le problème persiste, veuillez contacter le service client [#{e.code}]."
     redirect_to tournament_path(@tournament)
   end
 
-
   def multiple_create
     current_user.update(mangopay_card_id: params[:card_id])
-    @competition_ids = params[:competition_ids].split
-    @competitions    = Competition.where(id: @competition_ids)
-    fare_type     = current_user.eligible_for_young_fare? ? :young : :standard
-    tournament    = Tournament.find(params[:tournament_id])
+
+    @competition_ids  = params[:competition_ids].split
+    @competitions     = Competition.where(id: @competition_ids)
+    fare_type         = current_user.eligible_for_young_fare? ? :young : :standard
+    tournament        = Tournament.find(params[:tournament_id])
     custom_authorize CompetitionMultiPolicy, @competition
 
     @competitions.each do |competition|
-      subscription  = Subscription.new(user: current_user, competition: competition, fare_type: fare_type, tournament_id: tournament.id)
+      subscription = Subscription.new(user: current_user, competition: competition, fare_type: fare_type, tournament_id: tournament.id)
 
       if subscription.save
-        service       = MangoPayments::Subscriptions::CreatePayinService.new(subscription)
+        service = MangoPayments::Subscriptions::CreatePayinService.new(subscription)
+
         if service.call
           SubscriptionMailer.confirmation(subscription).deliver
           SubscriptionMailer.confirmation_judge(subscription).deliver
@@ -81,22 +84,17 @@ class SubscriptionsController < ApplicationController
           flash[:alert] = 'Un problème est survenu lors du paiement. Merci de bien vouloir réessayer plus tard.'
           redirect_to tournament_path(tournament)
         end
-
       else
         flash[:alert] = "Un problème est survenu veuillez réessayer"
       end
     end
 
-      flash[:notice] = "Votre demande d'inscription a bien été prise en compte. Vous recevrez une réponse du Juge arbitre dans les plus brefs délais"
-      redirect_to mytournaments_path and return
+    flash[:notice] = "Votre demande d'inscription a bien été prise en compte. Vous recevrez une réponse du Juge arbitre dans les plus brefs délais"
+    return redirect_to mytournaments_path
 
   rescue MangoPay::ResponseError => e
     flash[:alert] = "Nous ne parvenons pas à procéder à votre inscription. Veuillez renouveler votre demande. Si le problème persiste, veuillez contacter le service client [#{e.code}]."
   end
-
-
-
-
 
   def new
     @competition    = Competition.find(params[:competition_id])
@@ -147,7 +145,6 @@ class SubscriptionsController < ApplicationController
         content:    "#{subscription.user.full_name} a demandé à s'inscrire à #{subscription.tournament.name} dans la catégorie #{subscription.competition.category} ",
         competition_id: subscription.competition.id
       )
-
 
       redirect_to new_subscription_disponibility_path(subscription)
     else
