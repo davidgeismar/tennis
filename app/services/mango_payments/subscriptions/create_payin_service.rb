@@ -13,7 +13,7 @@ module MangoPayments
         total_cents   = amount_cents + fees_cents
         transaction   = @subscription.mangopay_transactions.new(status: 'pending', cgv: true, category: 'payin')
 
-        mango_transaction   = MangoPay::PayIn::Card::Direct.create(
+        mango_transaction = MangoPay::PayIn::Card::Direct.create(
           AuthorId:             @user.mangopay_user_id,
           CardId:               @user.mangopay_card_id,
           CardType:             'CB_VISA_MASTERCARD',
@@ -24,8 +24,7 @@ module MangoPayments
           SecureModeReturnURL:  'https://wetennis.fr'
         )
 
-        # where do you get mango_transaction['status']
-        transaction.update(
+        transaction.assign_attributes(
           archive:                  mango_transaction,
           mangopay_transaction_id:  mango_transaction['Id'],
           status:                   (mango_transaction['Status'] == 'SUCCEEDED' ? 'success' : 'failed')

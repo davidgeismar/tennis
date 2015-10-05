@@ -65,28 +65,24 @@ class SubscriptionsController < ApplicationController
     @competitions     = Competition.where(id: @competition_ids)
     fare_type         = current_user.eligible_for_young_fare? ? :young : :standard
     tournament        = Tournament.find(params[:tournament_id])
+
     custom_authorize CompetitionMultiPolicy, @competition
 
     @competitions.each do |competition|
-      subscription = Subscription.new(user: current_user, competition: competition, fare_type: fare_type, tournament_id: tournament.id)
+      subscription  = Subscription.new(user: current_user, competition: competition, fare_type: fare_type, tournament_id: tournament.id)
+      service       = MangoPayments::Subscriptions::CreatePayinService.new(subscription)
 
-      if subscription.save
-        service = MangoPayments::Subscriptions::CreatePayinService.new(subscription)
-
-        if service.call
-          SubscriptionMailer.confirmation(subscription).deliver
-          SubscriptionMailer.confirmation_judge(subscription).deliver
-          notification = Notification.create(
-            user:       subscription.tournament.user,
-            content:    "#{subscription.user.full_name} a demandé à s'inscrire à #{subscription.tournament.name} dans la catégorie #{subscription.competition.category} ",
-            competition_id: subscription.competition.id
-          )
-        else
-          flash[:alert] = 'Un problème est survenu lors du paiement. Merci de bien vouloir réessayer plus tard.'
-          redirect_to tournament_path(tournament)
-        end
+      if service.call
+        SubscriptionMailer.confirmation(subscription).deliver
+        SubscriptionMailer.confirmation_judge(subscription).deliver
+        notification = Notification.create(
+          user:       subscription.tournament.user,
+          content:    "#{subscription.user.full_name} a demandé à s'inscrire à #{subscription.tournament.name} dans la catégorie #{subscription.competition.category} ",
+          competition_id: subscription.competition.id
+        )
       else
-        flash[:alert] = "Un problème est survenu veuillez réessayer"
+        flash[:alert] = 'Un problème est survenu lors du paiement. Merci de bien vouloir réessayer plus tard.'
+        redirect_to tournament_path(tournament)
       end
     end
 
@@ -137,6 +133,7 @@ class SubscriptionsController < ApplicationController
     tournament    = competition.tournament
     subscription  = Subscription.new(user: current_user, competition: competition, fare_type: fare_type)
     service       = MangoPayments::Subscriptions::CreatePayinService.new(subscription)
+
     authorize subscription
 
     if service.call
