@@ -6,18 +6,18 @@ div class="banner"
           h3 =@tournament.name.upcase
           p Merci d'indiquer vos disponibilités
 
-    div id= "full-calendar"
-    =simple_form_for [@tournament, @disponibility] do |f|
-      = f.error_notification
+    div id= "calendar"
+    / =simple_form_for [@tournament, @disponibility] do |f|
+    /   = f.error_notification
 
-      = f.input :monday, :as => :hidden
-      = f.input :tuesday, :as => :hidden
-      = f.input :wednesday, :as => :hidden
-      = f.input :thursday, :as => :hidden
-      = f.input :friday, :as => :hidden
-      = f.input :saturday, :as => :hidden
-      = f.input :sunday, :as => :hidden
-      = f.input :comment
-
-
-      = f.button :submit, "Valider", class: "btn btn-success"
+    /   = f.input :monday
+    /   = f.input :tuesday
+    /   = f.input :wednesday
+    /   = f.input :thursday
+    /   = f.input :friday
+    /   = f.input :saturday
+    /   = f.input :sunday
+    /   = f.input :comment
+    = form_tag tournament_disponibilities_path(@tournament), method: :post do
+        = text_field_tag(:dispo_array)
+        = button_tag :submit
