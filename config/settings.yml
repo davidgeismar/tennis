@@ -88,6 +88,9 @@ site:
   title: WeTennis
   url: http://wetennis.fr
 
+tournament:
+  fees_cents: 55 # in cents, so 0.55 €
+
 user:
   competition_ranking_matching:
     "NC": 'NC'
