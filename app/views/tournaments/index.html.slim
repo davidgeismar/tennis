@@ -6,7 +6,7 @@
       .l-search-form
         = form_tag tournaments_path, method: 'get', :remote => true, class: 'form-inline' do ||
           .form-group
-            = text_field_tag :content, nil, id: 'gmaps-input-address', placeholder: 'Rechercher une ville', autosave: true, autofocus: true, class: 'form-control'
+            = text_field_tag :content, nil, placeholder: 'Rechercher une ville', autosave: true, autofocus: true, class: 'form-control gmaps-input-address'
             = button_tag(type: 'submit', class: 'btn btn-success') do ||
               i.fa.fa-search
 
