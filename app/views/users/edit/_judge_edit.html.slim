@@ -21,7 +21,7 @@ div class="banner padded"
                 = f.input :email, label: "email"
                 = f.input :telephone
                 = f.input :licence_number, label: "Numéro de Licence"
-                = f.input :address, label: "Votre addresse"
+                = f.input :address, label: "Votre addresse", input_html: { class: 'gmaps-input-address' }
 
                 = f.button :submit, "Valider", class: "btn-success"
                 = link_to "Annuler", user_path(current_user), class: "btn btn-default"

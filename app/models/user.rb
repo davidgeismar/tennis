@@ -4,6 +4,8 @@ class User < ActiveRecord::Base
   enumerize :genre,   in: Settings.enumerize.genre
   enumerize :ranking, in: Settings.enumerize.ranking
 
+  geocoded_by :ip
+
   devise :invitable,
           :database_authenticatable,
           :registerable,
@@ -14,19 +16,21 @@ class User < ActiveRecord::Base
           :validatable,
           :omniauthable, omniauth_providers:  [:facebook]
 
-  has_many :subscriptions,  dependent: :destroy
-  has_many :tournaments,    dependent: :destroy
-  has_many :messages,       dependent: :destroy
-  has_many :notifications,  dependent: :destroy
-  has_many :disponibilities, dependent: :destroy
+  has_many :disponibilities,  dependent: :destroy
+  has_many :messages,         dependent: :destroy
+  has_many :notifications,    dependent: :destroy
+  has_many :subscriptions,    dependent: :destroy
+  has_many :tournaments,      dependent: :destroy
 
-  has_attached_file :picture,           styles: { medium: "300x300>", thumb: "100x100>" }
-  has_attached_file :licencepicture,    styles: { medium: "300x300>", thumb: "100x100>" }
   has_attached_file :certifmedpicture,  styles: { medium: "300x300>", thumb: "100x100>" }
+  has_attached_file :extradoc,          styles: { medium: "300x300>", thumb: "100x100>" }
+  has_attached_file :licencepicture,    styles: { medium: "300x300>", thumb: "100x100>" }
+  has_attached_file :picture,           styles: { medium: "300x300>", thumb: "100x100>" }
 
-  validates_attachment_content_type :picture,           content_type: /\Aimage\/.*\z/
-  validates_attachment_content_type :licencepicture,    content_type: /\Aimage\/.*\z/
   validates_attachment_content_type :certifmedpicture,  content_type: /\Aimage\/.*\z/
+  validates_attachment_content_type :extradoc,          content_type: /\Aimage\/.*\z/
+  validates_attachment_content_type :licencepicture,    content_type: /\Aimage\/.*\z/
+  validates_attachment_content_type :picture,           content_type: /\Aimage\/.*\z/
 
   validates :first_name,  presence: { message: 'Veuillez remplir votre prénom' }, on: :update
   validates :last_name,   presence: { message: 'Veuillez remplir votre nom' },    on: :update

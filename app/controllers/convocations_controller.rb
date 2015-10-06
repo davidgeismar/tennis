@@ -3,13 +3,14 @@ class ConvocationsController < ApplicationController
   before_action :set_competition, only: [:multiple_new, :multiple_create]
 
   def new
-    @convocation = Convocation.new
+    @convocation              = Convocation.new
+    @convocation.subscription = @subscription
     authorize @convocation
   end
   # attention coder le sms system pour create
   def create
-    @convocation = @subscription.convocations.build(convocation_params)
-    judge = @subscription.tournament.user
+    @convocation  = @subscription.convocations.build(convocation_params)
+    judge         = @subscription.tournament.user
 
     authorize @convocation
 
@@ -53,6 +54,8 @@ class ConvocationsController < ApplicationController
         redirect_to new_convocation_message_path(@convocation)
       end
     elsif @convocation.status == "confirmed"
+      #email
+      ConvocationMailer.convocation_confirmed_by_player(@convocation).deliver
       #notif
       @notification = Notification.create(
         user:         @convocation.subscription.tournament.user,

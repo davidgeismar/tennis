@@ -17,6 +17,7 @@
             <%= f.input :saturday  %>
             <%= f.input :sunday  %>
             <%= f.input :comment  %>
+            <%= hidden_field_tag :subscription_id, params[:subscription_id] %>
             <%= f.button :submit, "Valider", class: "btn btn-success" %>
           <%end%>
         </div>

@@ -10,7 +10,7 @@ class DisponibilityPolicy < ApplicationPolicy
   end
 
   def create? #pas besoin de préciser pour new et edit
-    user && record.user && record.tournament.user
+    (user && (record.user == user)) || (user && (record.tournament.user == user))
   end
 
   def edit?

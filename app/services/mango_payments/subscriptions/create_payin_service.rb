@@ -9,11 +9,11 @@ module MangoPayments
 
       def call
         amount_cents  = amount * 100
-        fees_cents    = ((amount * 0.1) * 100).to_i
+        fees_cents    = Settings.tournament.fees_cents
         total_cents   = amount_cents + fees_cents
         transaction   = @subscription.mangopay_transactions.new(status: 'pending', cgv: true, category: 'payin')
 
-        mango_transaction   = MangoPay::PayIn::Card::Direct.create(
+        mango_transaction = MangoPay::PayIn::Card::Direct.create(
           AuthorId:             @user.mangopay_user_id,
           CardId:               @user.mangopay_card_id,
           CardType:             'CB_VISA_MASTERCARD',
@@ -24,12 +24,11 @@ module MangoPayments
           SecureModeReturnURL:  'https://wetennis.fr'
         )
 
-        transaction.update(
+        transaction.assign_attributes(
           archive:                  mango_transaction,
           mangopay_transaction_id:  mango_transaction['Id'],
           status:                   (mango_transaction['Status'] == 'SUCCEEDED' ? 'success' : 'failed')
         )
-
 
         if transaction.status == 'success'
           @subscription.mangopay_payin_id = mango_transaction['Id']

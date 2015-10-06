@@ -1,0 +1,29 @@
+div id="tournament_row"
+  - if @tournaments.empty?
+    p
+      strong Il n'y a pas de tournois dans un rayon de 20 Km par rapport au lieu que vous avez saisit.
+  - else
+   - @tournaments.each do |tournament|
+    .panel.panel-default
+      .panel-body
+        .container-fluid
+          .row
+            .col-md-2
+              p
+                'Du
+                strong> = tournament.starts_on.strftime("%d/%m/%Y")
+                br
+                'au
+                strong = tournament.ends_on.strftime("%d/%m/%Y")
+            .col-md-10
+              h4.mt-0
+                = link_to tournament_path(tournament), class: 'l-search-tournament--link' do
+                  = tournament.city.upcase
+                  br
+                  small = tournament.name
+              ul
+                - tournament.competitions.each do |competition|
+                  li
+                    = I18n.t("competition.#{competition.category} #{competition.genre.text}")
+
+  hr

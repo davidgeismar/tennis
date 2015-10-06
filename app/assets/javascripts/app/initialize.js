@@ -1,8 +1,7 @@
 $(document).ready(function(){
-
   $('.datepicker').datepicker({
-     format: 'dd/mm/yyyy',
-     language: 'fr',
+     format:    'dd/mm/yyyy',
+     language:  'fr',
      startDate: '-1d'
   });
 

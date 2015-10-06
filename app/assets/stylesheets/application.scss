@@ -8,6 +8,8 @@
 @import "font-awesome";
 @import "bootstrap-datepicker3";
 @import "bootstrap3-switch";
+@import  "fullcalendar";
+
 
 // Your CSS
 @import "components/alerts";
@@ -20,6 +22,7 @@
 @import "layout/maps";
 @import "layout/navbar";
 @import "layout/utilities";
+@import "layout/search";
 
 @import "pages/index";
 @import "vendor/index";

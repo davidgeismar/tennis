@@ -1,0 +1,17 @@
+<a href="#" data-target="#extradocpicture" data-toggle="modal"><%= image_tag @user.extradoc.url(:medium) %></a>
+
+
+<div class="modal fade" id="extradocpicture">
+    <div class="modal-dialog mymodal">
+      <div class="modal-content text-center">
+        <div class="modal-header">
+          <h4 class="modal-title">Votre Document</h4>
+        </div>
+        <div class="modal-body">
+          <%= image_tag @user.extradoc.url(:original) %>
+        </div>
+        <div class="modal-footer">
+        </div>
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+  </div>

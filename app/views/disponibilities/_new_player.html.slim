@@ -1,22 +1,12 @@
 div class="banner"
   div class="container padded"
-    div class="col-md-offset-4 col-md-4 bigmarge"
-      div class="panel panel-default"
-        div class="panel-heading"
-          h3 =@tournament.name.upcase
-          p Merci d'indiquer vos disponibilités
-        div class="panel-body"
-          =simple_form_for [@tournament, @disponibility] do |f|
-            = f.error_notification
+    h1 =@tournament.name.upcase
+    p Merci d'indiquer vos disponibilités
 
-            = f.input :monday
-            = f.input :tuesday
-            = f.input :wednesday
-            = f.input :thursday
-            = f.input :friday
-            = f.input :saturday
-            = f.input :sunday
-            = f.input :comment
+    = link_to "réinitialiser le calendrier", new_tournament_disponibility_path(@tournament), class: "btn btn-warning"
 
+    div id= "calendar"
 
-            = f.button :submit, "Valider", class: "btn btn-success"
+    = form_tag tournament_disponibilities_path(@tournament), method: :post do
+        = text_field_tag(:dispo_array)
+        = button_tag :submit

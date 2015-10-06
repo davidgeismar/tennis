@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150923184950) do
+ActiveRecord::Schema.define(version: 20151002073517) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -30,6 +30,18 @@ ActiveRecord::Schema.define(version: 20150923184950) do
   add_index "active_admin_comments", ["author_type", "author_id"], name: "index_active_admin_comments_on_author_type_and_author_id", using: :btree
   add_index "active_admin_comments", ["namespace"], name: "index_active_admin_comments_on_namespace", using: :btree
   add_index "active_admin_comments", ["resource_type", "resource_id"], name: "index_active_admin_comments_on_resource_type_and_resource_id", using: :btree
+
+  create_table "challenges", force: :cascade do |t|
+    t.date     "date"
+    t.time     "time"
+    t.text     "place"
+    t.text     "score"
+    t.integer  "winner"
+    t.integer  "loser"
+    t.integer  "referee"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "clients", force: :cascade do |t|
     t.datetime "created_at", null: false
@@ -94,12 +106,11 @@ ActiveRecord::Schema.define(version: 20150923184950) do
   add_index "convocations", ["subscription_id"], name: "index_convocations_on_subscription_id", using: :btree
 
   create_table "disponibilities", force: :cascade do |t|
-    t.integer  "subscription_id"
     t.string   "week"
     t.string   "saturday"
     t.string   "sunday"
-    t.datetime "created_at",      null: false
-    t.datetime "updated_at",      null: false
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
     t.string   "monday"
     t.string   "tuesday"
     t.string   "wednesday"
@@ -110,7 +121,6 @@ ActiveRecord::Schema.define(version: 20150923184950) do
     t.integer  "user_id"
   end
 
-  add_index "disponibilities", ["subscription_id"], name: "index_disponibilities_on_subscription_id", using: :btree
   add_index "disponibilities", ["tournament_id"], name: "index_disponibilities_on_tournament_id", using: :btree
   add_index "disponibilities", ["user_id"], name: "index_disponibilities_on_user_id", using: :btree
 
@@ -202,7 +212,6 @@ ActiveRecord::Schema.define(version: 20150923184950) do
     t.string   "homologation_number"
     t.string   "postcode"
     t.integer  "young_fare"
-    t.boolean  "moinstrente",              default: true
     t.string   "iban"
     t.string   "bic"
     t.string   "club_email"
@@ -278,6 +287,10 @@ ActiveRecord::Schema.define(version: 20150923184950) do
     t.string   "mangopay_wallet_id"
     t.boolean  "sms_forfait",                   default: false
     t.integer  "sms_quantity"
+    t.string   "extradoc_file_name"
+    t.string   "extradoc_content_type"
+    t.integer  "extradoc_file_size"
+    t.datetime "extradoc_updated_at"
   end
 
   add_index "users", ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true, using: :btree
@@ -289,7 +302,6 @@ ActiveRecord::Schema.define(version: 20150923184950) do
 
   add_foreign_key "competitions", "tournaments"
   add_foreign_key "convocations", "subscriptions"
-  add_foreign_key "disponibilities", "subscriptions"
   add_foreign_key "disponibilities", "tournaments"
   add_foreign_key "disponibilities", "users"
   add_foreign_key "mangopay_transactions", "competitions"

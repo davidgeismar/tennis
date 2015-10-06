@@ -1,3 +1,34 @@
+competition_category_checks:
+  real_age:
+    '8 ans': 8
+    '9 ans': 9
+    '10 ans': 10
+  exact_tennis_age:
+    '11 ans': 11
+    '12 ans': 12
+    '13 ans': 13
+    '14 ans': 14
+    '15 ans': 15
+    '16 ans': 16
+    '17 ans': 17
+    '18 ans': 18
+  range_tennis_age:
+    '13-14 ans': 13
+    '15-16 ans': 15
+    '17-18 ans': 17
+  all_age_good:
+    'seniors': 19
+  senior_tennis_age:
+    '35 ans': 35
+    '40 ans': 40
+    '45 ans': 45
+    '50 ans': 50
+    '55 ans': 55
+    '60 ans': 60
+    '70 ans': 70
+    '75 ans': 75
+    '80 ans': 80
+
 enumerize:
   categories:
     - '8 ans'
@@ -57,88 +88,58 @@ site:
   title: WeTennis
   url: http://wetennis.fr
 
+tournament:
+  fees_cents: 55 # in cents, so 0.55 €
+
 user:
+  competition_ranking_matching:
+    "NC": 'NC'
+    "40": 'quarante'
+    "30/5": 'trentecinq'
+    "30/4": 'trentequatre'
+    "30/3": 'trentetrois'
+    "30/2": 'trentedeux'
+    "30/1": 'trenteun'
+    "30": 'trente'
+    "15/5": 'quinzecinq'
+    "15/4": 'quinzequatre'
+    "15/3": 'quinzetrois'
+    "15/2": 'quinzedeux'
+    "15/1": 'quinzeun'
+    "15": 'quinze'
+    "5/6": 'cinqsix'
+    "4/6": 'quatresix'
+    "3/6": 'troissix'
+    "2/6": 'deuxsix'
+    "1/6": 'unsix'
+    "0": 'zero'
+    "-2/6": 'moinsdeuxsix'
+    "-4/6": 'moinsquatresix'
+    "-15": 'moinsquize'
+    "-30": 'moinstrente'
+  ranking_value:
+    "NC": 0
+    "40": 1
+    "30/5": 2
+    "30/4": 3
+    "30/3": 4
+    "30/2": 5
+    "30/1": 6
+    "30": 7
+    "15/5": 8
+    "15/4": 9
+    "15/3": 10
+    "15/2": 11
+    "15/1": 12
+    "15": 13
+    "5/6": 14
+    "4/6": 15
+    "3/6": 16
+    "2/6": 17
+    "1/6": 18
+    "0": 19
+    "-2/6": 20
+    "-4/6": 21
+    "-15": 23
+    "1ère série": 24
   young_fare_max_age: 18
-
-user_ranking_value:
-  "NC": 0
-  "40": 1
-  "30/5": 2
-  "30/4": 3
-  "30/3": 4
-  "30/2": 5
-  "30/1": 6
-  "30": 7
-  "15/5": 8
-  "15/4": 9
-  "15/3": 10
-  "15/2": 11
-  "15/1": 12
-  "15": 13
-  "5/6": 14
-  "4/6": 15
-  "3/6": 16
-  "2/6": 17
-  "1/6": 18
-  "0": 19
-  "-2/6": 20
-  "-4/6": 21
-  "-15": 23
-  "1ère série": 24
-
-user_competition_ranking_matching:
-  "NC": 'NC'
-  "40": 'quarante'
-  "30/5": 'trentecinq'
-  "30/4": 'trentequatre'
-  "30/3": 'trentetrois'
-  "30/2": 'trentedeux'
-  "30/1": 'trenteun'
-  "30": 'trente'
-  "15/5": 'quinzecinq'
-  "15/4": 'quinzequatre'
-  "15/3": 'quinzetrois'
-  "15/2": 'quinzedeux'
-  "15/1": 'quinzeun'
-  "15": 'quinze'
-  "5/6": 'cinqsix'
-  "4/6": 'quatresix'
-  "3/6": 'troissix'
-  "2/6": 'deuxsix'
-  "1/6": 'unsix'
-  "0": 'zero'
-  "-2/6": 'moinsdeuxsix'
-  "-4/6": 'moinsquatresix'
-  "-15": 'moinsquize'
-  "-30": 'moinstrente'
-
-competition_category_checks:
-  real_age:
-    '8 ans': 8
-    '9 ans': 9
-    '10 ans': 10
-  exact_tennis_age:
-    '11 ans': 11
-    '12 ans': 12
-    '13 ans': 13
-    '14 ans': 14
-    '15 ans': 15
-    '16 ans': 16
-    '17 ans': 17
-    '18 ans': 18
-  range_tennis_age:
-    '13-14 ans': 13
-    '15-16 ans': 15
-    '17-18 ans': 17
-  all_age_good:
-    'seniors': 19
-  senior_tennis_age:
-    '35 ans': 35
-    '40 ans': 40
-    '45 ans': 45
-    '50 ans': 50
-    '55 ans': 55
-    '60 ans': 60
-    '70 ans': 70
-    '75 ans': 75
-    '80 ans': 80

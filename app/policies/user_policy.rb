@@ -9,13 +9,12 @@ class UserPolicy < ApplicationPolicy
     user == record
   end
 
-  def show
-     user == record || record.tournaments.any? { |t| t.user == user }
-
+  def show?
+    user == record || user.tournaments.any? { |tournament| tournament.users.include?(record) }
   end
 
   def update?
-     user == record
+    user == record
   end
 
   def update_card?
@@ -23,6 +22,6 @@ class UserPolicy < ApplicationPolicy
   end
 
   def set_user?
-  true
+    true
   end
 end

@@ -144,7 +144,8 @@
                 </td>
               <% end %>
 
-              <td><%=link_to "Profil", user_path(subscription.user), class: 'btn btn-primary', title: "tel : #{subscription.user.telephone}", "data-toggle"=> "tooltip", "data-placement" => "top" %></td>
+              <td><%=link_to "Profil", user_path(subscription.user), class: 'btn btn-primary', "data-container"=>"body",
+                    "data-html"=>"true", "title"=> "<ul class='list-unstyled'> <li>tel : #{subscription.user.telephone}</li> <li>naissance: #{subscription.user.birthdate.strftime("%d/%m/%Y")}", "data-toggle"=> "tooltip", "data-placement" => "top" %></td>
 
               <% if subscription.convocations.last %>
                   <td><%= subscription.convocations.last.date.strftime('le %d/%m/%Y')%>
@@ -164,11 +165,11 @@
               <%  @disponibility = Disponibility.where(tournament: @tournament, user: subscription.user).first %>
               <% if @disponibility %>
                 <td>
-                  <%= link_to '<i class="fa fa-calendar"></i>'.html_safe, tournament_disponibility_path(@tournament, @disponibility), class: "fleche_subscription", "data-container"=>"body",
+                  <%= link_to '<i class="fa fa-calendar"></i>'.html_safe, tournament_disponibility_path(@tournament, @disponibility, subscription_id: subscription.id), class: "fleche_subscription", "data-container"=>"body",
                     "data-html"=>"true", "data-content"=> " <ul class='small'> <li>L: #{@disponibility.monday}</li> <li>Ma: #{@disponibility.tuesday}</li> <li>Me: #{@disponibility.wednesday}</li> <li>Je: #{@disponibility.thursday}</li> <li>Ve: #{@disponibility.friday}</li> <li>Sam: #{@disponibility.saturday} </li><li>Dim: #{@disponibility.sunday}</li><li>Com: #{@disponibility.comment}</li> </ul>", "data-toggle"=> "popover", "data-placement" => "top", "data-trigger"=>"hover", "title" => "<div class=small>Dispos Licencié </div>" %>
                 </td>
               <% else %>
-                <td><%= link_to '<i class="fa fa-calendar"></i>'.html_safe, new_subscription_disponibility_path(subscription), class: "fleche_subscription", title: "Non renseignées ", "data-toggle"=> "tooltip", "data-placement" => "top" %></td>
+                <td><%= link_to '<i class="fa fa-calendar"></i>'.html_safe, new_tournament_disponibility_path(@tournament, subscription_id: subscription.id), class: "fleche_subscription", title: "Non renseignées ", "data-toggle"=> "tooltip", "data-placement" => "top" %></td>
               <% end %>
             </tr>
           <%end%>
@@ -189,6 +190,12 @@
           <a href="#" data-target="#exporter" data-toggle="modal" class="btn btn-success">
             <i class="fa fa-share-alt"></i>
             Exporter vers AEI
+          </a>
+        </li>
+        <li>
+          <a href="#" data-target="#exporter_dispo" data-toggle="modal" class="btn btn-success">
+            <i class="fa fa-share-alt"></i>
+            Exporter Dispo vers AEI
           </a>
         </li>
       </ul>
@@ -233,7 +240,41 @@
     </div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->
 </div>
+<div class="modal fade" id="exporter_dispo">
+  <div class="modal-dialog mymodal">
+    <div class="modal-content text-center">
+      <div class="modal-header">
+        <h4 class="modal-title">Exporter les disponibilités de vos inscrits sur AEI</h4>
+         <p> Wetennis vous permet d'exporter les disponibilités de vos inscrits vers AEI (dans la case commentaire de la fiche profil du licencié). Avant de continuer, assurer vous: <br></p>
+          <ul>
+            <li> <strong>D'avoir bien créer votre Tournoi sur AEI</strong></li>
+            <li> <strong>Que le numéro d'homologation sur AEI et WeTennis correspondent</strong></li>
+            <li><strong>Que la catégorie du tournoi sur AEI et WeTennis correspondent</strong></li>
+            <li><strong>D'avoir procéder à l'export de l'inscrit dont vous souhaitez exporter les disponibilités préalablement</strong></li>
+          </ul>
+      </div>
+      <div class="modal-body">
 
+        <%= form_tag export_disponibilities_path(@competition) do %>
+          <%= hidden_field_tag :subscription_ids_export_dispo %>
+          <div class="form-group">
+            <%= label_tag :login_aei, "Identifiant AEI" %>
+            <%= text_field_tag :login_aei, nil, class: 'form-control' %>
+          </div>
+          <div class="form-group">
+            <%= label_tag :password_aei, "Mot de passe AEI" %>
+            <%= text_field_tag :password_aei, nil, class: 'form-control'%>
+          </div>
+          <div class="form-group">
+            <%= submit_tag "Exporter vos inscrits", id: "export", class: "btn btn-success margin form-control"%>
+          </div>
+        <% end -%>
+      </div>
+      <div class="modal-footer">
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div>
 
 
 <!-- this js should use toggleclass -->
@@ -248,8 +289,9 @@ $(document).ready(function() {
     }).get().join(',');
     $('#select_players').val(subscriptionIds);
     $('#subscription_ids_export').val(subscriptionIds);
-  })
-})
+    $('#subscription_ids_export_dispo').val(subscriptionIds);
+  });
+});
 
 
 $(document).ready( function () {
@@ -295,6 +337,9 @@ function toggle(source) {
     }).get().join(',');
   $('#select_players').val(subscriptionIds);
   $('#subscription_ids_export').val(subscriptionIds);
+  $('#subscription_ids_export_dispo').val(subscriptionIds);
 }
+
+
 </script>
 <% end %>

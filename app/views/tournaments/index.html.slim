@@ -1,28 +1,13 @@
-div class="container"
-  div class="row"
-    div class="col-xs-12"
+.container
+  .row
+    .col-sm-8
       h1 class="emperor" Recherche de tournois
-      form
-        input class="search" placeholder="Rechercher un tournoi par date,lieu, catégorie..."
-      div class="row"
-        - @tournaments.each do |tournament|
-          div class="col-md-4"
-            div class="panel panel-default"
-              div class="panel-heading"
-                h2
-                  = tournament.name
-                  br
-                  small = tournament.city.upcase
+    .col-sm-4
+      .l-search-form
+        = form_tag tournaments_path, method: 'get', :remote => true, class: 'form-inline' do ||
+          .form-group
+            = text_field_tag :content, nil, placeholder: 'Rechercher une ville', autosave: true, autofocus: true, class: 'form-control gmaps-input-address'
+            = button_tag(type: 'submit', class: 'btn btn-success') do ||
+              i.fa.fa-search
 
-              div class="panel-body min_height_panel"
-                p
-                  'Du
-                  strong> = tournament.starts_on.strftime("%d/%m/%Y")
-                  'au
-                  strong = tournament.ends_on.strftime("%d/%m/%Y")
-                ul
-                  - tournament.competitions.each do |competition|
-                    li class="medium"
-                      = I18n.t("competition.#{competition.category} #{competition.genre.text}")
-              div class="panel-footer"
-                = link_to 'En savoir plus', tournament_path(tournament), class: 'btn btn-primary'
+  = render 'tournaments'

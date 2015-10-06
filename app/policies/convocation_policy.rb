@@ -6,11 +6,11 @@ class ConvocationPolicy < ApplicationPolicy
   end
 
   def new?
-   user && user.judge?
+   user && user.judge? && (record.subscription.tournament.user == user)
   end
 
   def create?
-   user && user.judge?
+   user && user.judge? && (record.subscription.tournament.user == user)
   end
 
   def edit?

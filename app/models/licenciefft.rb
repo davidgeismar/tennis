@@ -68,7 +68,6 @@ class Licenciefft < ActiveRecord::Base
                licencie_fft.ranking = person.css('td[4] a').text.to_s.split.join
                if person.css('td[6]').text.to_s[9..29]
                   licencie_fft.licence_number = person.css('td[6]').text.to_s[9..29].split.join
-               else
                end
                licencie_fft.club = person.css('td[7]').text.to_s.split.join
                licencie_fft.save
@@ -86,12 +85,12 @@ class Licenciefft < ActiveRecord::Base
             licencie_fft.ranking = person.css('td[4] a').text.to_s.split.join
             if person.css('td[6]').text.to_s[9..29]
               licencie_fft.licence_number = person.css('td[6]').text.to_s[9..29].split.join
-            else
             end
-             licencie_fft.club = person.css('td[7]').text.to_s.split.join
-             licencie_fft.save
+            licencie_fft.club = person.css('td[7]').text.to_s.split.join
+            licencie_fft.save
           end
         end
       end
   end
 end
+

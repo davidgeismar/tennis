@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
   skip_after_action :verify_authorized, only: [:set_user]
-  before_action :set_user
+  before_action :set_user, except: [:index]
 
   def show
     authorize @user
@@ -22,10 +22,17 @@ class UsersController < ApplicationController
     end
   end
 
+  def index
+    @users = User.all
+    policy_scope(@users)
+    @users = User.near(request.location, 20, :units => :km).where(ranking: current_user.ranking)
+  end
+
   private
 
   def user_params
     params.require(:user).permit(
+      :extradoc,
       :address,
       :birthdate,
       :certifmedpicture,
