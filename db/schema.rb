@@ -142,10 +142,10 @@ ActiveRecord::Schema.define(version: 20151002073517) do
     t.json     "archive"
     t.datetime "created_at",                              null: false
     t.datetime "updated_at",                              null: false
+    t.integer  "tournament_id"
     t.boolean  "cgv",                     default: false
     t.integer  "competition_id"
     t.integer  "subscription_id"
-    t.integer  "tournament_id"
   end
 
   add_index "mangopay_transactions", ["competition_id"], name: "index_mangopay_transactions_on_competition_id", using: :btree
