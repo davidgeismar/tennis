@@ -12,7 +12,7 @@ class UsersController < ApplicationController
 
   def update
     authorize @user
-    if  @user.subscriptions.exists? && @user.update!(user_params_without_birthdate) && !@user.judge?
+    if @user.subscriptions.exists? && !@user.judge? && user_params[:birthdate].present?
       flash[:alert] = "Vous ne pouvez plus modifier votre date de naissance après vous etre inscrit à une compétition. Merci de contacter l'administrateur du site"
       redirect_to user_path(current_user)
     elsif @user.update(user_params)
