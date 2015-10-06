@@ -12,14 +12,15 @@ class DisponibilitiesController < ApplicationController
   def create
     @disponibility            = Disponibility.new
     @disponibility.tournament = @tournament
-    authorize @disponibility
 
     if current_user.judge?
-      @subscription       = Subscription.find(params[:disponibility][:subscription_id])
+      authorize @disponibility
+      @subscription       = Subscription.find(params[:subscription_id])
       @disponibility.user = @subscription.user
     else
       disponibilities           = JSON.parse(params[:dispo_array])
       @disponibility.user       = current_user
+      authorize @disponibility
       @disponibility.monday     = disponibilities_for_day(disponibilities, 'lundi')
       @disponibility.tuesday    = disponibilities_for_day(disponibilities, 'mardi')
       @disponibility.wednesday  = disponibilities_for_day(disponibilities, 'mercredi')
