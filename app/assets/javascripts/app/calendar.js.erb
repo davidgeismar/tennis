@@ -16,6 +16,7 @@ $(document).ready(function() {
       var eventData = {
         start: start,
         end: end,
+        block:  true,
       };
       $('#calendar').fullCalendar('renderEvent', eventData, true); // stick? = true
       var day         = moment(eventData.start["_d"]).format("dddd");
@@ -26,45 +27,21 @@ $(document).ready(function() {
         start_time: start_time,
         end_time: end_time
       };
+      array_dispo.push(slot);
+
+      $("#dispo_array").val(JSON.stringify(array_dispo));
       $('#calendar').fullCalendar('unselect');
-      console.log('created');
     },
     editable:     true,
     eventLimit:   true,
     eventClick: function(event) {
       if(confirm('Voulez-vous supprimer cette dispo?')) {
         $('#calendar').fullCalendar('removeEvents',event._id);
-        console.log('destroyed');
       }
     },
 
-    // select: function (start, end, jsEvent, view) {
-    //   $("#calendar").fullCalendar('addEventSource', [
-    //     {
-    //       start:      start,
-    //       end:        end,
-    //       rendering:  'background',
-    //       block:      true
-    //     }
-    //   ]);
-
-    //   var day         = moment(start["_d"]).format("dddd");
-    //   var start_time  = moment(start["_d"]).format("HH:mm");
-    //   var end_time    = moment(end["_d"]).format("HH:mm");
-    //   var slot        = {
-    //     day: day,
-    //     start_time: start_time,
-    //     end_time: end_time
-
-    //   };
-
-    //   array_dispo.push(slot);
-
-    //   $("#dispo_array").val(JSON.stringify(array_dispo));
-    //   $("#calendar").fullCalendar("unselect");
-    // },
-    // selectOverlap: function(event) {
-    //   return ! event.block;
-    // }
+    selectOverlap: function(event) {
+      return ! event.block;
+    }
   });
 });
