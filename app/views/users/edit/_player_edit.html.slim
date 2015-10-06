@@ -1,8 +1,8 @@
+
 div class="container"
   div class="row"
     div class="col-sm-12"
       h1 Modifier mes informations
-
   = simple_form_for @user do |f|
     div class="row"
       div class="col-sm-6"
@@ -23,11 +23,11 @@ div class="container"
                 = f.input :genre, label: "Sexe"
               div class="col-sm-6"
                 = f.input :ranking, label: "Classement"
-
-            div class= "form-group"
-              = f.label :birthdate, 'Date de naissance'
-              br
-              = f.date_select :birthdate, {:include_blank => true, :default => nil, :use_month_names => ['Janv.','Fevr.', 'Mars', 'Avr.', 'Mai', 'Juin', 'Juil.', 'Août','Sept.', 'Oct.', 'Nov.', 'Déc.'], :order => [:day, :month, :year], :start_year => 1910, :end_year => 2010}
+            - if current_user.subscriptions.blank?
+              div class= "form-group"
+                = f.label :birthdate, 'Date de naissance'
+                br
+                = f.date_select :birthdate, {:include_blank => true, :default => nil, :use_month_names => ['Janv.','Fevr.', 'Mars', 'Avr.', 'Mai', 'Juin', 'Juil.', 'Août','Sept.', 'Oct.', 'Nov.', 'Déc.'], :order => [:day, :month, :year], :start_year => 1910, :end_year => 2010}
             div class="row"
               div class="col-sm-6"
                 = f.input :email, label:"Email"

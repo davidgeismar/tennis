@@ -38,7 +38,6 @@ class CompetitionsController < ApplicationController
       render :new
     end
   end
-
   def edit
     @tournament = @competition.tournament
     authorize(@competition)
