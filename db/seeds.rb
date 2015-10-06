@@ -47,25 +47,25 @@ users = User.create([{last_name: "ABITBOL" ,first_name: "BENJAMIN", birthdate: "
   {last_name: "CAMMARATA",first_name:"Hugo", licence_number: "8800280 W", birthdate: , email: Faker::Internet.email, password: Faker::Internet.password }
   {last_name: "CAMPO",first_name:"Matthieu", licence_number: "5829827 T", birthdate: , email: Faker::Internet.email, password: Faker::Internet.password }
   {last_name: "CAMUS",first_name:"Léopold", licence_number: "6744308 U", birthdate: , email: Faker::Internet.email, password: Faker::Internet.password }
-  {last_name: "",first_name:"", licence_number: " ", birthdate: , email: Faker::Internet.email, password: Faker::Internet.password }
-  {last_name: "",first_name:"", licence_number: " ", birthdate: , email: Faker::Internet.email, password: Faker::Internet.password }
-  {last_name: "",first_name:"", licence_number: " ", birthdate: , email: Faker::Internet.email, password: Faker::Internet.password }
-   {last_name: "",first_name:"", licence_number: " ", birthdate: , email: Faker::Internet.email, password: Faker::Internet.password }
-  {last_name: "",first_name:"", licence_number: " ", birthdate: , email: Faker::Internet.email, password: Faker::Internet.password }
-  {last_name: "",first_name:"", licence_number: " ", birthdate: , email: Faker::Internet.email, password: Faker::Internet.password }
-  {last_name: "",first_name:"", licence_number: " ", birthdate: , email: Faker::Internet.email, password: Faker::Internet.password }
-  {last_name: "",first_name:"", licence_number: " ", birthdate: , email: Faker::Internet.email, password: Faker::Internet.password }
-  {last_name: "",first_name:"", licence_number: " ", birthdate: , email: Faker::Internet.email, password: Faker::Internet.password }
-  {last_name: "",first_name:"", licence_number: " ", birthdate: , email: Faker::Internet.email, password: Faker::Internet.password }
-  {last_name: "",first_name:"", licence_number: " ", birthdate: , email: Faker::Internet.email, password: Faker::Internet.password }
-  {last_name: "",first_name:"", licence_number: " ", birthdate: , email: Faker::Internet.email, password: Faker::Internet.password }
-  {last_name: "",first_name:"", licence_number: " ", birthdate: , email: Faker::Internet.email, password: Faker::Internet.password }
-  {last_name: "",first_name:"", licence_number: " ", birthdate: , email: Faker::Internet.email, password: Faker::Internet.password }
-  {last_name: "",first_name:"", licence_number: " ", birthdate: , email: Faker::Internet.email, password: Faker::Internet.password }
-  {last_name: "",first_name:"", licence_number: " ", birthdate: , email: Faker::Internet.email, password: Faker::Internet.password }
-  {last_name: "",first_name:"", licence_number: " ", birthdate: , email: Faker::Internet.email, password: Faker::Internet.password }
-  {last_name: "",first_name:"", licence_number: " ", birthdate: , email: Faker::Internet.email, password: Faker::Internet.password }
-  {last_name: "",first_name:"", licence_number: " ", birthdate: , email: Faker::Internet.email, password: Faker::Internet.password }
+  {last_name: "ABADA OLO",first_name:"Stéphane Aristide", licence_number: "6007983 R ", birthdate: , email: Faker::Internet.email, password: Faker::Internet.password }
+  {last_name: "ABADIA",first_name:"VLADIMIR", licence_number: " 2263135 D", birthdate: , email: Faker::Internet.email, password: Faker::Internet.password }
+  {last_name: "ABISDID",first_name:"ACHRAF", licence_number: "2263224 A", birthdate: , email: Faker::Internet.email, password: Faker::Internet.password }
+   {last_name: "ABIVEN",first_name:"ANES", licence_number: "2263230 G", birthdate: , email: Faker::Internet.email, password: Faker::Internet.password }
+  {last_name: "ABOULKHATIB", first_name:"JEREMIE", licence_number: "2263243 W", birthdate: , email: Faker::Internet.email, password: Faker::Internet.password }
+  {last_name: "ABOULKHATIB FOURNAUD",first_name:"ARTHUR", licence_number: "2263245 Y ", birthdate: , email: Faker::Internet.email, password: Faker::Internet.password }
+  {last_name: "ABOULKHATIB FOURNAUD",first_name:"SAM", licence_number: "2263256 K", birthdate: , email: Faker::Internet.email, password: Faker::Internet.password }
+  {last_name: "ABOUZID",first_name:"Logmen", licence_number: "2368834 U", birthdate: , email: Faker::Internet.email, password: Faker::Internet.password }
+  {last_name: "ADDOH",first_name:"AXEL", licence_number: " 8398492 V", birthdate: , email: Faker::Internet.email, password: Faker::Internet.password }
+  {last_name: "ADELFANG",first_name:"EMMANUEL", licence_number: "2263260 P", birthdate: , email: Faker::Internet.email, password: Faker::Internet.password }
+  {last_name: "AFDJEI",first_name:"cyrus", licence_number: "1357089 W ", birthdate: , email: Faker::Internet.email, password: Faker::Internet.password }
+  {last_name: "AFDJEI",first_name:"ramin", licence_number: "1357122 G ", birthdate: , email: Faker::Internet.email, password: Faker::Internet.password }
+  {last_name: "AGHA",first_name:"armand", licence_number: "8593623 U", birthdate: , email: Faker::Internet.email, password: Faker::Internet.password }
+  {last_name: "AGUIAR",first_name:"RODRIGO", licence_number: "1701987 K", birthdate: , email: Faker::Internet.email, password: Faker::Internet.password }
+  {last_name: "AKOUN",first_name:"benjamin", licence_number: " 4407975 B ", birthdate: , email: Faker::Internet.email, password: Faker::Internet.password }
+  {last_name: "AKPAKOUN",first_name:"BENOIT", licence_number: "2263312 W ", birthdate: , email: Faker::Internet.email, password: Faker::Internet.password }
+  {last_name: "AKPAKOUN",first_name:"JEAN", licence_number: "2263281 M", birthdate: , email: Faker::Internet.email, password: Faker::Internet.password }
+  {last_name: "ALAZARD",first_name:"CHARLES", licence_number: "2265511 L", birthdate: , email: Faker::Internet.email, password: Faker::Internet.password }
+  {last_name: "ALAZARD",first_name:"LAURENT", licence_number: "2266167 Z", birthdate: , email: Faker::Internet.email, password: Faker::Internet.password }
   ])
 # require "mechanize"
 # def seed_database
