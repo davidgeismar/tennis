@@ -48,29 +48,6 @@ class UsersController < ApplicationController
     )
   end
 
-  def user_params_without_birthdate
-     params.require(:user).permit(
-      :address,
-      :certifmedpicture,
-      :club,
-      :email,
-      :first_name,
-      :genre,
-      :judge_number,
-      :last_name,
-      :licence_number,
-      :licencepicture,
-      :login_aei,
-      :name,
-      :password_aei,
-      :picture,
-      :ranking,
-      :telephone,
-      :sms_forfait,
-      :sms_quantity
-    )
-  end
-
   def set_user
     @user = User.find(params[:id])
     # authorize @user
