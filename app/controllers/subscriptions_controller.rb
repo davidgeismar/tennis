@@ -82,7 +82,7 @@ class SubscriptionsController < ApplicationController
         )
       else
         flash[:alert] = 'Un problème est survenu lors du paiement. Merci de bien vouloir réessayer plus tard.'
-        redirect_to tournament_path(tournament)
+        return redirect_to tournament_path(tournament)
       end
     end
 
