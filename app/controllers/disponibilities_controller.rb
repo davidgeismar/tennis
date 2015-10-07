@@ -53,7 +53,7 @@ class DisponibilitiesController < ApplicationController
 
   def update
     authorize @disponibility
-    @subscription = Subscription.find(params[:disponibility][:subscription_id])
+    @subscription = Subscription.find(params[:subscription_id])
 
     if @disponibility.update(disponibility_params)
       redirect_to competition_subscriptions_path(@subscription.competition)
