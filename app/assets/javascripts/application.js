@@ -10,7 +10,8 @@
 //= require geocomplete
 //= require moment
 //= require fullcalendar
-//= require 'fullcalendar/lang/fr.js'
+//= require fullcalendar/lang/fr.js
+//= require fullcalendar/gcal
 //= require_tree ./app
 
 
