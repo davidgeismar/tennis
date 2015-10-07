@@ -4,7 +4,7 @@ $(document).ready(function() {
   var array_dispo = [];
 
 
-  $('#calendar').fullCalendar({
+  $('#js-calendar').fullCalendar({
     defaultView:  'agendaWeek',
     lang:         "fr",
     header:       false,
@@ -29,12 +29,12 @@ $(document).ready(function() {
       var mEnd = $.fullCalendar.moment(end);
       var mStart = $.fullCalendar.moment(start);
       if (mEnd.isAfter(mStart, 'day')) {
-          $('#calendar').fullCalendar('unselect');
+          $('#js-calendar').fullCalendar('unselect');
       } else {
-      $('#calendar').fullCalendar('renderEvent', eventData, true); // stick? = true
+      $('#js-calendar').fullCalendar('renderEvent', eventData, true); // stick? = true
       console.log(eventData);
        var array_all_events = [];
-       var all_events = $('#calendar').fullCalendar('clientEvents');
+       var all_events = $('#js-calendar').fullCalendar('clientEvents');
        $.each(all_events, function(index, value) {
            var day         = moment(value.start["_d"]).format('dddd');
            var start_time  = moment(value.start["_d"]).format("HH:mm");
@@ -47,16 +47,16 @@ $(document).ready(function() {
           array_all_events.push(slot);
           $("#dispo_array").val(JSON.stringify(array_all_events));
       });
-      $('#calendar').fullCalendar('unselect');
+      $('#js-calendar').fullCalendar('unselect');
     }
     },
 
     eventClick: function(event, element) {
       if(confirm('Supprimer cette disponibilité?')) {
 
-        $('#calendar').fullCalendar('removeEvents', event._id);
+        $('#js-calendar').fullCalendar('removeEvents', event._id);
         var array_all_events = [];
-        var all_events = $('#calendar').fullCalendar('clientEvents');
+        var all_events = $('#js-calendar').fullCalendar('clientEvents');
         // console.log(all_events);
         $.each(all_events, function(index, value) {
           // console.log(value.start["_d"]);

@@ -5,7 +5,7 @@ div class="banner"
 
     = link_to "réinitialiser le calendrier", new_tournament_disponibility_path(@tournament), class: "btn btn-warning"
 
-    div id= "calendar"
+    div id= "js-calendar"
 
     = form_tag tournament_disponibilities_path(@tournament), method: :post do
         = hidden_field_tag(:dispo_array)
