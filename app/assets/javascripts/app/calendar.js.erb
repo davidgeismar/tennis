@@ -1,46 +1,153 @@
 $(document).ready(function() {
 
   // page is now ready, initialize the calendar...
-  var array_dispo = []
+  var array_dispo = [];
 
-  $('#calendar').fullCalendar({
+
+  $('#js-calendar').fullCalendar({
     defaultView:  'agendaWeek',
     lang:         "fr",
     header:       false,
-    selectHelper: true,
-    allDaySlot:   true,
-    selectable:   true,
-    unselectAuto: true,
     timezone:     'local',
     minTime:      "08:00:00",
     columnFormat: 'dddd',
-    select: function (start, end, jsEvent, view) {
-      $("#calendar").fullCalendar('addEventSource', [
-        {
-          start:      start,
-          end:        end,
-          rendering:  'background',
-          block:      true
-        }
-      ]);
+    selectHelper: true,
+    selectable:   true,
+    allDaySlot: true,
 
-      var day         = moment(start["_d"]).format("dddd");
-      var start_time  = moment(start["_d"]).format("HH:mm");
-      var end_time    = moment(end["_d"]).format("HH:mm");
-      var slot        = {
-        day: day,
-        start_time: start_time,
-        end_time: end_time
+    select: function(start, end, allDay) {
 
+      var eventData = {
+        // allDay: allDay,
+        start: start,
+        end: end,
+        block:  true,
+        // editable: true,
+        backgroundColor: "#469278"
       };
 
-      array_dispo.push(slot);
-
-      $("#dispo_array").val(JSON.stringify(array_dispo));
-      $("#calendar").fullCalendar("unselect");
+      var mEnd = $.fullCalendar.moment(end);
+      var mStart = $.fullCalendar.moment(start);
+      if (mEnd.isAfter(mStart, 'day')) {
+          $('#js-calendar').fullCalendar('unselect');
+      } else {
+      $('#js-calendar').fullCalendar('renderEvent', eventData, true); // stick? = true
+      console.log(eventData);
+       var array_all_events = [];
+       var all_events = $('#js-calendar').fullCalendar('clientEvents');
+       $.each(all_events, function(index, value) {
+           var day         = moment(value.start["_d"]).format('dddd');
+           var start_time  = moment(value.start["_d"]).format("HH:mm");
+           var end_time    = moment(value.end["_d"]).format("HH:mm");
+           var slot        = {
+              day: day,
+              start_time: start_time,
+              end_time: end_time,
+            };
+          array_all_events.push(slot);
+          $("#dispo_array").val(JSON.stringify(array_all_events));
+      });
+      $('#js-calendar').fullCalendar('unselect');
+    }
     },
+
+    eventClick: function(event, element) {
+      if(confirm('Supprimer cette disponibilité?')) {
+
+        $('#js-calendar').fullCalendar('removeEvents', event._id);
+        var array_all_events = [];
+        var all_events = $('#js-calendar').fullCalendar('clientEvents');
+        // console.log(all_events);
+        $.each(all_events, function(index, value) {
+          // console.log(value.start["_d"]);
+          // console.log(index);
+           var day         = moment(value.start["_d"]).format('dddd');
+           var start_time  = moment(value.start["_d"]).format("HH:mm");
+           var end_time    = moment(value.end["_d"]).format("HH:mm");
+           var slot        = {
+                day: day,
+                start_time: start_time,
+                end_time: end_time,
+              };
+            array_all_events.push(slot);
+            // console.log(array_all_events.length);
+        });
+       if (array_all_events.length == 0) {
+          console.log("hello");
+          $("#dispo_array").val("");
+        }
+        else {
+          console.log(typeof(array_all_events));
+          console.log(array_all_events.length);
+          $("#dispo_array").val(JSON.stringify(array_all_events));
+        }
+      }
+    },
+
+    // eventResizeStop: function(event) {
+    //   var all_events = $('#calendar').fullCalendar('clientEvents');
+    //   var array_all_events = [];
+    //   $.each(all_events, function(index, value) {
+    //       // console.log(value.start["_d"]);
+    //       // console.log(index);
+    //        var day         = moment(value.start["_d"]).format('dddd');
+    //        var start_time  = moment(value.start["_d"]).format("HH:mm");
+    //        var end_time    = moment(value.end["_d"]).format("HH:mm");
+    //          // var id          = value.unique_id["_i"];
+    //          var slot        = {
+    //             day: day,
+    //             start_time: start_time,
+    //             end_time: end_time,
+    //           };
+    //         array_all_events.push(slot);
+    //         // console.log(array_all_events.length);
+    //     });
+    //    if (array_all_events.length == 0) {
+    //       console.log("eventresize");
+    //       $("#dispo_array").val("");
+    //     }
+    //     else {
+    //       console.log(typeof(array_all_events));
+    //       console.log("eventresize");
+    //       $("#dispo_array").val(JSON.stringify(array_all_events));
+    //     }
+    // },
+
+    // eventDragStop: function( event ) {
+    //   // console.log(event);
+    //   var all_events = $('#calendar').fullCalendar('clientEvents');
+    //   var array_all_events = [];
+    //   $.each(all_events, function(index, value) {
+    //       // console.log(value.start["_d"]);
+    //       // console.log(index);
+    //        var day         = moment(value.start["_d"]).format('dddd');
+    //        var start_time  = moment(value.start["_d"]).format("HH:mm");
+    //        var end_time    = moment(value.end["_d"]).format("HH:mm");
+    //          // var id          = value.unique_id["_i"];
+    //          var slot        = {
+    //             day: day,
+    //             start_time: start_time,
+    //             end_time: end_time,
+    //           };
+    //         array_all_events.push(slot);
+    //         // console.log(array_all_events.length);
+    //     });
+    //    if (array_all_events.length == 0) {
+    //       console.log("hello");
+    //       $("#dispo_array").val("eventdrag");
+    //     }
+    //     else {
+    //       console.log("eventdrag");
+    //       console.log(JSON.stringify(array_all_events))
+    //       $("#dispo_array").val(JSON.stringify(array_all_events));
+    //     }
+
+    // },
+
     selectOverlap: function(event) {
       return ! event.block;
     }
   });
 });
+
+
