@@ -13,6 +13,7 @@ class AeiExportsController < ApplicationController
     already_subscribed_players = []
     too_young_to_participate = []
     too_old_to_participate = []
+
     if @subscription_ids.blank?
       redirect_to competition_subscriptions_path(params[:competition_id])
       flash[:alert] = "Vous n'avez sélectionner aucun joueur à exporter"
@@ -31,66 +32,22 @@ class AeiExportsController < ApplicationController
         success: [],
         failure: []
       }
-      agent = Mechanize.new
-      agent.get("https://aei.app.fft.fr/ei/connexion.do?dispatch=afficher")
-      form_login_AEI = agent.page.forms.first
-      form_login_AEI.util_vlogin = params[:login_aei]
-      form_login_AEI.util_vpassword = params[:password_aei]
-      page_compet_list = agent.submit(form_login_AEI, form_login_AEI.buttons.first)
-      html_body = Nokogiri::HTML(page_compet_list.body)
-      #gestion d'erreur à la connexion
-      if html_body.search("td li").text == "Il n'y a aucun compte avec ces informations."
-        flash[:alert] = "Il n'y a aucun compte avec ces informations."
-        return redirect_to competition_subscriptions_path(@competition)
-      end
+      html_body = mechanize_aei_login
+
       links = html_body.search('td a.helptip')
       #boucle sur chaque objet nokogiri pour checker le bon numéro d'homologation
       links.each do |soft_link_to_tournament|
         if soft_link_to_tournament.text.split.join == @homologation_number && !homologation_number_found
           homologation_number_found = true
-          hard_link_to_tournament = soft_link_to_tournament.parent.previous_element.at('a')[:href] # selecting the link to follow which is in the previous td
-          page_profil_tournament = agent.get(hard_link_to_tournament) #following the link to tournament profile
-          html_body = Nokogiri::HTML(page_profil_tournament.body)
-          joueur_access = html_body.search('#tabs0head2 a').first
-          lien_joueurs_inscrits = joueur_access[:href] #following link on the player_tabs in tournament profile
+          html_body = following_relevant_tournament(soft_link_to_tournament)
+          accessing_players_list_tournament(html_body)
           subscriptions_arrays.each do |subscription_array|
             page = agent.get("https://aei.app.fft.fr/ei/joueurRecherche.do?dispatch=afficher&returnMapping=competitionTabJoueurs&entite=COI") # page ou je peux rechercher les joueurs par numéro de licence
-            html_body = Nokogiri::HTML(page.body)
+            page = searching_for_players(page)
+            page = submitting_players(page)
             form = agent.page.forms.first
-            total_subscriptions = subscription_array.count
-            # filling out form with with licence numbers
-            subscription_array.each_with_index do |subscription, index|
-              form.field_with(:name => 'lic_cno['+ index.to_s + ']').value = subscription.user.licence_number_custom
-            end
-            # submitting form for research of players
-            form.field_with(:name => 'dispatch').value = "rechercher"
-            # select players page
-            page = form.submit
-            html_body = Nokogiri::HTML(page.body)
-            form = agent.page.forms.first
-            # form.checkbox_with(:name => 'sel').value = true
-            # selecting all checkboxes in the form
-            numbers = (0...total_subscriptions)
-            numbers.each do |number|
-              checkbox = form.checkbox_with(:name => 'lic_cno_selection[' + number.to_s + ']')
-              if checkbox.present?
-                checkbox.check
-              end
-            end
-            # selecting each players found throught the form
-            #https://aei.app.fft.fr/ei/joueurRecherche.do
-            form.field_with(:name => 'dispatch').value = "selectionner"
-            # inscription page
-            page = form.submit
-            html_body = Nokogiri::HTML(page.body)
-            form = agent.page.forms.first
-            # checking all checkboxes for players = selecting all players before selecting category in which subscribing them
-            numbers.each do |number|
-              checkbox = form.checkbox_with(:name => 'pp_ino_selection['+ number.to_s + ']')
-              if checkbox.present?
-                checkbox.check
-              end
-            end
+            selecting_players_for_subscription(form)
+
             # selecting the right category to subscribe the player into
             # checkbox for players have name pp_ino_selection whereas checkbox for category have epr_iid_selection name
             form.checkboxes.each do |checkbox|
@@ -258,18 +215,24 @@ class AeiExportsController < ApplicationController
           lien_joueurs_inscrits = joueur_access[:href] # link to player_tab
           page_joueurs_inscrits = agent.get(lien_joueurs_inscrits) #following link on the player_tabs
           html_body_players_list = Nokogiri::HTML(page_joueurs_inscrits.body)
-          #connecting to AEI through Watir
-          browser = Watir::Browser.new
-          browser.goto "https://aei.app.fft.fr/ei/connexion.do?dispatch=afficher"
-          browser.text_field(name: "util_vlogin").set params[:login_aei]
-          browser.text_field(name: "util_vpassword").set params[:password_aei]
-          browser.button(value: "Connexion").click
-          browser.goto "https://aei.app.fft.fr/ei/" + hard_link_to_tournament
-          failures = []
-          success = []
+
+          # 1) extraire tous les liens
+          # 2) id url qui matce
+          # 3)
+          valid_links_players = []
           @subscriptions_valids.each do |subscription|
             link_number = 1
-            export_disponibility(html_body_players_list, link_number, subscription, page_joueurs_inscrits)
+            names = html_body.search("table table tr td[2]")
+            names.each do |name|
+              if (subscription.user.full_name.split.join.downcase == name.text.encode!('UTF-8', 'binary', invalid: :replace, undef: :replace, replace: '').split.join.downcase) || (subscription.user.full_name_inversed.split.join.downcase == name.text.encode!('UTF-8', 'binary', invalid: :replace, undef: :replace, replace: '').split.join.downcase)
+                a_player_profile = name.previous.previous.at('a')[:href] # selecting the link to profile_player
+                valid_links_players << a_player_profile
+              else
+                lien.click
+              end
+            end
+
+
           end
         end
       end
@@ -279,40 +242,42 @@ class AeiExportsController < ApplicationController
     end
   end
 
-  def export_disponibility(html_body, link_number, subscription, page_joueurs_inscrits)
+  def export_disponibility(html_body, link_number, subscription, page_joueurs_inscrits, hard_link_to_tournament)
     full_names = []
-    puts html_body # I am on the right page
     names = html_body.search("table table tr td[2]")  # searching player names on AEI
     #j'arrive pas a aller chercher le joueur :()
-      # names.each do |name|
-      #   # puts name.text.encode!('UTF-8', 'binary', invalid: :replace, undef: :replace, replace: '').split.join.downcase
-      #   full_names  << name.text.encode!('UTF-8', 'binary', invalid: :replace, undef: :replace, replace: '').split.join.downcase
-      # end
     names.each do |name|
       # puts name.text.encode!('UTF-8', 'binary', invalid: :replace, undef: :replace, replace: '').split.join.downcase
      full_names  << name.text.encode!('UTF-8', 'binary', invalid: :replace, undef: :replace, replace: '').split.join.downcase
      # if player's name is found in player's list (il faut que le robot puisse passer de page en page !)
       if (subscription.user.full_name.split.join.downcase == name.text.encode!('UTF-8', 'binary', invalid: :replace, undef: :replace, replace: '').split.join.downcase) || (subscription.user.full_name_inversed.split.join.downcase == name.text.encode!('UTF-8', 'binary', invalid: :replace, undef: :replace, replace: '').split.join.downcase)
-        raise
         a_player_profile = name.previous.previous.at('a')[:href] # selecting the link to profile_player
         user_disponibility = Disponibility.where(user: subscription.user, tournament_id: subscription.tournament.id)
         user_disponibilities = "hello"
         # browser is callded to go post on each field
+        browser = Watir::Browser.new
+        browser.goto "https://aei.app.fft.fr/ei/connexion.do?dispatch=afficher"
+        browser.text_field(name: "util_vlogin").set params[:login_aei]
+        browser.text_field(name: "util_vpassword").set params[:password_aei]
+        browser.button(value: "Connexion").click
+        browser.goto "https://aei.app.fft.fr/ei/" + hard_link_to_tournament
         browser.goto "https://aei.app.fft.fr/ei/" + a_player_profile
         browser.button(value: "Modifier").click
         browser.text_field(name: "jou_vcomment").set "bonjour"
         browser.button(value: "Valider").click
       elsif lien = page_joueurs_inscrits.link_with(:text=> (link_number += 1).to_s)
-
+        begin
           page_joueurs_inscrits = lien.click
-
-        html_body = Nokogiri::HTML(page_joueurs_inscrits.body)
-        names = html_body.search("table.L1 table td[2]") # searching player names on AEI
-        arr = []
-        names.each do |name|
-          arr << name.text
+          html_body = Nokogiri::HTML(page_joueurs_inscrits.body)
+          names = html_body.search("table.L1 table td[2]") # searching player names on AEI
+          arr = []
+          names.each do |name|
+            arr << name.text
+          end
+          export_disponibility(html_body, link_number, subscription, page_joueurs_inscrits, hard_link_to_tournament)
+        rescue Mechanize::ResponseCodeError
         end
-        export_disponibility(html_body, link_number, subscription, page_joueurs_inscrits) # relance la methode en cherchant la subscription dans le lien link + 1
+         # relance la methode en cherchant la subscription dans le lien link + 1
       else
       end
     end
@@ -346,13 +311,7 @@ class AeiExportsController < ApplicationController
     browser.button(value: "Connexion").click
   end
 
-  def searching_homologation_number(html_body)
-    links = html_body.search('td a.helptip') #links = html_body.xpath("//tr/td[2]/a[contains(class(), 'helptip')]") also works
-    return links
-  end
-
   def following_relevant_tournament(soft_link_to_tournament)
-    homologation_number_found = true
     hard_link_to_tournament = soft_link_to_tournament.parent.previous_element.at('a')[:href] # selecting the link to follow which is in the previous td
     page_profil_tournament = agent.get(hard_link_to_tournament) #following the link to tournament profile
     return html_body = Nokogiri::HTML(page_profil_tournament.body)
@@ -365,21 +324,51 @@ class AeiExportsController < ApplicationController
     return html_body = Nokogiri::HTML(page_joueurs_inscrits.body)
   end
 
+  def searching_for_players(page)
+    html_body = Nokogiri::HTML(page.body)
+    form = agent.page.forms.first
+    total_subscriptions = subscription_array.count
+    # filling out form with with licence numbers
+    subscription_array.each_with_index do |subscription, index|
+      form.field_with(:name => 'lic_cno['+ index.to_s + ']').value = subscription.user.licence_number_custom
+    end
+    # submitting form for research of players
+    form.field_with(:name => 'dispatch').value = "rechercher"
+    # select players page
+    return form.submit
+  end
+
+  def submitting_players
+    form = agent.page.forms.first
+    # selecting all checkboxes in the form
+    numbers = (0...total_subscriptions)
+    numbers.each do |number|
+      checkbox = form.checkbox_with(:name => 'lic_cno_selection[' + number.to_s + ']')
+      if checkbox.present?
+        checkbox.check
+      end
+    end
+    # selecting each players found throught the form
+    form.field_with(:name => 'dispatch').value = "selectionner"
+    # inscription page
+    return form.submit
+  end
+
+  def selecting_players_for_subscription(form)
+    numbers = (0...total_subscriptions)
+    # checking all checkboxes for players = selecting all players before selecting category in which subscribing them
+    numbers.each do |number|
+      checkbox = form.checkbox_with(:name => 'pp_ino_selection['+ number.to_s + ']')
+      if checkbox.present?
+        checkbox.check
+      end
+    end
+  end
+
   def checking_export(subscription_array, homologation_number)
     competition_category = "#{@competition.genre}_#{@competition.category}"
     aei_competition_category_shortcut  = I18n.t("aei.competition_category_shortcut.#{competition_category}")
-    agent = Mechanize.new
-    agent.get("https://aei.app.fft.fr/ei/connexion.do?dispatch=afficher")
-    form_login_AEI = agent.page.forms.first
-    form_login_AEI.util_vlogin = params[:login_aei]
-    form_login_AEI.util_vpassword = params[:password_aei]
-    page_compet_list = agent.submit(form_login_AEI, form_login_AEI.buttons.first)
-    html_body = Nokogiri::HTML(page_compet_list.body)
-    #gestion d'erreur à la connexion
-    if html_body.search("td li").text == "Il n'y a aucun compte avec ces informations."
-      flash[:alert] = "Il n'y a aucun compte avec ces informations."
-      return redirect_to competition_subscriptions_path(@competition)
-    end
+    html_body = mechanize_aei_login
     homologation_number_found = false
     links = html_body.search('td a.helptip')
     links.each do |soft_link_to_tournament|
