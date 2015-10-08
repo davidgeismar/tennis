@@ -1,14 +1,20 @@
-div class="banner"
-  div class="container padded"
-    h1 =@tournament.name.upcase
-    p Merci d'indiquer vos disponibilités
+div class="container"
+  div class="row"
+    div class="col-xs-12"
+      h1 class="emperor"
+        => @tournament.name
+        small indiquez vos disponibilités
 
-    = link_to "réinitialiser le calendrier", new_tournament_disponibility_path(@tournament), class: "btn btn-warning"
+  div class="row"
+    div class="col-md-2"
+      ul class="list-unstyled"
+        li = form_tag tournament_disponibilities_path(@tournament), method: :post do
+            = hidden_field_tag(:dispo_array)
+            = button_tag :submit, class: 'btn btn-warning btn-expand  mb-20' do
+              i.fa.fa-fw.fa-save
+              'Sauvegarder
+        li = link_to 'Effacer', new_tournament_disponibility_path(@tournament), class: 'btn btn-default btn-expand'
 
-    div id= "js-calendar"
+    div class="col-md-10"
+      div id= "js-calendar"
 
-    = form_tag tournament_disponibilities_path(@tournament), method: :post do
-        = hidden_field_tag(:dispo_array)
-        / = label_tag :comment, "Commentaire"
-        / = text_field_tag :comment, nil, placeholder: "soyez bref, maximum 50 caractères", maxlength: 50
-        = button_tag :submit, class: "btn btn-success"

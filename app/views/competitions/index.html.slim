@@ -1,24 +1,23 @@
-div class="banner-tournament"
-  div class= "container"
-    h1 class= "text-center emperor" id= "formulaire-tournoi" Choisissez la catégorie
+div class="container"
+  div class="row"
+    div class="col-xs-12"
+      h1 class="emperor"
+        => @tournament.name
+        small choisissez la catégorie
 
-    div class= "col-md-offset-3 col-md-6"
+    div class="col-md-offset-3 col-md-6"
       div class="panel panel-default"
         div class="panel-heading"
           h4 Catégories disponibles
         div class="panel-body"
-          ul class= "list-unstyled"
+          ul class="list-unstyled checkbox"
             - @unsubscribed_competitions.each do |competition|
               li
+                label
+                  input class="checkbox-subscription" type="checkbox" name="sub" id="#{competition.id}"
+                  =<> I18n.t("competition.#{competition.category} #{competition.genre.text}")
 
-                input class="checkbox-subscription" type="checkbox" name="sub" id= competition.id
-                =<> I18n.t("competition.#{competition.category} #{competition.genre.text}")
-
-
-          = form_tag multiple_new_subscriptions_path(params[:tournament_id]) do ||
-            = hidden_field_tag :select_competitions
-            = button_tag(type: "submit", class: "btn btn-success margin") do
-              'Valider
-
-
-
+      = form_tag multiple_new_subscriptions_path(params[:tournament_id]) do ||
+        = hidden_field_tag :select_competitions
+        = button_tag :submit, class: 'btn btn-warning' do
+          'Valider

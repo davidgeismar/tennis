@@ -419,6 +419,3 @@ DEPENDENCIES
   uglifier (~> 2.7.0)
   unicode_utils (~> 1.4.0)
   watir-rails (~> 1.1.0)
-
-BUNDLED WITH
-   1.10.6

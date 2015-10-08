@@ -10,11 +10,10 @@
 @import "bootstrap3-switch";
 @import "fullcalendar";
 
-
-// Your CSS
 @import "components/alerts";
 @import "components/button";
 @import "components/forms";
+@import "components/fullcalendar";
 @import "components/type";
 
 @import "layout/global";
@@ -25,5 +24,4 @@
 @import "layout/search";
 
 @import "pages/index";
-@import "vendor/index";
 @import "devise/devise";

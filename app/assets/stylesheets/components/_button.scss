@@ -5,6 +5,10 @@
   text-shadow: 0 1px 0 rgba($black, 0.2);
 }
 
+.btn-expand {
+  width: 100%;
+}
+
 .btn-subscribe {
   width: 100%;
   font-size: 14px;
@@ -13,7 +17,6 @@
   padding: 11px;
   width: 300px;
   margin: auto;
-
 
   &-facebook {
     background-color: #3b5998;
