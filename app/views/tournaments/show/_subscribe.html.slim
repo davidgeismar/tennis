@@ -40,11 +40,12 @@ div class="container"
                 = I18n.t("competition.#{competition.category} #{competition.genre.text}")
                 br
 
-      = link_to '← Retour', tournaments_path, class: 'btn btn-default'
-      - if !current_user.judge && @tournament.disponibilities.where(user: current_user).exists?
-         = link_to 'S’inscrire', tournament_competitions_path(@tournament), class: 'btn btn-warning'
-      - else
-         = link_to 'S’inscrire', new_tournament_disponibility_path(@tournament), class: 'btn btn-warning'
+      ul.list-inline
+        li = link_to '← Retour', tournaments_path, class: 'btn btn-default'
+        - if !current_user.judge && @tournament.disponibilities.where(user: current_user).exists?
+           li = link_to 'S’inscrire', tournament_competitions_path(@tournament), class: 'btn btn-warning'
+        - else
+           li = link_to 'S’inscrire', new_tournament_disponibility_path(@tournament), class: 'btn btn-warning'
 
     div class="col-md-7"
       = render 'tournaments/show/map_location'

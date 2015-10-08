@@ -6,10 +6,10 @@ $(document).ready(function() {
 
   $('#js-calendar').fullCalendar({
     defaultView:  'agendaWeek',
-    lang:         "fr",
+    lang:         'fr',
     header:       false,
     timezone:     'local',
-    minTime:      "08:00:00",
+    minTime:      '08:00:00',
     columnFormat: 'dddd',
     selectHelper: true,
     selectable:   true,
@@ -23,7 +23,7 @@ $(document).ready(function() {
         end: end,
         block:  true,
         // editable: true,
-        backgroundColor: "#469278"
+        backgroundColor: "#32B796"
       };
 
       var mEnd = $.fullCalendar.moment(end);
@@ -52,7 +52,7 @@ $(document).ready(function() {
     },
 
     eventClick: function(event, element) {
-      if(confirm('Supprimer cette disponibilité?')) {
+      if(confirm('Supprimer cette disponibilité ?')) {
 
         $('#js-calendar').fullCalendar('removeEvents', event._id);
         var array_all_events = [];
