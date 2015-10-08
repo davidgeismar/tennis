@@ -9,4 +9,6 @@ div class="banner"
 
     = form_tag tournament_disponibilities_path(@tournament), method: :post do
         = hidden_field_tag(:dispo_array)
+        / = label_tag :comment, "Commentaire"
+        / = text_field_tag :comment, nil, placeholder: "soyez bref, maximum 50 caractères", maxlength: 50
         = button_tag :submit, class: "btn btn-success"
