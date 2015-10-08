@@ -142,11 +142,14 @@
                     </div><!-- /.modal-dialog -->
                   </div>
                 </td>
-              <% end %>
-
-              <td><%=link_to "Profil", user_path(subscription.user), class: 'btn btn-primary', "data-container"=>"body",
+             <% end %>
+             <% if subscription.user.birthdate %>
+                <td><%=link_to "Profil", user_path(subscription.user), class: 'btn btn-primary', "data-container"=>"body",
                     "data-html"=>"true", "title"=> "<ul class='list-unstyled'> <li>tel : #{subscription.user.telephone}</li> <li>naissance: #{subscription.user.birthdate.strftime("%d/%m/%Y")}", "data-toggle"=> "tooltip", "data-placement" => "top" %></td>
-
+              <% else %>
+                  <td><%=link_to "Profil", user_path(subscription.user), class: 'btn btn-primary', "data-container"=>"body",
+                    "data-html"=>"true", "title"=> "<ul class='list-unstyled'> <li>tel : #{subscription.user.telephone}</li> ", "data-toggle"=> "tooltip", "data-placement" => "top" %></td>
+              <%end%>
               <% if subscription.convocations.last %>
                   <td><%= subscription.convocations.last.date.strftime('le %d/%m/%Y')%>
                   <%= subscription.convocations.last.hour.strftime('à %Hh%M')%>
