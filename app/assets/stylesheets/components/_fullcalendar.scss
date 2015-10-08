@@ -1,0 +1,41 @@
+.fc-view-container {
+  background-color: $navbar-color;
+}
+
+th.fc-widget-header {
+  padding: 5px;
+  background-color: $body-bg;
+}
+
+.fc-event {
+  border-color: $green;
+  cursor: pointer;
+  position: relative;
+}
+
+.fc-time-grid-event .fc-time {
+  text-shadow: 0 1px 0 rgba($black, 0.4);
+  font-size: 18px;
+  font-weight: $font-weight-bolder;
+}
+
+.fc-view-container {
+  margin-bottom: 20px;
+}
+
+/* Vertical Scroller & Containers
+--------------------------------------------------------------------------------------------------*/
+
+/* kill the scrollbars and allow natural height */
+.fc-scroller,
+.fc-day-grid-container,    /* these divs might be assigned height, which we need to cleared */
+.fc-time-grid-container {  /* */
+  overflow: visible !important;
+  height: auto !important;
+}
+
+/* kill the horizontal border/padding used to compensate for scrollbars */
+.fc-row {
+  border: 0 !important;
+  margin: 0 !important;
+}
