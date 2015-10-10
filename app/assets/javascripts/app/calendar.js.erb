@@ -85,7 +85,7 @@ $(document).ready(function() {
       }
     },
 
-    eventResizeStop: function(event) {
+    eventResize: function(event) {
       var all_events = $('#js-calendar').fullCalendar('clientEvents');
       console.log(all_events);
       var array_all_events = [];
@@ -118,7 +118,7 @@ $(document).ready(function() {
         }
     },
 
-    eventDragStop: function( event ) {
+    eventDrop: function( event ) {
       // console.log(event);
       var all_events = $('#js-calendar').fullCalendar('clientEvents');
       console.log(all_events)
