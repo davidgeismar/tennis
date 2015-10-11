@@ -10,46 +10,62 @@ $(document).ready(function() {
     header:       false,
     timezone:     'local',
     minTime:      '08:00:00',
+    maxTime:      '23:00:00',
     columnFormat: 'dddd',
     selectHelper: true,
     selectable:   true,
     editable: true,
     allDaySlot: true,
+    defaultAllDayEventDuration: { days: 0 },
 
-    select: function(start, end, allDay) {
 
-      var eventData = {
-        // allDay: allDay,
+    select: function(start, end) {
+    var mEnd = $.fullCalendar.moment(end);
+    var mStart = $.fullCalendar.moment(start);
+    if  (mEnd.hours() == mStart.add(24, 'hours').hours()) {
+      var start = moment(start).set({'hour': 06, 'minute': 00, 'second':00});
+      var end   = moment(start).set({'hour': 21, 'minute': 00, 'second':00});
+        var eventData = {
+        title: "",
+        allDay: false,
         start: start,
         end: end,
         block:  true,
-        // editable: true,
         backgroundColor: "#32B796"
       };
-
-      var mEnd = $.fullCalendar.moment(end);
-      var mStart = $.fullCalendar.moment(start);
-      if (mEnd.isAfter(mStart, 'day')) {
-          $('#js-calendar').fullCalendar('unselect');
-      } else {
-      $('#js-calendar').fullCalendar('renderEvent', eventData, true); // stick? = true
-      console.log(eventData);
-       var array_all_events = [];
-       var all_events = $('#js-calendar').fullCalendar('clientEvents');
-       $.each(all_events, function(index, value) {
-           var day         = moment(value.start["_d"]).format('dddd');
-           var start_time  = moment(value.start["_d"]).format("HH:mm");
-           var end_time    = moment(value.end["_d"]).format("HH:mm");
-           var slot        = {
-              day: day,
-              start_time: start_time,
-              end_time: end_time,
-            };
-          array_all_events.push(slot);
-          $("#dispo_array").val(JSON.stringify(array_all_events));
-      });
-      $('#js-calendar').fullCalendar('unselect');
+      }
+    else {
+      var eventData = {
+        title: "",
+        allDay: false,
+        start: start,
+        end: end,
+        block:  true,
+        backgroundColor: "#32B796"
+      };
     }
+      if (end.isAfter(start, 'day')) {
+        $('#js-calendar').fullCalendar('unselect');
+      }
+
+      else {
+        $('#js-calendar').fullCalendar('renderEvent', eventData, true); // stick? = true
+         var array_all_events = [];
+         var all_events = $('#js-calendar').fullCalendar('clientEvents');
+         $.each(all_events, function(index, value) {
+             var day         = moment(value.start["_d"]).format('dddd');
+             var start_time  = moment(value.start["_d"]).format("HH:mm");
+             var end_time    = moment(value.end["_d"]).format("HH:mm");
+             var slot        = {
+                day: day,
+                start_time: start_time,
+                end_time: end_time,
+              };
+            array_all_events.push(slot);
+            $("#dispo_array").val(JSON.stringify(array_all_events));
+        });
+        $('#js-calendar').fullCalendar('unselect');
+      }
     },
 
     eventClick: function(event, element) {
@@ -58,10 +74,7 @@ $(document).ready(function() {
         $('#js-calendar').fullCalendar('removeEvents', event._id);
         var array_all_events = [];
         var all_events = $('#js-calendar').fullCalendar('clientEvents');
-        // console.log(all_events);
         $.each(all_events, function(index, value) {
-          // console.log(value.start["_d"]);
-          // console.log(index);
            var day         = moment(value.start["_d"]).format('dddd');
            var start_time  = moment(value.start["_d"]).format("HH:mm");
            var end_time    = moment(value.end["_d"]).format("HH:mm");
@@ -71,15 +84,11 @@ $(document).ready(function() {
                 end_time: end_time,
               };
             array_all_events.push(slot);
-            // console.log(array_all_events.length);
         });
        if (array_all_events.length == 0) {
-          console.log("hello");
           $("#dispo_array").val("");
         }
         else {
-          console.log(typeof(array_all_events));
-          console.log(array_all_events.length);
           $("#dispo_array").val(JSON.stringify(array_all_events));
         }
       }
@@ -87,64 +96,47 @@ $(document).ready(function() {
 
     eventResize: function(event) {
       var all_events = $('#js-calendar').fullCalendar('clientEvents');
-      console.log(all_events);
       var array_all_events = [];
       $.each(all_events, function(index, value) {
-          // console.log(value.start["_d"]);
-          // console.log(index);
            var day         = moment(value.start["_d"]).format('dddd');
            var start_time  = moment(value.start["_d"]).format("HH:mm");
            var end_time    = moment(value.end["_d"]).format("HH:mm");
-             // var id          = value.unique_id["_i"];
-             var slot        = {
+           var slot        = {
                 day: day,
                 start_time: start_time,
                 end_time: end_time,
               };
-              console.log(slot)
             array_all_events.push(slot);
-           // console.log(array_all_events.length);
         });
 
       console.log(array_all_events);
        if (array_all_events.length == 0) {
-          console.log("eventresize");
           $("#dispo_array").val("");
         }
         else {
-          console.log(typeof(array_all_events));
-          console.log("eventresize");
           $("#dispo_array").val(JSON.stringify(array_all_events));
         }
     },
 
     eventDrop: function( event ) {
-      // console.log(event);
       var all_events = $('#js-calendar').fullCalendar('clientEvents');
       console.log(all_events)
       var array_all_events = [];
       $.each(all_events, function(index, value) {
-          // console.log(value.start["_d"]);
-          // console.log(index);
            var day         = moment(value.start["_d"]).format('dddd');
            var start_time  = moment(value.start["_d"]).format("HH:mm");
            var end_time    = moment(value.end["_d"]).format("HH:mm");
-             // var id          = value.unique_id["_i"];
-             var slot        = {
+           var slot        = {
                 day: day,
                 start_time: start_time,
                 end_time: end_time,
               };
             array_all_events.push(slot);
-            // console.log(array_all_events.length);
         });
        if (array_all_events.length == 0) {
-          console.log(array_all_events);
           $("#dispo_array").val("eventdrag");
         }
         else {
-          console.log("eventdrag");
-          console.log(JSON.stringify(array_all_events))
           $("#dispo_array").val(JSON.stringify(array_all_events));
         }
 
