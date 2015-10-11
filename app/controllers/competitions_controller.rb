@@ -11,11 +11,11 @@ class CompetitionsController < ApplicationController
     policy_scope(@unsubscribed_competitions)
     if current_user.profile_complete? == false
       flash[:alert] = "Vous devez d'abord remplir <a href=#{user_path(current_user)}>votre profil</a> entièrement avant de pouvoir vous inscrire à ce tournoi (n'oubliez pas de scanner votre licence et votre certificat médical !)"
-      redirect_to edit_user_path(current_user)
+      return redirect_to edit_user_path(current_user)
     end
     if @unsubscribed_competitions.blank?
       flash[:alert] = "Vous êtes déjà inscrit dans toutes les catégories disponibles de ce tournoi"
-      redirect_to mytournaments_path
+      return redirect_to mytournaments_path
     end
   end
 
