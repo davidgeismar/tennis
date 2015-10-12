@@ -164,7 +164,6 @@ class AeiExportsController < ApplicationController
           html_body = following_relevant_tournament(soft_link_to_tournament, agent)
           players_list = accessing_players_list_tournament(html_body, agent)
           html_body = Nokogiri::HTML(players_list.body)
-          puts html_body
           valid_links_players = []
           @subscriptions_valids.each do |subscription|
             names = html_body.search("table table tr td[2]")
@@ -175,7 +174,7 @@ class AeiExportsController < ApplicationController
                   valid_links_players << a_player_profile
                else
                   link_number = 3
-                  # lien = players_list.link_with(:text=> (link_number).to_s)
+                  lien = players_list.link_with(:text=> (link_number).to_s)
                   while players_list.link_with(:text=> (link_number).to_s)
                     page = players_list.link_with(:text=> (link_number).to_s).click
                     html_body = Nokogiri::HTML(page.body)
@@ -210,19 +209,19 @@ class AeiExportsController < ApplicationController
      # if player's name is found in player's list (il faut que le robot puisse passer de page en page !)
       if (subscription.user.full_name.split.join.downcase == name.text.encode!('UTF-8', 'binary', invalid: :replace, undef: :replace, replace: '').split.join.downcase) || (subscription.user.full_name_inversed.split.join.downcase == name.text.encode!('UTF-8', 'binary', invalid: :replace, undef: :replace, replace: '').split.join.downcase)
         a_player_profile = name.previous.previous.at('a')[:href] # selecting the link to profile_player
-        user_disponibility = Disponibility.where(user: subscription.user, tournament_id: subscription.tournament.id)
-        user_disponibilities = "hello"
+
+        # user_disponibility = Disponibility.where(user: subscription.user, tournament_id: subscription.tournament.id)
         # browser is callded to go post on each field
-        browser = Watir::Browser.new
-        browser.goto "https://aei.app.fft.fr/ei/connexion.do?dispatch=afficher"
-        browser.text_field(name: "util_vlogin").set params[:login_aei]
-        browser.text_field(name: "util_vpassword").set params[:password_aei]
-        browser.button(value: "Connexion").click
-        browser.goto "https://aei.app.fft.fr/ei/" + hard_link_to_tournament
-        browser.goto "https://aei.app.fft.fr/ei/" + a_player_profile
-        browser.button(value: "Modifier").click
-        browser.text_field(name: "jou_vcomment").set "bonjour"
-        browser.button(value: "Valider").click
+        # browser = Watir::Browser.new
+        # browser.goto "https://aei.app.fft.fr/ei/connexion.do?dispatch=afficher"
+        # browser.text_field(name: "util_vlogin").set params[:login_aei]
+        # browser.text_field(name: "util_vpassword").set params[:password_aei]
+        # browser.button(value: "Connexion").click
+        # browser.goto "https://aei.app.fft.fr/ei/" + hard_link_to_tournament
+        # browser.goto "https://aei.app.fft.fr/ei/" + a_player_profile
+        # browser.button(value: "Modifier").click
+        # browser.text_field(name: "jou_vcomment").set "bonjour"
+        # browser.button(value: "Valider").click
       elsif lien = page_joueurs_inscrits.link_with(:text=> (link_number += 1).to_s)
         begin
           page_joueurs_inscrits = lien.click
