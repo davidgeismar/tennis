@@ -83,8 +83,6 @@ class User < ActiveRecord::Base
     else
       "#{first_name.capitalize} #{last_name.capitalize}"
     end
-    # full = self.first_name.to_s.capitalize + " " + self.last_name.to_s.capitalize
-    # full.strip
   end
 
   def full_name_inversed

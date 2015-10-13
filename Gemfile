@@ -45,6 +45,7 @@ gem 'twilio-ruby',                '~> 3.12'
 gem 'uglifier',                   '~> 2.7.0'
 gem 'unicode_utils',              '~> 1.4.0'
 gem 'watir-rails',                '~> 1.1.0'
+gem 'faker'
 
 group :development, :test do
   gem 'annotate'
