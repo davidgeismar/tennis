@@ -1,4 +1,8 @@
 class Tournament < ActiveRecord::Base
+  extend Enumerize
+  enumerize :region,    in: ["Alsace", "Aquitaine", "Auvergne", "Basse-Normandie", "Bourgogne", "Bretagne", "Centre", "Champagne-Ardenne", "Corse", "Franche-Comté",
+"Haute-Normandie", "Île-de-France","Languedoc-Roussillon", "Limousin", "Lorraine", "Midi-Pyrénées", "Nord-Pas-de-Calais", "Pays de la Loire", "Picardie","Poitou-Charentes", "Provence-Alpes-Côte d'Azur",
+"Rhône-Alpes"]
   include PgSearch
   pg_search_scope :search,
   :against => [:name, :address, :city, :club_organisateur, :starts_on, :ends_on, :postcode],
@@ -17,6 +21,7 @@ class Tournament < ActiveRecord::Base
   has_many :subscriptions,        through: :competitions
   has_many :users,                through: :subscriptions
 
+  validates :region,              presence: { message: "Merci de selectionner une région" }
   validates :postcode,            presence: { message: "Merci d'indiquer un code postal valide" }
   validates :starts_on,           presence: { message: "Merci d'indiquer la date de début" }
   validates :ends_on,             presence: { message: "Merci d'indiquer la date de fin" }

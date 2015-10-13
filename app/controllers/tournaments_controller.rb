@@ -111,7 +111,8 @@
       :postcode,
       :starts_on,
       :young_fare,
-      :club_fare
+      :club_fare,
+      :region
     )
   end
 end

@@ -12,7 +12,7 @@ module MangoPayments
           OwnerAddress: {
                           AddressLine1: @tournament.address,
                           City: @tournament.city,
-                          Region: "Ile-de-France",
+                          Region: @tournament.region,
                           PostalCode: @tournament.postcode,
                           Country: "FR"
                         },
