@@ -9,7 +9,14 @@ module MangoPayments
         mango_bank_account = MangoPay::BankAccount.create(@tournament.mangopay_user_id, {
           Type:         'IBAN',
           OwnerName:    @tournament.club_organisateur,
-          OwnerAddress: @tournament.city,
+          OwnerAddress: {
+                          AddressLine1: @tournament.address,
+                          City: @tournament.city,
+                          Region: "Ile-de-France",
+                          PostalCode: @tournament.postcode,
+                          Country: "FR"
+                        },
+
           IBAN:         @tournament.iban,
           BIC:          @tournament.bic
         })
