@@ -1,20 +1,45 @@
-div class="col-md-offset-4 col-md-4 bigmarge"
-  div class="panel panel-default"
-    div class="panel-heading"
-      h3 Indiquer les disponibilités du licencié
-    div class="panel-body"
-      =simple_form_for [@tournament, @disponibility] do |f|
-        = f.error_notification
+/ div class="col-md-offset-4 col-md-4 bigmarge"
+/   div class="panel panel-default"
+/     div class="panel-heading"
+/       h3 Indiquer les disponibilités du licencié
+/     div class="panel-body"
+/       =simple_form_for [@tournament, @disponibility] do |f|
+/         = f.error_notification
 
-        = f.input :monday
-        = f.input :tuesday
-        = f.input :wednesday
-        = f.input :thursday
-        = f.input :friday
-        = f.input :saturday
-        = f.input :sunday
-        = f.input :comment
-        = f.input :subscription_id, :as => :hidden, :input_html => { :value => params[:subscription_id] }
+/         = f.input :monday
+/         = f.input :tuesday
+/         = f.input :wednesday
+/         = f.input :thursday
+/         = f.input :friday
+/         = f.input :saturday
+/         = f.input :sunday
+/         = f.input :comment
+/         = f.input :subscription_id, :as => :hidden, :input_html => { :value => params[:subscription_id] }
 
 
-        = f.button :submit, "Valider", class: "btn btn-success"
+/         = f.button :submit, "Valider", class: "btn btn-success"
+
+
+
+div class="container"
+  div class="row"
+    div class="col-xs-12"
+      h1 class="emperor"
+        => @tournament.name
+        small indiquez les disponibilités du licencié
+      p
+        em Sélectionner les créneaux horaires du licencié par "glisser déposer" sur le calendrier". Pour supprimer un créneau, il suffit de cliquer de sur la zone préselectionnée.
+
+  div class="row"
+    div class="col-md-2"
+      ul class="list-unstyled"
+        li = form_tag tournament_disponibilities_path(@tournament), method: :post do
+            = hidden_field_tag(:subscription_id, params[:subscription_id])
+            = hidden_field_tag(:dispo_array)
+            = button_tag :submit, class: 'btn btn-warning btn-expand  mb-20' do
+              i.fa.fa-fw.fa-save
+              'Sauvegarder
+        li = link_to 'Effacer', new_tournament_disponibility_path(@tournament), class: 'btn btn-default btn-expand'
+
+    div class="col-md-10"
+      div id= "js-calendar"
