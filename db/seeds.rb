@@ -68,12 +68,12 @@ users = User.create([{last_name: "ABITBOL" ,first_name: "BENJAMIN", licence_numb
   {last_name: "ALAZARD",first_name:"LAURENT", licence_number: "2266167 Z", email: Faker::Internet.email, password: Faker::Internet.password, confirmation_sent_at: Faker::Time.between(DateTime.now - 1, DateTime.now), confirmed_at: Faker::Time.between(DateTime.now - 1, DateTime.now)  },
   ])
 
-  admin = User.create([{last_name: "GEISMAR" ,first_name: "David", licence_number: "0930613K ", email: "davidgeismar@hotmail.fr", password: "12345678", confirmation_sent_at: Faker::Time.between(DateTime.now - 1, DateTime.now), confirmed_at: Faker::Time.between(DateTime.now - 1, DateTime.now), admin: true, ranking: "15", telephone: "+33666027414"  },
-  judge = User.create([{last_name: "Dupuis" ,first_name: "Henri", licence_number: "0930613K ", email: "judge@hotmail.fr", address: "17 bd d'argension 92200 Neuilly", password: "12345678", confirmation_sent_at: Faker::Time.between(DateTime.now - 1, DateTime.now), confirmed_at: Faker::Time.between(DateTime.now - 1, DateTime.now), admin: true, ranking: "15", telephone: "+33666027414"  },
-  tournament = Tournament.create([{user:, iban:, bic:, homologation_number: , address:, postcode: , city:, name: , club_organisateur: , amount:([{
+  admin = User.create([{last_name: "GEISMAR" ,first_name: "David", licence_number: "0930613K ", email: "davidgeismar@hotmail.fr", password: "12345678", confirmation_sent_at: Faker::Time.between(DateTime.now - 1, DateTime.now), confirmed_at: Faker::Time.between(DateTime.now - 1, DateTime.now), admin: true, ranking: "15", telephone: "+33666027414"  }])
+  judge = User.create([{last_name: "Dupuis" ,first_name: "Henri", licence_number: "0930613K ", email: "judge@hotmail.fr", address: "17 bd d'argension 92200 Neuilly", password: "12345678", confirmation_sent_at: Faker::Time.between(DateTime.now - 1, DateTime.now), confirmed_at: Faker::Time.between(DateTime.now - 1, DateTime.now), admin: true, ranking: "15", telephone: "+33666027414"  }])
+
 
 users.each do |user|
-  Subscription.create([{user: user, status: "confirmed", exported: false, funds_sent: true, competition_id: "1", fare_type: "standard"}])
+  Subscription.create([{user: user, status: "confirmed", exported: false, funds_sent: true, competition_id: "2", fare_type: "standard"}])
 end
 # require "mechanize"
 # def seed_database

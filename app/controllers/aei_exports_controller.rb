@@ -11,6 +11,7 @@ class AeiExportsController < ApplicationController
     unavailable_for_genre = []
     outdated_licence = []
     already_subscribed_players = []
+    strictly_too_young_to_participate = []
     too_young_to_participate = []
     too_old_to_participate = []
 
@@ -48,7 +49,7 @@ class AeiExportsController < ApplicationController
             page = submitting_players(agent, page, total_subscriptions)
             form = agent.page.forms.first
             selecting_players_for_subscription(form, total_subscriptions)
-            selecting_category_to_subscribe_player_into(form, outdated_licence, too_young_to_participate, too_old_to_participate, already_subscribed_players, unavailable_for_genre)
+            selecting_category_to_subscribe_player_into(form, outdated_licence, too_young_to_participate, strictly_too_young_to_participate, too_old_to_participate, already_subscribed_players, unavailable_for_genre)
             slice_stats = checking_export(subscription_array, @homologation_number, agent)
             stats[:success] += slice_stats[:success]
             stats[:failure] += slice_stats[:failure]
@@ -63,21 +64,47 @@ class AeiExportsController < ApplicationController
 
       success_full_names = stats[:success].map { |subscription| subscription.user.full_name }.join(', ')
       failure_full_names = stats[:failure].map { |subscription| subscription.user.full_name }.join(', ')
-      already_subscribed_full_names = already_subscribed_players.map {|full_name| full_name}.join(', ')
-      outdated_licence_full_names = outdated_licence.map {|full_name| full_name}.join(', ')
-      too_young_to_participate_full_names = too_young_to_participate.map {|full_name| full_name}.join(', ')
-      too_old_to_participate_full_names = too_old_to_participate.map {|full_name| full_name}.join(', ')
-      unavailable_for_genre_full_names = unavailable_for_genre.map {|full_name| full_name}.join(', ')
+      unless already_subscribed_players.blank?
+        already_subscribed_full_names = already_subscribed_players.uniq.map {|full_name| full_name}.join(', ')
+      else
+         already_subscribed_full_names = already_subscribed_players.map {|full_name| full_name}.join(', ')
+      end
+      unless outdated_licence.blank?
+        outdated_licence_full_names = outdated_licence.uniq.map {|full_name| full_name}.join(', ')
+      else
+        outdated_licence_full_names = outdated_licence.map {|full_name| full_name}.join(', ')
+      end
+      unless too_young_to_participate.blank?
+        too_young_to_participate_full_names = too_young_to_participate.uniq.map {|full_name| full_name}.join(', ')
+      else
+        too_young_to_participate_full_names = too_young_to_participate.map {|full_name| full_name}.join(', ')
+      end
+      unless strictly_too_young_to_participate.blank?
+        strictly_too_young_to_participate_full_names = strictly_too_young_to_participate.uniq.map {|full_name| full_name}.join(', ')
+      else
+        strictly_too_young_to_participate_full_names = strictly_too_young_to_participate.map {|full_name| full_name}.join(', ')
+      end
+      unless too_old_to_participate.blank?
+        too_old_to_participate_full_names = too_old_to_participate.uniq.map {|full_name| full_name}.join(', ')
+      else
+        too_old_to_participate_full_names = too_old_to_participate.map {|full_name| full_name}.join(', ')
+      end
+      unless unavailable_for_genre.blank?
+        unavailable_for_genre_full_names = unavailable_for_genre.uniq.map {|full_name| full_name}.join(', ')
+      else
+        unavailable_for_genre_full_names = unavailable_for_genre.map {|full_name| full_name}.join(', ')
+      end
       total_success = stats[:success].count
       total_failure = stats[:failure].count
       total_already_subscribed = already_subscribed_players.count
       total_outdated_licence = outdated_licence.count
       total_too_young = too_young_to_participate.count
+      total_strictly_too_young = strictly_too_young_to_participate.count
       total_too_old = too_old_to_participate.count
       total_unavailable_genre = unavailable_for_genre.count
       flash[:notice]  = "Vous avez exporté #{stats[:success].size} licencié(s) avec succès"
 
-      AeiExportsMailer.export_bilan(failure_full_names, total_failure, success_full_names, total_success, already_subscribed_full_names, total_already_subscribed, outdated_licence_full_names, total_outdated_licence, too_young_to_participate_full_names, total_too_young, too_old_to_participate_full_names, total_too_old, unavailable_for_genre_full_names, total_unavailable_genre, @competition).deliver
+      AeiExportsMailer.export_bilan(failure_full_names, total_failure, success_full_names, total_success, already_subscribed_full_names, total_already_subscribed, outdated_licence_full_names, total_outdated_licence, too_young_to_participate_full_names, total_too_young, strictly_too_young_to_participate_full_names, total_strictly_too_young, too_old_to_participate_full_names, total_too_old, unavailable_for_genre_full_names, total_unavailable_genre, @competition).deliver
 
       if failure_full_names.present? && outdated_licence_full_names.present?
           flash[:alert]   = "#{outdated_licence_full_names} n'ont pas une licence valide au jour de la compétition. #{failure_full_names} n'ont pas pu être exportés. Merci de vous connecter sur AEI pour procéder à l'inscription manuelle"
@@ -95,25 +122,38 @@ class AeiExportsController < ApplicationController
   end
 
 
-  def error_checking(html_body, outdated_licence, too_young_to_participate, too_old_to_participate, already_subscribed_players, unavailable_for_genre)
+  def error_checking(html_body, outdated_licence, too_young_to_participate, too_old_to_participate, already_subscribed_players, unavailable_for_genre, strictly_too_young_to_participate)
     # dans search ajouter .L1
-    html_body.search('td .L1').each do |error_mess|
-      if error_mess.text.include?("trop jeune pour participer à l'épreuve")
+    html_body.search('td td .L1').each do |error_mess|
+      puts (error_mess.text.strip + " I'm an error mess ")
+      if error_mess.text.strip == "Raison de l'alerte"
+      elsif error_mess.text.include?("trop jeune pour participer à l'épreuve") && error_mess.text.include?("Raison de l'alerte")
         name = error_mess.text.slice(0...(error_mess.text.index(" : trop jeune pour participer à l'épreuve")))
+        name =  name.gsub("Raison de l'alerte", "").gsub(/\r/,"").gsub(/\r/,"").gsub(/\n/,"").gsub(/\t/,"").gsub(/\A\p{Space}*|\p{Space}*\z/, '').strip
+        too_young_to_participate << name
+      elsif error_mess.text.include?("trop jeune pour participer à l'épreuve")
+        name = error_mess.text.slice(0...(error_mess.text.index(" : trop jeune pour participer à l'épreuve"))).gsub(/\r/,"").gsub(/\r/,"").gsub(/\n/,"").gsub(/\t/,"").gsub(/\A\p{Space}*|\p{Space}*\z/, '').strip
         too_young_to_participate << name
       end
     end
 
-    html_body.search('td .L2').each do |error_mess|
-      if error_mess.text.include?("trop jeune pour participer à l'épreuve")
+    html_body.search('td td .L2').each do |error_mess|
+      puts (error_mess.text.strip + " I'm an error mess ")
+      if error_mess.text.strip == "Raison de l'alerte"
+      elsif error_mess.text.include?("trop jeune pour participer à l'épreuve") && error_mess.text.include?("Raison de l'alerte")
         name = error_mess.text.slice(0...(error_mess.text.index(" : trop jeune pour participer à l'épreuve")))
+        name =  name.gsub("Raison de l'alerte", "").gsub(/\r/,"").gsub(/\r/,"").gsub(/\n/,"").gsub(/\t/,"").gsub(/\A\p{Space}*|\p{Space}*\z/, '').strip
+        too_young_to_participate << name
+      elsif error_mess.text.include?("trop jeune pour participer à l'épreuve")
+        name = error_mess.text.slice(0...(error_mess.text.index(" : trop jeune pour participer à l'épreuve"))).gsub(/\r/,"").gsub(/\r/,"").gsub(/\n/,"").gsub(/\t/,"").gsub(/\A\p{Space}*|\p{Space}*\z/, '').strip
         too_young_to_participate << name
       end
     end
+
     html_body.search('li').each do |error_mess|
       if error_mess.text.include?("trop jeune pour participer à l'épreuve")
         name = error_mess.text.slice(0...(error_mess.text.index(" : trop jeune pour participer à l'épreuve")))
-        too_young_to_participate << name
+        strictly_too_young_to_participate << name
       elsif error_mess.text.include?("est trop âgé pour participer")
         name = error_mess.text.slice(0...(error_mess.text.index(" est trop âgé pour participer")))
         too_old_to_participate << name
@@ -128,7 +168,7 @@ class AeiExportsController < ApplicationController
         unavailable_for_genre << name
       end
     end
-    return too_young_to_participate, too_old_to_participate, already_subscribed_players, outdated_licence, unavailable_for_genre
+    return too_young_to_participate, strictly_too_young_to_participate, too_old_to_participate, already_subscribed_players, outdated_licence, unavailable_for_genre
   end
 
   def export_disponibilities
@@ -203,6 +243,7 @@ class AeiExportsController < ApplicationController
                       if (player.keys.first.split.join.downcase == subscription.user.full_name.split.join.downcase) || (player.keys.first.split.join.downcase == subscription.user.full_name_inversed.split.join.downcase)
                           results << { subscription => player[player.keys.first] }
                       end
+                    end
                   end
               end
 
@@ -344,7 +385,7 @@ class AeiExportsController < ApplicationController
     end
   end
 
-  def selecting_category_to_subscribe_player_into(form, outdated_licence, too_young_to_participate, too_old_to_participate, already_subscribed_players, unavailable_for_genre)
+  def selecting_category_to_subscribe_player_into(form, outdated_licence, too_young_to_participate, strictly_too_young_to_participate, too_old_to_participate, already_subscribed_players, unavailable_for_genre)
     # selecting the right category to subscribe the player into
     # checkbox for players have name pp_ino_selection whereas checkbox for category have epr_iid_selection name
     form.checkboxes.each do |checkbox|
@@ -371,14 +412,14 @@ class AeiExportsController < ApplicationController
         form.field_with(:name => 'dispatch').value = "inscrire"
         page = form.submit
         html_body = Nokogiri::HTML(page.body)
-        error_checking(html_body, outdated_licence, too_young_to_participate, too_old_to_participate, already_subscribed_players, unavailable_for_genre)
+        error_checking(html_body, outdated_licence, too_young_to_participate, strictly_too_young_to_participate, too_old_to_participate, already_subscribed_players, unavailable_for_genre)
       elsif category_nature.present? && category_age.present? && ("#{aei_category_nature} #{aei_category_age}" == aei_competition_category)
         checkbox.check
         # submitting inscription
         form.field_with(:name => 'dispatch').value = "inscrire"
         page = form.submit
         html_body = Nokogiri::HTML(page.body)
-        error_checking(html_body, outdated_licence, too_young_to_participate, too_old_to_participate, already_subscribed_players, unavailable_for_genre)
+        error_checking(html_body, outdated_licence, too_young_to_participate, strictly_too_young_to_participate, too_old_to_participate, already_subscribed_players, unavailable_for_genre)
       end
     end
   end
