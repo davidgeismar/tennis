@@ -234,6 +234,7 @@ class AeiExportsController < ApplicationController
                  html_body = Nokogiri::HTML(body)
                  valids = html_body.search('table.L1 table td[3]')
                  array_subscribed_players_cat += valids.map { |valid| {valid.text.downcase.split.join => valid[:href]} }
+
                  link_number = link_number + 1
               end
 
@@ -254,16 +255,19 @@ class AeiExportsController < ApplicationController
               browser.button(value: "Connexion").click
               results.each do |result|
                 result.each do |subscription, link|
-                  if disponibility = Disponibility.where(tournament: @competition.tournament, user: subscription.user).first
-                    all_dispo = "L#{disponibility.monday} M#{disponibility.tuesday} Me#{disponibility.wednesday} J #{disponibility.thursday} V#{disponibility.friday} S#{disponibility.saturday} D#{disponibility.sunday}"
-                    link = link.gsub("epreuve", "competition").gsub("Inscriptions", "Joueurs")
-                    browser.goto "https://aei.app.fft.fr/ei/" + hard_link_to_tournament
-                    browser.goto "https://aei.app.fft.fr/ei/" + link
-                    browser.button(value: "Modifier").click
-                    browser.text_field(name: "jou_vcomment").set all_dispo
-                    browser.button(value: "Valider").click
+                  if link.present?
+                    if disponibility = Disponibility.where(tournament: @competition.tournament, user: subscription.user).first
+                      all_dispo = "L#{disponibility.monday} M#{disponibility.tuesday} Me#{disponibility.wednesday} J #{disponibility.thursday} V#{disponibility.friday} S#{disponibility.saturday} D#{disponibility.sunday}"
+                      link = link.gsub("epreuve", "competition").gsub("Inscriptions", "Joueurs")
+                      browser.goto "https://aei.app.fft.fr/ei/" + hard_link_to_tournament
+                      browser.goto "https://aei.app.fft.fr/ei/" + link
+                      browser.button(value: "Modifier").click
+                      browser.text_field(name: "jou_vcomment").set all_dispo
+                      browser.button(value: "Valider").click
+                    else
+                     no_disponibility << subscription
+                    end
                   else
-                   no_disponibility << subscription
                   end
                 end
               end

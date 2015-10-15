@@ -30,6 +30,26 @@ div class="banner-tournament"
                     br
                   - else
                     = @competition.max_ranking
+                dt Paiement Jeune
+                dd
+                  => @competition.subscriptions.where(fare_type: "young").count
+                  ' (
+                  = @competition.subscriptions.where(fare_type: "young").count * @competition.tournament.young_fare
+                  ' € )
+                dt Paiement Adulte
+                dd
+                  => @competition.subscriptions.where(fare_type: "standard").count
+                  '(
+
+                  => @competition.subscriptions.where(fare_type: "standard").count * @competition.tournament.young_fare
+                  ' € )
+
+                dt Paiement Total
+                dd
+                  => @competition.subscriptions.where(fare_type: "standard").count +  @competition.subscriptions.where(fare_type: "young").count
+                  '(
+                  => (@competition.subscriptions.where(fare_type: "standard").count * @competition.tournament.young_fare) + (@competition.subscriptions.where(fare_type: "young").count * @competition.tournament.young_fare)
+                  ' € )
 
 
         div class= "panel-footer"
