@@ -222,18 +222,19 @@ class AeiExportsController < ApplicationController
               page_joueurs_inscrits = agent.get(lien_joueurs_inscrits)
               html_body = Nokogiri::HTML(page_joueurs_inscrits.body)
 
-              # players_list = accessing_players_list_tournament(html_body, agent)
-              # html_body = Nokogiri::HTML(players_list.body)
+              # works on first page
               valids = html_body.search('table.L1 table td[3] a')
               array_subscribed_players_cat = valids.map { |valid| {valid.text.downcase.split.join => valid[:href]} }
               link_number = 2
 
+              # running through pagination
               while lien = page_joueurs_inscrits.link_with(:text=> link_number.to_s)
                  page_joueurs_inscrits = lien.click
                  body = page_joueurs_inscrits.body
                  html_body = Nokogiri::HTML(body)
-                 valids = html_body.search('table.L1 table td[3]')
+                 valids = html_body.search('table.L1 table td[3] a')
                  array_subscribed_players_cat += valids.map { |valid| {valid.text.downcase.split.join => valid[:href]} }
+
                  link_number = link_number + 1
               end
 
@@ -246,6 +247,7 @@ class AeiExportsController < ApplicationController
                     end
                   end
               end
+
 
               browser = Watir::Browser.new
               browser.goto "https://aei.app.fft.fr/ei/connexion.do?dispatch=afficher"
@@ -275,35 +277,6 @@ class AeiExportsController < ApplicationController
       flash[:notice] = "les disponibilités de vos inscrits ont bien été exportés"
       redirect_to competition_subscriptions_path(@competition)
   end
-
-  # def export_disponibility(html_body, link_number, subscription, page_joueurs_inscrits, hard_link_to_tournament)
-  #   full_names = []
-  #   names = html_body.search("table table tr td[2]")  # searching player names on AEI
-  #   #j'arrive pas a aller chercher le joueur :()
-  #   names.each do |name|
-  #     # puts name.text.encode!('UTF-8', 'binary', invalid: :replace, undef: :replace, replace: '').split.join.downcase
-  #    full_names  << name.text.encode!('UTF-8', 'binary', invalid: :replace, undef: :replace, replace: '').split.join.downcase
-  #    # if player's name is found in player's list (il faut que le robot puisse passer de page en page !)
-  #     if (subscription.user.full_name.split.join.downcase == name.text.encode!('UTF-8', 'binary', invalid: :replace, undef: :replace, replace: '').split.join.downcase) || (subscription.user.full_name_inversed.split.join.downcase == name.text.encode!('UTF-8', 'binary', invalid: :replace, undef: :replace, replace: '').split.join.downcase)
-  #       a_player_profile = name.previous.previous.at('a')[:href] # selecting the link to profile_player
-
-  #     elsif lien = page_joueurs_inscrits.link_with(:text=> (link_number += 1).to_s)
-  #       begin
-  #         page_joueurs_inscrits = lien.click
-  #         html_body = Nokogiri::HTML(page_joueurs_inscrits.body)
-  #         names = html_body.search("table.L1 table td[2]") # searching player names on AEI
-  #         arr = []
-  #         names.each do |name|
-  #           arr << name.text
-  #         end
-  #         export_disponibility(html_body, link_number, subscription, page_joueurs_inscrits, hard_link_to_tournament)
-  #       rescue Mechanize::ResponseCodeError
-  #       end
-  #        # relance la methode en cherchant la subscription dans le lien link + 1
-  #     else
-  #     end
-  #   end
-  # end
 
 
   private
