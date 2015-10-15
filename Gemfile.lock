@@ -154,6 +154,7 @@ GEM
       actionpack (>= 3.2, < 5)
       activesupport (>= 3.2, < 5)
     hashie (3.4.2)
+    headless (2.2.0)
     high_voltage (2.2.1)
     http-cookie (1.0.2)
       domain_name (~> 0.5)
@@ -391,6 +392,7 @@ DEPENDENCIES
   geocoder (~> 1.2.7)
   geocomplete_rails (~> 1.6.5)
   gmaps4rails (~> 2.1.2)
+  headless
   high_voltage (~> 2.2.1)
   jquery-rails (~> 4.0.3)
   letter_opener

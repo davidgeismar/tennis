@@ -248,8 +248,9 @@ class AeiExportsController < ApplicationController
                   end
               end
 
-
-              browser = Watir::Browser.new
+              # headless = Headless.new
+              # headless.start
+              browser = Watir::Browser.new :phantomjs
               browser.goto "https://aei.app.fft.fr/ei/connexion.do?dispatch=afficher"
               browser.text_field(name: "util_vlogin").set params[:login_aei]
               browser.text_field(name: "util_vpassword").set params[:password_aei]
@@ -269,6 +270,8 @@ class AeiExportsController < ApplicationController
                   end
                 end
               end
+              # browser.close
+              # headless.destroy
             end
           end
         end
