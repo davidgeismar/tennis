@@ -1,33 +1,25 @@
-div class="banner"
-  div class='container padded'
-    h1 class= "text-center emperor" Convocation
-    div class="row"
-      div class="col-sm-6 col-sm-offset-3"
+div class="container"
+  div class="row"
+    div class="col-md-12"
+      h1 Convocation
+      p Les joueurs qui seront convoqués à l’envoi de ce formulaires sont :
+      ul
+        - @player_names.each do |player_name|
+          li
+            strong = player_name
+
+      = form_tag multiple_create_path(@competition) do ||
+        = hidden_field_tag :subscription_ids, nil, value: @subscription_ids
         div class="panel panel-default"
-          div class= "panel-heading"
-            p
-            strong> Les joueurs qui seront convoqués à l'envoi de ce formulaires sont :
-            ul class="list-unstyled"
-              - @player_names.each do |player_name|
-                li = player_name
-          div class= "panel-body"
-            = form_tag multiple_create_path(@competition) do ||
-              = hidden_field_tag :subscription_ids, nil, value: @subscription_ids
-              div class="form-group"
-                  = label_tag :date, "Date"
-                  = text_field_tag :date, params[:date], required: true, class: "form-control datepicker"
-              div class="form-group"
-                  = label_tag :hour, "Heure de la convocation"
+          div class="panel-body"
+            div class="row"
+              div class="col-md-6"
+                div class="form-group"
+                  = label_tag :date, 'Date'
+                  = text_field_tag :date, params[:date], required: true, class: 'form-control datepicker'
+              div class="col-md-6"
+                div class="form-group"
+                  = label_tag :hour, 'Heure'
                   = time_field_tag :hour, params[:hour], required: true, class: 'form-control'
 
-              = submit_tag "Envoyer les convocations", class: "btn btn-primary"
-
-= content_for :after_js do
-  javascript:
-      $(document).ready(function(){
-        $('.datepicker').datepicker({
-           format: 'dd/mm/yyyy',
-           language: 'fr',
-           startDate: '-1d'
-        });
-      });
+        = submit_tag 'Envoyer les convocations', class: 'btn btn-primary'

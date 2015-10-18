@@ -1,0 +1,37 @@
+div class="container"
+  div class="row"
+    div class="col-md-12"
+      h1 Convocation
+      p
+        strong
+          => @convocation.subscription.user.full_name
+        'ne semble pas être en mesure d'être présent
+        strong
+          => @convocation.date.strftime("le %d/%m/%Y")
+          => @convocation.hour.strftime(" à %Hh%M")
+        'pour la convocation que vous lui avez proposé.
+      div class="panel panel-default"
+        div class="panel-heading"
+          'Disponibilités de
+          => @convocation.subscription.user.full_name
+          br
+          em = @message.content
+        div class="panel-body"
+          p
+            'Cliquer sur “Changer la convocation de ce joueur” pour envoyer une nouvelle convocation à
+            = @convocation.subscription.user.full_name
+          p
+            'Si vous cliquez sur “je n’ai plus de disponibilités”, le joueur sera informé que vous ne pouvez pas lui proposer d’autres dates/horaires.
+          p
+            'Vous pouvez l’appeler au
+            => @convocation.subscription.user.telephone
+            'pour lui expliquer la situation.
+
+      ul class="list-inline"
+        li
+          = link_to 'Lui proposer une nouvelle convocation', new_subscription_convocation_path(@convocation.subscription) , class: 'btn btn-success'
+        li OU
+        li
+          = simple_form_for @convocation do |f|
+            = hidden_field_tag 'convocation[status]', :confirmed_by_judge
+            = f.button :submit, 'Je n’ai plus de disponibilités', class: 'btn btn-danger'
