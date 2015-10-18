@@ -27,7 +27,7 @@ div class="container"
                         li
                           = link_to("#{competition.category} #{competition.genre.text} (#{competition.subscriptions.count})",  tournament_competition_path(tournament, competition))
                td = tournament.subscriptions.count
-               td  "data-container" => "body", "data-html" => "true", "data-content" => "<ul><li>hello</li></ul>", "data-toggle" => "popover", "data-placement" => "top", "data-trigger" =>"hover", "title" => "<div>Dispos Licencié </div>"
+               td  data: {container: body, html: true, content: hello, toggle: popover, placement: top, trigger: hover, title: dispo}
                   = tournament.subscriptions.where(status: "confirmed").count
                td = tournament.starts_on.strftime('%d/%m/%Y')
                td Tournoi Validé
@@ -36,3 +36,6 @@ div class="container"
                td = tournament.subscriptions.count
                td = tournament.starts_on.strftime('%d/%m/%Y')
                td En attente de validation
+
+
+/ "data-container" => "body", "data-html" => "true", "data-content" => "<ul><li>hello</li></ul>", "data-toggle" => "popover", "data-placement" => "top", "data-trigger" =>"hover", "title" => "<div>Dispos Licencié </div>"
