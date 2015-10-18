@@ -1,14 +1,16 @@
-div class="banner-tournament"
-  div class= "container"
-    h1 class= "text-center emperor" id= "formulaire-tournoi"
-      => @competition.tournament.name
-      = @competition.category
+div class="container"
+  div class="row"
+    div class="col-md-12"
+      h1
+        => @competition.tournament.name
+        = @competition.category
 
-    div class= "col-md-offset-3 col-md-6"
+  div class="row"
+    div class="col-md-8"
       div class="panel panel-default"
-        div class= "panel-heading"
+        div class="panel-heading"
           h4 Détails de l'épreuve
-        div class= "panel-body"
+        div class="panel-body"
           div class="row"
             div class="col-md-8"
               dl class="dl-horizontal"
@@ -31,9 +33,9 @@ div class="banner-tournament"
                   - else
                     = @competition.max_ranking
 
-
-        div class= "panel-footer"
-          = link_to 'Modifier cette épreuve',  edit_tournament_competition_path(@competition.tournament, @competition), class: 'btn btn-warning'
-          = link_to 'Gérer cette épreuve',
-             competition_subscriptions_path(@competition), class: 'btn btn-success'
-
+  ul class="list-inline"
+    li
+      = link_to 'Modifier cette épreuve',  edit_tournament_competition_path(@competition.tournament, @competition), class: 'btn btn-success'
+    li
+      = link_to 'Gérer cette épreuve',
+         competition_subscriptions_path(@competition), class: 'btn btn-warning'
