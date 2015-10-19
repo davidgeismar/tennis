@@ -151,6 +151,24 @@ class AEI
     end
   end
 
+  def mechanize_aei_login(agent)
+    agent.get("https://aei.app.fft.fr/ei/connexion.do?dispatch=afficher")
+    form_login_AEI = agent.page.forms.first
+    form_login_AEI.util_vlogin = @login_aei
+    form_login_AEI.util_vpassword = @password_aei
+    page_compet_list = agent.submit(form_login_AEI, form_login_AEI.buttons.first)
+    html_body = Nokogiri::HTML(page_compet_list.body)
+
+    #gestion d'erreur à la connexion
+    login_result = html_body.search("td li").text
+
+    if login_result == "Il n'y a aucun compte avec ces informations." || login_result == "Le mot de passe indiqué n'est pas correct."
+      raise LoginError
+    else
+      html_body
+    end
+  end
+
 
   private
 
@@ -201,22 +219,6 @@ class AEI
       end
     end
     return too_young_to_participate, strictly_too_young_to_participate, too_old_to_participate, already_subscribed_players, outdated_licence, unavailable_for_genre
-  end
-
-  def mechanize_aei_login(agent)
-    agent.get("https://aei.app.fft.fr/ei/connexion.do?dispatch=afficher")
-    form_login_AEI = agent.page.forms.first
-    form_login_AEI.util_vlogin = @login_aei
-    form_login_AEI.util_vpassword = @password_aei
-    page_compet_list = agent.submit(form_login_AEI, form_login_AEI.buttons.first)
-    html_body = Nokogiri::HTML(page_compet_list.body)
-
-    #gestion d'erreur à la connexion
-    if html_body.search("td li").text == "Il n'y a aucun compte avec ces informations."
-      raise LoginError
-    else
-      return html_body
-    end
   end
 
   def watir_aei_login
