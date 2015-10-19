@@ -1,41 +1,93 @@
 div class="container"
-  div class="row"
-    div class="col-xs-12"
+   div class="row"
+     div class="col-xs-12"
 
-      h1 class="emperor" Mes Tournois
+       h1 class="emperor" Mes Tournois
 
-      table class="table table-hover table-striped"
-        tr
-          th Compétition
-          th Nombre d'inscrits
-          th Paiement
-          th Date de début
-          th Statut
+       table class="table table-hover table-striped"
+         tr
+           th Compétition
+           th Nombre d'inscrits
+           th Paiement
+           th Date de début
+           th Statut
 
-        tr
-         - if @passed_tournaments.exists?
-            = link_to 'Tournois terminés', passed_mytournaments_path(current_user), class: 'btn btn-danger'
-        - @current_tournaments.each do |tournament|
-          tr
-            - if tournament.accepted
-               td
-                  i class="fa fa-fw fa-eye" role="button" data-toggle="collapse" href="##{tournament.id}" aria-expanded="false" aria-controls="#{tournament.id}"
-                  = link_to tournament.name, user_tournament_path(current_user, tournament)
-                  - if tournament.competitions
-                    ul class="collapse" id="#{tournament.id}"
-                      - tournament.competitions.each do |competition|
-                        li
-                          = link_to("#{competition.category} #{competition.genre.text} (#{competition.subscriptions.count})",  tournament_competition_path(tournament, competition))
-               td = tournament.subscriptions.count
-               td  data: {container: body, html: true, content: hello, toggle: popover, placement: top, trigger: hover, title: dispo}
-                  = tournament.subscriptions.where(status: "confirmed").count
-               td = tournament.starts_on.strftime('%d/%m/%Y')
-               td Tournoi Validé
-            - else
-               td = tournament.name
-               td = tournament.subscriptions.count
-               td = tournament.starts_on.strftime('%d/%m/%Y')
-               td En attente de validation
+         tr
+          - if @passed_tournaments.exists?
+             = link_to 'Tournois terminés', passed_mytournaments_path(current_user), class: 'btn btn-danger'
+         - @current_tournaments.each do |tournament|
+           tr
+             - if tournament.accepted
+                td
+                   i class="fa fa-fw fa-eye" role="button" data-toggle="collapse" href="##{tournament.id}" aria-expanded="false" aria-controls="#{tournament.id}"
+                   = link_to tournament.name, user_tournament_path(current_user, tournament)
+                   - if tournament.competitions
+                     ul class="collapse" id="#{tournament.id}"
+                       - tournament.competitions.each do |competition|
+                         li
+                           = link_to("#{competition.category} #{competition.genre.text} (#{competition.subscriptions.count})",  tournament_competition_path(tournament, competition))
+
+                td = tournament.subscriptions.count
+                td = tournament.subscriptions.where(status: "confirmed").count
+                td = tournament.starts_on.strftime('%d %m %Y')
+                td Tournoi Validé
+             - else
+                td = tournament.name
+                td = tournament.subscriptions.count
+                td = tournament.starts_on.strftime('%d%m%Y')
+                td En attente de validation
+
+/ <!--
+/  "data-container" => "body", "data-html" => "true", "data-content" => "<ul><li>hello</li></ul>", "data-toggle" => "popover", "data-placement" => "top", "data-trigger" =>"hover", "title" => "<div>Dispos Licencié </div>"
 
 
-/ "data-container" => "body", "data-html" => "true", "data-content" => "<ul><li>hello</li></ul>", "data-toggle" => "popover", "data-placement" => "top", "data-trigger" =>"hover", "title" => "<div>Dispos Licencié </div>"
+/ <div class="container">
+/   <div class="row">
+/     <div class="col-xs-12">
+/       <h1 class="emperor">Mes Tournois</h1>
+/       <table class="table table-hover table-striped">
+/         <tr>
+/           <th>Compétition</th>
+/           <th>Nombre d'inscrits</th>
+/           <th>Paiement</th>
+/           <th>Date de début</th>
+/           <th>Statut</th>
+/         </tr>
+/         <tr>
+/           <% if @passed_tournaments.exists?%>
+/             <%= link_to 'Tournois terminés', passed_mytournaments_path(current_user), class: 'btn btn-danger'%>
+/           <% end -%>
+/         </tr>
+/           <% @current_tournaments.each do |tournament| %>
+/             <tr>
+/               <% if tournament.accepted %>
+/                 <td>
+/                   <i class="fa fa-fw fa-eye" role="button" data-toggle="collapse" href= #<%= tournament.id%> aria-expanded="false" aria-controls= <%=tournament.id%>>
+/                   </i>
+/                   <%= link_to tournament.name, user_tournament_path(current_user, tournament)%>
+/                   <% if tournament.competitions%>
+/                     <ul class="collapse" id= <%=tournament.id%> >
+/                       <% tournament.competitions.each do |competition| %>
+/                         <li>
+/                           <%= link_to("#{competition.category} #{competition.genre.text} (#{competition.subscriptions.count})",  tournament_competition_path(tournament, competition)) %>
+/                         </li>
+/                       <% end %>
+/                     </ul>
+/                  </td>
+/                 <% end %>
+/                 <td  >
+/                   <%= tournament.subscriptions.count%>
+/                 </td>
+/                 <td><%= tournament.subscriptions.where(status: "confirmed").count%> </td>
+/                 <td> <%= tournament.starts_on.strftime('%d/%m/%Y')%> </td>
+/                 <td> Tournoi Validé </td>
+/               <%else%>
+/                 <td><%= tournament.name%></td>
+/                 <td><%= tournament.subscriptions.count%></td>
+/                 <td><%= tournament.starts_on.strftime('%d/%m/%Y')%></td>
+/                 <td><%= En attente de validation%></td>
+/               <% end %>
+/             </tr>
+/           <% end %>
+/       </table>
+/ /  -->
