@@ -238,15 +238,42 @@ class AeiExportsController < ApplicationController
                  link_number = link_number + 1
               end
 
-              results = []
+              results = {}
               @subscriptions_valids.each do |subscription|
                   if array_subscribed_players_cat.each do |player|
                       if (player.keys.first.split.join.downcase == subscription.user.full_name.split.join.downcase) || (player.keys.first.split.join.downcase == subscription.user.full_name_inversed.split.join.downcase)
-                          results << { subscription => player[player.keys.first] }
+                          results[subscription] = player[player.keys.first]
                       end
                     end
                   end
               end
+
+
+              results.each do |subscription, player_path|
+
+                jou_iid = player_path[/jou_iid=(\d+)&/, 1]
+
+                player_page_uri = "https://aei.app.fft.fr/ei/#{player_path}"
+                player_page = agent.get player_page_uri
+
+                body = player_page.body
+                html_body = Nokogiri::HTML(body)
+                input = html_body.css('center').last.css('input')
+
+                disponibility = Disponibility.where(tournament: @competition.tournament, user: subscription.user).first
+                player_all_dispo = "L#{disponibility.monday} M#{disponibility.tuesday} Me#{disponibility.wednesday} J #{disponibility.thursday} V#{disponibility.friday} S#{disponibility.saturday} D#{disponibility.sunday}"
+
+                player_edition_page_uri = "https://aei.app.fft.fr/ei/joueurFiche.do?dispatch=afficher&jou_iid=#{jou_iid}&returnMapping=joueurTabInfo"
+                player_edition_page = agent.get player_edition_page_uri
+
+                user_form = player_edition_page.forms.first
+                user_form.jou_vcomment = player_all_dispo
+                page = user_form.submit
+
+              end
+
+=begin
+
 
               # headless = Headless.new
               # headless.start
@@ -272,6 +299,8 @@ class AeiExportsController < ApplicationController
               end
               # browser.close
               # headless.destroy
+=end
+
             end
           end
         end
