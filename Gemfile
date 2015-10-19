@@ -5,8 +5,9 @@ source 'https://rails-assets.org' do
   gem 'rails-assets-underscore'
 end
 
-ruby "2.2.3"
-gem 'rails', '4.2.3'
+ruby '2.2.3'
+
+gem 'rails', '~> 4.2.3'
 
 gem 'activeadmin',                github: 'activeadmin'
 gem 'aws-sdk',                    '< 2.0'
