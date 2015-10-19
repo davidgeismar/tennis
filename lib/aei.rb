@@ -20,6 +20,7 @@ class AEI
     aei_competition_category_shortcut  = I18n.t("aei.competition_category_shortcut.#{competition_category}")
     homologation_number_found = false
 
+        Rails.logger.debug "@@@ #{__LINE__}"
     subscriptions_valids = []
     users_not_yet_exported = []
     subscription_ids.each do |subscription_id|
@@ -34,6 +35,7 @@ class AEI
       end
     end
 
+        Rails.logger.debug "@@@ #{__LINE__}"
     agent = Mechanize.new
     html_body = mechanize_aei_login(agent)
     links = html_body.search('td a.helptip')
@@ -42,11 +44,13 @@ class AEI
       if soft_link_to_tournament.text.split.join == competition.tournament.homologation_number.split.join && !homologation_number_found
         homologation_number_found = true
         hard_link_to_tournament = soft_link_to_tournament.parent.previous_element.at('a')[:href]
+        Rails.logger.debug "@@@ #{__LINE__}"
         html_body = following_relevant_tournament(soft_link_to_tournament, agent)
         epreuves_access = html_body.search('#tabs0head1 a').first
         lien_epreuves = epreuves_access[:href]
         page_epreuves = agent.get(lien_epreuves)
         html_body = Nokogiri::HTML(page_epreuves.body)
+        Rails.logger.debug "@@@ #{__LINE__}"
         html_body.search('tr td[3]').each do |nat_cat|
           if nat_cat.text.split.join == aei_competition_category_shortcut.split.join
             lien_epreuve = nat_cat.previous_element.previous_element.at('a')[:href]
@@ -54,6 +58,7 @@ class AEI
             html_body = Nokogiri::HTML(page_epreuve.body)
             subscriptions_access = html_body.search('#tabs0head1 a').first
             lien_joueurs_inscrits = subscriptions_access[:href]
+        Rails.logger.debug "@@@ #{__LINE__}"
             page_joueurs_inscrits = agent.get(lien_joueurs_inscrits)
             html_body = Nokogiri::HTML(page_joueurs_inscrits.body)
 
@@ -62,6 +67,7 @@ class AEI
             array_subscribed_players_cat = valids.map { |valid| {valid.text.downcase.split.join => valid[:href]} }
             link_number = 2
 
+        Rails.logger.debug "@@@ #{__LINE__}"
             # running through pagination
             while lien = page_joueurs_inscrits.link_with(:text=> link_number.to_s)
                page_joueurs_inscrits = lien.click
@@ -73,6 +79,7 @@ class AEI
                link_number = link_number + 1
             end
 
+        Rails.logger.debug "@@@ #{__LINE__}"
             results = {}
             subscriptions_valids.each do |subscription|
                 if array_subscribed_players_cat.each do |player|
@@ -84,6 +91,7 @@ class AEI
             end
 
 
+        Rails.logger.debug "@@@ #{__LINE__}"
             results.each do |subscription, player_path|
 
               jou_iid = player_path[/jou_iid=(\d+)&/, 1]
@@ -101,6 +109,7 @@ class AEI
               player_edition_page_uri = "https://aei.app.fft.fr/ei/joueurFiche.do?dispatch=afficher&jou_iid=#{jou_iid}&returnMapping=joueurTabInfo"
               player_edition_page = agent.get player_edition_page_uri
 
+        Rails.logger.debug "@@@ #{__LINE__}"
               user_form = player_edition_page.forms.first
               user_form.jou_vcomment = player_all_dispo
               page = user_form.submit
