@@ -1,8 +1,4 @@
 
-<!--
-/  "data-container" => "body", "data-html" => "true", "data-content" => "<ul><li>hello</li></ul>", "data-toggle" => "popover", "data-placement" => "top", "data-trigger" =>"hover", "title" => "<div>Dispos Licencié </div>" -->
-
-
 <div class="container">
   <div class="row">
     <div class="col-xs-12">
@@ -37,7 +33,8 @@
                     </ul>
                  </td>
                 <% end %>
-                <td  >
+
+                <td>
                   <%= tournament.subscriptions.count%>
                 </td>
                 <td data-container="body" data-toggle="popover" data-placement="top" data-html= "true" data-content= "<ul><li>Paiement Adultes: <%= tournament.subscriptions.where(status: "confirmed", fare_type:'standard').count %>( <%= tournament.subscriptions.where(status: "confirmed", fare_type:'standard').count* tournament.amount %> € )</li><li>Paiement Jeune : <%= tournament.subscriptions.where(status: "confirmed", fare_type:'young').count %> ( <%= tournament.subscriptions.where(status: "confirmed", fare_type:'young').count* tournament.young_fare %> € ) </li><li>Paiement Total : <%= tournament.subscriptions.where(status: "confirmed", fare_type:'young').count* tournament.young_fare + tournament.subscriptions.where(status: "confirmed", fare_type:'standard').count* tournament.amount %> € </li></ul>"  data-trigger= "hover">
@@ -48,10 +45,13 @@
               <%else%>
                 <td><%= tournament.name%></td>
                 <td><%= tournament.subscriptions.count%></td>
+                <td><%= tournament.subscriptions.where(status: 'confirmed').count %></td>
                 <td><%= tournament.starts_on.strftime('%d/%m/%Y')%></td>
                 <td><%= En attente de validation%></td>
               <% end %>
             </tr>
           <% end %>
       </table>
-
+    </div>
+  </div>
+</div>

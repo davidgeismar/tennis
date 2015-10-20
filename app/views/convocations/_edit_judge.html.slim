@@ -1,14 +1,15 @@
 h1
   => @convocation.subscription.tournament.name
-  = @convocation.subscription.competition.category
-div class= "panel panel-default"
-  div class= "panel heading"
+  small = @convocation.subscription.competition.category
+div class="panel panel-default"
+  div class="panel-heading"
     h4
       'Convocation du
       => @convocation.date.strftime("%d/%m/%Y")
       'à
       => @convocation.hour.strftime("%Hh%M")
 
+  div class="panel-body"
     - if @convocation.status == "refused"
         =>@convocation.subscription.user.full_name
         'a
@@ -63,24 +64,21 @@ div class= "panel panel-default"
     - if @convocation.status == "refused"
       br
       'Si vous n'avez pas de créneaux disponible, il vous suffit de l'indiquer au joueur, sinon vous pouvez lui proposer une autre convocation :
-      div class="panel-body"
-        a href="#" data-target="#confirmed_by_judge" data-toggle="modal" class="btn btn-danger convocation-answer"
-          'Je n'ai pas de créneaux disponibles
-        = link_to "Je propose une autre convocation",  new_subscription_convocation_path(@convocation.subscription), class: "btn btn-success"
-        div class="modal fade" id="confirmed_by_judge"
-          div class="modal-dialog mymodal"
-            div class="modal-content text-center"
-              div class="modal-header"
-                h4 class="modal-title"
-                  'Je n'ai pas d'autres créneaux
-                p  Vous vous apprêtez a notifier au joueur qu'il n'a plus la possibilité de refuser cette convocation. Il devra accepter la convocation ou se déclarer WO.
-              div class="modal-body"
-                = simple_form_for @convocation do |f|
-                  = hidden_field_tag 'convocation[status]', :confirmed_by_judge
-                  = f.button :submit, "Je n'ai plus de créneaux disponibles", class: " btn btn-danger convocation-answer"
+      a href="#" data-target="#confirmed_by_judge" data-toggle="modal" class="btn btn-danger convocation-answer"
+        'Je n'ai pas de créneaux disponibles
+      = link_to "Proposer une autre convocation",  new_subscription_convocation_path(@convocation.subscription), class: "btn btn-success"
+      div class="modal fade" id="confirmed_by_judge"
+        div class="modal-dialog mymodal"
+          div class="modal-content text-center"
+            div class="modal-header"
+              h4 class="modal-title"
+                'Je n'ai pas d'autres créneaux
+              p Vous vous apprêtez à notifier au joueur qu'il n'a plus la possibilité de refuser cette convocation. Il devra accepter la convocation ou se déclarer WO.
+            div class="modal-body"
+              = simple_form_for @convocation do |f|
+                = hidden_field_tag 'convocation[status]', :confirmed_by_judge
+                = f.button :submit, 'Je n’ai plus de créneaux disponibles', class: 'btn btn-danger convocation-answer'
     - else
-      div class="panel-body"
-         = link_to "Je propose une autre convocation",  new_subscription_convocation_path(@convocation.subscription), class: "btn btn-success"
-
-
-
+      ul class="list-inline"
+        li
+          = link_to 'Proposer une autre convocation',  new_subscription_convocation_path(@convocation.subscription), class: 'btn btn-success'

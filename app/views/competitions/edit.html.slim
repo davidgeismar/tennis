@@ -6,8 +6,9 @@
       = simple_form_for [@tournament, @competition] do |t|
         .panel.panel-default
           .panel-body
-            h2: small Modification de l'épreuve
-            p Attention si vous avez déjà des inscrits dans cette épreuve, il n'est pas recommandé de la modifier
+            h2.mt-0
+              small Modification de l’épreuve
+            p.text-danger Attention si vous avez déjà des inscrits dans cette épreuve, il n’est pas recommandé de la modifier
             = t.error_notification
             .row
               .col-md-4
@@ -22,6 +23,5 @@
               .col-md-6
                 = t.input :max_ranking, label: 'Classement maximum'
 
-        ul class="list-inline"
-          li = t.button :submit, value: "Modifier l'épreuve", class: "btn-primary marge-bas"
-
+        ul.list-inline
+          li = t.button :submit, value: 'Modifier l’épreuve', class: 'btn-primary'

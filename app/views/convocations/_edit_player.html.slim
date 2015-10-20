@@ -1,15 +1,14 @@
 h1
-  = @convocation.subscription.tournament.name
-  '
-  = @convocation.subscription.competition.category
-div class= "panel panel-default"
-    div class= "panel heading"
+  => @convocation.subscription.tournament.name
+  small = @convocation.subscription.competition.category
+div class="panel panel-default"
+    div class= "panel-heading"
       h4
         'Convocation du
         => @convocation.date.strftime("%d/%m/%Y")
         'à
         = @convocation.hour.strftime("%Hh%M")
-
+    div class="panel-body"
       p
         'Le statut de votre convocation du
         => @convocation.date.strftime("%d/%m/%Y")
@@ -26,7 +25,6 @@ div class= "panel panel-default"
         'Numéro Juge-Arbitre :
         = @convocation.subscription.tournament.user.telephone
 
-    div class="panel-body"
       - if @convocation.status == "refused"
           div class="row text-center"
             div class="col-xs-12"
@@ -79,6 +77,8 @@ div class="modal fade" id="accepted"
           = hidden_field_tag 'convocation[status]', :confirmed
           = f.button :submit, "Accepter", class: " btn btn-success convocation-answer"
 
+
+
 div class="modal fade" id="refused"
   div class="modal-dialog mymodal"
     div class="modal-content text-center"
@@ -109,6 +109,3 @@ div class="modal fade" id="cancelled"
         = simple_form_for @convocation do |f|
           = hidden_field_tag 'convocation[status]', :cancelled
           = f.button :submit, "W.O", class: "btn-danger convocation-answer"
-
-
-
