@@ -1,0 +1,25 @@
+#example_paginate {
+  text-align: center;
+  margin: 30px;
+  &:hover{
+    cursor: pointer;
+  }
+}
+
+#example_length {
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+#example_filter {
+ margin-bottom : 20px;
+ input{
+    width: 500px;
+    margin: 10px;
+    height: 40px;
+ }
+}
+.paginate_button {
+  margin: 5px;
+}
+
