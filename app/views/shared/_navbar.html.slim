@@ -17,7 +17,7 @@ nav class="navbar navbar-default navbar-fixed-top" role="navigation"
             = link_to 'Mes tournois', mytournaments_path
           li class="navbar-notifiation"
             = link_to page_path('notifications') do
-              'Nofifications
+              'Notifications
               - if current_user.notifications.where(read: false).count > 0
                 span = current_user.notifications.where(read: false).count
         - else
