@@ -169,66 +169,6 @@ class AEI
     end
   end
 
-
-  private
-
-  def error_checking(html_body, outdated_licence, too_young_to_participate, too_old_to_participate, already_subscribed_players, unavailable_for_genre, strictly_too_young_to_participate)
-    # dans search ajouter .L1
-    html_body.search('td td .L1').each do |error_mess|
-      puts (error_mess.text.strip + " I'm an error mess ")
-      if error_mess.text.strip == "Raison de l'alerte"
-      elsif error_mess.text.include?("trop jeune pour participer à l'épreuve") && error_mess.text.include?("Raison de l'alerte")
-        name = error_mess.text.slice(0...(error_mess.text.index(" : trop jeune pour participer à l'épreuve")))
-        name =  name.gsub("Raison de l'alerte", "").gsub(/\r/,"").gsub(/\r/,"").gsub(/\n/,"").gsub(/\t/,"").gsub(/\A\p{Space}*|\p{Space}*\z/, '').strip
-        too_young_to_participate << name
-      elsif error_mess.text.include?("trop jeune pour participer à l'épreuve")
-        name = error_mess.text.slice(0...(error_mess.text.index(" : trop jeune pour participer à l'épreuve"))).gsub(/\r/,"").gsub(/\r/,"").gsub(/\n/,"").gsub(/\t/,"").gsub(/\A\p{Space}*|\p{Space}*\z/, '').strip
-        too_young_to_participate << name
-      end
-    end
-
-    html_body.search('td td .L2').each do |error_mess|
-      puts (error_mess.text.strip + " I'm an error mess ")
-      if error_mess.text.strip == "Raison de l'alerte"
-      elsif error_mess.text.include?("trop jeune pour participer à l'épreuve") && error_mess.text.include?("Raison de l'alerte")
-        name = error_mess.text.slice(0...(error_mess.text.index(" : trop jeune pour participer à l'épreuve")))
-        name =  name.gsub("Raison de l'alerte", "").gsub(/\r/,"").gsub(/\r/,"").gsub(/\n/,"").gsub(/\t/,"").gsub(/\A\p{Space}*|\p{Space}*\z/, '').strip
-        too_young_to_participate << name
-      elsif error_mess.text.include?("trop jeune pour participer à l'épreuve")
-        name = error_mess.text.slice(0...(error_mess.text.index(" : trop jeune pour participer à l'épreuve"))).gsub(/\r/,"").gsub(/\r/,"").gsub(/\n/,"").gsub(/\t/,"").gsub(/\A\p{Space}*|\p{Space}*\z/, '').strip
-        too_young_to_participate << name
-      end
-    end
-
-    html_body.search('li').each do |error_mess|
-      if error_mess.text.include?("trop jeune pour participer à l'épreuve")
-        name = error_mess.text.slice(0...(error_mess.text.index(" : trop jeune pour participer à l'épreuve")))
-        strictly_too_young_to_participate << name
-      elsif error_mess.text.include?("est trop âgé pour participer")
-        name = error_mess.text.slice(0...(error_mess.text.index(" est trop âgé pour participer")))
-        too_old_to_participate << name
-      elsif error_mess.text.include?('est déjà inscrit(e)')
-        name = error_mess.text.slice(0...(error_mess.text.index('est déjà inscrit(e)')))
-        already_subscribed_players << name
-      elsif error_mess.text.include?('Passé le')
-        name = error_mess.text.slice(0...(error_mess.text.index(' : Passé le')))
-        outdated_licence << name
-      elsif error_mess.text.include?('Veuillez vérifier le sexe')
-        name = error_mess.text.slice(0...(error_mess.text.index(" n'a pu être inscrit. Veuillez vérifier le sexe")))
-        unavailable_for_genre << name
-      end
-    end
-    return too_young_to_participate, strictly_too_young_to_participate, too_old_to_participate, already_subscribed_players, outdated_licence, unavailable_for_genre
-  end
-
-  def watir_aei_login
-    browser = Watir::Browser.new
-    browser.goto "https://aei.app.fft.fr/ei/connexion.do?dispatch=afficher"
-    browser.text_field(name: "util_vlogin").set @login_aei
-    browser.text_field(name: "util_vpassword").set @password_aei
-    browser.button(value: "Connexion").click
-  end
-
   def following_relevant_tournament(soft_link_to_tournament, agent)
     hard_link_to_tournament = soft_link_to_tournament.parent.previous_element.at('a')[:href] # selecting the link to follow which is in the previous td
     page_profil_tournament = agent.get(hard_link_to_tournament) #following the link to tournament profile
@@ -240,6 +180,7 @@ class AEI
     lien_joueurs_inscrits = joueur_access[:href] # link to player_tab
     return page_joueurs_inscrits = agent.get(lien_joueurs_inscrits) #following link on the player_tabs
   end
+
 
   def searching_for_players(page, agent, subscription_array)
     html_body = Nokogiri::HTML(page.body)
@@ -282,7 +223,7 @@ class AEI
     end
   end
 
-  def selecting_category_to_subscribe_player_into(form, outdated_licence, too_young_to_participate, strictly_too_young_to_participate, too_old_to_participate, already_subscribed_players, unavailable_for_genre)
+  def selecting_category_to_subscribe_player_into(competition, form, outdated_licence, too_young_to_participate, strictly_too_young_to_participate, too_old_to_participate, already_subscribed_players, unavailable_for_genre)
     # selecting the right category to subscribe the player into
     # checkbox for players have name pp_ino_selection whereas checkbox for category have epr_iid_selection name
     form.checkboxes.each do |checkbox|
@@ -321,7 +262,7 @@ class AEI
     end
   end
 
-  def checking_export(subscription_array, homologation_number, agent)
+   def checking_export(competition, subscription_array, homologation_number, agent)
     competition_category = "#{competition.genre}_#{competition.category}"
     aei_competition_category_shortcut  = I18n.t("aei.competition_category_shortcut.#{competition_category}")
     html_body = mechanize_aei_login(agent)
@@ -382,6 +323,65 @@ class AEI
         end
       end
     end
+  end
+
+  private
+
+  def error_checking(html_body, outdated_licence, too_young_to_participate, too_old_to_participate, already_subscribed_players, unavailable_for_genre, strictly_too_young_to_participate)
+    # dans search ajouter .L1
+    html_body.search('td td .L1').each do |error_mess|
+      puts (error_mess.text.strip + " I'm an error mess ")
+      if error_mess.text.strip == "Raison de l'alerte"
+      elsif error_mess.text.include?("trop jeune pour participer à l'épreuve") && error_mess.text.include?("Raison de l'alerte")
+        name = error_mess.text.slice(0...(error_mess.text.index(" : trop jeune pour participer à l'épreuve")))
+        name =  name.gsub("Raison de l'alerte", "").gsub(/\r/,"").gsub(/\r/,"").gsub(/\n/,"").gsub(/\t/,"").gsub(/\A\p{Space}*|\p{Space}*\z/, '').strip
+        too_young_to_participate << name
+      elsif error_mess.text.include?("trop jeune pour participer à l'épreuve")
+        name = error_mess.text.slice(0...(error_mess.text.index(" : trop jeune pour participer à l'épreuve"))).gsub(/\r/,"").gsub(/\r/,"").gsub(/\n/,"").gsub(/\t/,"").gsub(/\A\p{Space}*|\p{Space}*\z/, '').strip
+        too_young_to_participate << name
+      end
+    end
+
+    html_body.search('td td .L2').each do |error_mess|
+      puts (error_mess.text.strip + " I'm an error mess ")
+      if error_mess.text.strip == "Raison de l'alerte"
+      elsif error_mess.text.include?("trop jeune pour participer à l'épreuve") && error_mess.text.include?("Raison de l'alerte")
+        name = error_mess.text.slice(0...(error_mess.text.index(" : trop jeune pour participer à l'épreuve")))
+        name =  name.gsub("Raison de l'alerte", "").gsub(/\r/,"").gsub(/\r/,"").gsub(/\n/,"").gsub(/\t/,"").gsub(/\A\p{Space}*|\p{Space}*\z/, '').strip
+        too_young_to_participate << name
+      elsif error_mess.text.include?("trop jeune pour participer à l'épreuve")
+        name = error_mess.text.slice(0...(error_mess.text.index(" : trop jeune pour participer à l'épreuve"))).gsub(/\r/,"").gsub(/\r/,"").gsub(/\n/,"").gsub(/\t/,"").gsub(/\A\p{Space}*|\p{Space}*\z/, '').strip
+        too_young_to_participate << name
+      end
+    end
+
+    html_body.search('li').each do |error_mess|
+      if error_mess.text.include?("trop jeune pour participer à l'épreuve")
+        name = error_mess.text.slice(0...(error_mess.text.index(" : trop jeune pour participer à l'épreuve")))
+        strictly_too_young_to_participate << name
+      elsif error_mess.text.include?("est trop âgé pour participer")
+        name = error_mess.text.slice(0...(error_mess.text.index(" est trop âgé pour participer")))
+        too_old_to_participate << name
+      elsif error_mess.text.include?('est déjà inscrit(e)')
+        name = error_mess.text.slice(0...(error_mess.text.index('est déjà inscrit(e)')))
+        already_subscribed_players << name
+      elsif error_mess.text.include?('Passé le')
+        name = error_mess.text.slice(0...(error_mess.text.index(' : Passé le')))
+        outdated_licence << name
+      elsif error_mess.text.include?('Veuillez vérifier le sexe')
+        name = error_mess.text.slice(0...(error_mess.text.index(" n'a pu être inscrit. Veuillez vérifier le sexe")))
+        unavailable_for_genre << name
+      end
+    end
+    return too_young_to_participate, strictly_too_young_to_participate, too_old_to_participate, already_subscribed_players, outdated_licence, unavailable_for_genre
+  end
+
+  def watir_aei_login
+    browser = Watir::Browser.new
+    browser.goto "https://aei.app.fft.fr/ei/connexion.do?dispatch=afficher"
+    browser.text_field(name: "util_vlogin").set @login_aei
+    browser.text_field(name: "util_vpassword").set @password_aei
+    browser.button(value: "Connexion").click
   end
 
 end

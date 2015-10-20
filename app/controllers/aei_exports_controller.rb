@@ -34,23 +34,24 @@ class AeiExportsController < ApplicationController
         failure: []
       }
       agent = Mechanize.new
-      html_body = mechanize_aei_login(agent)
+      aei = AEI.new(params[:login_aei], params[:password_aei])
+      html_body = aei.mechanize_aei_login(agent)
       links = html_body.search('td a.helptip')
       #boucle sur chaque objet nokogiri pour checker le bon numéro d'homologation
       links.each do |soft_link_to_tournament|
         if soft_link_to_tournament.text.split.join == @homologation_number && !homologation_number_found
           homologation_number_found = true
-          html_body = following_relevant_tournament(soft_link_to_tournament, agent)
-          accessing_players_list_tournament(html_body, agent)
+          html_body = aei.following_relevant_tournament(soft_link_to_tournament, agent)
+          aei.accessing_players_list_tournament(html_body, agent)
           subscriptions_arrays.each do |subscription_array|
             total_subscriptions = subscription_array.count
             page = agent.get("https://aei.app.fft.fr/ei/joueurRecherche.do?dispatch=afficher&returnMapping=competitionTabJoueurs&entite=COI") # page ou je peux rechercher les joueurs par numéro de licence
-            page = searching_for_players(page, agent, subscription_array)
-            page = submitting_players(agent, page, total_subscriptions)
+            page = aei.searching_for_players(page, agent, subscription_array)
+            page = aei.submitting_players(agent, page, total_subscriptions)
             form = agent.page.forms.first
-            selecting_players_for_subscription(form, total_subscriptions)
-            selecting_category_to_subscribe_player_into(form, outdated_licence, too_young_to_participate, strictly_too_young_to_participate, too_old_to_participate, already_subscribed_players, unavailable_for_genre)
-            slice_stats = checking_export(subscription_array, @homologation_number, agent)
+            aei.selecting_players_for_subscription(form, total_subscriptions)
+            aei.selecting_category_to_subscribe_player_into(@competition, form, outdated_licence, too_young_to_participate, strictly_too_young_to_participate, too_old_to_participate, already_subscribed_players, unavailable_for_genre)
+            slice_stats = aei.checking_export(@competition, subscription_array, @homologation_number, agent)
             stats[:success] += slice_stats[:success]
             stats[:failure] += slice_stats[:failure]
           end
@@ -119,6 +120,10 @@ class AeiExportsController < ApplicationController
       end
       return redirect_to competition_subscriptions_path(@competition)
     end
+
+    rescue AEI::LoginError
+      flash[:alert] = "Il n'y a aucun compte avec ces informations."
+      redirect_to competition_subscriptions_path(@competition)
   end
 
   def export_disponibilities
@@ -137,7 +142,7 @@ class AeiExportsController < ApplicationController
 
     rescue AEI::LoginError
       flash[:alert] = "Il n'y a aucun compte avec ces informations."
-      redirect_to competition_subscriptions_path(competition)
+      redirect_to competition_subscriptions_path(@competition)
   end
 
 
