@@ -135,11 +135,9 @@ class AeiExportsController < ApplicationController
     else
       aei = AEI.new(params[:login_aei], params[:password_aei])
       errors = aei.export_disponibilities(@competition, params[:subscription_ids_export_dispo].split(','))
-
       flash[:notice] = "les disponibilités de vos inscrits ont bien été exportés"
       redirect_to competition_subscriptions_path(@competition)
     end
-
     rescue AEI::LoginError
       flash[:alert] = "Il n'y a aucun compte avec ces informations."
       redirect_to competition_subscriptions_path(@competition)

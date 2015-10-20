@@ -33,64 +33,25 @@
                     </ul>
                  </td>
                 <% end %>
+
                 <td>
                   <%= tournament.subscriptions.count%>
-                  <% @tournament_adult = tournament.subscriptions.where(status: "confirmed", fare_type: "standard").count%>
                 </td>
-                <td><div ><%= tournament.subscriptions.where(status: "confirmed").count%></div></td>
+                <td data-container="body" data-toggle="popover" data-placement="top" data-html= "true" data-content= "<ul><li>Paiement Adultes: <%= tournament.subscriptions.where(status: "confirmed", fare_type:'standard').count %>( <%= tournament.subscriptions.where(status: "confirmed", fare_type:'standard').count* tournament.amount %> € )</li><li>Paiement Jeune : <%= tournament.subscriptions.where(status: "confirmed", fare_type:'young').count %> ( <%= tournament.subscriptions.where(status: "confirmed", fare_type:'young').count* tournament.young_fare %> € ) </li><li>Paiement Total : <%= tournament.subscriptions.where(status: "confirmed", fare_type:'young').count* tournament.young_fare + tournament.subscriptions.where(status: "confirmed", fare_type:'standard').count* tournament.amount %> € </li></ul>"  data-trigger= "hover">
+                 <%= tournament.subscriptions.where(status: 'confirmed').count %>
+                </td>
                 <td> <%= tournament.starts_on.strftime('%d/%m/%Y')%> </td>
                 <td> Tournoi Validé </td>
               <%else%>
                 <td><%= tournament.name%></td>
                 <td><%= tournament.subscriptions.count%></td>
+                <td><%= tournament.subscriptions.where(status: 'confirmed').count %></td>
                 <td><%= tournament.starts_on.strftime('%d/%m/%Y')%></td>
                 <td><%= En attente de validation%></td>
               <% end %>
             </tr>
           <% end %>
       </table>
-
-
-     <!--  <a class="fleche_subscription" data-container="body" data-html="true" data-content=" hello" data-toggle="popover" data-placement="top" data-trigger="hover" title="" href="/tournaments/12/disponibilities/2?subscription_id=202" data-original-title="<div class=small>Dispos Licencié </div>"><i class="fa fa-calendar"></i></a> -->
-<!--
-div class="container"
-   div class="row"
-     div class="col-xs-12"
-
-       h1 class="emperor" Mes Tournois
-
-       table class="table table-hover table-striped"
-         tr
-           th Compétition
-           th Nombre d'inscrits
-           th Paiement
-           th Date de début
-           th Statut
-
-         tr
-          - if @passed_tournaments.exists?
-             = link_to 'Tournois terminés', passed_mytournaments_path(current_user), class: 'btn btn-danger'
-         - @current_tournaments.each do |tournament|
-           tr
-             - if tournament.accepted
-                td
-                   i class="fa fa-fw fa-eye" role="button" data-toggle="collapse" href="##{tournament.id}" aria-expanded="false" aria-controls="#{tournament.id}"
-                   = link_to tournament.name, user_tournament_path(current_user, tournament)
-                   - if tournament.competitions
-                     ul class="collapse" id="#{tournament.id}"
-                       - tournament.competitions.each do |competition|
-                         li
-                           = link_to("#{competition.category} #{competition.genre.text} (#{competition.subscriptions.count})",  tournament_competition_path(tournament, competition))
-
-                td = tournament.subscriptions.count
-                td = tournament.subscriptions.where(status: "confirmed").count
-                td = tournament.starts_on.strftime('%d %m %Y')
-                td Tournoi Validé
-             - else
-                td = tournament.name
-                td = tournament.subscriptions.count
-                td = tournament.starts_on.strftime('%d%m%Y')
-                td En attente de validation -->
-
-
-
+    </div>
+  </div>
+</div>
