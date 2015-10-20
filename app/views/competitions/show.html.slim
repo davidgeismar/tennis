@@ -32,23 +32,23 @@ div class="banner-tournament"
                     = @competition.max_ranking
                 dt Paiement Jeune
                 dd
-                  => @competition.subscriptions.where(fare_type: "young").count
+                  => @competition.subscriptions.where(status: "confirmed", fare_type: "young").count
                   ' (
-                  = @competition.subscriptions.where(fare_type: "young").count * @competition.tournament.young_fare
+                  = @competition.subscriptions.where(status: "confirmed", fare_type: "young").count * @competition.tournament.young_fare
                   ' € )
                 dt Paiement Adulte
                 dd
-                  => @competition.subscriptions.where(fare_type: "standard").count
+                  => @competition.subscriptions.where(status: "confirmed", fare_type: "standard").count
                   '(
 
-                  => @competition.subscriptions.where(fare_type: "standard").count * @competition.tournament.young_fare
+                  => @competition.subscriptions.where(status: "confirmed", fare_type: "standard").count * @competition.tournament.amount
                   ' € )
 
                 dt Paiement Total
                 dd
-                  => @competition.subscriptions.where(fare_type: "standard").count +  @competition.subscriptions.where(fare_type: "young").count
+                  => @competition.subscriptions.where(status: "confirmed", fare_type: "standard").count +  @competition.subscriptions.where(status: "confirmed", fare_type: "young").count
                   '(
-                  => (@competition.subscriptions.where(fare_type: "standard").count * @competition.tournament.young_fare) + (@competition.subscriptions.where(fare_type: "young").count * @competition.tournament.young_fare)
+                  => (@competition.subscriptions.where(status: "confirmed", fare_type: "standard").count * @competition.tournament.amount) + (@competition.subscriptions.where(status: "confirmed", fare_type: "young").count * @competition.tournament.young_fare)
                   ' € )
 
 
