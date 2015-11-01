@@ -47,7 +47,7 @@
                 <td><%= tournament.subscriptions.count%></td>
                 <td><%= tournament.subscriptions.where(status: 'confirmed').count %></td>
                 <td><%= tournament.starts_on.strftime('%d/%m/%Y')%></td>
-                <td><%= En attente de validation%></td>
+                <td> En attente de validation</td>
               <% end %>
             </tr>
           <% end %>
