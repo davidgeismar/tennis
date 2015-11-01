@@ -114,8 +114,8 @@ class User < ActiveRecord::Base
       return base_fields_complete && address.present?
 
     else
-      return base_fields_complete && genre.present? && club.present? && ranking.present? && licencepicture_file_size.present? &&
-        certifmedpicture_file_size.present?
+      return base_fields_complete && genre.present? && club.present? && ranking.present? #&& licencepicture_file_size.present? &&
+        #certifmedpicture_file_size.present?
     end
   end
 
