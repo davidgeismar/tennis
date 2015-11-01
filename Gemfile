@@ -48,9 +48,12 @@ gem 'uglifier',                   '~> 2.7.0'
 gem 'unicode_utils',              '~> 1.4.0'
 gem 'watir-rails',                '~> 1.1.0'
 gem 'headless'
-gem 'faker'
+
 
 group :development, :test do
+  gem 'iso-iban'
+  gem 'rspec-rails'
+  gem 'factory_girl_rails'
   gem 'annotate'
   gem 'better_errors'
   gem 'binding_of_caller'
@@ -59,6 +62,13 @@ group :development, :test do
   gem 'pry-rails'
   gem 'quiet_assets'
   gem 'spring'
+end
+
+group :test do
+  gem 'faker'
+  gem 'capybara'
+  gem 'guard-rspec'
+  gem 'launchy'
 end
 
 group :production do
