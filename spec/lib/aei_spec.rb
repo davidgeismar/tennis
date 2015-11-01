@@ -4,17 +4,14 @@ require 'spec_helper'
 
 
 describe AEI do
-  it "has a valid factory" do
-    FactoryGirl.create(:contact).should be_valid
+  describe "mechanize_aei_login" do
+    it "returns a valid html_body"  do
+      expect(AEI.new("babas92500", "tencay80").mechanize_aei_login(Mechanize.new)).to be_instance_of(Nokogiri::HTML::Document)
+    end
+    it "returns a login error"  do
+      expect {
+        AEI.new("babs92500", "tencay80").mechanize_aei_login(Mechanize.new) }.to raise_error(AEI::LoginError)
+
+    end
   end
-  it "is invalid without a content"  do
-    FactoryGirl.build(:contact, content: nil).should_not be_valid
-  end
-  it "is invalid without an object"  do
-    FactoryGirl.build(:contact, object: nil).should_not be_valid
-  end
-  it "is invalid without an email"  do
-    FactoryGirl.build(:contact, email: nil).should_not be_valid
-  end
-  it "returns a contact's full name as a string"
 end

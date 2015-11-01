@@ -191,6 +191,7 @@ GEM
       has_scope (~> 0.6.0.rc)
       railties (>= 3.2, < 5)
       responders
+    iso-iban (0.1.3)
     jquery-rails (4.0.4)
       rails-dom-testing (~> 1.0)
       railties (>= 4.2.0)
@@ -206,11 +207,11 @@ GEM
       addressable (~> 2.3)
     letter_opener (1.4.1)
       launchy (~> 2.2)
-    loofah (2.0.3)
     listen (3.0.3)
+      nokogiri (>= 1.5.9)
       rb-fsevent (>= 0.9.3)
       rb-inotify (>= 0.9)
-      nokogiri (>= 1.5.9)
+    loofah (2.0.3)
     lumberjack (1.0.9)
     mail (2.6.3)
       mime-types (>= 1.16, < 3)
@@ -459,6 +460,7 @@ DEPENDENCIES
   guard-rspec
   headless
   high_voltage (~> 2.2.1)
+  iso-iban
   jquery-rails (~> 4.0.3)
   launchy
   letter_opener

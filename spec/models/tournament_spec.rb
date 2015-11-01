@@ -4,16 +4,15 @@ require 'spec_helper'
 
 describe Tournament do
   it "has a valid factory" do
-    FactoryGirl.create(:contact).should be_valid
+    FactoryGirl.create(:tournament).should be_valid
   end
   it "is invalid without a start date"  do
-    FactoryGirl.build(:contact, content: nil).should_not be_valid
+    FactoryGirl.build(:tournament, starts_on: nil).should_not be_valid
   end
   it "is invalid without a end date"  do
-    FactoryGirl.build(:contact, object: nil).should_not be_valid
+    FactoryGirl.build(:tournament, ends_on: nil).should_not be_valid
   end
-  it "is invalid without a user"  do
-    FactoryGirl.build(:contact, email: nil).should_not be_valid
+  it "is invalid with a start date after an end date"  do
+    FactoryGirl.build(:tournament, starts_on: "2015-11-18", ends_on: "2015-10-26").should_not be_valid
   end
-  it "returns a contact's full name as a string"
 end

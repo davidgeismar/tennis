@@ -4,7 +4,6 @@
 
   def index
     @tournaments = policy_scope(Tournament)
-
     if @tournaments.blank? && current_user.judge?
       render 'pages/partials/_no_tournaments_judge'
     elsif @tournaments.blank?
@@ -13,8 +12,8 @@
       @tournaments = Tournament.near(params[:content], 20, units: :km).where(accepted: true).where("ends_on >= :today", today: Date.today)
 
       respond_to do |format|
-        format.js {}
-        format.html{ render :index }
+        format.js
+        format.html
       end
     end
   end

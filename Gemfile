@@ -51,6 +51,7 @@ gem 'headless'
 
 
 group :development, :test do
+  gem 'iso-iban'
   gem 'rspec-rails'
   gem 'factory_girl_rails'
   gem 'annotate'
