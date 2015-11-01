@@ -33,9 +33,8 @@ div class="panel panel-default"
 
       - elsif @convocation.status == "confirmed"
           div class="row text-center"
-            div class="col-xs-12"
-              a href="#" data-target="#refused" data-toggle="modal" class="btn btn-warning convocation-answer"Je suis indisponible
-
+            /div class="col-xs-12"
+              /a href="#" data-target="#refused" data-toggle="modal" class="btn btn-warning convocation-answer"Je suis indisponible
             div class="col-xs-12"
               a href="#" data-target="#cancelled" data-toggle="modal" class="btn btn-danger convocation-answer"W.O
 
@@ -79,19 +78,19 @@ div class="modal fade" id="accepted"
 
 
 
-div class="modal fade" id="refused"
-  div class="modal-dialog mymodal"
-    div class="modal-content text-center"
-      div class="modal-header"
-        h4 class="modal-title" Demander au juge-arbitre une autre convocation?
-        p Vous vous apprétez à indiquer au juge-arbitre que la présente convocation ne vous convient pas. Attention, il se peut que le juge-arbitre ne puisse pas vous convoquez à une autre date/heure. Vous pouvez appeler le juge-arbitre  au
-        strong
-           = @convocation.subscription.tournament.user.telephone
+/ div class="modal fade" id="refused"
+/   div class="modal-dialog mymodal"
+/     div class="modal-content text-center"
+/       div class="modal-header"
+/         h4 class="modal-title" Demander au juge-arbitre une autre convocation?
+/         p Vous vous apprétez à indiquer au juge-arbitre que la présente convocation ne vous convient pas. Attention, il se peut que le juge-arbitre ne puisse pas vous convoquez à une autre date/heure. Vous pouvez appeler le juge-arbitre  au
+/         strong
+/            = @convocation.subscription.tournament.user.telephone
 
-      div class="modal-body"
-        = simple_form_for @convocation do |f|
-         = hidden_field_tag 'convocation[status]', :refused
-         = f.button :submit, "Je suis indisponible", class: "btn-warning convocation-answer"
+/       div class="modal-body"
+/         = simple_form_for @convocation do |f|
+/          = hidden_field_tag 'convocation[status]', :refused
+/          = f.button :submit, "Je suis indisponible", class: "btn-warning convocation-answer"
 
 
 
