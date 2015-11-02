@@ -18,30 +18,45 @@ class DisponibilitiesController < ApplicationController
     @disponibility.tournament = @tournament
 
     if current_user.judge?
-      authorize @disponibility
-      disponibilities           = JSON.parse(params[:dispo_array])
-      @disponibility.user       = current_user
-      authorize @disponibility
-      @disponibility.monday     = disponibilities_for_day(disponibilities, 'lundi')
-      @disponibility.tuesday    = disponibilities_for_day(disponibilities, 'mardi')
-      @disponibility.wednesday  = disponibilities_for_day(disponibilities, 'mercredi')
-      @disponibility.thursday   = disponibilities_for_day(disponibilities, 'jeudi')
-      @disponibility.friday     = disponibilities_for_day(disponibilities, 'vendredi')
-      @disponibility.saturday   = disponibilities_for_day(disponibilities, 'samedi')
-      @disponibility.sunday     = disponibilities_for_day(disponibilities, 'dimanche')
-      @subscription       = Subscription.find(params[:subscription_id])
-      @disponibility.user = @subscription.user
+      if params[:method] == "JSON"
+        authorize @disponibility
+        disponibilities           = JSON.parse(params[:dispo_array])
+        @disponibility.user       = current_user
+        authorize @disponibility
+        @disponibility.monday     =
+        @disponibility.tuesday    = disponibilities_for_day(disponibilities, 'mardi')
+        @disponibility.wednesday  = disponibilities_for_day(disponibilities, 'mercredi')
+        @disponibility.thursday   = disponibilities_for_day(disponibilities, 'jeudi')
+        @disponibility.friday     = disponibilities_for_day(disponibilities, 'vendredi')
+        @disponibility.saturday   = disponibilities_for_day(disponibilities, 'samedi')
+        @disponibility.sunday     = disponibilities_for_day(disponibilities, 'dimanche')
+        @subscription             = Subscription.find(params[:subscription_id])
+        @disponibility.user       = @subscription.user
+      else
+        @disponibility.user       = current_user
+        authorize @disponibility
+        @disponibility.assign_attributes(disponibility_params)
+        @subscription             = Subscription.find(params[:subscription_id])
+        @disponibility.user      = @subscription.user
+      end
+
     else
-      disponibilities           = JSON.parse(params[:dispo_array])
-      @disponibility.user       = current_user
-      authorize @disponibility
-      @disponibility.monday     = disponibilities_for_day(disponibilities, 'lundi')
-      @disponibility.tuesday    = disponibilities_for_day(disponibilities, 'mardi')
-      @disponibility.wednesday  = disponibilities_for_day(disponibilities, 'mercredi')
-      @disponibility.thursday   = disponibilities_for_day(disponibilities, 'jeudi')
-      @disponibility.friday     = disponibilities_for_day(disponibilities, 'vendredi')
-      @disponibility.saturday   = disponibilities_for_day(disponibilities, 'samedi')
-      @disponibility.sunday     = disponibilities_for_day(disponibilities, 'dimanche')
+      if params[:method] == "JSON"
+        disponibilities           = JSON.parse(params[:dispo_array])
+        @disponibility.user       = current_user
+        authorize @disponibility
+        @disponibility.monday     = disponibilities_for_day(disponibilities, 'lundi')
+        @disponibility.tuesday    = disponibilities_for_day(disponibilities, 'mardi')
+        @disponibility.wednesday  = disponibilities_for_day(disponibilities, 'mercredi')
+        @disponibility.thursday   = disponibilities_for_day(disponibilities, 'jeudi')
+        @disponibility.friday     = disponibilities_for_day(disponibilities, 'vendredi')
+        @disponibility.saturday   = disponibilities_for_day(disponibilities, 'samedi')
+        @disponibility.sunday     = disponibilities_for_day(disponibilities, 'dimanche')
+      else
+        @disponibility.user       = current_user
+        authorize @disponibility
+        @disponibility.assign_attributes(disponibility_params) #update sans faire de bdd
+      end
     end
 
     if @disponibility.save
