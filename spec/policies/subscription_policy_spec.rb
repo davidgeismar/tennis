@@ -6,20 +6,20 @@ require 'spec_helper'
 describe SubscriptionPolicy do
   subject { SubscriptionPolicy.new(user, subscription) }
 
-  let(:subscription) { FactoryGirl.create(:subscription) }
 
   context "for a visitor" do
     let(:user) { nil }
+    let(:subscription) { FactoryGirl.create(:subscription) }
 
     it { should_not permit(:create)  }
     it { should_not permit(:new)     }
     it { should_not permit(:update)  }
     it { should_not permit(:edit)    }
-    it { should_not permit(:destroy) }
   end
 
   context "for a player" do
     let(:user) { FactoryGirl.create(:user, judge: false) }
+    let(:subscription) { FactoryGirl.create(:subscription) }
 
     it { should_not permit(:index)    }
     it { should permit(:create)  }

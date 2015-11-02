@@ -43,6 +43,7 @@ describe TournamentsController do
   describe "new" do
     it "renders the :new template" do
       get :new, user_id: subject.current_user
+      binding.pry
       response.should render_template :new
     end
   end

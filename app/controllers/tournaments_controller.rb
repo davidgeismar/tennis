@@ -47,6 +47,7 @@
     authorize @tournament
     service = MangoPayments::Tournaments::SetupService.new(@tournament)
     if @tournament.save && service.call
+      TournamentMailer.created(@tournament).deliver
       redirect_to tournament_path(@tournament)
     else
       render :new
@@ -68,6 +69,7 @@
     @tournament.accepted = false
 
     if @tournament.save
+      TournamentMailer.edited(@tournament).deliver
       redirect_to tournament_path(@tournament)
     else
       render :edit

@@ -10,6 +10,8 @@ class Competition < ActiveRecord::Base
   has_many :subscriptions, dependent: :destroy
   has_many :notifications, dependent: :destroy
 
+
+  validates :tournament_id,       presence: true
   validates :category,            presence: { message: "Merci d'indiquer la catégorie de l'épreuve" }
   validates :nature,              presence: { message: "Merci d'indiquer la nature de l'épreuve" }
   validates :genre,               presence: { message: "Merci d'indiquer le genre de l'épreuve" }

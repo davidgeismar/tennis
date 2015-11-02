@@ -10,4 +10,5 @@ class Convocation < ActiveRecord::Base
   validates :date,            presence: { message: "Veuillez remplir la date de la convocation" }, on: :create
   validates :hour,            presence: { message: "Veuillez remplir l'heure de votre convocation" }, on: :create
   validates :subscription_id, presence: true
+  validates :status,          presence: true
 end

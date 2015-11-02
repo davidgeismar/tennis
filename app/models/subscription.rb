@@ -13,6 +13,7 @@ class Subscription < ActiveRecord::Base
   has_many :mangopay_transactions,  dependent:  :destroy
 
   validates :user_id, presence: true, uniqueness: { scope: :competition, message: "Vous etes déjà inscrit à ce tournoi dans cette catégorie" }
-
+  validates :competition_id, presence: true
+  validates :fare_type, presence: true
   scope :current, -> { joins(competition: :tournament).where('tournaments.ends_on > :today', today: Date.today) }
 end

@@ -15,5 +15,4 @@ describe Contact do
   it "is invalid without an email"  do
     FactoryGirl.build(:contact, email: nil).should_not be_valid
   end
-  it "returns a contact's full name as a string"
 end

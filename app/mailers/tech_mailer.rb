@@ -4,7 +4,7 @@ class TechMailer < ApplicationMailer
     @subscription_error_ids = subscription_error_ids
 
     mail(
-      to:       'contact@wetennis.fr',
+      to:       'davidgeismar@wetennis.fr',
       subject:  "[WeTennis] Payout error: #{subscription_error_ids.size} errors"
     )
   end

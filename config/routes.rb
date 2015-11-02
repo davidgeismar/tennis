@@ -13,7 +13,7 @@ Rails.application.routes.draw do
   resources :contacts,  only: [:new, :create]
 
   resources :convocations, only: [:edit, :update] do # JOUEUR
-    resources :messages, only: [:new, :create, :show]
+    resources :messages, only: [] #no message routes for now
   end
 
 

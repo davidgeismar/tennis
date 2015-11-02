@@ -14,4 +14,9 @@ class UserMailer < ApplicationMailer
     mail(to: @user.email, subject: 'Bienvenue sur wetennis.fr')
     # This will render a view in `app/views/user_mailer`!
   end
+
+  def new_judge(user)
+    @user = user
+    mail(to: "davidgeismar@wetennis.fr", subject: 'Nouvelle inscription juge arbitre')
+  end
 end

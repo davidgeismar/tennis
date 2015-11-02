@@ -6,11 +6,20 @@ class TournamentMailer < ApplicationMailer
   #
   #   en.tournament_mailer.accepted.subject
   #
-  def accepted(tournament)
 
+  def accepted(tournament)
      @tournament = tournament
 
     mail(to: tournament.user.email, subject: 'Tournoi Accepté')
+  end
 
+  def created(tournament)
+    @tournament = tournament
+    mail(to: "davidgeismar@wetennis.fr", subject: "Tournoi créee, en attente de validation")
+  end
+
+  def edited(tournament)
+    @tournament = tournament
+    mail(to: "davidgeismar@wetennis.fr", subject: "Tournoi modifié, en attente de validation")
   end
 end
