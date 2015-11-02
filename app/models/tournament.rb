@@ -21,6 +21,7 @@ class Tournament < ActiveRecord::Base
   has_many :subscriptions,        through: :competitions
   has_many :users,                through: :subscriptions
 
+
   validates :region,              presence: { message: "Merci de selectionner une région" }
   validates :postcode,            presence: { message: "Merci d'indiquer un code postal valide" }
   validates :starts_on,           presence: { message: "Merci d'indiquer la date de début" }

@@ -11,8 +11,6 @@
           </h4>
           <p>Club Organisateur: <strong><%=  @tournament.club_organisateur.upcase %></strong></p>
           <p>Ville: <strong> <%=  @tournament.city.upcase %></strong></p>
-          <p>Sexe: <strong><%=  @tournament.genre.text.upcase %></strong></p>
-          <p>Catégorie: <strong><%= @tournament.category %></strong></p>
           <p>Addresse des installations: <strong><%= @tournament.address %></strong></p>
           <p>Tarif adulte: <strong><%= @tournament.amount %> €</strong></p>
           <% if @tournament.young_fare? %>

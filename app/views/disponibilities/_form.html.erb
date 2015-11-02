@@ -1,0 +1,9 @@
+<%= form_tag tournament_disponibilities_path(@tournament), method: :post do %>
+  <%= label_tag :monday %>
+  <%= text_field_tag :monday %>
+  <%= label_tag :tuesday %>
+  <%= password_field_tag :tuesday %>
+  <%= button_tag :submit, class: 'btn btn-warning btn-expand  mb-20' do %>
+    <i.fa.fa-fw.fa-save> Sauvegarder</i>
+  <% end -%>
+<% end -%>

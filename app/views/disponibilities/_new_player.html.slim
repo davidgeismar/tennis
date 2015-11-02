@@ -18,5 +18,19 @@ div class="container"
         li = link_to 'Effacer', new_tournament_disponibility_path(@tournament), class: 'btn btn-default btn-expand'
 
     div class="col-md-10"
+      div id="form"
       div id= "js-calendar"
+
+
+
+= content_for :after_js do
+  javascript:
+    $(document).ready(function() {
+      if ($(window).width() < 500) {
+        $("#js-calendar").hide();
+        }
+      else {
+        $("#js-calendar").show();
+      }
+    });
 

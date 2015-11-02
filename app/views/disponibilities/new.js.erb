@@ -1,0 +1,7 @@
+
+$(document).ready(function(){
+ if ($(window).width() < 500) {
+        $("#js-calendar").hide();
+        $("#js-calendar").append("<%= escape_javascript(render 'form')%>");
+      }
+});
