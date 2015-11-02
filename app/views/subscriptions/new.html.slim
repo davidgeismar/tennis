@@ -40,7 +40,8 @@ div class="container"
             strong> = @subscription.tournament.starts_on.strftime("%d/%m/%Y")
             'au
             strong = @subscription.tournament.ends_on.strftime("%d/%m/%Y")
-          p Je ne serai débité que si mon inscription au tournoi est validé par le Juge arbitre
+          p
+            strong> Je ne serai débité que si mon inscription au tournoi est validé par le Juge arbitre
 
       = hidden_field_tag :card_type, "CB_VISA_MASTERCARD"
 

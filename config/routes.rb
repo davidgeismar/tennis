@@ -27,7 +27,7 @@ Rails.application.routes.draw do
   end
 
   resources :competitions, only: [:index, :show, :new, :create, :update] do
-    resources :subscriptions,       only: [:new, :show, :create, :index, :update]
+    resources :subscriptions,       only: [:create, :index, :update]
     resources :player_invitations,  only: [:new, :create]
     resource  :rankings,            only: [:show]
     resource  :aei_export,          only: [:create]

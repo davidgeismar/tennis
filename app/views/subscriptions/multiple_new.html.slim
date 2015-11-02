@@ -2,12 +2,7 @@ div class="container"
   div class="row"
     div class="col-xs-12"
       h1 Paiement
-
-      p
-        'Paiement de l’inscription pour un montant de
-        strong
-          = @total_amount
-          '€
+      p Je ne serai débité que si mon inscription est validée par le Juge arbitre
 
       div class="row"
         div class="col-sm-6"
@@ -32,17 +27,17 @@ div class="container"
                   input type="number" id="card_cvx" class="form-control empty text-input" placeholder="123"
         div class="col-sm-6"
           p
-            'En cliquant sur payer, je valide mon inscription à
+            'En cliquant sur payer, je demande mon inscription à
             strong> = @tournament.name
-            'dans la,les catégorie(s)
+            'dans la,les catégorie(s) :
             - @competitions.each do |competition|
-              strong> = competition.category
-              ',
+              ul
+                li
+                  strong> = competition.category
             'du
             strong> = @tournament.starts_on.strftime("%d/%m/%Y")
             'au
             strong = @tournament.ends_on.strftime("%d/%m/%Y")
-          p Je ne serai débité que si mon inscription au tournoi est validé par le Juge arbitre
 
       = hidden_field_tag :card_type, "CB_VISA_MASTERCARD"
 

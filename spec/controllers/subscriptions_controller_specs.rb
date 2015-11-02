@@ -16,7 +16,9 @@ describe SubscriptionsController do
       assigns(:subscriptions).should eq([subscription])
     end
     it "returns the :index view"  do
-      competition = FactoryGirl.create(:competition)
+
+      tournament = FactoryGirl.create(:tournament)
+      competition = FactoryGirl.create(:competition, tournament: tournament)
       subscription = FactoryGirl.create(:subscription, competition: competition)
       get :index, competition_id: competition
       response.should render_template :index
