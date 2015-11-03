@@ -14,10 +14,12 @@ div class="banner padded"
                 = f.label :birthdate, 'Date de naissance'
                 = f.date_select :birthdate, {:default => nil, :use_month_names => ['Janv.','Fevr.', 'Mars', 'Avr.', 'Mai', 'Juin', 'Juil.', 'Août','Sept.', 'Oct.', 'Nov.', 'Déc.'], :order => [:day, :month, :year], :start_year => 1910, :end_year => 2010}
                 div class= "form-group"
-                  = f.label :picture, label: "Photo"
-                  div class="upload-file-container"
+                  = f.label :Photo
+                  div class="btn btn-primary btn-upload btn-upload-pic-judge"
+                    = f.file_field :picture, id: "myFileInput4"
+                    i class="fa fa-fw fa-cloud-upload"
+                    'Ajouter
                     span id="fileName4"
-                    = f.file_field :picture, id: "myFileInput4", class: "form-control"
                 = f.input :email, label: "email"
                 = f.input :telephone
                 = f.input :licence_number, label: "Numéro de Licence"
