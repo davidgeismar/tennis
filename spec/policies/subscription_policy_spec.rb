@@ -10,9 +10,11 @@ describe SubscriptionPolicy do
   context "for a visitor" do
     let(:user) { nil }
     let(:subscription) { FactoryGirl.create(:subscription) }
+    it "should not let him create"   do
+       should_not subject.create?
+     end
+    it {should_not new?}
 
-    it { should_not permit(:create)  }
-    it { should_not permit(:new)     }
     it { should_not permit(:update)  }
     it { should_not permit(:edit)    }
   end
@@ -21,7 +23,7 @@ describe SubscriptionPolicy do
     let(:user) { FactoryGirl.create(:user, judge: false) }
     let(:subscription) { FactoryGirl.create(:subscription) }
 
-    it { should_not permit(:index)    }
+    it { should_not permit(:index)  }
     it { should permit(:create)  }
     it { should permit(:new)     }
     it { should_not permit(:update)  }

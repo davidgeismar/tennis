@@ -9,6 +9,7 @@ ActiveAdmin.register User do
       column :first_name
       column :last_name
       column :created_at
+      column :licence_number
       actions
     end
 
@@ -23,6 +24,7 @@ ActiveAdmin.register User do
       f.input :accepted
       f.input :sms_forfait
       f.input :sms_quantity
+       f.input :licence_number
     end
     f.inputs "Admin" do
       f.input :admin
@@ -30,7 +32,7 @@ ActiveAdmin.register User do
     f.actions
   end
 
-  permit_params :first_name, :last_name, :email, :admin, :telephone, :judge, :accepted, :sms_forfait, :sms_quantity
+  permit_params :first_name, :last_name, :email, :admin, :telephone, :judge, :accepted, :sms_forfait, :sms_quantity, :licence_number
 end
 
   # See permitted parameters documentation:

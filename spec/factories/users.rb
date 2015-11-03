@@ -7,6 +7,10 @@ FactoryGirl.define do
     f.password { Faker::Internet.password}
     f.licence_number { Faker::Lorem.sentence }
     f.email  { Faker::Internet.email }
-    f.judge [true, false].sample
+    f.judge {[true, false].sample }
+  end
+
+  trait :judge do |f|
+    f.judge true
   end
 end

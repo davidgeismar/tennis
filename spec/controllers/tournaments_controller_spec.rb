@@ -26,6 +26,8 @@ describe TournamentsController do
     end
   end
 
+
+
   describe "show" do
     it "assigns the requested tournament to @tournament" do
        tournament = FactoryGirl.create(:tournament, accepted: true)

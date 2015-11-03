@@ -34,8 +34,10 @@
 
   def new
     @tournament = Tournament.new
+    # binding.pry
     authorize @tournament
     check_profile
+
   end
 
   def create

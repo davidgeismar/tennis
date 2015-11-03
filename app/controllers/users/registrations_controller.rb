@@ -10,6 +10,13 @@ module Users
         super(*resources, &block)
       end
     end
+    def create
+      super
+      if resource.persisted? && resource.judge?
+
+        UserMailer.new_judge(resource).deliver
+      end
+    end
   end
    private
 end

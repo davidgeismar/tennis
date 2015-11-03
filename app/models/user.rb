@@ -34,6 +34,7 @@ class User < ActiveRecord::Base
 
   validates :first_name,  presence: { message: 'Veuillez remplir votre prénom' }, on: :update
   validates :last_name,   presence: { message: 'Veuillez remplir votre nom' },    on: :update
+  validates :birthdate, presence: { message: 'Veuillez indiquer votre date de naissance' },    on: :update
 
   validates :licence_number, format: {
       with:     /\A\d{7}\D{1}\z/,
@@ -43,7 +44,9 @@ class User < ActiveRecord::Base
   validates :telephone, format: {
       with:     /\A(\+33)[1-9]([-. ]?[0-9]{2}){4}\z/,
       message:  'Le format de votre numéro doit être du type +33602385414'
-    }, allow_blank: true, on: :update
+    }, on: :update
+
+  validates :address, presence: { message: 'Veuillez indiquer votre addresse' }, on: :update, :if => :judge
 
   def self.find_for_facebook_oauth(auth)
     user    = where(email: auth.info.email).first
