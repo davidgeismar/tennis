@@ -22,6 +22,6 @@ class UserMailer < ApplicationMailer
 
   def judge_waiting_for_confirmation(user)
     @user = user
-    mail(to: "davidgeismar@wetennis.fr", subject: 'Nouvelle inscription juge arbitre')
+    mail(to: "davidgeismar@wetennis.fr", subject: 'Profil complet juge arbitre')
   end
 end

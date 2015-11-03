@@ -105,6 +105,7 @@ class User < ActiveRecord::Base
    return licence_without_white_space[0...-1]
   end
 
+# for Judge I absolutely need address and birthdate to create mangopay legal user
   def profile_complete?
     base_fields_complete = (first_name.present? &&
       last_name.present? &&
