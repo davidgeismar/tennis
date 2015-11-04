@@ -24,4 +24,9 @@ class UserMailer < ApplicationMailer
     @user = user
     mail(to: "davidgeismar@wetennis.fr", subject: 'Profil complet juge arbitre')
   end
+
+  def judge_accepted(user)
+    @user = user
+    mail(to: @user.email, subject: 'Votre compte Juge Arbitre a été validé')
+  end
 end

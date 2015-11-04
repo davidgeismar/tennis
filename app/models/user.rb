@@ -1,4 +1,5 @@
 class User < ActiveRecord::Base
+  after_update :send_validation_email, if: "judge_was_accepted?"
   extend Enumerize
 
   enumerize :genre,   in: Settings.enumerize.genre
@@ -140,4 +141,11 @@ class User < ActiveRecord::Base
 
   private
 
+  def send_validation_email
+    UserMailer.judge_accepted(self).deliver
+  end
+
+  def judge_was_accepted?
+    self.judge? && self.accepted_changed? && self.accepted == true
+  end
 end

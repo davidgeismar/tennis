@@ -1,4 +1,6 @@
 ActiveAdmin.register User do
+  permit_params :first_name, :last_name, :email, :admin, :telephone, :judge, :accepted, :sms_forfait, :sms_quantity, :licence_number, :address
+
   index do
       selectable_column
       column :id
@@ -10,6 +12,7 @@ ActiveAdmin.register User do
       column :last_name
       column :created_at
       column :licence_number
+      column :address
       actions
     end
 
@@ -24,15 +27,14 @@ ActiveAdmin.register User do
       f.input :accepted
       f.input :sms_forfait
       f.input :sms_quantity
-       f.input :licence_number
+      f.input :licence_number
+      f.input :address
     end
     f.inputs "Admin" do
       f.input :admin
     end
     f.actions
   end
-
-  permit_params :first_name, :last_name, :email, :admin, :telephone, :judge, :accepted, :sms_forfait, :sms_quantity, :licence_number
 end
 
   # See permitted parameters documentation:
@@ -47,7 +49,6 @@ end
   #   permitted << :other if resource.something?
   #   permitted
   # en
-
 
 
 
