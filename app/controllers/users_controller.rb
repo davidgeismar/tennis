@@ -16,7 +16,7 @@ class UsersController < ApplicationController
       flash[:alert] = "Vous ne pouvez plus modifier votre date de naissance après vous etre inscrit à une compétition. Merci de contacter l'administrateur du site"
       redirect_to user_path(current_user)
     elsif @user.update(user_params)
-      if @user.judge? && @user.profile_complete?
+      if @user.judge? && @user.profile_complete? && !@user.accepted
         UserMailer.judge_waiting_for_confirmation(@user).deliver
         redirect_to user_path(current_user)
       else

@@ -86,8 +86,13 @@ class SubscriptionsController < ApplicationController
       end
     end
 
-    flash[:notice] = "Votre demande d'inscription a bien été prise en compte. Vous recevrez une réponse du Juge arbitre dans les plus brefs délais"
+    if current_user.profile_ultra_complete?
+      flash[:notice] = "Votre demande d'inscription a bien été prise en compte. Vous recevrez une réponse du Juge arbitre dans les plus brefs délais"
+    else
+      flash[:notice] = "Votre demande d'inscription a bien été envoyée. Pour recevoir une réponse rapide du juge-arbitre, merci de bien vouloir uploader votre licence et votre certificat médical (prenez les en photos !)"
+    end
     return redirect_to mytournaments_path
+
 
   rescue MangoPay::ResponseError => e
     flash[:alert] = "Nous ne parvenons pas à procéder à votre inscription. Veuillez renouveler votre demande. Si le problème persiste, veuillez contacter le service client [#{e.code}]."
@@ -270,7 +275,7 @@ class SubscriptionsController < ApplicationController
 
   def competition_available_for_user?(competition)
     if current_user.profile_complete? == false
-      flash[:alert] = "Vous devez d'abord remplir <a href=#{edit_user_path(current_user)}>votre profil</a> entièrement avant de pouvoir vous inscrire à ce tournoi (n'oubliez pas de scanner votre licence et votre certificat médical !)"
+      flash[:alert] = "Vous devez d'abord remplir <a href=#{edit_user_path(current_user)}>votre profil</a> entièrement avant de pouvoir vous inscrire à ce tournoi."
       return false
     elsif current_user.subscriptions.where(competition: competition).exists?
       flash[:alert] = "Vous êtes déjà inscrit à ce tournoi dans cette catégorie"

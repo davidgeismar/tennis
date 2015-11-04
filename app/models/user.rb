@@ -48,6 +48,7 @@ class User < ActiveRecord::Base
     }, on: :update
 
   validates :address, presence: { message: 'Veuillez indiquer votre addresse' }, on: :update, :if => :judge
+  validates :club, presence: { message: 'Veuillez indiquer votre club'}, on: :update, :unless => :judge
 
   def self.find_for_facebook_oauth(auth)
     user    = where(email: auth.info.email).first
@@ -107,6 +108,7 @@ class User < ActiveRecord::Base
   end
 
 # for Judge I absolutely need address and birthdate to create mangopay legal user
+# user can subscribe to tournament without licence picture and certif picture
   def profile_complete?
     base_fields_complete = (first_name.present? &&
       last_name.present? &&
@@ -122,6 +124,11 @@ class User < ActiveRecord::Base
       return base_fields_complete && genre.present? && club.present? && ranking.present? #&& licencepicture_file_size.present? &&
         #certifmedpicture_file_size.present?
     end
+  end
+
+  # profile with licence picture & certif picture
+  def profile_ultra_complete?
+    profile_complete? && licencepicture_file_size.present? && certifmedpicture_file_size.present?
   end
 
   def reset_password!(new_password, new_password_confirmation)
