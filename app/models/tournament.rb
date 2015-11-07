@@ -32,7 +32,8 @@ class Tournament < ActiveRecord::Base
   validates :name,                presence: { message: "Merci d'indiquer le nom de la compétition" }
   validates :club_email,          presence: { message: "Merci d'indiquer l'email du club organisateur" }
   validates :club_organisateur,   presence: { message: "Merci d'indiquer le club organisateur" }
-
+  validates :bic, presence: true
+  validates :iban, presence: true
   # rajouter uniqueness: true
   # validates :homologation_number, presence: true, format:{
   #     with:     /\A2015\d{11}\z/,

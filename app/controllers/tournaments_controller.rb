@@ -56,7 +56,9 @@
     end
   rescue MangoPay::ResponseError => e
     @tournament.destroy
-    flash.now[:alert] = "L'IBAN ou le BIC que vous avez fourni n'est pas valide. Veuillez vérifier les informations fournies. Si le problème persiste n'hésitez pas à contacter l'équipe WeTennis."
+    flash.now[:alert] = "#{e.message} #{e.code}"
+    mango_error_mess = "MANGO ERROR MESS : #{e.message} CODE [#{e.code}]"
+    puts mango_error_mess
     render :new
   end
 
