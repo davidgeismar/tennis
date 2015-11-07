@@ -44,6 +44,7 @@
     @tournament                     = Tournament.new(tournament_params)
     @tournament.user                = current_user
     @tournament.homologation_number = params[:tournament][:homologation_number].split.join
+    @tournament.postcode            = params[:tournament][:postcode].split.join
     @tournament.iban                = params[:tournament][:iban].delete(' ')
     @tournament.bic                 = params[:tournament][:bic].delete(' ')
     authorize @tournament
