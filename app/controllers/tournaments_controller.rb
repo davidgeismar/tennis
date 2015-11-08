@@ -61,7 +61,7 @@
       @tournament.destroy
       flash.now[:alert] = "#{e.message} #{e.code}"
     else
-      Appsignal.add_exception("MANGO ERROR MESS : no message CODE [#{e.code}]")
+      Appsignal.add_exception("MANGO ERROR MESS : no CODE [#{e.code}]")
       @tournament.destroy
       flash.now[:alert] = "#{e.code}"
     end
