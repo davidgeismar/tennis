@@ -55,7 +55,7 @@
     else
       render :new
     end
-  rescue MangoPay::ResponseError, :with => :mangopay_error
+  rescue MangoPay::ResponseError
     Appsignal.add_exception("MANGO ERROR MESS : #{e.message} CODE [#{e.code}]")
     @tournament.destroy
     flash.now[:alert] = "#{e.message} #{e.code}"
