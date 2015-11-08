@@ -56,11 +56,15 @@
       render :new
     end
   rescue MangoPay::ResponseError => e
-    Appsignal.add_exception("MANGO ERROR MESS : #{e.message} CODE [#{e.code}]")
-    @tournament.destroy
-    flash.now[:alert] = "#{e.message} #{e.code}"
-    mango_error_mess = "MANGO ERROR MESS : #{e.message} CODE [#{e.code}]"
-    puts mango_error_mess
+    if e.message
+      Appsignal.add_exception("MANGO ERROR MESS : #{e.message} CODE [#{e.code}]")
+      @tournament.destroy
+      flash.now[:alert] = "#{e.message} #{e.code}"
+    else
+      Appsignal.add_exception("MANGO ERROR MESS : no message CODE [#{e.code}]")
+      @tournament.destroy
+      flash.now[:alert] = "#{e.code}"
+    end
     render :new
   end
 
