@@ -22,6 +22,9 @@
     if Time.now.utc.to_date > @tournament.ends_on
       flash[:alert] = "Le tournoi que vous cherchez est terminé."
       redirect_to root_path
+    elsif @tournament.competitions.blank?
+      flash[:alert] = "Il n'est pas encore possible de s'inscrire à ce tournoi. Merci de réessayer plus tard"
+      redirect_to tournaments_path
     end
 
     @markers = Gmaps4rails.build_markers(@tournament) do |tournament, marker|
