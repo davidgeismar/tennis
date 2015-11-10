@@ -22,7 +22,7 @@
     if Time.now.utc.to_date > @tournament.ends_on
       flash[:alert] = "Le tournoi que vous cherchez est terminé."
       redirect_to root_path
-    elsif @tournament.competitions.blank?
+    elsif @tournament.competitions.blank? & !current_user.judge?
       flash[:alert] = "Il n'est pas encore possible de s'inscrire à ce tournoi. Merci de réessayer plus tard"
       redirect_to tournaments_path
     end

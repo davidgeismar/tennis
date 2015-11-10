@@ -95,6 +95,7 @@ class SubscriptionsController < ApplicationController
 
 
   rescue MangoPay::ResponseError => e
+     Appsignal.add_exception(e)
     flash[:alert] = "Nous ne parvenons pas à procéder à votre inscription. Veuillez renouveler votre demande. Si le problème persiste, veuillez contacter le service client [#{e.code}]."
   end
 
