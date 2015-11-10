@@ -54,6 +54,7 @@ class SubscriptionsController < ApplicationController
     @card = MangoPayments::Users::CreateCardRegistrationService.new(current_user).call
     # @subscription = @competition.subscriptions.build
   rescue MangoPay::ResponseError => e
+    Appsignal.add_exception(e)
     flash[:alert] = "Nous ne parvenons pas à procéder à votre inscription. Veuillez renouveler votre demande. Si le problème persiste, veuillez contacter le service client [#{e.code}]."
     redirect_to tournament_path(@tournament)
   end
