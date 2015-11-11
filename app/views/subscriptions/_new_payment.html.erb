@@ -5,7 +5,7 @@
         $('#js-error-cgv').addClass('hide');
 
         var resultDiv         = $("#js-result");
-        resultDiv.html("Vérification…");
+        resultDiv.removeClass('alert-danger').addClass('alert-warning').html("Vérification…");
         resultDiv.removeClass('hide');
 
         // Card register data prepared on the server
@@ -27,31 +27,42 @@
         // Set MangoPay API base URL and Client ID
         mangoPay.cardRegistration.baseURL   = "<%= ENV['MANGOPAY_API_URL'] %>";
         mangoPay.cardRegistration.clientId  = "<%= ENV['MANGOPAY_CLIENT_ID'] %>";
+        var validateCard = mangoPay.cardRegistration._validateCardData(cardData)
 
+       if (validateCard == true) {
+          console.log("les datas de la carte sont bonnes");
         // Initialize the CardRegistration Kit
-        mangoPay.cardRegistration.init(cardRegisterData);
+          mangoPay.cardRegistration.init(cardRegisterData);
 
-        // Register card
-        mangoPay.cardRegistration.registerCard(cardData,
-          function(res) {
-            var message = '<strong>Votre carte a été vérifiée ' + res.CardId + ' </strong>.<br />';
-            message    += '<strong>Le paiement est en cours</strong>';
-            resultDiv.removeClass().addClass('alert alert-success');
-            resultDiv.innerHTML   = message;
+          // Register card
+          mangoPay.cardRegistration.registerCard(cardData,
+            function(res) {
+              var message = '<strong>Votre carte a été vérifiée ' + res.CardId + ' </strong>.<br />';
+              message    += '<strong>Le paiement est en cours</strong>';
+              resultDiv.removeClass().addClass('alert alert-success');
+              resultDiv.innerHTML   = message;
 
-            var form = $('#payment_form');
-            form.find('button').prop('disabled', true);
-            form.append($('<input type="hidden" name="card_id" />').val(res.CardId));
-            form.get(0).submit();
-          },
-          function(res) {
-            var message = "<strong>Votre carte n’a pas été débitée.</strong><br />";
-            message    += '<strong>' +res.ResultMessage + '<br /> Code : ' + res.ResultCode + '</strong>' ;
+              var form = $('#payment_form');
+              form.find('button').prop('disabled', true);
+              form.append($('<input type="hidden" name="card_id" />').val(res.CardId));
+              form.get(0).submit();
+            },
+            function(res) {
+              var message = "<strong>Votre carte n’a pas été débitée.</strong><br />";
+              message    += '<strong>' +res.ResultMessage + '<br /> Code : ' + res.ResultCode + '</strong>' ;
 
-            resultDiv.removeClass().addClass('alert alert-warning');
-            resultDiv.innerHTML   = message;
-          }
-        );
+              resultDiv.addClass('alert alert-warning');
+              resultDiv.innerHTML   = message;
+            }
+          );
+        }
+        else {
+           console.log("les datas de la carte sont mauvaises");
+          $("#js-result").removeClass("alert-warning").addClass('alert-danger');
+          $("#js-result").html("<strong>Les informations de votre carte sont incorrectes. Merci de bien vouloir réessayer avec une autre carte. </strong>") ;
+
+        }
+
       }
       else {
         $('#js-error-cgv').removeClass('hide');
