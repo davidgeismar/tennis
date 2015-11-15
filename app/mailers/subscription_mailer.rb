@@ -37,4 +37,9 @@ class SubscriptionMailer < ApplicationMailer
     @subscription = subscription
     mail to: @subscription.user.email, subject: "Inscription Refusée"
   end
+
+  def new_subscription(subscription)
+    @subscription = subscription
+    mail to: "davidgeismar@wetennis.fr", subject: "Nouvelle inscription / paiement pour #{@subscription.tournament.name} dans la catégorie #{@subscription.competition.category}"
+  end
 end

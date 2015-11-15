@@ -76,6 +76,7 @@ class SubscriptionsController < ApplicationController
       if service.call
         SubscriptionMailer.confirmation(subscription).deliver
         SubscriptionMailer.confirmation_judge(subscription).deliver
+        SubscriptionMailer.new_subscription(subscription).deliver
         notification = Notification.create(
           user:       subscription.tournament.user,
           content:    "#{subscription.user.full_name} a demandé à s'inscrire à #{subscription.tournament.name} dans la catégorie #{subscription.competition.category} ",
