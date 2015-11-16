@@ -42,7 +42,7 @@ class DisponibilitiesController < ApplicationController
         authorize @disponibility
         @disponibility.assign_attributes(disponibility_params)
         @subscription             = Subscription.find(params[:subscription_id])
-        @disponibility.user      = @subscription.user
+        @disponibility.user       = @subscription.user
       end
 
     else
@@ -68,6 +68,13 @@ class DisponibilitiesController < ApplicationController
         @disponibility.user       = current_user
         authorize @disponibility
         @disponibility.assign_attributes(disponibility_params) #update sans faire de bdd
+        @disponibility.monday = I18n.t("aei.disponibility.#{@disponibility.monday}")
+        @disponibility.tuesday = I18n.t("aei.disponibility.#{@disponibility.tuesday}")
+        @disponibility.wednesday = I18n.t("aei.disponibility.#{@disponibility.wednesday}")
+        @disponibility.thursday = I18n.t("aei.disponibility.#{@disponibility.thursday}")
+        @disponibility.friday = I18n.t("aei.disponibility.#{@disponibility.friday}")
+        @disponibility.saturday = I18n.t("aei.disponibility.#{@disponibility.saturday}")
+        @disponibility.sunday = I18n.t("aei.disponibility.#{@disponibility.sunday}")
       end
     end
 

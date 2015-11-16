@@ -95,5 +95,20 @@ fr:
       'female_14 ans': "SD 14 ans"
       'female_15-16 ans': "SD 15/16 ans"
       'female_17-18 ans': "SD 17/18 ans"
+    disponibility:
+      'à partir de 9h': "9+"
+      'à partir de 10h': "10+"
+      'à partir de 11h': "11+"
+      'à partir de 12h': "12+"
+      'à partir de 13h': "13+"
+      'à partir de 14h': "14+"
+      'à partir de 15h': "15+"
+      'à partir de 16h': "16+"
+      'à partir de 17h': "17+"
+      'à partir de 18h': "18+"
+      'à partir de 19h': "19+"
+      'à partir de 20h': "20+"
+
+
 
 
