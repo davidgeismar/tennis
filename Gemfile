@@ -39,7 +39,6 @@ gem 'pundit',                     '~> 0.3.0'
 gem 'rails-i18n',                 '~> 4.0.3'
 gem 'rails_config',               '~> 0.4.2'
 gem 'redcarpet',                  '~> 3.3.1'
-gem 'ruby-trello',                '~> 1.2.1'
 gem 'sass-rails',                 '~> 5.0'
 gem 'simple_form',                '~> 3.1.0'
 gem 'slim',                       '~> 3.0.6'
@@ -48,7 +47,8 @@ gem 'uglifier',                   '~> 2.7.0'
 gem 'unicode_utils',              '~> 1.4.0'
 gem 'watir-rails',                '~> 1.1.0'
 gem 'appsignal',                  '~> 0.12.rc'
-gem 'headless'
+gem 'ruby-trello'
+
 
 
 group :development, :test do
@@ -57,11 +57,11 @@ group :development, :test do
   gem 'rspec-rails'
   gem 'factory_girl_rails'
   gem 'annotate'
-  # gem 'better_errors'
+  gem 'better_errors'
   gem 'binding_of_caller'
   gem 'letter_opener'
-  # gem 'pry-byebug'
-  # gem 'pry-rails'
+  gem 'pry-byebug'
+  gem 'pry-rails'
   gem 'quiet_assets'
   gem 'spring'
 end
