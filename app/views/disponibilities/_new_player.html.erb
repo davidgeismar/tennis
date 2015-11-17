@@ -5,13 +5,12 @@
       <h1 class="emperor"><%= @tournament.name%>
         <small>indiquez vos disponibilités</small>
       </h1>
-      <p><em>Sélectionner vos créneaux horaires par "glisser déposer" sur le calendrier". Pour supprimer un créneau, il suffit de cliquer de sur la zone préselectionnée.</em>
-       </p>
+      <p class="hidden-xs"><em>Sélectionner vos créneaux horaires par "glisser déposer" sur le calendrier". Pour supprimer un créneau, il suffit de cliquer de sur la zone préselectionnée.</em></p>
     </div>
   </div>
   <div class="row">
-    <div class="col-md-2">
-      <ul class="list-unstyled">
+    <div class="col-md-2 ">
+      <ul class="list-unstyled hidden-xs">
         <li>
            <%= form_tag tournament_disponibilities_path(@tournament), method: :post, id: "form-cal" do%>
                 <%= hidden_field_tag(:dispo_array)%>
@@ -28,65 +27,66 @@
       </ul>
     </div>
     <div class="col-md-10">
-      <div id="form"></div>
-      <div id="js-calendar"></div>
+      <div id="js-calendar" class= "hidden-xs"></div>
+      <div id="form" class="visible-xs">
+        <div class='panel text-center panel-default'>
+          <div class='panel-body'>
+
+             <%= form_tag tournament_disponibilities_path(@tournament), method: :post do%>
+             <div class='form-group'>
+               <%=label_tag "lundi", nil,  class: 'control-label'%>
+               <%= select_tag "disponibility[monday]", "<option value='à partir de 9h'>à partir de 9h</option> <option value='à partir de 9h30'>à partir de 9h30</option><option value='à partir de 10h'>à partir de 10h</option> <option value='à partir de 10h30'>à partir de 10h30</option><option value='à partir de 11h'>à partir de 11h</option><option value='à partir de 11h30'>à partir de 11h30</option><option value='à partir de 12h'>à partir de 12h</option><option value='à partir de 12h30'>à partir de 12h30</option><option value='à partir de 13h'>à partir de 13h</option> <option value='à partir de 13h30'>à partir de 13h30</option><option value='à partir de 14h'>à partir de 14h</option><option value='à partir de 14h30'>à partir de 14h30</option><option value='à partir de 15h'>à partir de 15h</option><option value='à partir de 15h30'>à partir de 15h30</option><option value='à partir de 16h'>à partir de 16h</option><option value='à partir de 16h30'>à partir de 16h30</option><option value='à partir de 17h'>à partir de 17h</option><option value='à partir de 17h30'>à partir de 17h30</option><option value='à partir de 18h'>à partir de 18h</option> <option value='à partir de 18h30'>à partir de 18h30</option><option value='à partir de 19h'>à partir de 19h</option>
+                    <option value='à partir de 19h30'>à partir de 19h30</option><option value='à partir de 20h'>à partir de 20h</option>".html_safe %>
+              </div>
+              <div class='form-group'>
+                <%=label_tag "mardi"%>
+                <%= select_tag "disponibility[tuesday]", "<option value='à partir de 9h'>à partir de 9h</option> <option value='à partir de 9h30'>à partir de 9h30</option><option value='à partir de 10h'>à partir de 10h</option> <option value='à partir de 10h30'>à partir de 10h30</option><option value='à partir de 11h'>à partir de 11h</option><option value='à partir de 11h30'>à partir de 11h30</option><option value='à partir de 12h'>à partir de 12h</option><option value='à partir de 12h30'>à partir de 12h30</option><option value='à partir de 13h'>à partir de 13h</option> <option value='à partir de 13h30'>à partir de 13h30</option><option value='à partir de 14h'>à partir de 14h</option><option value='à partir de 14h30'>à partir de 14h30</option><option value='à partir de 15h'>à partir de 15h</option><option value='à partir de 15h30'>à partir de 15h30</option><option value='à partir de 16h'>à partir de 16h</option><option value='à partir de 16h30'>à partir de 16h30</option><option value='à partir de 17h'>à partir de 17h</option><option value='à partir de 17h30'>à partir de 17h30</option><option value='à partir de 18h'>à partir de 18h</option> <option value='à partir de 18h30'>à partir de 18h30</option><option value='à partir de 19h'>à partir de 19h</option>
+                    <option value='à partir de 19h30'>à partir de 19h30</option><option value='à partir de 20h'>à partir de 20h</option>".html_safe %>
+              </div>
+
+                <div class='form-group'>
+                  <%=label_tag "mercredi"%>
+                  <%= select_tag "disponibility[wednesday]", "<option value='à partir de 9h'>à partir de 9h</option> <option value='à partir de 9h30'>à partir de 9h30</option><option value='à partir de 10h'>à partir de 10h</option> <option value='à partir de 10h30'>à partir de 10h30</option><option value='à partir de 11h'>à partir de 11h</option><option value='à partir de 11h30'>à partir de 11h30</option><option value='à partir de 12h'>à partir de 12h</option><option value='à partir de 12h30'>à partir de 12h30</option><option value='à partir de 13h'>à partir de 13h</option> <option value='à partir de 13h30'>à partir de 13h30</option><option value='à partir de 14h'>à partir de 14h</option><option value='à partir de 14h30'>à partir de 14h30</option><option value='à partir de 15h'>à partir de 15h</option><option value='à partir de 15h30'>à partir de 15h30</option><option value='à partir de 16h'>à partir de 16h</option><option value='à partir de 16h30'>à partir de 16h30</option><option value='à partir de 17h'>à partir de 17h</option><option value='à partir de 17h30'>à partir de 17h30</option><option value='à partir de 18h'>à partir de 18h</option> <option value='à partir de 18h30'>à partir de 18h30</option><option value='à partir de 19h'>à partir de 19h</option>
+                    <option value='à partir de 19h30'>à partir de 19h30</option><option value='à partir de 20h'>à partir de 20h</option>".html_safe %>
+                </div>
+                <div class='form-group'>
+                  <%=label_tag "jeudi"%>
+                  <%= select_tag "disponibility[thursday]", "<option value='à partir de 9h'>à partir de 9h</option> <option value='à partir de 9h30'>à partir de 9h30</option><option value='à partir de 10h'>à partir de 10h</option> <option value='à partir de 10h30'>à partir de 10h30</option><option value='à partir de 11h'>à partir de 11h</option><option value='à partir de 11h30'>à partir de 11h30</option><option value='à partir de 12h'>à partir de 12h</option><option value='à partir de 12h30'>à partir de 12h30</option><option value='à partir de 13h'>à partir de 13h</option> <option value='à partir de 13h30'>à partir de 13h30</option><option value='à partir de 14h'>à partir de 14h</option><option value='à partir de 14h30'>à partir de 14h30</option><option value='à partir de 15h'>à partir de 15h</option><option value='à partir de 15h30'>à partir de 15h30</option><option value='à partir de 16h'>à partir de 16h</option><option value='à partir de 16h30'>à partir de 16h30</option><option value='à partir de 17h'>à partir de 17h</option><option value='à partir de 17h30'>à partir de 17h30</option><option value='à partir de 18h'>à partir de 18h</option> <option value='à partir de 18h30'>à partir de 18h30</option><option value='à partir de 19h'>à partir de 19h</option>
+                    <option value='à partir de 19h30'>à partir de 19h30</option><option value='à partir de 20h'>à partir de 20h</option>".html_safe %>
+                </div>
+
+                <div class='form-group'>
+                  <%=label_tag "vendredi"%>
+                  <%= select_tag "disponibility[friday]", "<option value='à partir de 9h'>à partir de 9h</option> <option value='à partir de 9h30'>à partir de 9h30</option><option value='à partir de 10h'>à partir de 10h</option> <option value='à partir de 10h30'>à partir de 10h30</option><option value='à partir de 11h'>à partir de 11h</option><option value='à partir de 11h30'>à partir de 11h30</option><option value='à partir de 12h'>à partir de 12h</option><option value='à partir de 12h30'>à partir de 12h30</option><option value='à partir de 13h'>à partir de 13h</option> <option value='à partir de 13h30'>à partir de 13h30</option><option value='à partir de 14h'>à partir de 14h</option><option value='à partir de 14h30'>à partir de 14h30</option><option value='à partir de 15h'>à partir de 15h</option><option value='à partir de 15h30'>à partir de 15h30</option><option value='à partir de 16h'>à partir de 16h</option><option value='à partir de 16h30'>à partir de 16h30</option><option value='à partir de 17h'>à partir de 17h</option><option value='à partir de 17h30'>à partir de 17h30</option><option value='à partir de 18h'>à partir de 18h</option> <option value='à partir de 18h30'>à partir de 18h30</option><option value='à partir de 19h'>à partir de 19h</option>
+                    <option value='à partir de 19h30'>à partir de 19h30</option><option value='à partir de 20h'>à partir de 20h</option>".html_safe %>
+                </div>
+
+                <div class='form-group'>
+                  <%=label_tag "samedi"%>
+                  <%= select_tag "disponibility[saturday]", "<option value='à partir de 9h'>à partir de 9h</option> <option value='à partir de 9h30'>à partir de 9h30</option><option value='à partir de 10h'>à partir de 10h</option> <option value='à partir de 10h30'>à partir de 10h30</option><option value='à partir de 11h'>à partir de 11h</option><option value='à partir de 11h30'>à partir de 11h30</option><option value='à partir de 12h'>à partir de 12h</option><option value='à partir de 12h30'>à partir de 12h30</option><option value='à partir de 13h'>à partir de 13h</option> <option value='à partir de 13h30'>à partir de 13h30</option><option value='à partir de 14h'>à partir de 14h</option><option value='à partir de 14h30'>à partir de 14h30</option><option value='à partir de 15h'>à partir de 15h</option><option value='à partir de 15h30'>à partir de 15h30</option><option value='à partir de 16h'>à partir de 16h</option><option value='à partir de 16h30'>à partir de 16h30</option><option value='à partir de 17h'>à partir de 17h</option><option value='à partir de 17h30'>à partir de 17h30</option><option value='à partir de 18h'>à partir de 18h</option> <option value='à partir de 18h30'>à partir de 18h30</option><option value='à partir de 19h'>à partir de 19h</option>
+                    <option value='à partir de 19h30'>à partir de 19h30</option><option value='à partir de 20h'>à partir de 20h</option>".html_safe %>
+                </div>
+                <div class='form-group'>
+                  <%=label_tag "dimanche"%>
+                  <%= select_tag "disponibility[sunday]", "<option value='à partir de 9h'>à partir de 9h</option> <option value='à partir de 9h30'>à partir de 9h30</option><option value='à partir de 10h'>à partir de 10h</option> <option value='à partir de 10h30'>à partir de 10h30</option><option value='à partir de 11h'>à partir de 11h</option><option value='à partir de 11h30'>à partir de 11h30</option><option value='à partir de 12h'>à partir de 12h</option><option value='à partir de 12h30'>à partir de 12h30</option><option value='à partir de 13h'>à partir de 13h</option> <option value='à partir de 13h30'>à partir de 13h30</option><option value='à partir de 14h'>à partir de 14h</option><option value='à partir de 14h30'>à partir de 14h30</option><option value='à partir de 15h'>à partir de 15h</option><option value='à partir de 15h30'>à partir de 15h30</option><option value='à partir de 16h'>à partir de 16h</option><option value='à partir de 16h30'>à partir de 16h30</option><option value='à partir de 17h'>à partir de 17h</option><option value='à partir de 17h30'>à partir de 17h30</option><option value='à partir de 18h'>à partir de 18h</option> <option value='à partir de 18h30'>à partir de 18h30</option><option value='à partir de 19h'>à partir de 19h</option>
+                    <option value='à partir de 19h30'>à partir de 19h30</option><option value='à partir de 20h'>à partir de 20h</option>".html_safe %>
+                </div>
+                <div class='form-group'>
+                  <%=label_tag "Commentaire"%>
+                  <%= text_area_tag :comment %>
+                </div>
+               <%= button_tag :submit, class: 'btn btn-warning btn-expand  mb-20' do%>
+                  <i class="fa fa-fw fa-save"></i>
+                    Sauvegarder
+                <% end -%>
+               <% end -%>
+      </div>
     </div>
   </div>
 </div>
 
 <% content_for(:after_js) do %>
-      <script type="text/javascript" >
-        $(document).ready(function() {
-          if ($(window).width() < 500) {
-            $("#form-cal").hide();
-            $("#delete").hide();
-            $("em").hide();
-            $("#js-calendar").hide();
-            $("#form").append("<div class='panel text-center panel-default'>"+"<div class='panel-body'>"+"<form class='new_disponibility' id='new_disponibility' action='/tournaments/12/disponibilities' accept-charset='UTF-8' method='post'>" + "<%=token_tag.gsub('"', "'").html_safe%>" +
-              "<div class='form-group'>" +"<label class='control-label' for='disponibility_monday'>Le lundi</label>"+" <select name='disponibility[monday]' id='disponibility_monday' required>"+"<option value='à partir de 9h'>à partir de 9h</option>"+ "<option value='à partir de 9h30'>à partir de 9h30</option>"+"<option value='à partir de 10h'>à partir de 10h</option>"+ "<option value='à partir de 10h30'>à partir de 10h30</option>"+"<option value='à partir de 11h'>à partir de 11h</option>"+"<option value='à partir de 11h30'>à partir de 11h30</option>"+"<option value='à partir de 12h'>à partir de 12h</option>"+"<option value='à partir de 12h30'>à partir de 12h30</option>"+"<option value='à partir de 13h'>à partir de 13h</option>"+ "<option value='à partir de 13h30'>à partir de 13h30</option>"+"<option value='à partir de 14h'>à partir de 14h</option>"+"<option value='à partir de 14h30'>à partir de 14h30</option>"+"<option value='à partir de 15h'>à partir de 15h</option>"+"<option value='à partir de 15h30'>à partir de 15h30</option>"+"<option value='à partir de 16h'>à partir de 16h</option>"+"<option value='à partir de 16h30'>à partir de 16h30</option>"+"<option value='à partir de 17h'>à partir de 17h</option>"+"<option value='à partir de 17h30'>à partir de 17h30</option>"+"<option value='à partir de 18h'>à partir de 18h</option>"+ "<option value='à partir de 18h30'>à partir de 18h30</option>"+"<option value='à partir de 19h'>à partir de 19h</option>"+
-              "<option value='à partir de 19h30'>à partir de 19h30</option>"+"<option value='à partir de 20h'>à partir de 20h</option>"+"</select>"+"</div>" +"<div class='form-group'>"+" <label class='control-label' for='disponibility_tuesday'>Le mardi</label>"+" <select name='disponibility[tuesday]' id='disponibility_tuesday'>"+"<option value='à partir de 9h'>à partir de 9h</option>"+ "<option value='à partir de 9h30'>à partir de 9h30</option>"+"<option value='à partir de 10h'>à partir de 10h</option>"+ "<option value='à partir de 10h30'>à partir de 10h30</option>"+"<option value='à partir de 11h'>à partir de 11h</option>"+"<option value='à partir de 11h30'>à partir de 11h30</option>"+"<option value='à partir de 12h'>à partir de 12h</option>"+"<option value='à partir de 12h30'>à partir de 12h30</option>"+"<option value='à partir de 13h'>à partir de 13h</option>"+ "<option value='à partir de 13h30'>à partir de 13h30</option>"+"<option value='à partir de 14h'>à partir de 14h</option>"+"<option value='à partir de 14h30'>à partir de 14h30</option>"+"<option value='à partir de 15h'>à partir de 15h</option>"+"<option value='à partir de 15h30'>à partir de 15h30</option>"+"<option value='à partir de 16h'>à partir de 16h</option>"+"<option value='à partir de 16h30'>à partir de 16h30</option>"+"<option value='à partir de 17h'>à partir de 17h</option>"+"<option value='à partir de 17h30'>à partir de 17h30</option>"+"<option value='à partir de 18h'>à partir de 18h</option>"+ "<option value='à partir de 18h30'>à partir de 18h30</option>"+"<option value='à partir de 19h'>à partir de 19h</option>"+
-              "<option value='à partir de 19h30'>à partir de 19h30</option>"+"<option value='à partir de 20h'>à partir de 20h</option>"+"</select>"+ "</div>"+"<div class='form-group'>"+" <label class='control-label' for='disponibility_wednesday'>Le mercredi</label>"+" <select name='disponibility[wednesday]' id='disponibility_wednesday'>"+"<option value='à partir de 9h'>à partir de 9h</option>"+ "<option value='à partir de 9h30'>à partir de 9h30</option>"+"<option value='à partir de 10h'>à partir de 10h</option>"+ "<option value='à partir de 10h30'>à partir de 10h30</option>"+"<option value='à partir de 11h'>à partir de 11h</option>"+"<option value='à partir de 11h30'>à partir de 11h30</option>"+"<option value='à partir de 12h'>à partir de 12h</option>"+"<option value='à partir de 12h30'>à partir de 12h30</option>"+"<option value='à partir de 13h'>à partir de 13h</option>"+ "<option value='à partir de 13h30'>à partir de 13h30</option>"+"<option value='à partir de 14h'>à partir de 14h</option>"+"<option value='à partir de 14h30'>à partir de 14h30</option>"+"<option value='à partir de 15h'>à partir de 15h</option>"+"<option value='à partir de 15h30'>à partir de 15h30</option>"+"<option value='à partir de 16h'>à partir de 16h</option>"+"<option value='à partir de 16h30'>à partir de 16h30</option>"+"<option value='à partir de 17h'>à partir de 17h</option>"+"<option value='à partir de 17h30'>à partir de 17h30</option>"+"<option value='à partir de 18h'>à partir de 18h</option>"+ "<option value='à partir de 18h30'>à partir de 18h30</option>"+"<option value='à partir de 19h'>à partir de 19h</option>"+"<option value='à partir de 19h30'>à partir de 19h30</option>"+"<option value='à partir de 20h'>à partir de 20h</option>"+"</select>"+ "</div>"+"<div class='form-group'>"+" <label class='control-label' for='disponibility_thursday'>Le jeudi</label>"+" <select name='disponibility[thursday]' id='disponibility_thursday'>"+"<option value='à partir de 9h'>à partir de 9h</option>"+ "<option value='à partir de 9h30'>à partir de 9h30</option>"+"<option value='à partir de 10h'>à partir de 10h</option>"+ "<option value='à partir de 10h30'>à partir de 10h30</option>"+"<option value='à partir de 11h'>à partir de 11h</option>"+"<option value='à partir de 11h30'>à partir de 11h30</option>"+"<option value='à partir de 12h'>à partir de 12h</option>"+"<option value='à partir de 12h30'>à partir de 12h30</option>"+"<option value='à partir de 13h'>à partir de 13h</option>"+ "<option value='à partir de 13h30'>à partir de 13h30</option>"+"<option value='à partir de 14h'>à partir de 14h</option>"+"<option value='à partir de 14h30'>à partir de 14h30</option>"+"<option value='à partir de 15h'>à partir de 15h</option>"+"<option value='à partir de 15h30'>à partir de 15h30</option>"+"<option value='à partir de 16h'>à partir de 16h</option>"+"<option value='à partir de 16h30'>à partir de 16h30</option>"+"<option value='à partir de 17h'>à partir de 17h</option>"+"<option value='à partir de 17h30'>à partir de 17h30</option>"+"<option value='à partir de 18h'>à partir de 18h</option>"+ "<option value='à partir de 18h30'>à partir de 18h30</option>"+"<option value='à partir de 19h'>à partir de 19h</option>"+"<option value='à partir de 19h30'>à partir de 19h30</option>"+"<option value='à partir de 20h'>à partir de 20h</option>"+"</select>"+ "</div>"+"<div class='form-group'>"+" <label class='control-label' for='disponibility_friday'>Le vendredi</label>"+" <select name='disponibility[friday]' id='disponibility_friday'>"+"<option value='à partir de 9h'>à partir de 9h</option>"+ "<option value='à partir de 9h30'>à partir de 9h30</option>"+"<option value='à partir de 10h'>à partir de 10h</option>"+ "<option value='à partir de 10h30'>à partir de 10h30</option>"+"<option value='à partir de 11h'>à partir de 11h</option>"+"<option value='à partir de 11h30'>à partir de 11h30</option>"+"<option value='à partir de 12h'>à partir de 12h</option>"+"<option value='à partir de 12h30'>à partir de 12h30</option>"+"<option value='à partir de 13h'>à partir de 13h</option>"+ "<option value='à partir de 13h30'>à partir de 13h30</option>"+"<option value='à partir de 14h'>à partir de 14h</option>"+"<option value='à partir de 14h30'>à partir de 14h30</option>"+"<option value='à partir de 15h'>à partir de 15h</option>"+"<option value='à partir de 15h30'>à partir de 15h30</option>"+"<option value='à partir de 16h'>à partir de 16h</option>"+"<option value='à partir de 16h30'>à partir de 16h30</option>"+"<option value='à partir de 17h'>à partir de 17h</option>"+"<option value='à partir de 17h30'>à partir de 17h30</option>"+"<option value='à partir de 18h'>à partir de 18h</option>"+ "<option value='à partir de 18h30'>à partir de 18h30</option>"+"<option value='à partir de 19h'>à partir de 19h</option>"+"<option value='à partir de 19h30'>à partir de 19h30</option>"+"<option value='à partir de 20h'>à partir de 20h</option>"+"</select>"+ "</div>"+"<div class='form-group'>"+" <label class='control-label' for='disponibility_saturday'>Le samedi</label>"+" <select name='disponibility[saturday]' id='disponibility_saturday'>"+"<option value='à partir de 9h'>à partir de 9h</option>"+ "<option value='à partir de 9h30'>à partir de 9h30</option>"+"<option value='à partir de 10h'>à partir de 10h</option>"+ "<option value='à partir de 10h30'>à partir de 10h30</option>"+"<option value='à partir de 11h'>à partir de 11h</option>"+"<option value='à partir de 11h30'>à partir de 11h30</option>"+"<option value='à partir de 12h'>à partir de 12h</option>"+"<option value='à partir de 12h30'>à partir de 12h30</option>"+"<option value='à partir de 13h'>à partir de 13h</option>"+ "<option value='à partir de 13h30'>à partir de 13h30</option>"+"<option value='à partir de 14h'>à partir de 14h</option>"+"<option value='à partir de 14h30'>à partir de 14h30</option>"+"<option value='à partir de 15h'>à partir de 15h</option>"+"<option value='à partir de 15h30'>à partir de 15h30</option>"+"<option value='à partir de 16h'>à partir de 16h</option>"+"<option value='à partir de 16h30'>à partir de 16h30</option>"+"<option value='à partir de 17h'>à partir de 17h</option>"+"<option value='à partir de 17h30'>à partir de 17h30</option>"+"<option value='à partir de 18h'>à partir de 18h</option>"+ "<option value='à partir de 18h30'>à partir de 18h30</option>"+"<option value='à partir de 19h'>à partir de 19h</option>"+"<option value='à partir de 19h30'>à partir de 19h30</option>"+"<option value='à partir de 20h'>à partir de 20h</option>"+"</select>"+ "</div>"+"<div class='form-group'>"+" <label class='control-label' for='disponibility_sunday'>Le dimanche</label>"+" <select name='disponibility[sunday]' id='disponibility_sunday'>"+"<option value='à partir de 9h'>à partir de 9h</option>"+ "<option value='à partir de 9h30'>à partir de 9h30</option>"+"<option value='à partir de 10h'>à partir de 10h</option>"+ "<option value='à partir de 10h30'>à partir de 10h30</option>"+"<option value='à partir de 11h'>à partir de 11h</option>"+"<option value='à partir de 11h30'>à partir de 11h30</option>"+"<option value='à partir de 12h'>à partir de 12h</option>"+"<option value='à partir de 12h30'>à partir de 12h30</option>"+"<option value='à partir de 13h'>à partir de 13h</option>"+ "<option value='à partir de 13h30'>à partir de 13h30</option>"+"<option value='à partir de 14h'>à partir de 14h</option>"+"<option value='à partir de 14h30'>à partir de 14h30</option>"+"<option value='à partir de 15h'>à partir de 15h</option>"+"<option value='à partir de 15h30'>à partir de 15h30</option>"+"<option value='à partir de 16h'>à partir de 16h</option>"+"<option value='à partir de 16h30'>à partir de 16h30</option>"+"<option value='à partir de 17h'>à partir de 17h</option>"+"<option value='à partir de 17h30'>à partir de 17h30</option>"+"<option value='à partir de 18h'>à partir de 18h</option>"+ "<option value='à partir de 18h30'>à partir de 18h30</option>"+"<option value='à partir de 19h'>à partir de 19h</option>"+"<option value='à partir de 19h30'>à partir de 19h30</option>"+"<option value='à partir de 20h'>à partir de 20h</option>"+"</select>"+ "</div>"+"<div class='form-group'>"+" <label class='control-label' for='disponibility_comment'>Commentaire</label>"+"<input class='form-control' type='text' name='disponibility[comment]' id='disponibility_comment'>"+ "</div>"+"<input type='submit' name='commit' value='Sauvegarder'>"+
-              "</form>"+"</div>"+"</div>");
-            }
-          else {
-            $("#js-calendar").show();
-          }
-        });
-      </script>
-<% end%>
-<!-- <input type='hidden' name='authenticity_token' value=<%=token_tag%>> -->
+    <script type="text/javascript" >
+    </script>
+<% end -%>
 
-<!--
-
-
-             <div class='form-group'>
-                <label class='control-label' for='disponibility_wednesday'>Le mercredi</label>
-                <select name='disponibility[wednesday]' id='disponibility_wednesday'><option value='toute la journée'>toute la journée</option>
-    <option value='à partir de 9h'>à partir de 9h</option></select>
-              </div>
-              <div class='form-group'>
-                <label class='control-label' for='disponibility_thursday'>Le jeudi</label>
-                <select name='disponibility[thursday]' id='disponibility_thursday'><option value='toute la journée'>toute la journée</option>
-    <option value='à partir de 9h'>à partir de 9h</option></select>
-              </div>
-              <div class='form-group'>
-                <label class='control-label' for='disponibility_friday'>Le vendredi</label>
-                <select name='disponibility[friday]' id='disponibility_friday'><option value='toute la journée'>toute la journée</option>
-    <option value='à partir de 9h'>à partir de 9h</option></select>
-              </div>
-              <div class='form-group'>
-                <label class='control-label' for='disponibility_saturday'>Le samedi</label>
-                <select name='disponibility[saturday]' id='disponibility_saturday'><option value='toute la journée'>toute la journée</option>
-    <option value='à partir de 9h'>à partir de 9h</option></select>
-              </div>
-              <div class='form-group'>
-                <label class='control-label' for='disponibility_sunday'>Le dimanche</label>
-                <select name='disponibility[sunday]' id='disponibility_sunday'><option value='toute la journée'>toute la journée</option>
-    <option value='à partir de 9h'>à partir de 9h</option></select>
-              </div>
-              <div class='form-group'>
-                <label class='control-label' for='disponibility_comment'>Commentaires</label>
-                <input class='form-control' type='text' name='disponibility[comment]' id='disponibility_comment'>
-              </div>
-
-              <input type='submit' name='commit' value='Sauvegarder'> -->
