@@ -3,10 +3,8 @@ class CompetitionsController < ApplicationController
   before_action :set_competition, only: [:show, :edit, :update, :update_rankings]
 
   def index
-    tournament                  = Tournament.find(params[:tournament_id])
-    user_competition_ids        = current_user.subscriptions.where(tournament_id: tournament.id).pluck(:competition_id)
-    @unsubscribed_competitions  = tournament.competitions.where.not(id: user_competition_ids)
-
+    user_competition_ids        = current_user.subscriptions.where(tournament_id: @tournament.id).pluck(:competition_id)
+    @unsubscribed_competitions  = @tournament.competitions.where.not(id: user_competition_ids)
     authorize @unsubscribed_competitions
     policy_scope(@unsubscribed_competitions)
     if current_user.profile_complete? == false

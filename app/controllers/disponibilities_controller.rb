@@ -23,7 +23,6 @@ class DisponibilitiesController < ApplicationController
           disponibilities           = JSON.parse(params[:dispo_array])
           @disponibility.user       = current_user
           authorize @disponibility
-          @disponibility.monday     =
           @disponibility.tuesday    = disponibilities_for_day(disponibilities, 'mardi')
           @disponibility.wednesday  = disponibilities_for_day(disponibilities, 'mercredi')
           @disponibility.thursday   = disponibilities_for_day(disponibilities, 'jeudi')
@@ -87,7 +86,6 @@ class DisponibilitiesController < ApplicationController
         flash[:notice] = "Vos disponibilités ont bien été enregistrées"
       end
     else
-      raise
       render 'new'
     end
   end
