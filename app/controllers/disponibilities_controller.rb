@@ -87,6 +87,7 @@ class DisponibilitiesController < ApplicationController
         flash[:notice] = "Vos disponibilités ont bien été enregistrées"
       end
     else
+      raise
       render 'new'
     end
   end
