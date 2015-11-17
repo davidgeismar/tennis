@@ -54,19 +54,6 @@
     service = MangoPayments::Tournaments::SetupService.new(@tournament)
     if @tournament.save && service.call
       TournamentMailer.created(@tournament).deliver
-      # @client_david = Trello::Client.new(
-      #   :consumer_key => ENV['TRELLO_PUBLIC_KEY'],
-      #   :consumer_secret => ENV['TRELLO_MEMBER_TOKEN'],
-      #   :oauth_token => ,
-      #   :oauth_token_secret => "Alice's access secret"
-      # )
-      me = Trello::Member.find("davidgeismar")
-      me.find(:board, "tournament")
-      me.create(:card, 'name' => "hello")
-      client.find(:board, "board1234")
-      boards = me.boards
-
-      raise
       redirect_to tournament_path(@tournament)
     else
       render :new
