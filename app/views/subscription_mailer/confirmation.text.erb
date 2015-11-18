@@ -1,8 +1,9 @@
 WeTennis : demande d'inscription envoyée
 
  Bonjour <%=@subscriptions.first.user.first_name.capitalize%>,
- Votre demande d'inscription au tournoi <%=@subscriptions.first.tournament.name%> du <%=@subscriptions.first.tournament.starts_on.strftime("%d/%m/%Y") %> au <%=@subscriptions.first.tournament.ends_on.strftime("%d/%m/%Y") %>  dans la / les catégorie
- <%@subscriptions.each do |subscription|%> <%= subscription.competition.category%> <%end%> a bien été prise en compte. Votre inscription est sur liste d'attente jusqu'à validation officielle du juge-arbitre.
- Vous recevrez un email vous informant de la validation ou du refus de votre inscription.
+ Votre demande d'inscription au tournoi <%=@subscriptions.first.tournament.name%> du <%=@subscriptions.first.tournament.starts_on.strftime("%d/%m/%Y") %> au <%=@subscriptions.first.tournament.ends_on.strftime("%d/%m/%Y") %>  dans la / les catégorie(s)
+ <%@subscriptions.each do |subscription|%> <%= subscription.competition.category%> <%end%> a bien été prise en compte.
+ Votre inscription est sur liste d'attente jusqu'à validation officielle du juge-arbitre.
+ Vous recevrez un email vous informant de la validation ou du refus de vos/votre inscription(s).
  Si jamais votre inscription est finalement refusée pour <%=@subscriptions.first.tournament.name%>, votre carte ne sera pas débitée.
 
