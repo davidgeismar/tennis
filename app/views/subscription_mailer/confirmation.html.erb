@@ -3,9 +3,15 @@
 <h1>WeTennis : demande d'inscription envoyée</h1>
 
 <p>
- Bonjour <%=@subscription.user.first_name.capitalize%>, <br>
- Votre demande d'inscription au tournoi <strong><%=@subscription.tournament.name%> dans la catégorie <%=@subscription.competition.category%></strong> du <%=@subscription.tournament.starts_on.strftime("%d/%m/%Y") %> au <%=@subscription.tournament.ends_on.strftime("%d/%m/%Y") %> a bien été prise en compte.</p>
+ Bonjour <%=@subscriptions.first.user.first_name.capitalize%>, <br>
+ Votre demande d'inscription au tournoi <strong><%=@subscriptions.first.tournament.name%> dans les catégorie </strong> du <%=@subscriptions.first.tournament.starts_on.strftime("%d/%m/%Y") %> au <%=@subscriptions.first.tournament.ends_on.strftime("%d/%m/%Y") %> dans les catégories : </p>
+  <ul>
+    <% @subscriptions.each do |subscription|%>
+    <li><%= subscription.competition.category %></li>
+    <% end %>
+  </ul>
+  <p>a bien été prise en compte.</p>
  <p>Votre inscription est sur liste d'attente jusqu'à validation officielle du juge-arbitre.</p>
-<p>Si jamais votre inscription est finalement refusée pour <%=@subscription.tournament.name%>, votre carte ne sera pas débitée.</p>
+<p>Si jamais votre inscription est finalement refusée pour <%=@subscriptions.first.tournament.name%>, votre carte ne sera pas débitée.</p>
 
 

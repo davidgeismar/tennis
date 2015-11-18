@@ -5,11 +5,11 @@ module MangoPayments
 
       def amount
         unless @amount
-          case @subscription.fare_type
+          case @subscriptions.first.fare_type
           when 'standard'
-            @amount = @subscription.tournament.amount
+            @amount = @subscriptions.first.tournament.amount
           when 'young'
-            @amount = @subscription.tournament.young_fare
+            @amount = @subscriptions.first.tournament.young_fare
           end
         end
 
