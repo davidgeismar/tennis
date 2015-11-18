@@ -62,31 +62,41 @@ class SubscriptionsController < ApplicationController
   def multiple_create
     current_user.update(mangopay_card_id: params[:card_id])
 
+    # les épreuves auxquelles le joueeur veut s'inscrire
     @competition_ids  = params[:competition_ids].split
     @competitions     = Competition.where(id: @competition_ids)
+
+
     fare_type         = current_user.eligible_for_young_fare? ? :young : :standard
     tournament        = Tournament.find(params[:tournament_id])
 
     custom_authorize CompetitionMultiPolicy, @competition
-
+    subscriptions = []
+    # pour chaque épreuve je crée une subscription
     @competitions.each do |competition|
       subscription  = Subscription.new(user: current_user, competition: competition, fare_type: fare_type, tournament_id: tournament.id)
-      service       = MangoPayments::Subscriptions::CreatePayinService.new(subscription)
+      subscriptions << subscription
+    end
 
-      if service.call
-        SubscriptionMailer.confirmation(subscription).deliver
-        SubscriptionMailer.confirmation_judge(subscription).deliver
-        # SubscriptionMailer.new_subscription(subscription).deliver
+    # j'appelle le mangopaypayin service
+    service       = MangoPayments::Subscriptions::CreatePayinService.new(subscriptions, tournament, current_user)
+
+    if service.call
+      SubscriptionMailer.confirmation(subscriptions).deliver
+      SubscriptionMailer.confirmation_judge(subscriptions).deliver
+      # SubscriptionMailer.new_subscription(subscription).deliver
+      subscriptions.each do |subscription|
         notification = Notification.create(
           user:       subscription.tournament.user,
           content:    "#{subscription.user.full_name} a demandé à s'inscrire à #{subscription.tournament.name} dans la catégorie #{subscription.competition.category} ",
           competition_id: subscription.competition.id
         )
-      else
-        flash[:alert] = 'Un problème est survenu lors du paiement. Merci de bien vouloir réessayer plus tard.'
-        return redirect_to tournament_path(tournament)
       end
+    else
+      flash[:alert] = 'Un problème est survenu lors du paiement. Merci de bien vouloir réessayer plus tard.'
+      return redirect_to tournament_path(tournament)
     end
+
 
     if current_user.profile_ultra_complete?
       flash[:notice] = "Votre demande d'inscription a bien été prise en compte. Vous recevrez une réponse du Juge arbitre dans les plus brefs délais"

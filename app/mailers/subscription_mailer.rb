@@ -6,16 +6,16 @@ class SubscriptionMailer < ApplicationMailer
   #
   #   en.subscription_mailer.confirmation.subject
   #
-  def confirmation(subscription)
-    @subscription = subscription
+  def confirmation(subscriptions)
+    @subscriptions = subscriptions
 
-    mail to: @subscription.user.email, subject: "Inscription Envoyée"
+    mail to: @subscriptions.first.user.email, subject: "Inscription Envoyée"
   end
 
-   def confirmation_judge(subscription)
-    @subscription = subscription
+   def confirmation_judge(subscriptions)
+    @subscriptions = subscriptions
 
-    mail to: @subscription.tournament.user.email, subject: "Nouvelle demande d'Inscription à #{@subscription.tournament.name} dans la catégorie #{@subscription.competition.category}"
+    mail to: @subscriptions.first.tournament.user.email, subject: "Nouvelle demande d'Inscription à #{@subscriptions.first.tournament.name} dans la catégorie"
   end
 
   def confirmation_invited_user(subscription)
