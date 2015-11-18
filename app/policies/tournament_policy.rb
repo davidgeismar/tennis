@@ -19,6 +19,10 @@ class TournamentPolicy < ApplicationPolicy
     user && record.accepted? || record.user == user
   end
 
+  def destroy?
+    user && (record.user == user)
+  end
+
   def create?
     user && user.judge?
   end
