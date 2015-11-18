@@ -44,7 +44,6 @@ module MangoPayments
             transaction.subscription.mangopay_payin_id = mango_transaction['Id']
             # je save la transaction correspondante
             transaction.subscription.save
-            raise
           else
             false
           end
