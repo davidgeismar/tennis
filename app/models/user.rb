@@ -35,7 +35,7 @@ class User < ActiveRecord::Base
 
   validates :first_name,  presence: { message: 'Veuillez remplir votre prénom' }, on: :update
   validates :last_name,   presence: { message: 'Veuillez remplir votre nom' },    on: :update
-  validates :birthdate, presence: { message: 'Veuillez indiquer votre date de naissance' },    on: :update
+  validates :birthdate, presence: { message: 'Veuillez indiquer votre date de naissance' }, on: :update, :unless => :invitation_token?
 
   validates :licence_number, format: {
       with:     /\A\d{7}\D{1}\z/,
@@ -48,7 +48,7 @@ class User < ActiveRecord::Base
     }, on: :update
 
   validates :address, presence: { message: 'Veuillez indiquer votre addresse' }, on: :update, :if => :judge
-  validates :club, presence: { message: 'Veuillez indiquer votre club'}, on: :update, :unless => :judge
+  validates :club, presence: { message: 'Veuillez indiquer votre club'}, on: :update, :unless => :judge, :unless => :invitation_token?
 
   def self.find_for_facebook_oauth(auth)
     user    = where(email: auth.info.email).first
