@@ -18,7 +18,7 @@ Rails.application.routes.draw do
 
 
   resources :users, only: [:update, :show, :edit, :index] do
-    resources :tournaments, only: [:show, :new, :create, :edit, :update]
+    resources :tournaments, only: [:show, :new, :create, :edit, :update, :destroy]
   end
 
   resources :tournaments, only: [:index, :show, :new, :create, :update] do

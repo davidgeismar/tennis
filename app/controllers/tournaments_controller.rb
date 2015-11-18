@@ -1,5 +1,5 @@
  class TournamentsController < ApplicationController
-  before_action :set_tournament,  only: [:update, :edit, :show]
+  before_action :set_tournament,  only: [:update, :edit, :show, :destroy]
   before_action :check_profile,   only: [:create]
 
   def index
@@ -15,6 +15,17 @@
         format.js
         format.html
       end
+    end
+  end
+
+  def destroy
+    authorize @tournament
+    if @tournament.subscriptions.blank?
+      @tournament.destroy
+      redirect_to mytournaments_path
+    else
+      flash[:alert] = "Il y a déjà des inscriptions au tournoi. Contactez l'équipe WeTennis si vous souhaitez supprimer ce tournoi"
+      redirect_to mytournaments_path
     end
   end
 
