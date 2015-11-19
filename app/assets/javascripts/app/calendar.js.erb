@@ -16,6 +16,7 @@ $(document).ready(function() {
     selectable:   true,
     editable: true,
     allDaySlot: true,
+    eventOverlap: false,
     defaultAllDayEventDuration: { days: 0 },
 
 
@@ -117,6 +118,7 @@ $(document).ready(function() {
           $("#dispo_array").val(JSON.stringify(array_all_events));
         }
     },
+
 
     eventDrop: function( event ) {
       var all_events = $('#js-calendar').fullCalendar('clientEvents');
