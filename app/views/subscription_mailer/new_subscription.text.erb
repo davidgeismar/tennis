@@ -1,0 +1,11 @@
+WeTennis : Nouvelle demande d'inscription
+
+Nouvelle inscription : <%= @subscriptions.first.user.full_name.capitalize %>
+Tournoi : <%=@subscriptions.first.tournament.name%>
+Catégorie(s) :
+<%=@subscriptions.each do | subscription| %>
+  <%= subscription.competition.category%>
+
+
+Tarif:<%=@subscriptions.first.fare_type%>
+Total: <%= @subscriptions.first.fare_type*@subscriptions.count %>

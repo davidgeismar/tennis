@@ -1,7 +1,12 @@
 <h1>WeTennis : Nouvelle demande d'inscription </h1>
 
-<p> Nouvelle inscription : <%= @subscription.user.full_name.capitalize %> </p>
-<p>Tournoi : <%=@subscription.tournament.name%> </p>
-<p>Catégorie : <%=@subscription.competition.category%></p>
-<p>Prix :<%=@subscription.fare_type%> </p>
+<p> Nouvelle inscription : <%= @subscriptions.first.user.full_name.capitalize %> </p>
+<p>Tournoi : <%=@subscriptions.first.tournament.name%> </p>
+<p>Catégorie(s) :</p>
+<ul><%=@subscriptions.each do | subscription| %>
+ <li> <%= subscription.competition.category%></li>
+</ul>
+
+<p>Prix :<%=@subscriptions.first.fare_type%> </p>
+<p>Total: <%= @subscriptions.first.fare_type*@subscriptions.count %></p>
 

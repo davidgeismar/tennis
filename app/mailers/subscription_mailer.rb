@@ -8,6 +8,7 @@ class SubscriptionMailer < ApplicationMailer
   #
   def confirmation(subscriptions)
     @subscriptions = subscriptions
+    binding.pry
 
     mail to: @subscriptions.first.user.email, subject: "Inscription Envoyée"
   end
@@ -15,7 +16,7 @@ class SubscriptionMailer < ApplicationMailer
    def confirmation_judge(subscriptions)
     @subscriptions = subscriptions
 
-    mail to: @subscriptions.first.tournament.user.email, subject: "Nouvelle demande d'Inscription à #{@subscriptions.first.tournament.name} dans la catégorie"
+    mail to: @subscriptions.first.tournament.user.email, subject: "Nouvelle demande d'Inscription à #{@subscriptions.first.tournament.name}"
   end
 
   def confirmation_invited_user(subscription)
@@ -38,8 +39,8 @@ class SubscriptionMailer < ApplicationMailer
     mail to: @subscription.user.email, subject: "Inscription Refusée"
   end
 
-  def new_subscription(subscription)
-    @subscription = subscription
-    mail to: "davidgeismar@wetennis.fr", subject: "Nouvelle inscription / paiement pour #{@subscription.tournament.name} dans la catégorie #{@subscription.competition.category}"
+  def new_subscription(subscriptions)
+    @subscriptions = subscriptions
+    mail to: "davidgeismar@wetennis.fr", subject: "Nouvelle inscription / paiement pour #{@subscription.first.tournament.name}"
   end
 end

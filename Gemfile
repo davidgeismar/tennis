@@ -48,6 +48,7 @@ gem 'unicode_utils',              '~> 1.4.0'
 gem 'watir-rails',                '~> 1.1.0'
 gem 'appsignal',                  '~> 0.12.rc'
 gem 'ruby-trello'
+gem 'sidekiq'
 
 
 

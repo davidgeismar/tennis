@@ -81,17 +81,18 @@ class SubscriptionsController < ApplicationController
     # j'appelle le mangopaypayin service
     service       = MangoPayments::Subscriptions::CreatePayinService.new(subscriptions, tournament, current_user)
 
-    if service.call
-      SubscriptionMailer.confirmation(subscriptions).deliver
-      SubscriptionMailer.confirmation_judge(subscriptions).deliver
+    if subscriptions = service.call
+       SubscriptionEmailsWorker.perform_async(subscriptions)
+      # SubscriptionMailer.confirmation(subscriptions).deliver
+      # SubscriptionMailer.confirmation_judge(subscriptions).deliver
       # SubscriptionMailer.new_subscription(subscription).deliver
-      subscriptions.each do |subscription|
-        notification = Notification.create(
-          user:       subscription.tournament.user,
-          content:    "#{subscription.user.full_name} a demandé à s'inscrire à #{subscription.tournament.name} dans la catégorie #{subscription.competition.category} ",
-          competition_id: subscription.competition.id
-        )
-      end
+      # subscriptions.each do |subscription|
+      #   notification = Notification.create(
+      #     user:       subscription.tournament.user,
+      #     content:    "#{subscription.user.full_name} a demandé à s'inscrire à #{subscription.tournament.name} dans la catégorie #{subscription.competition.category} ",
+      #     competition_id: subscription.competition.id
+      #   )
+      # end
     else
       flash[:alert] = 'Un problème est survenu lors du paiement. Merci de bien vouloir réessayer plus tard.'
       return redirect_to tournament_path(tournament)
