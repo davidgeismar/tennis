@@ -1,4 +1,4 @@
 class ApplicationMailer < ActionMailer::Base
-  default from: 'contact@wetennis.fr'
+  default from: 'Wetennis<contact@wetennis.fr>'
   layout 'mailer'
 end

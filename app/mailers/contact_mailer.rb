@@ -1,5 +1,5 @@
 class ContactMailer < ApplicationMailer
-  default from: 'contact@wetennis.fr'
+  default from: 'Wetennis<contact@wetennis.fr>'
   # Subject can be set in your I18n file at config/locales/en.yml
   # with the following lookup:
   #
