@@ -2,9 +2,10 @@ class SubscriptionEmailsWorker
   include Sidekiq::Worker
   sidekiq_options retry: false
 
-  def perform(subscriptions)
+  def perform(subscription_ids)
     #emails
-    binding.pry
+    subscriptions = Subscription.where(id: subscription_ids)
+
     SubscriptionMailer.confirmation(subscriptions).deliver
     SubscriptionMailer.confirmation_judge(subscriptions).deliver
     SubscriptionMailer.new_subscription(subscriptions).deliver

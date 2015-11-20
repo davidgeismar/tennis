@@ -8,8 +8,6 @@ class SubscriptionMailer < ApplicationMailer
   #
   def confirmation(subscriptions)
     @subscriptions = subscriptions
-    binding.pry
-
     mail to: @subscriptions.first.user.email, subject: "Inscription Envoyée"
   end
 
@@ -41,6 +39,6 @@ class SubscriptionMailer < ApplicationMailer
 
   def new_subscription(subscriptions)
     @subscriptions = subscriptions
-    mail to: "davidgeismar@wetennis.fr", subject: "Nouvelle inscription / paiement pour #{@subscription.first.tournament.name}"
+    mail to: "davidgeismar@wetennis.fr", subject: "Nouvelle inscription / paiement pour #{@subscriptions.first.tournament.name}"
   end
 end

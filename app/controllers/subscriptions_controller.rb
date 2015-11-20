@@ -82,7 +82,7 @@ class SubscriptionsController < ApplicationController
     service       = MangoPayments::Subscriptions::CreatePayinService.new(subscriptions, tournament, current_user)
 
     if subscriptions = service.call
-       SubscriptionEmailsWorker.perform_async(subscriptions)
+       SubscriptionEmailsWorker.perform_async(subscriptions.map(&:id))
       # SubscriptionMailer.confirmation(subscriptions).deliver
       # SubscriptionMailer.confirmation_judge(subscriptions).deliver
       # SubscriptionMailer.new_subscription(subscription).deliver
