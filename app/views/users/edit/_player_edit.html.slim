@@ -33,6 +33,8 @@ div class="container"
                 = f.input :email, label:"Email"
               div class="col-sm-6"
                 = f.input :telephone, label: "Téléphone", placeholder: "format suivant: +33666027414"
+                -if params[:tournament]
+                  = f.input :tournament, :as => :hidden, :input_html => { :value => params[:tournament] }
             hr
             div class="row"
               div class="col-xs-4"

@@ -18,7 +18,7 @@ class ApplicationController < ActionController::Base
 
    def after_sign_in_path_for(user)
     if !user.profile_complete?
-      stored_location_for(user) || user_path(current_user)
+      stored_location_for(user) || tournaments_path
     elsif user.judge == false
       stored_location_for(user) || tournaments_path
     else

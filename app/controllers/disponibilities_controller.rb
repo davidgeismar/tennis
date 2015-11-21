@@ -8,8 +8,8 @@ class DisponibilitiesController < ApplicationController
     @disponibility.tournament = @tournament
     authorize @disponibility
     if current_user.profile_complete? == false
-      flash[:alert] = "Vous devez d'abord remplir <a href=#{edit_user_path(current_user)}>votre profil</a> entièrement avant de pouvoir vous inscrire à ce tournoi."
-      redirect_to edit_user_path(current_user)
+      flash[:alert] = "Vous devez d'abord remplir votre profil entièrement avant de pouvoir vous inscrire à ce tournoi."
+      redirect_to edit_user_path(current_user, tournament: @tournament)
     end
   end
 

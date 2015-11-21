@@ -1,6 +1,7 @@
 class User < ActiveRecord::Base
   after_update :send_validation_email, if: "judge_was_accepted?"
   extend Enumerize
+  attr_accessor :tournament
 
   enumerize :genre,   in: Settings.enumerize.genre
   enumerize :ranking, in: Settings.enumerize.ranking
