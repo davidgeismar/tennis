@@ -5,7 +5,13 @@ Tournoi : <%=@subscriptions.first.tournament.name%>
 Catégorie(s) :
 <%=@subscriptions.each do | subscription| %>
   <%= subscription.competition.category%>
+<% end -%>
 
 
-Tarif:<%=@subscriptions.first.fare_type%>
-Total: <%= @subscriptions.first.fare_type*@subscriptions.count %>
+  Tarif: <%=@subscriptions.first.fare_type%>
+
+<% if @subscriptions.first.fare_type == "young" %>
+  Total: <%= @subscriptions.first.tournament.young_fare*@subscriptions.count %>
+<% else %>
+  Total: <%= @subscriptions.first.tournament.amount*@subscriptions.count %>
+<% end -%>

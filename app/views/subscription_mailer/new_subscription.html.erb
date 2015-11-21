@@ -3,10 +3,16 @@
 <p> Nouvelle inscription : <%= @subscriptions.first.user.full_name.capitalize %> </p>
 <p>Tournoi : <%=@subscriptions.first.tournament.name%> </p>
 <p>Catégorie(s) :</p>
-<ul><%=@subscriptions.each do | subscription| %>
+<ul>
+  <%@subscriptions.each do | subscription| %>
  <li> <%= subscription.competition.category%></li>
+ <% end -%>
 </ul>
 
-<p>Prix :<%=@subscriptions.first.fare_type%> </p>
-<p>Total: <%= @subscriptions.first.fare_type*@subscriptions.count %></p>
+<p>Tarif :<%=@subscriptions.first.fare_type%> </p>
+<% if @subscriptions.first.fare_type == "young" %>
+  <p>Total: <%= @subscriptions.first.tournament.young_fare*@subscriptions.count %> €</p>
+<% else %>
+  <p>Total: <%= @subscriptions.first.tournament.amount*@subscriptions.count %> €</p>
+<% end -%>
 

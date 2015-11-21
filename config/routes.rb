@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
   # root to: 'home#home' # homepage via HighVoltage
   require 'sidekiq/web'
+  require 'sidekiq-scheduler/web'
   mount Sidekiq::Web => '/sidekiq'
 
   ActiveAdmin.routes(self)

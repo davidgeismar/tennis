@@ -50,8 +50,8 @@ gem 'watir-rails',                '~> 1.1.0'
 gem 'sinatra',                  :require => nil
 gem 'appsignal',                  '~> 0.12.rc'
 gem 'ruby-trello'
-gem 'sidekiq'
-
+gem 'sidekiq',                    '~> 3.5.3' # scheduler works only with sidekiq ~> 3
+gem 'sidekiq-scheduler',          '~> 1.2'
 
 
 group :development, :test do

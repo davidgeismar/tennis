@@ -2,5 +2,5 @@ WeTennis : Nouvelle demande d'inscription
 
 
  Bonjour <%=@subscriptions.first.tournament.user.first_name.capitalize%>,
- <%= @subscriptions.first.user.full_name.capitalize %> a demandé a s'inscrire au tournoi <%=@subscriptions.first.tournament.name%> dans la / les catégorie : <% @subscriptions.each do |subscription| %> <%= subscription.competition.category %> <%end%> a bien été prise en compte.
+ <%= @subscriptions.first.user.full_name.capitalize %> a demandé a s'inscrire au tournoi <%=@subscriptions.first.tournament.name%> dans la / les catégorie : <% @subscriptions.each do |subscription| %> <%= subscription.competition.category %> <%end%>.
  Connectez vous sur www.wetennis.fr pour donner une réponse à cette demande d'inscription.
