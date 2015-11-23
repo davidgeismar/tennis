@@ -8,7 +8,7 @@ class CompetitionsController < ApplicationController
     authorize @unsubscribed_competitions
     policy_scope(@unsubscribed_competitions)
     if current_user.profile_complete? == false
-      flash[:alert] = "Vous devez d'abord remplir <a href=#{edit_user_path(current_user)}>votre profil</a> entièrement avant de pouvoir vous inscrire à ce tournoi."
+      flash[:alert] = "Vous devez d'abord remplir <a href=#{edit_user_path(current_user)}>votre profil</a> avant de pouvoir vous inscrire à ce tournoi."
       return redirect_to edit_user_path(current_user)
     end
     if @unsubscribed_competitions.blank?

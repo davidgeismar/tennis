@@ -288,7 +288,7 @@ class SubscriptionsController < ApplicationController
 
   def competition_available_for_user?(competition)
     if current_user.profile_complete? == false
-      flash[:alert] = "Vous devez d'abord remplir <a href=#{edit_user_path(current_user)}>votre profil</a> entièrement avant de pouvoir vous inscrire à ce tournoi."
+      flash[:alert] = "Vous devez d'abord remplir <a href=#{edit_user_path(current_user)}>votre profil</a> avant de pouvoir vous inscrire à ce tournoi."
       return false
     elsif current_user.subscriptions.where(competition: competition).exists?
       flash[:alert] = "Vous êtes déjà inscrit à ce tournoi dans cette catégorie"

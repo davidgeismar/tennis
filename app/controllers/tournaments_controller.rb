@@ -98,7 +98,7 @@
 
   def check_profile
     if !current_user.profile_complete?
-      flash[:alert] = "Vous devez d'abord remplir" + "<a href=#{edit_user_path(current_user)} class='profil_link'>" + " votre profil " + "</a>"  + "entièrement pour pouvoir ajouter votre tournoi"
+      flash[:alert] = "Vous devez d'abord remplir" + "<a href=#{edit_user_path(current_user)} class='profil_link'>" + " votre profil " + "</a>"  + "pour pouvoir ajouter votre tournoi"
       redirect_to root_path
     elsif !current_user.accepted
       flash[:alert] = "Votre compte Juge Arbitre doit d'abord avoir été accepté par l'équipe WeTennis avant de pouvoir ajouter un tournoi. Assurez vous d'avoir bien rempli intégralement" + "<a href=#{user_path(current_user)} class='profil_link'>" + "votre profil" + "</a>" + "afin d'avoir une réponse rapide."
