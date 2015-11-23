@@ -8,7 +8,7 @@ class ContactMailer < ApplicationMailer
   def send_message_to_wetennis(contact)
     @contact = contact
 
-    mail(to: 'davidgeismar@hotmail.fr', subject: "Message de #{@contact.email}")
+    mail(to: 'davidgeismar@wetennis.fr', subject: "Message de #{@contact.email}")
   end
 
   def confirmation_email(contact)
