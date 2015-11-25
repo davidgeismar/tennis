@@ -8,6 +8,7 @@ module MangoPayments
       def call
         amount_cents      = amount * 100
         transaction       = @subscription.mangopay_transactions.create(status: 'pending', cgv: true, category: 'refund')
+        # potential partial payment
         mango_transaction = MangoPay::PayIn.refund(
           @subscription.mangopay_payin_id,
           {

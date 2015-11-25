@@ -33,6 +33,7 @@ module MangoPayments
           SecureModeReturnURL:  'https://wetennis.fr'
         )
 
+        subscriptions = []
         transactions.each do |transaction|
           # j'update le statut de chacune des transaction
             transaction.assign_attributes(
@@ -40,13 +41,19 @@ module MangoPayments
             mangopay_transaction_id:  mango_transaction['Id'],
             status:                   (mango_transaction['Status'] == 'SUCCEEDED' ? 'success' : 'failed')
           )
+
           if transaction.status == 'success'
             transaction.subscription.mangopay_payin_id = mango_transaction['Id']
             # je save la transaction correspondante
             transaction.subscription.save
-          else
-            false
+            subscriptions << transaction.subscription
           end
+        end
+
+        if subscriptions.blank?
+          return false
+        else
+          return subscriptions
         end
       end
     end
