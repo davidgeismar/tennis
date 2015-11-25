@@ -2,6 +2,8 @@ class SubscriptionEmailsWorker
   include Sidekiq::Worker
   sidekiq_options retry: false
 
+  # bundle exec sidekiq
+
   def perform(subscription_ids)
     #emails
     subscriptions = Subscription.where(id: subscription_ids)
