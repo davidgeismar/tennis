@@ -51,7 +51,7 @@ gem 'sinatra',                  :require => nil
 gem 'appsignal',                  '~> 0.12.rc'
 gem 'ruby-trello'
 gem 'sidekiq',                    '~> 3.5.3' # scheduler works only with sidekiq ~> 3
-gem 'sidekiq-scheduler',          '~> 1.2'
+
 
 gem 'google-analytics-rails'
 
