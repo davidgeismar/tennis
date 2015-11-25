@@ -1,5 +1,5 @@
 class AeiExportsMailer < ApplicationMailer
-  default from: 'contact@wetennis.fr'
+  default from: 'Wetennis<contact@wetennis.fr>'
 
   def export_bilan(failure_full_names, total_failure, success_full_names, total_success, already_subscribed_full_names, total_already_subscribed, outdated_licence_full_names, total_outdated_licence, too_young_to_participate_full_names, total_too_young, strictly_too_young_to_participate_full_names, total_strictly_too_young, too_old_to_participate_full_names, total_too_old, unavailable_for_genre_full_names, total_unvailable_genre, competition)
     @competition = competition

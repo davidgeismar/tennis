@@ -13,3 +13,4 @@
 # Ignore application configuration
 /config/application.yml
 /config/twilio.yml
+dump.rdb

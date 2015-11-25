@@ -1,5 +1,5 @@
 class PlayerInvitationsMailer < ApplicationMailer
-  default from: 'inscription@wetennis.fr'
+  default from: 'Wetennis<inscription@wetennis.fr>'
   # Subject can be set in your I18n file at config/locales/en.yml
   # with the following lookup:
   #

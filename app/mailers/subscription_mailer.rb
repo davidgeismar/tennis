@@ -1,5 +1,5 @@
 class SubscriptionMailer < ApplicationMailer
-  default from: 'inscriptions@wetennis.fr'
+  default from: 'Wetennis<inscriptions@wetennis.fr>'
 
   # Subject can be set in your I18n file at config/locales/en.yml
   # with the following lookup:

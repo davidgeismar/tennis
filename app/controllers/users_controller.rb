@@ -19,6 +19,9 @@ class UsersController < ApplicationController
       if @user.judge? && @user.profile_complete? && !@user.accepted
         UserMailer.judge_waiting_for_confirmation(@user).deliver
         redirect_to user_path(current_user)
+      elsif params[:user][:tournament].present?
+        flash[:notice] = "Vous pouvez maintenant renseigner vos disponibilités pour le tournoi #{Tournament.find(params[:user][:tournament]).name}"
+        redirect_to new_tournament_disponibility_path(params[:user][:tournament])
       else
         redirect_to user_path(current_user)
       end
@@ -56,7 +59,8 @@ class UsersController < ApplicationController
       :ranking,
       :telephone,
       :sms_forfait,
-      :sms_quantity
+      :sms_quantity,
+      :tournament
     )
   end
 

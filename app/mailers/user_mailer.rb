@@ -1,5 +1,5 @@
 class UserMailer < ApplicationMailer
-  default from: 'contact@wetennis.fr'
+  default from: 'Wetennis<contact@wetennis.fr>'
 
   def welcome(user)
     @user = user  # Instance variable => available in view

@@ -15,25 +15,29 @@ div class="container"
                 = f.input :last_name, label: "Nom"
               div class="col-sm-6"
                 = f.input :first_name, label: "Prénom"
-            = f.input :licence_number, label: "Numéro de licence", placeholder: "0930613K"
+            = f.input :licence_number, label: "Numéro de licence", placeholder: "0930613K", required: true
             hr
-            = f.input :club, label: "Votre club", placeholder: "TC Trouville"
+            = f.input :club, label: "Votre club", placeholder: "TC Trouville", required: true
             div class="row"
               div class="col-sm-6"
-                = f.input :genre, label: "Sexe"
+                = f.input :genre, label: "Sexe", required: true
               div class="col-sm-6"
-                = f.input :ranking, label: "Classement"
+                = f.input :ranking, label: "Classement", required: true
             - if current_user.subscriptions.blank?
               div class= "form-group"
                 = f.label :birthdate, 'Date de naissance'
                 br
-                = f.date_select :birthdate, {:include_blank => true, :default => nil, :use_month_names => ['Janv.','Fevr.', 'Mars', 'Avr.', 'Mai', 'Juin', 'Juil.', 'Août','Sept.', 'Oct.', 'Nov.', 'Déc.'], :order => [:day, :month, :year], :start_year => 1910, :end_year => 2010}
+                = f.date_select :birthdate, {:include_blank => true, :default => nil, :use_month_names => ['Janv.','Fevr.', 'Mars', 'Avr.', 'Mai', 'Juin', 'Juil.', 'Août','Sept.', 'Oct.', 'Nov.', 'Déc.'], :order => [:day, :month, :year], :start_year => 1910, :end_year => 2010}, required: true
             div class="row"
               div class="col-sm-6"
-                = f.input :email, label:"Email"
+                = f.input :email, label:"Email", required: true
               div class="col-sm-6"
-                = f.input :telephone, label: "Téléphone", placeholder: "format suivant: +33666027414"
+                = f.input :telephone, label: "Téléphone", placeholder: "format suivant: +33666027414", required: true
+                -if params[:tournament]
+                  = f.input :tournament, :as => :hidden, :input_html => { :value => params[:tournament] }
             hr
+            - if params[:tournament]
+              em Les documents qui suivent ne sont pas nécessaire pour finaliser votre inscription. Vous devrez néanmoins les télécharger avant votre premier tour pour que le juge-arbitre y ai accès.
             div class="row"
               div class="col-xs-4"
                 div class= "form-group"

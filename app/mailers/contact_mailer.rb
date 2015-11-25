@@ -1,5 +1,5 @@
 class ContactMailer < ApplicationMailer
-  default from: 'contact@wetennis.fr'
+  default from: 'Wetennis<contact@wetennis.fr>'
   # Subject can be set in your I18n file at config/locales/en.yml
   # with the following lookup:
   #
@@ -8,7 +8,7 @@ class ContactMailer < ApplicationMailer
   def send_message_to_wetennis(contact)
     @contact = contact
 
-    mail(to: 'davidgeismar@hotmail.fr', subject: "Message de #{@contact.email}")
+    mail(to: 'davidgeismar@wetennis.fr', subject: "Message de #{@contact.email}")
   end
 
   def confirmation_email(contact)
