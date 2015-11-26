@@ -1,5 +1,5 @@
 ActiveAdmin.register User do
-  permit_params :first_name, :last_name, :email, :admin, :telephone, :judge, :accepted, :sms_forfait, :sms_quantity, :licence_number, :address, :birthdate
+  permit_params :first_name, :last_name, :email, :admin, :telephone, :judge, :accepted, :sms_forfait, :sms_quantity, :licence_number, :address, :birthdate, :club
 
   index do
       selectable_column
@@ -14,6 +14,7 @@ ActiveAdmin.register User do
       column :licence_number
       column :address
       column :birthdate
+      column :club
       actions
     end
 
@@ -31,6 +32,7 @@ ActiveAdmin.register User do
       f.input :licence_number
       f.input :address
       f.input :birthdate
+      f.input :club
     end
     f.inputs "Admin" do
       f.input :admin

@@ -49,7 +49,7 @@ class User < ActiveRecord::Base
     }, on: :update
 
   validates :address, presence: { message: 'Veuillez indiquer votre addresse' }, on: :update, :if => :judge
-  validates :club, presence: { message: 'Veuillez indiquer votre club'}, on: :update, :unless => :judge, :unless => :invitation_token?
+  validates :club, presence: { message: 'Veuillez indiquer votre club'}, on: :update, :unless => [:judge, :invitation_token?]
 
   def self.find_for_facebook_oauth(auth)
     user    = where(email: auth.info.email).first
