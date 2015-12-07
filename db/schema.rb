@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151013201227) do
+ActiveRecord::Schema.define(version: 20151207143849) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -124,6 +124,28 @@ ActiveRecord::Schema.define(version: 20151013201227) do
   add_index "disponibilities", ["tournament_id"], name: "index_disponibilities_on_tournament_id", using: :btree
   add_index "disponibilities", ["user_id"], name: "index_disponibilities_on_user_id", using: :btree
 
+  create_table "game_users", force: :cascade do |t|
+    t.integer  "user_id"
+    t.integer  "game_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "game_users", ["game_id"], name: "index_game_users_on_game_id", using: :btree
+  add_index "game_users", ["user_id"], name: "index_game_users_on_user_id", using: :btree
+
+  create_table "games", force: :cascade do |t|
+    t.integer  "scoreboard_id"
+    t.string   "score"
+    t.integer  "winner"
+    t.integer  "loser"
+    t.date     "date"
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
+  end
+
+  add_index "games", ["scoreboard_id"], name: "index_games_on_scoreboard_id", using: :btree
+
   create_table "licencieffts", force: :cascade do |t|
     t.date     "date_of_birth"
     t.string   "licence_number"
@@ -177,6 +199,14 @@ ActiveRecord::Schema.define(version: 20151013201227) do
   add_index "notifications", ["competition_id"], name: "index_notifications_on_competition_id", using: :btree
   add_index "notifications", ["user_id"], name: "index_notifications_on_user_id", using: :btree
 
+  create_table "scoreboards", force: :cascade do |t|
+    t.integer  "competition_id"
+    t.datetime "created_at",     null: false
+    t.datetime "updated_at",     null: false
+  end
+
+  add_index "scoreboards", ["competition_id"], name: "index_scoreboards_on_competition_id", using: :btree
+
   create_table "subscriptions", force: :cascade do |t|
     t.integer  "user_id"
     t.string   "status",            default: "pending"
@@ -221,6 +251,7 @@ ActiveRecord::Schema.define(version: 20151013201227) do
     t.boolean  "funds_received",           default: false
     t.integer  "club_fare"
     t.string   "region"
+    t.boolean  "fft"
   end
 
   add_index "tournaments", ["user_id"], name: "index_tournaments_on_user_id", using: :btree
@@ -305,10 +336,14 @@ ActiveRecord::Schema.define(version: 20151013201227) do
   add_foreign_key "convocations", "subscriptions"
   add_foreign_key "disponibilities", "tournaments"
   add_foreign_key "disponibilities", "users"
+  add_foreign_key "game_users", "games"
+  add_foreign_key "game_users", "users"
+  add_foreign_key "games", "scoreboards"
   add_foreign_key "mangopay_transactions", "competitions"
   add_foreign_key "mangopay_transactions", "subscriptions"
   add_foreign_key "notifications", "competitions"
   add_foreign_key "notifications", "users"
+  add_foreign_key "scoreboards", "competitions"
   add_foreign_key "subscriptions", "competitions"
   add_foreign_key "subscriptions", "tournaments"
   add_foreign_key "subscriptions", "users"

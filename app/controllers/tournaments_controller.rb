@@ -131,7 +131,8 @@
       :starts_on,
       :young_fare,
       :club_fare,
-      :region
+      :region,
+      :fft
     )
   end
 end
