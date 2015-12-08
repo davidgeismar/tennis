@@ -5,7 +5,8 @@
 
   def index
     @tournaments = policy_scope(Tournament)
-    if @tournaments.blank? && current_user.judge?
+    if current_user.nil? && params[:content].blank?
+    elsif @tournaments.blank? && current_user.judge?
       render 'pages/partials/_no_tournaments_judge'
     elsif @tournaments.blank?
       render 'pages/partials/_no_tournaments'
