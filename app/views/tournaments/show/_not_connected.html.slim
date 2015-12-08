@@ -1,0 +1,49 @@
+div class="container"
+  div class="row"
+    div class="col-md-5"
+
+      div class="panel panel-default"
+        div class="panel-heading"
+          h3 = @tournament.name
+        div class="panel-body"
+          dl class="dl-horizontal"
+            dt Dates
+            dd
+              'Du
+              => @tournament.starts_on.strftime('%d/%m/%Y')
+              'au
+              = @tournament.ends_on.strftime('%d/%m/%Y')
+            dt Club Organisateur
+            dd = @tournament.club_organisateur
+          dl class="dl-horizontal"
+            dt Addresse
+            dd = @tournament.address
+            dt Code postal
+            dd = @tournament.postcode
+            dt Ville
+            dd = @tournament.city
+          dl class="dl-horizontal"
+            dt Tarif Adulte
+            dd
+              = @tournament.amount
+              '€
+            - if @tournament.young_fare?
+              dt Tarif jeune
+              dd
+                = @tournament.young_fare
+                '€
+
+          dl class="dl-horizontal"
+            dt Catégories :
+            dd class="medium_minus"
+              - @tournament.competitions.each do |competition|
+                = I18n.t("competition.#{competition.category} #{competition.genre.text}")
+                br
+
+      ul.list-inline
+        li = link_to '← Retour', tournaments_path, class: 'btn btn-default'
+        li = link_to 'S’inscrire', tournament_competitions_path(@tournament), class: 'btn btn-warning'
+
+
+    div class="col-md-7"
+      = render 'tournaments/show/map_location'

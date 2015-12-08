@@ -12,11 +12,11 @@ class TournamentPolicy < ApplicationPolicy
   end
 
   def index?
-   user
+    true
   end
 
   def show?
-    user && record.accepted? || record.user == user
+   record.accepted? || record.user == user
   end
 
   def destroy?

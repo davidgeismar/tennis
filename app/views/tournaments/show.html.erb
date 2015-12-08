@@ -1,6 +1,8 @@
 <!-- JA du tournoi en question -->
 <% if @tournament.accepted? && current_user == @tournament.user %>
   <%= render 'tournaments/show/details' %>
+<% elsif @tournament.accepted? && current_user.nil? %>
+  <%= render 'tournaments/show/not_connected' %>
 <!--  User est juge mais n'est pas le JA en question-->
 <% elsif @tournament.accepted? && current_user.judge? %>
   <%= render 'tournaments/show/details_judge' %>
