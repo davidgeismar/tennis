@@ -10,7 +10,9 @@ div class="container"
           div class="panel-heading"
             h4 Informations Compétition
           div class="panel-body"
-            = t.input :homologation_number, label: "Votre numéro d'homologation (strictement identique à celui sur AEI, sans la lettre du début)", placeholder: "Ne pas indiquer la lettre du début"
+            = t.input :fft, label: "Tournoi FFT ?"
+            div class="fade homol"
+              = t.input :homologation_number, label: "Votre numéro d'homologation (strictement identique à celui sur AEI, sans la lettre du début)", placeholder: "Ne pas indiquer la lettre du début"
             = t.input :name, label: 'Nom de la Compétition'
             div class="row"
               div class="col-md-6"
@@ -38,3 +40,17 @@ div class="container"
             = t.input :bic, label: "BIC"
           div class="panel-footer"
             = t.button :submit, value: "Soumettre ce tournoi à validation",  class: "btn-primary marge-bas"
+
+
+= content_for :after_js do
+  javascript:
+    $(document).ready(function() {
+      $('#tournament_fft').on('click', function(event){
+        if ($('#tournament_fft').is(":checked")) {
+            $('.homol').addClass("appear")
+                  }
+        else {
+        $('.homol').removeClass("appear");
+        }
+      });
+    });

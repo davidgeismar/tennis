@@ -1,4 +1,5 @@
  class TournamentsController < ApplicationController
+  skip_before_action :authenticate_user!, only: [:index, :show]
   before_action :set_tournament,  only: [:update, :edit, :show, :destroy]
   before_action :check_profile,   only: [:create]
 
@@ -33,7 +34,11 @@
     if Time.now.utc.to_date > @tournament.ends_on
       flash[:alert] = "Le tournoi que vous cherchez est terminé."
       redirect_to root_path
-    elsif @tournament.competitions.blank? & !current_user.judge?
+    elsif @tournament.competitions.blank? && current_user.nil?
+      flash[:alert] = "Il n'est pas encore possible de s'inscrire à ce tournoi. Merci de réessayer plus tard"
+      redirect_to tournaments_path
+    elsif current_user.nil?
+    elsif @tournament.competitions.blank? && !current_user.judge?
       flash[:alert] = "Il n'est pas encore possible de s'inscrire à ce tournoi. Merci de réessayer plus tard"
       redirect_to tournaments_path
     end
@@ -131,7 +136,8 @@
       :starts_on,
       :young_fare,
       :club_fare,
-      :region
+      :region,
+      :fft
     )
   end
 end
