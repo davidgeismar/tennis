@@ -179,6 +179,10 @@ GEM
     geocoder (1.2.12)
     geocomplete_rails (1.6.5)
       railties (>= 3.1)
+    geokit (1.10.0)
+    geokit-rails (2.1.0)
+      geokit (~> 1.5)
+      rails (>= 3.0)
     globalid (0.3.6)
       activesupport (>= 4.1.0)
     gmaps4rails (2.1.2)
@@ -495,6 +499,7 @@ DEPENDENCIES
   fullcalendar-rails (~> 2.3.1.0)
   geocoder (~> 1.2.7)
   geocomplete_rails (~> 1.6.5)
+  geokit-rails
   gmaps4rails (~> 2.1.2)
   google-analytics-rails
   guard-rspec
