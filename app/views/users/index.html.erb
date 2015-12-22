@@ -1,0 +1,71 @@
+<div class="container">
+  <div class="row">
+    <div class="col-xs-12">
+      <h1 class="emperor"> Recherche de Joueurs pour Défis</h1>
+      <%= form_tag users_path, method: "get", class: "form-inline", :remote => true do || %>
+        <div class="form-group">
+          <%= label_tag :content, "recherche"%>
+          <%= text_field_tag :content, nil, placeholder: "Rechercher des joueurs pour défis", class: "form-control"%>
+          <%= button_tag(type: "submit") do%>
+            <i class="fa fa-search"> </i>
+          <% end -%>
+        </div>
+      <% end -%>
+
+    </div>
+  </div>
+  <% @users.each do |user| %>
+  <div class="tabcontent">
+    <div class="panel panel-default" data-toggle="modal" data-target= "#challengeModal<%=user.id%>" data-user='<%=user.id%>' >
+     <%= user.full_name %>
+     <%= user.ranking %>
+     <%= user.club %>
+     <div class="btn btn-defi btn-success">Défier</div>
+    </div>
+  </div>
+  <!-- Modal -->
+  <div class="modal fade" id="challengeModal<%=user.id%>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+        </div>
+        <div class="modal-body">
+          <!-- create a form_tag for challenges -->
+          <%= simple_form_for @challenge  do |f|%>
+            <%= f.input :date %>
+            <%= f.input :time %>
+            <%= f.input :place %>
+            <%= f.simple_fields_for :contestants, @challenge.contestants.build do |p| %>
+              <%= p.input :user_id, :as => :hidden, :input_html => { :value => current_user.id } %>
+            <% end -%>
+            <%= f.simple_fields_for :contestants, @challenge.contestants.build do |p| %>
+              <%= p.input :user_id, :as => :hidden, :input_html => { value: user.id, class: "sec_contestant" } %>
+            <% end -%>
+          <%end%>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary">Save changes</button>
+        </div>
+      </div>
+    </div>
+  </div>
+    <% end -%>
+
+</div>
+
+<%= content_for :after_js do %>
+<script>
+ $(document).ready(function() {
+   $(".btn-defi").click(function(){
+      var user_id = $(this).parent().attr("data-user");
+      console.log(user_id);
+      $("#challengeModal1 > .sec_contestant").val(user_id);
+    })
+  })
+
+</script>
+<% end -%>
+

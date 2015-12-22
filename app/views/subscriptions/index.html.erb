@@ -9,7 +9,7 @@
         <li>
           <%=link_to new_competition_player_invitation_path(@competition), class: "btn btn-success", id: "convocation-submit" do %>
             <i class="fa fa-plus"></i>
-            Ajouter licencié
+            Ajouter Joueur
           <% end %>
         </li>
          <li>
@@ -17,28 +17,30 @@
             <%= hidden_field_tag :select_players %>
             <%= button_tag(type: "submit", class: "btn btn-success margin") do %>
               <i class="fa fa-envelope"></i>
-              Convoquer licenciés sélectionnés
+              Convoquer Joueurs sélectionnés
             <% end %>
           <% end %>
         </li>
-        <li>
-          <a href="#" data-target="#exporter" data-toggle="modal" class="btn btn-primary">
-            <i class="fa fa-share-alt"></i>
-            Export inscrits AEI
-          </a>
-        <li>
-          <a href="#" data-target="#exporter_dispo" data-toggle="modal" class="btn btn-primary">
-            <i class="fa fa-calendar"></i>
-            Export Dispo AEI
-          </a>
-        </li>
-        </li>
-        <li>
-          <%=link_to competition_rankings_path(@competition), class: "btn btn-warning", id: "convocation-submit" do %>
-          <i class="fa fa-lg fa-bar-chart"></i>
-          Stats
-          <% end %>
-        </li>
+
+        <% if @competition.tournament.fft %>
+          <li>
+            <a href="#" data-target="#exporter" data-toggle="modal" class="btn btn-primary">
+              <i class="fa fa-share-alt"></i>
+              Export inscrits AEI
+            </a>
+          </li>
+            <a href="#" data-target="#exporter_dispo" data-toggle="modal" class="btn btn-primary">
+              <i class="fa fa-calendar"></i>
+              Export Dispo AEI
+            </a>
+          </li>
+          <li>
+            <%=link_to competition_rankings_path(@competition), class: "btn btn-warning", id: "convocation-submit" do %>
+            <i class="fa fa-lg fa-bar-chart"></i>
+            Stats
+            <% end %>
+          </li>
+        <% end -%>
       </ul>
     </div>
   </div>
@@ -50,7 +52,9 @@
            <th><input type="checkbox" onClick="toggle(this)"/>Sel.</th>
            <th>Pr.</th>
            <th>Nom</th>
-           <th>Lic.</th>
+           <% if @competition.tournament.fft %>
+              <th>Lic.</th>
+           <% end -%>
            <th>Inscr.</th>
            <th class="text-center">Profil</th>
            <th>Convoc. en cours</th>
@@ -74,7 +78,9 @@
               <%end%>
               <td class="first-name"><%= subscription.user.first_name%></td>
               <td><%= subscription.user.last_name%></td>
-              <td><div data-toggle="tooltip" data-placement="left" title="<%=subscription.user.ranking%>"><%= subscription.user.licence_number%></div></td>
+              <% if @competition.tournament.fft %>
+                <td><div data-toggle="tooltip" data-placement="left" title="<%=subscription.user.ranking%>"><%= subscription.user.licence_number%></div></td>
+              <% end -%>
               <!-- si le player a été added manuellement il n'y a pas l'option confirmed mais l'option !confirmed! seulement dans le select -->
               <%if subscription.status == "pending" && subscription.user.invitation_token?%>
                 <td>
