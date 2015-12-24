@@ -7,14 +7,14 @@
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
 
-users = User.create([{last_name: "ABITBOL" ,first_name: "BENJAMIN", licence_number: "5935763 R ", email: Faker::Internet.email, password: Faker::Internet.password, confirmation_sent_at: Faker::Time.between(DateTime.now - 1, DateTime.now), confirmed_at: Faker::Time.between(DateTime.now - 1, DateTime.now)  },
-  {last_name: "ABITBOL"  ,first_name: "ETHAN", licence_number: "5935727 B", email: Faker::Internet.email, password: Faker::Internet.password, confirmation_sent_at: Faker::Time.between(DateTime.now - 1, DateTime.now), confirmed_at: Faker::Time.between(DateTime.now - 1, DateTime.now)  },
-  {last_name:"ABOUCAYA" ,first_name: "David",  licence_number: "9309382 T", email: Faker::Internet.email, password: Faker::Internet.password, confirmation_sent_at: Faker::Time.between(DateTime.now - 1, DateTime.now), confirmed_at: Faker::Time.between(DateTime.now - 1, DateTime.now)  },
-  {last_name: "ABRIL" ,first_name:"Antoine" ,  licence_number: "2496702 F", email: Faker::Internet.email, password: Faker::Internet.password, confirmation_sent_at: Faker::Time.between(DateTime.now - 1, DateTime.now), confirmed_at: Faker::Time.between(DateTime.now - 1, DateTime.now)  },
-  {last_name: "ADAM" ,first_name: "ANTOINE",  licence_number: "3056140 R ", email: Faker::Internet.email, password: Faker::Internet.password, confirmation_sent_at: Faker::Time.between(DateTime.now - 1, DateTime.now), confirmed_at: Faker::Time.between(DateTime.now - 1, DateTime.now)  },
-  {last_name:"ADAM" ,first_name: "Paul",  licence_number: "4950305 R ", email: Faker::Internet.email, password: Faker::Internet.password, confirmation_sent_at: Faker::Time.between(DateTime.now - 1, DateTime.now), confirmed_at: Faker::Time.between(DateTime.now - 1, DateTime.now)  },
-  {last_name: "ALESANDRINI",first_name: "bastien" ,  licence_number:"2592058 D ", email: Faker::Internet.email, password: Faker::Internet.password, confirmation_sent_at: Faker::Time.between(DateTime.now - 1, DateTime.now), confirmed_at: Faker::Time.between(DateTime.now - 1, DateTime.now)  },
-  {last_name: "ALESANDRINI" ,first_name: "Jérémy",  licence_number:"2461614 S ", email: Faker::Internet.email, password: Faker::Internet.password, confirmation_sent_at: Faker::Time.between(DateTime.now - 1, DateTime.now), confirmed_at: Faker::Time.between(DateTime.now - 1, DateTime.now)  },
+users = User.create([{last_name: "ABITBOL" ,first_name: "BENJAMIN", licence_number: "5935763 R ", email: Faker::Internet.email, address: "17 bd d'argension 92200 Neuilly",  password: Faker::Internet.password, confirmation_sent_at: Faker::Time.between(DateTime.now - 1, DateTime.now), confirmed_at: Faker::Time.between(DateTime.now - 1, DateTime.now)  },
+  {last_name: "ABITBOL"  ,first_name: "ETHAN", licence_number: "5935727 B", email: Faker::Internet.email, password: Faker::Internet.password, address: "17 bd d'argension 92200 Neuilly", confirmation_sent_at: Faker::Time.between(DateTime.now - 1, DateTime.now), confirmed_at: Faker::Time.between(DateTime.now - 1, DateTime.now)  },
+  {last_name:"ABOUCAYA" ,first_name: "David",  licence_number: "9309382 T", email: Faker::Internet.email, password: Faker::Internet.password, address: "17 bd d'argension 92200 Neuilly", confirmation_sent_at: Faker::Time.between(DateTime.now - 1, DateTime.now), confirmed_at: Faker::Time.between(DateTime.now - 1, DateTime.now)  },
+  {last_name: "ABRIL" ,first_name:"Antoine" ,  licence_number: "2496702 F", email: Faker::Internet.email, password: Faker::Internet.password, address: "17 bd d'argension 92200 Neuilly", confirmation_sent_at: Faker::Time.between(DateTime.now - 1, DateTime.now), confirmed_at: Faker::Time.between(DateTime.now - 1, DateTime.now)  },
+  {last_name: "ADAM" ,first_name: "ANTOINE",  licence_number: "3056140 R ", email: Faker::Internet.email, password: Faker::Internet.password, address: "17 bd d'argension 92200 Neuilly", confirmation_sent_at: Faker::Time.between(DateTime.now - 1, DateTime.now), confirmed_at: Faker::Time.between(DateTime.now - 1, DateTime.now)  },
+  {last_name:"ADAM" ,first_name: "Paul",  licence_number: "4950305 R ", email: Faker::Internet.email, password: Faker::Internet.password, address: "17 bd d'argension 92200 Neuilly",confirmation_sent_at: Faker::Time.between(DateTime.now - 1, DateTime.now), confirmed_at: Faker::Time.between(DateTime.now - 1, DateTime.now)  },
+  {last_name: "ALESANDRINI",first_name: "bastien" ,  licence_number:"2592058 D ", email: Faker::Internet.email, password: Faker::Internet.password, address: "17 bd d'argension 92200 Neuilly", confirmation_sent_at: Faker::Time.between(DateTime.now - 1, DateTime.now), confirmed_at: Faker::Time.between(DateTime.now - 1, DateTime.now)  },
+  {last_name: "ALESANDRINI" ,first_name: "Jérémy",  licence_number:"2461614 S ", email: Faker::Internet.email, password: Faker::Internet.password, address: "17 bd d'argension 92200 Neuilly",confirmation_sent_at: Faker::Time.between(DateTime.now - 1, DateTime.now), confirmed_at: Faker::Time.between(DateTime.now - 1, DateTime.now)  },
   {last_name: "ALLANIC" ,first_name: "RONAN",  licence_number: "2426828 F ", email: Faker::Internet.email, password: Faker::Internet.password, confirmation_sent_at: Faker::Time.between(DateTime.now - 1, DateTime.now), confirmed_at: Faker::Time.between(DateTime.now - 1, DateTime.now)  },
   {last_name: "AMOUROUX" ,first_name: "Elias", licence_number: "8608452 M ", email: Faker::Internet.email, password: Faker::Internet.password, confirmation_sent_at: Faker::Time.between(DateTime.now - 1, DateTime.now), confirmed_at: Faker::Time.between(DateTime.now - 1, DateTime.now)  },
   {last_name: "ANDREU" ,first_name: "ROMAN", licence_number: "6360327 Y ", email: Faker::Internet.email, password: Faker::Internet.password, confirmation_sent_at: Faker::Time.between(DateTime.now - 1, DateTime.now), confirmed_at: Faker::Time.between(DateTime.now - 1, DateTime.now)  },
@@ -72,9 +72,9 @@ users = User.create([{last_name: "ABITBOL" ,first_name: "BENJAMIN", licence_numb
   judge = User.create([{last_name: "Dupuis" ,first_name: "Henri", licence_number: "0930613K ", email: "judge@hotmail.fr", address: "17 bd d'argension 92200 Neuilly", password: "12345678", confirmation_sent_at: Faker::Time.between(DateTime.now - 1, DateTime.now), confirmed_at: Faker::Time.between(DateTime.now - 1, DateTime.now), admin: true, ranking: "15", telephone: "+33666027414"  }])
 
 
-users.each do |user|
-  Subscription.create([{user: user, status: "confirmed", exported: false, funds_sent: true, competition_id: "2", fare_type: "standard"}])
-end
+# users.each do |user|
+#   Subscription.create([{user: user, status: "confirmed", exported: false, funds_sent: true, competition_id: "2", fare_type: "standard"}])
+# end
 # require "mechanize"
 # def seed_database
 #   agent = Mechanize.new

@@ -1,15 +1,27 @@
+<!-- div class="homepage"
+  div class="is-connected"
+    div class= "row"
+      div class="col-xs-3"
+        = image_tag 'win-tournoi.svg', alt: 'Raquette de tennis'
+        = link_to 'Trouver un tournoi', tournaments_path, class: 'btn btn-success btn-lg'
+
+      div class= " col-xs-offset-3 col-xs-3"
+        = image_tag 'logo.png', alt: 'Raquette de tennis'
+        = link_to 'defier un joueur', users_path, class: 'btn btn-success btn-lg' -->
+
+
 <div class="banner bigmarge">
   <div class="container">
     <div class="row">
       <div class="col-xs-12">
         <div class="panel panel-default">
           <div class= "panel-heading">
-            <h4> Il n'y a pas encore de tournoi référencé sur WeTennis</h4>
+            <h4> Trouver tous les tournois autour de vous !</h4>
           </div>
           <div class= "panel-body">
-             Tenez–vous prêts pour le jour J !
-             <br>
-            <%= link_to 'Personnaliser mon profil', edit_user_path(current_user), class: 'btn btn-success global'%>
+            WeTennis référence tous les tournois de tennis (fft, loisir...)
+            <br>
+            <%= link_to 'Rechercher un tournoi', tournaments_path, class: 'btn btn-success global'%>
           </div>
         </div>
       </div>
@@ -30,4 +42,3 @@
     </div>
   </div>
 </div>
-

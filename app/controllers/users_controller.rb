@@ -31,9 +31,13 @@ class UsersController < ApplicationController
   end
 
   def index
+
     @users = User.all
+    @challenge = Challenge.new
+
+    @users = User.near(request.location, 20, :units => :km)
     policy_scope(@users)
-    @users = User.near(request.location, 20, :units => :km).where(ranking: current_user.ranking)
+    # @users = User.near(request.location, 20, :units => :km).where(ranking: current_user.ranking)
   end
 
   private

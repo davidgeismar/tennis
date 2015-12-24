@@ -12,6 +12,7 @@
 //= require fullcalendar
 //= require fullcalendar/lang/fr.js
 //= require fullcalendar/gcal
+//= require bootstrap-datetimepicker
 //= require_tree ./app
 
 

@@ -22,17 +22,18 @@
           <% end %>
         </li>
 
-        <% if @competition.tournament.fft %>
+        <% if @tournament.fft %>
           <li>
             <a href="#" data-target="#exporter" data-toggle="modal" class="btn btn-primary">
               <i class="fa fa-share-alt"></i>
               Export inscrits AEI
             </a>
-          </li>
+          <li>
             <a href="#" data-target="#exporter_dispo" data-toggle="modal" class="btn btn-primary">
               <i class="fa fa-calendar"></i>
               Export Dispo AEI
             </a>
+          </li>
           </li>
           <li>
             <%=link_to competition_rankings_path(@competition), class: "btn btn-warning", id: "convocation-submit" do %>
