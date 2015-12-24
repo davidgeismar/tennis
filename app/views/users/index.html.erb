@@ -37,13 +37,16 @@
             <%= f.input :date, as: :string, input_html: {class: "datepicker"}%>
             <%= f.input :time, input_html: {class: "form-control"}%>
             <%= f.input :place, input_html: {class: "gmaps-input-address"} %>
+
             <%= f.simple_fields_for :contestants, @challenge.contestants.build do |p| %>
               <%= p.input :user_id, :as => :hidden, :input_html => { :value => current_user.id } %>
             <% end -%>
             <%= f.simple_fields_for :contestants, @challenge.contestants.build do |p| %>
               <%= p.input :user_id, :as => :hidden, :input_html => { value: user.id, class: "sec_contestant" } %>
             <% end -%>
+
             <%= f.submit "Valider", class: "btn btn-success"%>
+
           <%end%>
         </div>
         <div class="modal-footer">
