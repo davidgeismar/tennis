@@ -13,7 +13,7 @@ Rails.application.routes.draw do
 
   resource  :judge,     only: :show
   resources :contacts,  only: [:new, :create]
-  resources :challenges, only: [:new, :create, :edit, :update]
+  resources :challenges, only: [:new, :create, :edit, :update, :show]
 
   resources :convocations, only: [:edit, :update] do # JOUEUR
     resources :messages, only: [] #no message routes for now

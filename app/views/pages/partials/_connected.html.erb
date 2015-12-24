@@ -1,0 +1,44 @@
+<!-- div class="homepage"
+  div class="is-connected"
+    div class= "row"
+      div class="col-xs-3"
+        = image_tag 'win-tournoi.svg', alt: 'Raquette de tennis'
+        = link_to 'Trouver un tournoi', tournaments_path, class: 'btn btn-success btn-lg'
+
+      div class= " col-xs-offset-3 col-xs-3"
+        = image_tag 'logo.png', alt: 'Raquette de tennis'
+        = link_to 'defier un joueur', users_path, class: 'btn btn-success btn-lg' -->
+
+
+<div class="banner bigmarge">
+  <div class="container">
+    <div class="row">
+      <div class="col-xs-12">
+        <div class="panel panel-default">
+          <div class= "panel-heading">
+            <h4> Trouver tous les tournois autour de vous !</h4>
+          </div>
+          <div class= "panel-body">
+            WeTennis référence tous les tournois de tennis (fft, loisir...)
+            <br>
+            <%= link_to 'Rechercher un tournoi', tournaments_path, class: 'btn btn-success global'%>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-xs-12">
+        <div class="panel panel-default">
+          <div class= "panel-heading">
+            <h4>Rechercher des joueurs autour de vous pour les défier</h4>
+          </div>
+          <div class= "panel-body">
+             WeTennis vous permet de trouver des joueurs pour jouer.
+             <br>
+            <%= link_to 'Rechercher', users_path, class: 'btn btn-success global'%>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

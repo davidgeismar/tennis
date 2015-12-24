@@ -1,0 +1,29 @@
+<div class="container">
+  <h1>Défi</h1>
+  <div class="list-unstyled text-center panel panel-body">
+
+    <div class="row marged"><strong><%= @challenge.date.strftime("Le %d/%m/%Y")%></strong></div>
+    <div class="row marged"><strong><%= @challenge.time.strftime("à %Hh%M") %></strong></div>
+    <div class="row marged"><strong><%= @challenge.place%></strong></div>
+    <div class="row marged">
+      <div class="col-xs-offset-3 col-xs-2">
+      <% if @challenge.contestants.first.user.picture_file_size == nil %>
+        <%= image_tag 'default_user_image.png', class: 'avatar-versus'%>
+      <% else %>
+        <%= image_tag @challenge.contestants.first.user.picture(:medium), class: 'avatar-versus' %>
+      <% end -%>
+        <p><strong> <%=@challenge.contestants.first.user.full_name%></strong></p>
+      </div>
+
+      <div class="col-xs-2"><%= image_tag "logo-wetennis-yellow.png", class: 'avatar-versus'%> </div>
+      <div class="col-xs-2">
+        <% if @challenge.contestants.last.user.picture_file_size == nil %>
+          <%= image_tag 'default_user_image.png', class: 'avatar-versus'%>
+        <% else %>
+          <%= image_tag @challenge.contestants.last.user.picture(:medium), class: 'avatar-versus' %>
+        <% end -%>
+        <p><strong><%=@challenge.contestants.last.user.full_name%></strong></p>
+      </div>
+    </div>
+  </div>
+</div>
