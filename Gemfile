@@ -48,7 +48,7 @@ gem 'unicode_utils',              '~> 1.4.0'
 # gem "sidekiq-cron",               '~> 0.3.0'
 gem 'sinatra',                  :require => nil
 gem 'appsignal',                  '~> 0.12.rc'
-gem 'ruby-trello'
+gem 'ruby-trello', '>= 1.5.1'
 gem 'sidekiq',                    '~> 3.5.3' # scheduler works only with sidekiq ~> 3
 
 
