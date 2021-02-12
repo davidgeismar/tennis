@@ -7,14 +7,14 @@ end
 
 ruby '2.2.3'
 
-gem 'rails', '~> 4.2.3'
+gem 'rails', '~> 6.0.3', '>= 6.0.3.5'
 
 gem 'activeadmin',                github: 'activeadmin'
 gem 'aws-sdk',                    '< 2.0'
 gem 'bootstrap-datepicker-rails', '~> 1.4.0'
 gem 'bootstrap-sass',             '~> 3.3.3'
 gem 'bootstrap-switch-rails'
-gem 'geokit-rails'
+gem 'geokit-rails', '>= 2.1.0'
 gem 'devise',                     '~> 3.4.1'
 gem 'devise-i18n',                '~> 0.11.3'
 gem 'devise-i18n-views',          '~> 0.3.4'
