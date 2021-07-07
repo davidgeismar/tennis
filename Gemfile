@@ -48,7 +48,7 @@ gem 'unicode_utils',              '~> 1.4.0'
 # gem "sidekiq-cron",               '~> 0.3.0'
 gem 'sinatra',                  :require => nil
 gem 'appsignal',                  '~> 0.12.rc'
-gem 'ruby-trello'
+gem 'ruby-trello', '>= 1.3.0'
 gem 'sidekiq',                    '~> 3.5.3' # scheduler works only with sidekiq ~> 3
 
 
@@ -63,7 +63,7 @@ group :development, :test do
   gem 'annotate'
   gem 'better_errors'
   gem 'binding_of_caller'
-  gem 'letter_opener'
+  gem 'letter_opener', '>= 1.4.1'
   gem 'pry-byebug'
   gem 'pry-rails'
   gem 'quiet_assets'
@@ -73,7 +73,7 @@ end
 group :test do
   gem 'capybara'
   gem 'guard-rspec'
-  gem 'launchy'
+  gem 'launchy', '>= 2.4.3'
 end
 
 group :production do
