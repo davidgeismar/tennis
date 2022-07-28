@@ -7,7 +7,7 @@ end
 
 ruby '2.2.3'
 
-gem 'rails', '~> 4.2.3'
+gem 'rails', '~> 5.2.8', '>= 5.2.8.1'
 
 gem 'activeadmin',                github: 'activeadmin'
 gem 'aws-sdk',                    '< 2.0'
@@ -34,7 +34,7 @@ gem 'momentjs-rails',             '~> 2.10.3'
 gem 'omniauth-facebook',          '~> 3.0.0'
 gem 'paperclip',                  '~> 4.2.1'
 gem 'pg',                         '~> 0.18.1'
-gem 'pg_search',                  '~> 1.0.5'
+gem 'pg_search', '~> 1.0.5'
 gem 'pundit',                     '~> 0.3.0'
 gem 'rails-i18n',                 '~> 4.0.3'
 gem 'rails_config',               '~> 0.4.2'
@@ -60,7 +60,7 @@ group :development, :test do
   gem 'iso-iban'
   gem 'rspec-rails'
   gem 'factory_girl_rails'
-  gem 'annotate'
+  gem 'annotate', '>= 2.7.0'
   gem 'better_errors'
   gem 'binding_of_caller'
   gem 'letter_opener'
