@@ -7,10 +7,10 @@ end
 
 ruby '2.2.3'
 
-gem 'rails', '~> 4.2.3'
+gem 'rails', '~> 7.0.0'
 
 gem 'activeadmin',                github: 'activeadmin'
-gem 'aws-sdk',                    '< 2.0'
+gem 'aws-sdk', '~> 2.0', '>= 2.0.22'
 gem 'bootstrap-datepicker-rails', '~> 1.4.0'
 gem 'bootstrap-sass',             '~> 3.3.3'
 gem 'bootstrap-switch-rails'
@@ -39,7 +39,7 @@ gem 'pundit',                     '~> 0.3.0'
 gem 'rails-i18n',                 '~> 4.0.3'
 gem 'rails_config',               '~> 0.4.2'
 gem 'redcarpet',                  '~> 3.3.1'
-gem 'sass-rails',                 '~> 5.0'
+gem 'sass-rails', '~> 6.0', '>= 6.0.0'
 gem 'simple_form',                '~> 3.1.0'
 gem 'slim',                       '~> 3.0.6'
 gem 'twilio-ruby',                '~> 3.12'
