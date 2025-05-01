@@ -58,7 +58,7 @@ gem 'google-analytics-rails'
 group :development, :test do
   gem 'faker'
   gem 'iso-iban'
-  gem 'rspec-rails'
+  gem 'rspec-rails', '>= 8.0.0'
   gem 'factory_girl_rails'
   gem 'annotate'
   gem 'better_errors'
